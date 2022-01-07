@@ -22,36 +22,29 @@
  * @Email:  xhuicloud@163.com
  */
 
-const path = require('path')
-
-function resolve (dir) {
-  return path.join(__dirname, dir)
+import { login } from '@/api/auth'
+const actions = {
+  login (context, loginForm) {
+    return new Promise((resolve, reject) => {
+      login(loginForm).then(response => {
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  }
 }
 
-module.exports = {
-  devServer: {
-    // proxy: {
-    //   '/api': {
-    //     target: '',
-    //     changeOrigin: true
-    //   }
-    // }
-  },
-  chainWebpack (config) {
-    config.module
-      .rule('svg')
-      .exclude.add(resolve('src/icons'))
-      .end()
-    config.module
-      .rule('icons')
-      .test(/\.svg$/)
-      .include.add(resolve('src/icons'))
-      .end()
-      .use('svg-sprite-loader')
-      .loader('svg-sprite-loader')
-      .options({
-        symbolId: 'icon-[name]'
-      })
-      .end()
-  }
+const mutations = {
+
+}
+
+const state = {
+
+}
+export default {
+  namespaced: true,
+  actions,
+  mutations,
+  state
 }

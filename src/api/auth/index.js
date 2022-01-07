@@ -22,36 +22,15 @@
  * @Email:  xhuicloud@163.com
  */
 
-const path = require('path')
+import request from '@/utils/request'
 
-function resolve (dir) {
-  return path.join(__dirname, dir)
-}
-
-module.exports = {
-  devServer: {
-    // proxy: {
-    //   '/api': {
-    //     target: '',
-    //     changeOrigin: true
-    //   }
-    // }
-  },
-  chainWebpack (config) {
-    config.module
-      .rule('svg')
-      .exclude.add(resolve('src/icons'))
-      .end()
-    config.module
-      .rule('icons')
-      .test(/\.svg$/)
-      .include.add(resolve('src/icons'))
-      .end()
-      .use('svg-sprite-loader')
-      .loader('svg-sprite-loader')
-      .options({
-        symbolId: 'icon-[name]'
-      })
-      .end()
-  }
+export const login = loginForm => {
+  return request({
+    url: '/auth/oauth/token',
+    headers: {
+      Authorization: 'Basic dGVzdDp0ZXN0'
+    },
+    method: 'post',
+    params: loginForm
+  })
 }

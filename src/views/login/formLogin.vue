@@ -23,7 +23,7 @@
   -->
 
 <template>
-    <el-form class='login-form' :model='loginForm' :rules='loginRules'>
+    <el-form ref="loginFormRef" class='login-form' :model='loginForm' :rules='loginRules'>
       <el-form-item prop='tenantId'>
         <span class='svg-container'>
           <xhui-svg icon='tenant'/>
@@ -47,17 +47,22 @@
           <xhui-svg :icon="passwordType === 'password' ? 'eye' : 'eye-open'"/>
         </span>
       </el-form-item>
-      <el-button type='primary' style='width: 100%; margin-bottom: 30px'>登录</el-button>
+      <el-button type='primary'
+                 style='width: 100%; margin-bottom: 30px'
+                 :loading='loading'
+                 @click='handleLogin'>登录</el-button>
     </el-form>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { useStore } from 'vuex'
 import { validatePassword } from '@/utils/rules'
 
 const loginForm = ref({
   username: 'admin',
-  password: '123456'
+  password: '123456',
+  grant_type: 'password'
 })
 
 const loginRules = ref({
@@ -75,12 +80,34 @@ const loginRules = ref({
 
 const passwordType = ref('password')
 
+const loading = ref(false)
+
+const loginFormRef = ref(null)
+
+const store = useStore()
+
 const onchangePasswordType = () => {
   if (passwordType.value === 'password') {
     passwordType.value = 'text'
   } else {
     passwordType.value = 'password'
   }
+}
+
+const handleLogin = () => {
+  loginFormRef.value.validate(valid => {
+    if (valid) {
+      loading.value = true
+      store.dispatch('user/login', loginForm.value)
+        .then(() => {
+          loading.value = false
+        })
+        .catch(error => {
+          console.log(error)
+          loading.value = false
+        })
+    }
+  })
 }
 </script>
 
