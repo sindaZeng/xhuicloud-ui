@@ -1,0 +1,27 @@
+// sidebar
+$menuText: black;//菜单栏字体颜色
+$menuActiveText: #ffffff;
+$subMenuActiveText: #f4f4f5;
+
+$menuBg: #ffffff; //菜单栏背景
+$menuHover: #ffffff;//鼠标移动至一级菜单时颜色
+
+$subMenuBg: #ffffff;  //一级菜单 下拉打开二级菜单的颜色
+$subMenuHover: #147fe0; //鼠标移动至二级菜单时颜色
+
+$sideBarWidth: 210px;
+
+$navbarBg: #ffffff; //Navbar 背景
+
+// 共享变量
+:export {
+  menuText: $menuText;
+  menuActiveText: $menuActiveText;
+  subMenuActiveText: $subMenuActiveText;
+  menuBg: $menuBg;
+  menuHover: $menuHover;
+  subMenuBg: $subMenuBg;
+  subMenuHover: $subMenuHover;
+  sideBarWidth: $sideBarWidth;
+  navbarBg: $navbarBg;
+}

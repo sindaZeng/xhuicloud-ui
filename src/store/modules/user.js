@@ -23,17 +23,27 @@
  */
 
 import { login } from '@/api/auth'
-import { setStorage } from '@/utils/storage'
+import { getUserInfo } from '@/api/user'
+import { setStorage, getStorage } from '@/utils/storage'
 import { tokenName } from '@/config'
+import router from '@/router'
+
 const actions = {
   login (context, loginForm) {
     return new Promise((resolve, reject) => {
       login(loginForm).then(response => {
+        this.commit('user/setToken', response.access_token)
+        router.push('/')
         resolve()
       }).catch(error => {
         reject(error)
       })
     })
+  },
+  async getUserInfo (context) {
+    const res = await getUserInfo()
+    this.commit('user/setUserInfo', res)
+    return res
   }
 }
 
@@ -41,11 +51,15 @@ const mutations = {
   setToken (state, token) {
     state.token = token
     setStorage(tokenName, token)
+  },
+  setUserInfo (state, userInfo) {
+    state.userInfo = userInfo
   }
 }
 
 const state = {
-  token: ''
+  token: getStorage(tokenName) || '',
+  userInfo: {}
 }
 export default {
   namespaced: true,

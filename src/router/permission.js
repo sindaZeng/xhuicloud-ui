@@ -22,20 +22,29 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { createStore } from 'vuex'
-import getters from './getters'
+import router from '@/router'
+import store from '@/store'
 
-const files = require.context('./modules', false, /\.js$/)
-const modulesFiles = {}
+const whiteList = ['/login']
 
-files.keys().forEach((key) => {
-  modulesFiles[key.replace(/(\.\/|\.js)/g, '')] = files(key).default
-})
-
-Object.keys(modulesFiles).forEach((key) => {
-  modulesFiles[key].namespaced = true
-})
-export default createStore({
-  getters,
-  modules: modulesFiles
+/**
+ * 前置
+ */
+router.beforeEach(async (to, from, next) => {
+  if (store.getters.token) {
+    if (to.path === '/login') {
+      next('/')
+    } else {
+      if (JSON.stringify(store.getters.userInfo) === '{}') {
+        await store.dispatch('user/getUserInfo')
+      }
+      next()
+    }
+  } else {
+    if (whiteList.indexOf(to.path) > -1) {
+      next()
+    } else {
+      next(`/login?redirect=${to.path}`)
+    }
+  }
 })

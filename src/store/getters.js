@@ -21,21 +21,8 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-
-import { createStore } from 'vuex'
-import getters from './getters'
-
-const files = require.context('./modules', false, /\.js$/)
-const modulesFiles = {}
-
-files.keys().forEach((key) => {
-  modulesFiles[key.replace(/(\.\/|\.js)/g, '')] = files(key).default
-})
-
-Object.keys(modulesFiles).forEach((key) => {
-  modulesFiles[key].namespaced = true
-})
-export default createStore({
-  getters,
-  modules: modulesFiles
-})
+const getters = {
+  token: state => state.user.token,
+  userInfo: state => state.user.userInfo
+}
+export default getters

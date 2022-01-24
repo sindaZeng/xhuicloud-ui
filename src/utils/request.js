@@ -23,9 +23,37 @@
  */
 
 import axios from 'axios'
-
+import { ElMessage } from 'element-plus'
+import store from '@/store'
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
   timeout: 5000
 })
+
+request.interceptors.request.use(
+  config => {
+    if (store.getters.token) {
+      config.headers.Authorization = `Bearer ${store.getters.token}`
+    }
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
+
+request.interceptors.response.use(
+  response => {
+    const { code, msg, data, success } = response.data
+    if (success && code === 0) {
+      return data
+    } else {
+      ElMessage.error(msg)
+      return Promise.reject(new Error(msg || 'Error'))
+    }
+  },
+  error => {
+    ElMessage.error(error.response.data.msg)
+    return Promise.reject(error)
+  })
 export default request
