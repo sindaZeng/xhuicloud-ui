@@ -22,34 +22,26 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { login } from '@/api/auth'
-import { setStorage } from '@/utils/storage'
-import { tokenName } from '@/config'
-const actions = {
-  login (context, loginForm) {
-    return new Promise((resolve, reject) => {
-      login(loginForm).then(response => {
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
+export const setStorage = (key, value) => {
+  if (typeof value === 'object') {
+    value = JSON.stringify(value)
+  }
+  window.localStorage.setItem(key, value)
+}
+
+export const getStorage = key => {
+  const data = window.localStorage.getItem(key)
+  try {
+    return JSON.parse(data)
+  } catch (e) {
+    return data
   }
 }
 
-const mutations = {
-  setToken (state, token) {
-    state.token = token
-    setStorage(tokenName, token)
-  }
+export const delStorage = key => {
+  window.localStorage.removeItem(key)
 }
 
-const state = {
-  token: ''
-}
-export default {
-  namespaced: true,
-  actions,
-  mutations,
-  state
+export const delAllStorage = () => {
+  window.localStorage.clear()
 }

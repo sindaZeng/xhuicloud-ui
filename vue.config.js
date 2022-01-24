@@ -24,12 +24,17 @@
 
 const path = require('path')
 
+const {
+  devPort
+} = require('./src/config')
+
 function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
 module.exports = {
   devServer: {
+    port: devPort
     // proxy: {
     //   '/api': {
     //     target: '',

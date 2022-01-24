@@ -22,34 +22,13 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { login } from '@/api/auth'
-import { setStorage } from '@/utils/storage'
-import { tokenName } from '@/config'
-const actions = {
-  login (context, loginForm) {
-    return new Promise((resolve, reject) => {
-      login(loginForm).then(response => {
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  }
+const settingConfig = {
+  // 端口号
+  devPort: '80',
+  // token字段名称 存储的token名称
+  tokenName: 'token',
+  // 当有值时候会在登录页展示版权信息
+  copyright: '版权信息1'
 }
 
-const mutations = {
-  setToken (state, token) {
-    state.token = token
-    setStorage(tokenName, token)
-  }
-}
-
-const state = {
-  token: ''
-}
-export default {
-  namespaced: true,
-  actions,
-  mutations,
-  state
-}
+module.exports = settingConfig

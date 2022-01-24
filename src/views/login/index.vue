@@ -24,12 +24,12 @@
 
 <template>
   <div class='login-container'>
-    <div class='form-container'>
-      <div class='logo-container'>
+    <div class='login-form-container'>
+      <div class='login-logo-container'>
         <img src="https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto"/>
       </div>
       <FormLogin v-if="login.type==='form'"/>
-      <div class='footer-container'>
+      <div class='login-footer-container'>
         <el-row>
           <el-col :span="8"><a href="#">注册账号</a></el-col>
           <el-col :span="8"><a href="#" @click.stop="login.type='other'">其他登录</a></el-col>
@@ -38,11 +38,13 @@
       </div>
     </div>
   </div>
+  <div class='copyright'> {{ copyright }} </div>
 </template>
 
 <script setup>
 import FormLogin from './formLogin.vue'
 import { ref } from 'vue'
+import { copyright } from '@/config'
 
 const login = ref({
   type: 'form'
@@ -61,7 +63,7 @@ $cursor: black;
   background-size: cover;
   overflow: hidden;
 
-  .form-container {
+  .login-form-container {
     position: relative;
     width: 520px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
@@ -69,7 +71,7 @@ $cursor: black;
     margin: 200px 100px auto auto;
     overflow: hidden;
 
-    .logo-container {
+    .login-logo-container {
       position:relative;
       width: 120px;
       height: 120px;
@@ -88,7 +90,7 @@ $cursor: black;
       }
     }
 
-    .footer-container {
+    .login-footer-container {
       margin-top: 10px;
       width: 100%;
       text-align: center;
@@ -101,5 +103,13 @@ $cursor: black;
       }
     }
   }
+}
+
+.copyright {
+  color: black;
+  width: 100%;
+  position: fixed;
+  bottom: 50px;
+  text-align: center;
 }
 </style>
