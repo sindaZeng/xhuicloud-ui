@@ -42,7 +42,7 @@ const actions = {
   },
   async getUserInfo (context) {
     const res = await getUserInfo()
-    this.commit('user/setUserInfo', res)
+    this.commit('user/setUserInfo', res.sysUser)
     return res
   }
 }

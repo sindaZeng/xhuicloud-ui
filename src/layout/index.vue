@@ -45,7 +45,6 @@ import AppMain from './components/AppMain.vue'
 import variables from '@/styles/variables.scss'
 import {} from 'vue'
 
-console.log(variables)
 </script>
 
 <style lang="scss" scoped>

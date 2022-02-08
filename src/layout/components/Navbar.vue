@@ -23,7 +23,27 @@
   -->
 
 <template>
-  <div class="navbar">Navbar</div>
+  <div class="navbar">
+    <div class='right-menu'>
+      <el-dropdown class='avatar-container' trigger='click'>
+        <div class='avatar-wrapper'>
+          <el-avatar shape='square' :size='40' :src='$store.getters.userInfo.avatar'></el-avatar>
+          <i class='el-icon-s-tools'></i>
+        </div>
+        <template #dropdown>
+          <el-dropdown-menu class='user-dropdown'>
+            <router-link to='/'>
+              <el-dropdown-item>系统主页</el-dropdown-item>
+            </router-link>
+            <router-link to='/'>
+              <el-dropdown-item>用户信息</el-dropdown-item>
+            </router-link>
+            <el-dropdown-item divided>用户登出</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -40,5 +60,26 @@ import {} from 'vue'
   position: relative;
   background: $navbarBg;
   box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+
+  .right-menu {
+    display: flex;
+    align-items: center;
+    float: right;
+    padding-right: 16px;
+
+      ::v-deep .avatar-container {
+        cursor: pointer;
+
+        .avatar-wrapper {
+          margin-top: 5px;
+          position: relative;
+
+          .el-avatar {
+            --el-avatar-background-color: none;
+            margin-right: 12px;
+          }
+        }
+      }
+  }
 }
 </style>
