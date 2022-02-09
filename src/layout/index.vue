@@ -43,8 +43,33 @@ import Navbar from './components/Navbar.vue'
 import Sidebar from './components/Sidebar'
 import AppMain from './components/AppMain.vue'
 import variables from '@/styles/variables.scss'
-import {} from 'vue'
+import { ref, onUnmounted } from 'vue'
+import { expiredPeriod } from '@/config'
+import { checkToken } from '@/api/auth'
+import store from '@/store'
 
+const refreshTime = ref(0)
+
+const onCreate = () => {
+  refreshTime.value = setInterval(() => {
+    if (store.getters.token && store.getters.refreshToken) {
+      checkToken(store.getters.token).then(response => {
+        const exp = response && response.data && response.data.exp
+        if (exp && exp - new Date().getTime() <= expiredPeriod) {
+          store.dispatch('user/refreshToken').catch(() => {
+            clearInterval(refreshTime.value)
+          })
+        }
+      })
+    }
+  }, expiredPeriod)
+}
+
+onCreate()
+
+onUnmounted(() => {
+  clearInterval(refreshTime.value)
+})
 </script>
 
 <style lang="scss" scoped>

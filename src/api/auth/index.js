@@ -24,13 +24,51 @@
 
 import request from '@/utils/request'
 
+const basicHeader = 'dGVzdDp0ZXN0'
+
+const scope = 'server'
+
 export const login = loginForm => {
   return request({
     url: '/auth/oauth/token',
     headers: {
-      Authorization: 'Basic dGVzdDp0ZXN0'
+      Authorization: 'Basic ' + basicHeader
     },
     method: 'post',
     params: loginForm
+  })
+}
+
+export const logout = () => {
+  return request({
+    url: '/auth/token/logout',
+    method: 'post'
+  })
+}
+
+export const checkToken = token => {
+  return request({
+    url: '/auth/oauth/check_token',
+    headers: {
+      Authorization: 'Basic ' + basicHeader
+    },
+    method: 'get',
+    params: { token }
+  })
+}
+
+export const refreshToken = refreshToken => {
+  const param = {
+    refresh_token: refreshToken,
+    grant_type: 'refresh_token',
+    scope: scope
+  }
+  return request({
+    url: '/auth/oauth/token',
+    headers: {
+      Authorization: 'Basic ' + basicHeader
+    },
+    method: 'post',
+    params: param
   })
 }

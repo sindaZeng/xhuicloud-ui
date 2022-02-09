@@ -38,7 +38,7 @@
             <router-link to='/'>
               <el-dropdown-item>用户信息</el-dropdown-item>
             </router-link>
-            <el-dropdown-item divided>用户登出</el-dropdown-item>
+            <el-dropdown-item divided @click='logout'>用户登出</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -48,6 +48,13 @@
 
 <script setup>
 import {} from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const logout = () => {
+  store.dispatch('user/logout')
+}
 
 </script>
 

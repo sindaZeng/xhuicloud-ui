@@ -102,8 +102,7 @@ const handleLogin = () => {
         .then(() => {
           loading.value = false
         })
-        .catch(error => {
-          console.log(error)
+        .catch(e => {
           loading.value = false
         })
     }

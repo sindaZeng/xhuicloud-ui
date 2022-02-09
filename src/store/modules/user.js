@@ -22,10 +22,10 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { login } from '@/api/auth'
+import { login, logout, refreshToken } from '@/api/auth'
 import { getUserInfo } from '@/api/user'
-import { setStorage, getStorage } from '@/utils/storage'
-import { tokenName } from '@/config'
+import { setStorage, getStorage, delAllStorage } from '@/utils/storage'
+import { tenant, refreshTokenName, tokenName } from '@/config'
 import router from '@/router'
 
 const actions = {
@@ -33,6 +33,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       login(loginForm).then(response => {
         this.commit('user/setToken', response.access_token)
+        this.commit('user/setRefreshToken', response.refresh_token)
+        this.commit('user/setTenantId', response.tenant_id)
         router.push('/')
         resolve()
       }).catch(error => {
@@ -43,7 +45,30 @@ const actions = {
   async getUserInfo (context) {
     const res = await getUserInfo()
     this.commit('user/setUserInfo', res.sysUser)
+    this.commit('user/setPermissions', res.permissions)
+    this.commit('user/setRoles', res.roles)
     return res
+  },
+  async logout () {
+    await logout()
+    this.commit('user/setToken', '')
+    this.commit('user/setUserInfo', {})
+    this.commit('user/setPermissions', [])
+    this.commit('user/setRoles', [])
+    delAllStorage()
+    router.push('/login')
+  },
+  refreshToken (context) {
+    return new Promise((resolve, reject) => {
+      refreshToken(state.refreshToken).then(response => {
+        this.commit('user/setToken', response.access_token)
+        this.commit('user/setRefreshToken', response.refresh_token)
+        this.commit('user/setTenantId', response.tenant_id)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
   }
 }
 
@@ -52,17 +77,34 @@ const mutations = {
     state.token = token
     setStorage(tokenName, token)
   },
+  setRefreshToken (state, refreshToken) {
+    state.refreshToken = refreshToken
+    setStorage(refreshTokenName, refreshToken)
+  },
   setUserInfo (state, userInfo) {
     state.userInfo = userInfo
+  },
+  setPermissions (state, permissions) {
+    state.permissions = permissions
+  },
+  setRoles (state, roles) {
+    state.roles = roles
+  },
+  setTenantId (state, tenantId) {
+    state.tenantId = tenantId
+    setStorage(tenant, tenantId)
   }
 }
 
 const state = {
   token: getStorage(tokenName) || '',
-  userInfo: {}
+  refreshToken: getStorage(refreshTokenName) || '',
+  userInfo: {},
+  permissions: [],
+  roles: [],
+  tenantId: getStorage(tenant) || undefined
 }
 export default {
-  namespaced: true,
   actions,
   mutations,
   state

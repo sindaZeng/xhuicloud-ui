@@ -23,6 +23,10 @@
  */
 const getters = {
   token: state => state.user.token,
-  userInfo: state => state.user.userInfo
+  refreshToken: state => state.user.refreshToken,
+  userInfo: state => state.user.userInfo,
+  tenantId: state => state.user.tenantId,
+  permissions: state => state.user.permissions,
+  roles: state => state.user.roles
 }
 export default getters
