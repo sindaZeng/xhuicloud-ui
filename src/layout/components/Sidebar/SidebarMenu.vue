@@ -23,19 +23,36 @@
   -->
 
 <template>
-  <div>
-    <h1>站位</h1>
-    <el-scrollbar>
-      <sidebar-menu></sidebar-menu>
-    </el-scrollbar>
-  </div>
+  <el-menu :uniqueOpened='true'
+           :collapse='!$store.getters.sidebarStatus'
+           :default-active='activeMenu'
+           :background-color='$store.getters.ddCss.menuBg'
+           :text-color='$store.getters.ddCss.menuText'
+           :active-text-color='$store.getters.ddCss.menuActiveText'
+           router>
+    <sidebar-item v-for='item in routers'
+                  :key='item.path'
+                  :route='item'>
+    </sidebar-item>
+  </el-menu>
 </template>
 
 <script setup>
-import {} from 'vue'
-import SidebarMenu from './SidebarMenu.vue'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { filterRoutes, generateRoutes } from '@/utils/route'
+import SidebarItem from './SidebarItem.vue'
+
+const routers = computed(() => {
+  return generateRoutes(filterRoutes(useRouter().getRoutes()))
+})
+
+const activeMenu = computed(() => {
+  return useRoute().path
+})
+
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 
 </style>

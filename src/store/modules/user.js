@@ -49,8 +49,11 @@ const actions = {
     this.commit('user/setRoles', res.roles)
     return res
   },
-  async logout () {
+  async logout ({ dispatch }) {
     await logout()
+    dispatch('delAnything')
+  },
+  delAnything (context) {
     this.commit('user/setToken', '')
     this.commit('user/setUserInfo', {})
     this.commit('user/setPermissions', [])
@@ -104,6 +107,7 @@ const state = {
   roles: [],
   tenantId: getStorage(tenant) || undefined
 }
+
 export default {
   actions,
   mutations,

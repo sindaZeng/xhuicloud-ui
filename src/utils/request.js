@@ -63,6 +63,9 @@ request.interceptors.response.use(
   },
   error => {
     const response = error.response
+    if (Number(response.status) === 401) {
+      store.dispatch('user/delAnything')
+    }
     ElMessage.error(response.data.msg)
     return Promise.reject(error)
   })

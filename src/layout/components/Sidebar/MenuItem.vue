@@ -23,19 +23,26 @@
   -->
 
 <template>
-  <div>
-    <h1>站位</h1>
-    <el-scrollbar>
-      <sidebar-menu></sidebar-menu>
-    </el-scrollbar>
-  </div>
+  <i v-if='icon.includes(`el-icon`)' class='sub-el-icon' :class='icon'></i>
+  <xhui-svg v-else :icon='icon'></xhui-svg>
+  <span>{{ title }}</span>
 </template>
 
 <script setup>
-import {} from 'vue'
-import SidebarMenu from './SidebarMenu.vue'
+import { defineProps } from 'vue'
+
+defineProps({
+  title: {
+    type: String,
+    required: true
+  },
+  icon: {
+    type: String,
+    required: true
+  }
+})
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 
 </style>

@@ -23,19 +23,33 @@
   -->
 
 <template>
-  <div>
-    <h1>站位</h1>
-    <el-scrollbar>
-      <sidebar-menu></sidebar-menu>
-    </el-scrollbar>
-  </div>
+  <el-submenu v-if='route.children && route.children.length > 0' :index='route.path'>
+    <template #title>
+      <menu-item :title='route.meta.title' :icon='route.meta.icon'></menu-item>
+    </template>
+    <sidebar-item v-for='item in route.children'
+                  :key='item.path'
+                  :route='item'>
+    </sidebar-item>
+  </el-submenu>
+  <el-menu-item v-else :index='route.path'>
+    <menu-item :title='route.meta.title' :icon='route.meta.icon'></menu-item>
+  </el-menu-item>
 </template>
 
 <script setup>
-import {} from 'vue'
-import SidebarMenu from './SidebarMenu.vue'
+import { defineProps } from 'vue'
+import MenuItem from './MenuItem.vue'
+
+defineProps({
+  route: {
+    type: Object,
+    required: true
+  }
+})
+
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 
 </style>

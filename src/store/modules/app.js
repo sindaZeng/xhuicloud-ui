@@ -22,16 +22,21 @@
  * @Email:  xhuicloud@163.com
  */
 
-import variables from '@/styles/variables.scss'
-
-const getters = {
-  token: state => state.user.token,
-  refreshToken: state => state.user.refreshToken,
-  userInfo: state => state.user.userInfo,
-  tenantId: state => state.user.tenantId,
-  permissions: state => state.user.permissions,
-  roles: state => state.user.roles,
-  ddCss: state => variables,
-  sidebarStatus: state => state.app.sidebarStatus
+const actions = {
 }
-export default getters
+
+const mutations = {
+  changeSidebarStatus (state) {
+    state.sidebarStatus = !state.sidebarStatus
+  }
+}
+
+const state = {
+  sidebarStatus: true
+}
+
+export default {
+  actions,
+  mutations,
+  state
+}

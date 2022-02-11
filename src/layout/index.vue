@@ -23,7 +23,7 @@
   -->
 
 <template>
-  <div class="app-wrapper">
+  <div class="app-wrapper" :class='[$store.getters.sidebarStatus ? `openSidebar` : `closeSidebar`]'>
     <!-- 左侧菜单 -->
     <sidebar class="sidebar-container"
              :style="{ backgroundColor: variables.menuBg }"/>
@@ -89,5 +89,10 @@ onUnmounted(() => {
   right: 0;
   z-index: 9;
   width: calc(100% - #{$sideBarWidth});
+  transition: width 0.28s;
+}
+
+.closeSidebar .fixed-header {
+  width: calc(100% - 54px);
 }
 </style>

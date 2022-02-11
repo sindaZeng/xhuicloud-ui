@@ -32,7 +32,7 @@ const settingConfig = {
   // token字段名称 存储的token名称
   tokenName: 'token',
   // 单位/秒  监听token过期刷新
-  expiredPeriod: 6000,
+  expiredPeriod: 60000,
   // 当有值时候会在登录页展示版权信息
   copyright: '版权信息1'
 }

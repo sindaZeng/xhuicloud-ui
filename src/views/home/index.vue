@@ -23,19 +23,12 @@
   -->
 
 <template>
-  <div>
-    <h1>站位</h1>
-    <el-scrollbar>
-      <sidebar-menu></sidebar-menu>
-    </el-scrollbar>
-  </div>
+  <div class=''>首页</div>
 </template>
 
 <script setup>
-import {} from 'vue'
-import SidebarMenu from './SidebarMenu.vue'
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 
 </style>

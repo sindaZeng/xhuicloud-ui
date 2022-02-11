@@ -23,19 +23,36 @@
   -->
 
 <template>
-  <div>
-    <h1>站位</h1>
-    <el-scrollbar>
-      <sidebar-menu></sidebar-menu>
-    </el-scrollbar>
+  <div class='hamburger-container' @click='sidebarStatus'>
+    <xhui-svg class='hamburger' :icon='icon'>
+    </xhui-svg>
   </div>
 </template>
 
 <script setup>
-import {} from 'vue'
-import SidebarMenu from './SidebarMenu.vue'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const sidebarStatus = () => {
+  store.commit('app/changeSidebarStatus')
+}
+
+const icon = computed(() => {
+  return store.getters.sidebarStatus ? 'hamburger-opened' : 'hamburger-closed'
+})
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
+.hamburger-container {
+  padding: 0 16px;
 
+  .hamburger {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+  }
+}
 </style>
