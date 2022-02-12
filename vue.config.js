@@ -33,6 +33,7 @@ function resolve (dir) {
 }
 
 module.exports = {
+  publicPath: './',
   devServer: {
     port: devPort
     // proxy: {
