@@ -14,6 +14,8 @@ $closeSidebarWidth: 54px;
 
 $navbarBg: #ffffff; //Navbar 背景
 
+$sidebarTransition: 0.5s; //Sidebar 相关动画
+
 // 共享变量
 :export {
   menuText: $menuText;
@@ -26,4 +28,5 @@ $navbarBg: #ffffff; //Navbar 背景
   sideBarWidth: $sideBarWidth;
   closeSidebarWidth: $closeSidebarWidth;
   navbarBg: $navbarBg;
+  sidebarTransition: $sidebarTransition;
 }

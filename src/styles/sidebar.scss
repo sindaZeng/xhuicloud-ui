@@ -1,13 +1,13 @@
 #app {
   .main-container {
     min-height: 100%;
-    transition: margin-left .28s;
+    transition: margin-left #{$sidebarTransition};
     margin-left: $sideBarWidth;
     position: relative;
   }
 
   .sidebar-container {
-    transition: width 0.28s;
+    transition: width #{$sidebarTransition};
     width: $sideBarWidth !important;
     background-color: $menuBg;
     height: 100%;
@@ -36,7 +36,7 @@
       height: 100%;
     }
 
-    &.has-logo {
+    &.logo-container {
       .el-scrollbar {
         height: calc(100% - 50px);
       }
@@ -162,7 +162,7 @@
     }
 
     .sidebar-container {
-      transition: transform .28s;
+      transition: transform #{$sidebarTransition};
       width: $sideBarWidth !important;
     }
 

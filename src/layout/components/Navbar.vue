@@ -67,7 +67,7 @@ const logout = () => {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: $navbarBg;
+  background: #409eff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
 
   .hamburger-container {
@@ -91,7 +91,6 @@ const logout = () => {
           position: relative;
 
           .el-avatar {
-            --el-avatar-background-color: none;
             margin-right: 12px;
           }
         }

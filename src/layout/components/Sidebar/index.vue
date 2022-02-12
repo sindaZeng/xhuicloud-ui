@@ -24,7 +24,10 @@
 
 <template>
   <div>
-    <h1>站位</h1>
+    <div class='logo-container'>
+      <img src="https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto" class="sidebar-logo" >
+      <h1 class='logo-title' style='color: black' v-if='$store.getters.sidebarStatus'>11111</h1>
+    </div>
     <el-scrollbar>
       <sidebar-menu></sidebar-menu>
     </el-scrollbar>
@@ -37,5 +40,31 @@ import SidebarMenu from './SidebarMenu.vue'
 </script>
 
 <style lang="scss" scoped>
+.logo-container {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  overflow: hidden;
+  background: #409eff;
+}
 
+.sidebar-logo {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+
+}
+
+.logo-title {
+  display: inline-block;
+  color: black;
+  font-weight: 600;
+  line-height: 50px;
+  font-size: 14px;
+  font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+  vertical-align: middle;
+  margin-left: 12px;
+}
 </style>
