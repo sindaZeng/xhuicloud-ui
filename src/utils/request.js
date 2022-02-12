@@ -49,9 +49,9 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   response => {
     const status = Number(response.status)
-    const { code, msg, data, success } = response.data
+    const { code, msg, data } = response.data
     if (status === 200) {
-      if (success && code === 0) {
+      if (code === 0) {
         return data
       } else {
         return response.data
