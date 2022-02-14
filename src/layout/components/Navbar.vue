@@ -25,6 +25,7 @@
 <template>
   <div class="navbar">
     <hamburger class='hamburger-container'/>
+    <breadcrumb class='breadcrumb-container'/>
     <div class='right-menu'>
       <el-dropdown class='avatar-container' trigger='click'>
         <div class='avatar-wrapper'>
@@ -50,7 +51,8 @@
 <script setup>
 import {} from 'vue'
 import { useStore } from 'vuex'
-import Hamburger from './Hamburger/index'
+import Hamburger from '@/components/Hamburger'
+import Breadcrumb from '@/components/Breadcrumb'
 
 const store = useStore()
 
@@ -77,6 +79,9 @@ const logout = () => {
     cursor: pointer;
   }
 
+  .breadcrumb-container {
+    float: left;
+  }
   .right-menu {
     display: flex;
     align-items: center;
