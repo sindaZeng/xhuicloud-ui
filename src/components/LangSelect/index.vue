@@ -23,60 +23,53 @@
   -->
 
 <template>
-  <div class=''>
-    <el-breadcrumb class='breadcrumb'>
-      <transition-group name='breadcrumb'>
-      <el-breadcrumb-item v-for='(item, index) in breadcrumbData' :key='item.path'>
-        <span v-if='index === breadcrumbData.length - 1' class='no-redirect'>{{ item.meta.title }}</span>
-        <span v-else class='redirect' @click='handleLink(item)'>{{ item.meta.title }}</span>
-      </el-breadcrumb-item>
-      </transition-group>
-    </el-breadcrumb>
-  </div>
+  <el-dropdown class='international' trigger='click' @command='handleSetLang'>
+    <div>
+      <el-tooltip content='国际化' :effect='effect'>
+        <xhui-svg icon='language'></xhui-svg>
+      </el-tooltip>
+    </div>
+    <template #dropdown>
+      <el-dropdown-menu>
+        <el-dropdown-item :disabled='language === `zhCn`' command='zhCn'>中文</el-dropdown-item>
+        <el-dropdown-item :disabled='language === `en`' command='en'>English</el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 
-const route = useRoute()
+import { useStore } from 'vuex'
+import { computed, defineProps } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { ElMessage } from 'element-plus'
 
-const router = useRouter()
-
-const handleLink = item => {
-  router.push(item.path)
-}
-
-const breadcrumbData = ref([])
-
-const getBreadcrumbData = () => {
-  breadcrumbData.value = route.matched.filter(item => item.meta && item.meta.title)
-}
-
-watch(route, () => {
-  getBreadcrumbData()
-}, {
-  immediate: true
+defineProps({
+  effect: {
+    type: String,
+    default: 'dark',
+    validator (value) {
+      return ['dark', 'light'].indexOf(value) !== -1
+    }
+  }
 })
+const store = useStore()
+
+const i18n = useI18n()
+
+const language = computed(() => {
+  return store.getters.language
+})
+
+const handleSetLang = lang => {
+  i18n.locale.value = lang
+  store.commit('app/setLanguage', lang)
+  ElMessage.success(i18n.t('msg.lang'))
+}
 
 </script>
 
 <style lang='scss' scoped>
-.breadcrumb {
-  display: inline-block;
-  font-size: 14px;
-  line-height: 50px;
-  margin-left: 8px;
-  ::v-deep .no-redirect {
-    color: #97a8be;
-    cursor: text;
-  }
 
-  .redirect {
-    color: black;
-    //font-weight: 600;
-    cursor: pointer;
-  }
-
-}
 </style>

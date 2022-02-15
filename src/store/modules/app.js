@@ -22,17 +22,24 @@
  * @Email:  xhuicloud@163.com
  */
 
+import { setStorage, getStorage } from '@/utils/storage'
+import { language } from '@/config'
 const actions = {
 }
 
 const mutations = {
   changeSidebarStatus (state) {
     state.sidebarStatus = !state.sidebarStatus
+  },
+  setLanguage (state, lang) {
+    setStorage(language, lang)
+    state.language = lang
   }
 }
 
 const state = {
-  sidebarStatus: true
+  sidebarStatus: true,
+  language: getStorage(language) || 'zhCn'
 }
 
 export default {

@@ -21,21 +21,26 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
+import { createI18n } from 'vue-i18n'
+import zhCn from './zhCn'
+import en from './en'
+import store from '@/store'
 
-const settingConfig = {
-  // 端口号
-  devPort: '80',
-  // 商户字段
-  tenant: 'tenant_id',
-  // 刷新token令牌字段
-  refreshTokenName: 'refresh_token',
-  // token字段名称 存储的token名称
-  tokenName: 'token',
-  // 单位/秒  监听token过期刷新
-  expiredPeriod: 60000,
-  // 当有值时候会在登录页展示版权信息
-  copyright: process.env.NODE_ENV === 'production' ? '<a href=\'http://beian.miit.gov.cn\' target="view_window">粤ICP备2022008047号-1</a>' : '版权信息',
-  language: 'lang'
+const messages = {
+  zhCn,
+  en
 }
 
-module.exports = settingConfig
+const locale = store.getters.language
+
+const i18n = createI18n({
+  locale,
+  fallbackLocale: 'zhCn',
+  // 使用了composition api
+  legacy: false,
+  // 全局使用 转换函数
+  globalInjection: true,
+  messages
+})
+
+export default i18n

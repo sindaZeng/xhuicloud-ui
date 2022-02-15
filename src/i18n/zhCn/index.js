@@ -22,20 +22,9 @@
  * @Email:  xhuicloud@163.com
  */
 
-const settingConfig = {
-  // 端口号
-  devPort: '80',
-  // 商户字段
-  tenant: 'tenant_id',
-  // 刷新token令牌字段
-  refreshTokenName: 'refresh_token',
-  // token字段名称 存储的token名称
-  tokenName: 'token',
-  // 单位/秒  监听token过期刷新
-  expiredPeriod: 60000,
-  // 当有值时候会在登录页展示版权信息
-  copyright: process.env.NODE_ENV === 'production' ? '<a href=\'http://beian.miit.gov.cn\' target="view_window">粤ICP备2022008047号-1</a>' : '版权信息',
-  language: 'lang'
+export default {
+  msg: {
+    hello: '你好世界',
+    lang: '切换语言成功,当前语言为:简体中文'
+  }
 }
-
-module.exports = settingConfig

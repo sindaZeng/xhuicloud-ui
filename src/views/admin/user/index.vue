@@ -23,11 +23,17 @@
   -->
 
 <template>
-  <div class=''>用户页</div>
+  <div class=''>{{ $t('msg.hello') }}
+    <el-pagination
+      :page-sizes="[100]"
+      layout="total, prev, pager, next"
+      :total="1000"
+    >
+    </el-pagination>
+  </div>
 </template>
 
 <script setup>
-
 </script>
 
 <style lang='scss' scoped>

@@ -24,14 +24,21 @@
 
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router'
-import './router/permission'
 import store from './store'
+import router from './router'
+import i18n from './i18n'
+import './router/permission'
+
 import installElementPlus from './plugins/element'
-import '@/styles/index.scss' // global css
 import installXHuiIcon from './icons' // icon
+
+import '@/styles/index.scss' // global css
 
 const app = createApp(App)
 installElementPlus(app)
 installXHuiIcon(app)
-app.use(router).use(store).mount('#app')
+app
+  .use(router)
+  .use(store)
+  .use(i18n)
+  .mount('#app')

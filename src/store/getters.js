@@ -32,6 +32,7 @@ const getters = {
   permissions: state => state.user.permissions,
   roles: state => state.user.roles,
   ddCss: state => variables,
-  sidebarStatus: state => state.app.sidebarStatus
+  sidebarStatus: state => state.app.sidebarStatus,
+  language: state => state.app.language
 }
 export default getters

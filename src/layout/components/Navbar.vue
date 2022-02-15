@@ -27,6 +27,7 @@
     <hamburger class='hamburger-container'/>
     <breadcrumb class='breadcrumb-container'/>
     <div class='right-menu'>
+      <langSelect class='right-menu-langSelect hover-effect'/>
       <el-dropdown class='avatar-container' trigger='click'>
         <div class='avatar-wrapper'>
           <el-avatar shape='square' :size='40' :src='$store.getters.userInfo.avatar'></el-avatar>
@@ -53,6 +54,7 @@ import {} from 'vue'
 import { useStore } from 'vuex'
 import Hamburger from '@/components/Hamburger'
 import Breadcrumb from '@/components/Breadcrumb'
+import LangSelect from '@/components/LangSelect'
 
 const store = useStore()
 
@@ -87,6 +89,18 @@ const logout = () => {
     align-items: center;
     float: right;
     padding-right: 16px;
+
+      ::v-deep .right-menu-langSelect {
+        display: inline-block;
+        padding: 5px 15px 0 0;
+        font-size: 24px;
+        color: #fff;
+        vertical-align: text-bottom;
+
+        &.hover-effect {
+          cursor: pointer;
+        }
+      }
 
       ::v-deep .avatar-container {
         cursor: pointer;
