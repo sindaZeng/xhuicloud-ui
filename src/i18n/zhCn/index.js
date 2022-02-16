@@ -25,6 +25,19 @@
 export default {
   msg: {
     hello: '你好世界',
-    lang: '切换语言成功,当前语言为:简体中文'
+    langSuccess: '切换语言成功,当前语言为:简体中文',
+    international: '国际化',
+    register: '注册账号',
+    otherLogin: '其他登录',
+    forgetPassword: '忘记密码?',
+    inputUserName: '输入用户名',
+    inputPassword: '输入密码',
+    inputTenant: '输入租户名称',
+    login: '登录',
+    usernameNotNull: '用户名不能为空',
+    passwordNotNull: '密码必须大于6位',
+    homePage: '系统主页',
+    userInfo: '用户信息',
+    logout: '用户登出'
   }
 }

@@ -23,51 +23,10 @@
   -->
 
 <template>
-  <el-dropdown class='international' trigger='click' @command='handleSetLang'>
-    <div>
-      <el-tooltip :content='$t(`msg.international`)' :effect='effect'>
-        <xhui-svg icon='language'></xhui-svg>
-      </el-tooltip>
-    </div>
-    <template #dropdown>
-      <el-dropdown-menu>
-        <el-dropdown-item :disabled='language === `zhCn`' command='zhCn'>中文</el-dropdown-item>
-        <el-dropdown-item :disabled='language === `en`' command='en'>English</el-dropdown-item>
-      </el-dropdown-menu>
-    </template>
-  </el-dropdown>
+  <div class=''></div>
 </template>
 
 <script setup>
-
-import { useStore } from 'vuex'
-import { computed, defineProps } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { ElMessage } from 'element-plus'
-
-defineProps({
-  effect: {
-    type: String,
-    default: 'dark',
-    validator (value) {
-      return ['dark', 'light'].indexOf(value) !== -1
-    }
-  }
-})
-const store = useStore()
-
-const i18n = useI18n()
-
-const language = computed(() => {
-  return store.getters.language
-})
-
-const handleSetLang = lang => {
-  i18n.locale.value = lang
-  store.commit('app/setLanguage', lang)
-  ElMessage.success(i18n.t('msg.langSuccess'))
-}
-
 </script>
 
 <style lang='scss' scoped>

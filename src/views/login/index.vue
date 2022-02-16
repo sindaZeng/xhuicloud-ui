@@ -25,15 +25,16 @@
 <template>
   <div class='login-container'>
     <div class='login-form-container'>
+      <langSelect class='login-form-langSelect hover-effect'/>
       <div class='login-logo-container'>
         <img src="https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto"/>
       </div>
       <FormLogin v-if="login.type==='form'"/>
       <div class='login-footer-container'>
         <el-row>
-          <el-col :span="8"><a href="#">注册账号</a></el-col>
-          <el-col :span="8"><a href="#" @click.stop="login.type='other'">其他登录</a></el-col>
-          <el-col :span="8"><a href="#">忘记密码?</a></el-col>
+          <el-col :span="8"><a href="#">{{ $t('msg.register') }}</a></el-col>
+          <el-col :span="8"><a href="#" @click.stop="login.type='other'">{{ $t('msg.otherLogin') }}</a></el-col>
+          <el-col :span="8"><a href="#">{{ $t('msg.forgetPassword') }}</a></el-col>
         </el-row>
       </div>
     </div>
@@ -45,6 +46,7 @@
 import FormLogin from './formLogin.vue'
 import { ref } from 'vue'
 import { copyright } from '@/config'
+import LangSelect from '@/components/LangSelect'
 
 const login = ref({
   type: 'form'
@@ -66,6 +68,16 @@ const login = ref({
     padding: 80px 35px 50px;
     margin: 200px 100px auto auto;
     overflow: hidden;
+
+    ::v-deep(.login-form-langSelect) {
+      position: absolute;
+      top: 5px;
+      right:5px;
+      font-size: 25px;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
 
     .login-logo-container {
       position:relative;

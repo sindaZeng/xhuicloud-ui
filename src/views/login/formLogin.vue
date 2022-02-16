@@ -29,20 +29,20 @@
           <xhui-svg icon='tenant'/>
         </span>
         <el-autocomplete
-          placeholder="请输入租户名"
+          :placeholder='$t(`msg.inputTenant`)'
           type="text" />
       </el-form-item>
       <el-form-item prop='username'>
         <span class='svg-container'>
           <xhui-svg icon='user'/>
         </span>
-        <el-input placeholder='username' name='username' type='text' v-model='loginForm.username'></el-input>
+        <el-input :placeholder='$t(`msg.inputUserName`)' name='username' type='text' v-model='loginForm.username'></el-input>
       </el-form-item>
       <el-form-item prop='password'>
         <span class='svg-container'>
           <xhui-svg icon='password'/>
         </span>
-        <el-input placeholder='password' name='password' :type='passwordType' v-model='loginForm.password'></el-input>
+        <el-input :placeholder='$t(`msg.inputPassword`)'  name='password' :type='passwordType' v-model='loginForm.password'></el-input>
         <span class='show-pwd' @click='onchangePasswordType()'>
           <xhui-svg :icon="passwordType === 'password' ? 'eye' : 'eye-open'"/>
         </span>
@@ -50,14 +50,17 @@
       <el-button type='primary'
                  style='width: 100%; margin-bottom: 30px'
                  :loading='loading'
-                 @click='handleLogin'>登录</el-button>
+                 @click='handleLogin'>{{ $t('msg.login') }}</el-button>
     </el-form>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 import { validatePassword } from '@/utils/rules'
+
+const i18n = useI18n()
 
 const loginForm = ref({
   username: 'admin',
@@ -69,7 +72,7 @@ const loginRules = ref({
   username: [{
     required: true,
     trigger: 'blur',
-    message: 'username is not null'
+    message: i18n.t('msg.usernameNotNull')
   }],
   password: [{
     required: true,
@@ -115,14 +118,14 @@ $dark_gray: #889aa4;
 $light_gray: black;
 $cursor: black;
 .login-form {
-  ::v-deep .el-form-item {
+  ::v-deep(.el-form-item) {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     color: #454545;
   }
 
-  ::v-deep .el-input {
+  ::v-deep(.el-input) {
     display: inline-block;
     height: 47px;
     width: 85%;

@@ -36,12 +36,12 @@
         <template #dropdown>
           <el-dropdown-menu class='user-dropdown'>
             <router-link to='/'>
-              <el-dropdown-item>系统主页</el-dropdown-item>
+              <el-dropdown-item>{{ $t('msg.homePage') }}</el-dropdown-item>
             </router-link>
             <router-link to='/'>
-              <el-dropdown-item>用户信息</el-dropdown-item>
+              <el-dropdown-item>{{ $t('msg.userInfo') }}</el-dropdown-item>
             </router-link>
-            <el-dropdown-item divided @click='logout'>用户登出</el-dropdown-item>
+            <el-dropdown-item divided @click='logout'>{{ $t('msg.logout') }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -90,7 +90,7 @@ const logout = () => {
     float: right;
     padding-right: 16px;
 
-      ::v-deep .right-menu-langSelect {
+      ::v-deep(.right-menu-langSelect) {
         display: inline-block;
         padding: 5px 15px 0 0;
         font-size: 24px;
@@ -102,7 +102,7 @@ const logout = () => {
         }
       }
 
-      ::v-deep .avatar-container {
+      ::v-deep(.avatar-container) {
         cursor: pointer;
 
         .avatar-wrapper {

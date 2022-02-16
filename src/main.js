@@ -24,8 +24,8 @@
 
 import { createApp } from 'vue'
 import App from './App.vue'
-import store from './store'
-import router from './router'
+import store from '@/store'
+import router from '@/router'
 import i18n from './i18n'
 import './router/permission'
 
@@ -38,7 +38,7 @@ const app = createApp(App)
 installElementPlus(app)
 installXHuiIcon(app)
 app
-  .use(router)
   .use(store)
+  .use(router)
   .use(i18n)
   .mount('#app')

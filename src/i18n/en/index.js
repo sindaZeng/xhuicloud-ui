@@ -25,6 +25,19 @@
 export default {
   msg: {
     hello: 'hello world',
-    lang: 'language switched successfully,current language: English'
+    langSuccess: 'language switched successfully,current language: English',
+    international: 'international',
+    register: 'Register',
+    otherLogin: 'Other Login',
+    forgetPassword: 'Forget Password?',
+    inputUserName: 'input username',
+    inputPassword: 'input password',
+    inputTenant: 'input tenant name',
+    login: 'login',
+    usernameNotNull: 'username is not null',
+    passwordNotNull: 'The password must contain more than six characters',
+    homePage: 'home',
+    userInfo: 'user info',
+    logout: 'logout'
   }
 }

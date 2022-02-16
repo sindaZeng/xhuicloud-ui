@@ -25,59 +25,70 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import layout from '@/layout'
 
-const privateRoutes = [
-  {
-    path: '/admin',
-    component: layout,
-    meta: {
-      title: '权限管理',
-      icon: 'home'
-    },
-    children: [
-      {
-        path: '/admin/menus',
-        component: () => import('@/views/admin/menus/index'),
-        name: 'menus',
-        meta: {
-          title: '菜单',
-          icon: 'menus'
-        }
-      },
-      {
-        path: '/admin/roles',
-        component: () => import('@/views/admin/roles/index'),
-        name: 'roles',
-        meta: {
-          title: '角色',
-          icon: 'roles'
-        }
-      },
-      {
-        path: '/admin/tenant',
-        component: () => import('@/views/admin/tenant/index'),
-        name: 'tenant',
-        meta: {
-          title: '租户',
-          icon: 'tenant'
-        }
-      },
-      {
-        path: '/admin/user',
-        component: () => import('@/views/admin/user/index'),
-        name: 'user',
-        meta: {
-          title: '用户',
-          icon: 'user'
-        }
-      }
-    ]
-  }
-]
+// const privateRoutes = [
+//   {
+//     path: '/admin',
+//     component: layout,
+//     meta: {
+//       title: '权限管理',
+//       icon: 'home'
+//     },
+//     children: [
+//       {
+//         path: '/admin/menus',
+//         component: () => import('@/views/admin/menus/index'),
+//         name: 'menus',
+//         meta: {
+//           title: '菜单',
+//           icon: 'menus'
+//         }
+//       },
+//       {
+//         path: '/admin/roles',
+//         component: () => import('@/views/admin/roles/index'),
+//         name: 'roles',
+//         meta: {
+//           title: '角色',
+//           icon: 'roles'
+//         }
+//       },
+//       {
+//         path: '/admin/tenant',
+//         component: () => import('@/views/admin/tenant/index'),
+//         name: 'tenant',
+//         meta: {
+//           title: '租户',
+//           icon: 'tenant'
+//         }
+//       },
+//       {
+//         path: '/admin/user',
+//         component: () => import('@/views/admin/user/index'),
+//         name: 'user',
+//         meta: {
+//           title: '用户',
+//           icon: 'user'
+//         }
+//       }
+//     ]
+//   }
+// ]
 
 const commonsRoutes = [
   {
     path: '/login',
-    component: () => import('@/views/login/index')
+    component: () => import('@/views/login/index'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/error/404'),
+    hidden: true
+  },
+  {
+    path: '/401',
+    component: () => import('@/views/error/401'),
+    hidden: true
   },
   {
     path: '/',
@@ -92,20 +103,14 @@ const commonsRoutes = [
           title: '主页',
           icon: 'home'
         }
-      },
-      {
-        path: '/404',
-        component: () => import('@/views/error/404')
-      },
-      {
-        path: '/401',
-        component: () => import('@/views/error/401')
       }
     ]
   }
 ]
+
 const router = createRouter({
   history: createWebHashHistory(),
-  routes: [...commonsRoutes, ...privateRoutes]
+  routes: commonsRoutes
 })
+
 export default router

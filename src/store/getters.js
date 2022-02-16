@@ -28,6 +28,7 @@ const getters = {
   token: state => state.user.token,
   refreshToken: state => state.user.refreshToken,
   userInfo: state => state.user.userInfo,
+  userMenus: state => state.user.userMenus,
   tenantId: state => state.user.tenantId,
   permissions: state => state.user.permissions,
   roles: state => state.user.roles,

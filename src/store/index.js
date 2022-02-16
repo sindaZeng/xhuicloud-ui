@@ -35,7 +35,10 @@ files.keys().forEach((key) => {
 Object.keys(modulesFiles).forEach((key) => {
   modulesFiles[key].namespaced = true
 })
-export default createStore({
+
+const store = createStore({
   getters,
   modules: modulesFiles
 })
+
+export default store

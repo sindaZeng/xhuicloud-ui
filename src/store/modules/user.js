@@ -24,6 +24,7 @@
 
 import { login, logout, refreshToken } from '@/api/auth'
 import { getUserInfo } from '@/api/user'
+import { getMenu } from '@/api/menu'
 import { setStorage, getStorage, delAllStorage } from '@/utils/storage'
 import { tenant, refreshTokenName, tokenName } from '@/config'
 import router from '@/router'
@@ -52,6 +53,17 @@ const actions = {
   async logout ({ dispatch }) {
     await logout()
     dispatch('delAnything')
+  },
+  // 获取用户菜单
+  getMenu (context) {
+    return new Promise((resolve, reject) => {
+      getMenu().then(response => {
+        this.commit('user/setUserMenus', response)
+        resolve(response)
+      }).catch(error => {
+        reject(error)
+      })
+    })
   },
   delAnything (context) {
     this.commit('user/setToken', '')
@@ -90,6 +102,10 @@ const mutations = {
   setPermissions (state, permissions) {
     state.permissions = permissions
   },
+  setUserMenus (state, userMenus) {
+    state.userMenus = userMenus
+    setStorage('userMenus', userMenus)
+  },
   setRoles (state, roles) {
     state.roles = roles
   },
@@ -103,6 +119,7 @@ const state = {
   token: getStorage(tokenName) || '',
   refreshToken: getStorage(refreshTokenName) || '',
   userInfo: {},
+  userMenus: getStorage('userMenus') || [],
   permissions: [],
   roles: [],
   tenantId: getStorage(tenant) || undefined

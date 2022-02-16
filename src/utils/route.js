@@ -22,11 +22,14 @@
  * @Email:  xhuicloud@163.com
  */
 
+import { validURL, isNull } from './validate'
+import layout from '@/layout'
+import router from '@/router'
 import path from 'path'
 
-export const getChildRoutes = routes => {
+export const getChildRoutes = (routes) => {
   const result = []
-  routes.forEach(route => {
+  routes.forEach((route) => {
     if (route.children && route.children.length > 0) {
       result.push(...route.children)
     }
@@ -34,17 +37,39 @@ export const getChildRoutes = routes => {
   return result
 }
 
-export const filterRoutes = routes => {
+export const filterRoutes = (routes) => {
   const childRoutes = getChildRoutes(routes)
-  return routes.filter(route => {
-    return !childRoutes.find(childRoute => {
+  return routes.filter((route) => {
+    return !childRoutes.find((childRoute) => {
       return childRoute.path === route.path
     })
   })
 }
 
-function isNull (data) {
-  return !data || JSON.stringify(data) === '{}' || JSON.stringify(data) === '[]'
+// const loadView = (view) => import(view)
+
+// export const loadView = (view) => {
+//   // 路由懒加载
+//   return (resolve) => require([view], resolve)
+// }
+
+export const addRoutes = (routes) => {
+  routes.forEach((item) => {
+    if (!isNull(item.children)) {
+      item.component = layout
+    } else {
+      item.component = require(`@/views${item.path}`).default
+    }
+    if (validURL(item.path)) {
+      item.redirect = item.path
+    }
+    item.meta = { title: item.name || '', icon: item.icon || '' }
+    if (!isNull(item.children)) {
+      addRoutes(item.children)
+    }
+    router.addRoute(item)
+  })
+  return routes
 }
 
 export const generateRoutes = (routes, basePath = '') => {
