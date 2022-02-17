@@ -39,29 +39,14 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { addRoutes } from '@/utils/route'
+import { useRoute, useRouter } from 'vue-router'
+import { filterRoutes, generateRoutes } from '@/utils/route'
 import SidebarItem from './SidebarItem.vue'
-import store from '@/store'
-import { isNull } from '@/utils/validate'
-
-const getPrivateRoutes = () => {
-  if (store.getters.userMenus <= 0) {
-    store.dispatch('user/getMenu').then(response => {
-      return response
-    })
-  } else {
-    return store.getters.userMenus
-  }
-}
 
 const routers = computed(() => {
-  const privateRoutes = getPrivateRoutes()
-  if (isNull(privateRoutes)) {
-    return
-  }
-  return addRoutes(privateRoutes)
+  return generateRoutes(filterRoutes(useRouter().getRoutes()))
 })
+
 const activeMenu = computed(() => {
   return useRoute().path
 })

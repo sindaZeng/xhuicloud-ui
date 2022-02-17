@@ -37,8 +37,8 @@ Object.keys(modulesFiles).forEach((key) => {
 })
 
 const store = createStore({
-  getters,
-  modules: modulesFiles
+  modules: { ...modulesFiles },
+  getters
 })
 
 export default store

@@ -31,15 +31,15 @@ const mutations = {
   changeSidebarStatus (state) {
     state.sidebarStatus = !state.sidebarStatus
   },
-  setLanguage (state, lang) {
+  setLang (state, lang) {
     setStorage(language, lang)
-    state.language = lang
+    state.lang = lang
   }
 }
 
 const state = {
   sidebarStatus: true,
-  language: getStorage(language) || 'zhCn'
+  lang: getStorage(language) || 'zhCn'
 }
 
 export default {

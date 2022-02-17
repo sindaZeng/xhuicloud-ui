@@ -52,14 +52,19 @@
 <script setup>
 import {} from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import Hamburger from '@/components/Hamburger'
 import Breadcrumb from '@/components/Breadcrumb'
 import LangSelect from '@/components/LangSelect'
 
 const store = useStore()
 
+const router = useRouter()
+
 const logout = () => {
-  store.dispatch('user/logout')
+  store.dispatch('user/logout').then(() => {
+    router.push('/login')
+  })
 }
 
 </script>

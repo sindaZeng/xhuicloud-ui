@@ -24,7 +24,6 @@
 
 import { validURL, isNull } from './validate'
 import layout from '@/layout'
-import router from '@/router'
 import path from 'path'
 
 export const getChildRoutes = (routes) => {
@@ -46,14 +45,7 @@ export const filterRoutes = (routes) => {
   })
 }
 
-// const loadView = (view) => import(view)
-
-// export const loadView = (view) => {
-//   // 路由懒加载
-//   return (resolve) => require([view], resolve)
-// }
-
-export const addRoutes = (routes) => {
+export const addRoutes = (routes, $router) => {
   routes.forEach((item) => {
     if (!isNull(item.children)) {
       item.component = layout
@@ -63,13 +55,12 @@ export const addRoutes = (routes) => {
     if (validURL(item.path)) {
       item.redirect = item.path
     }
-    item.meta = { title: item.name || '', icon: item.icon || '' }
+    item.meta = { title: item.internationalization || '', icon: item.icon || '' }
     if (!isNull(item.children)) {
-      addRoutes(item.children)
+      addRoutes(item.children, $router)
     }
-    router.addRoute(item)
+    $router.addRoute(item)
   })
-  return routes
 }
 
 export const generateRoutes = (routes, basePath = '') => {

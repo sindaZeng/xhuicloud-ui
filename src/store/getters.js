@@ -34,6 +34,6 @@ const getters = {
   roles: state => state.user.roles,
   ddCss: state => variables,
   sidebarStatus: state => state.app.sidebarStatus,
-  language: state => state.app.language
+  language: state => state.app.lang
 }
 export default getters

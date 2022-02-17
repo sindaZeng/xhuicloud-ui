@@ -24,55 +24,9 @@
 
 import { createRouter, createWebHashHistory } from 'vue-router'
 import layout from '@/layout'
-
-// const privateRoutes = [
-//   {
-//     path: '/admin',
-//     component: layout,
-//     meta: {
-//       title: '权限管理',
-//       icon: 'home'
-//     },
-//     children: [
-//       {
-//         path: '/admin/menus',
-//         component: () => import('@/views/admin/menus/index'),
-//         name: 'menus',
-//         meta: {
-//           title: '菜单',
-//           icon: 'menus'
-//         }
-//       },
-//       {
-//         path: '/admin/roles',
-//         component: () => import('@/views/admin/roles/index'),
-//         name: 'roles',
-//         meta: {
-//           title: '角色',
-//           icon: 'roles'
-//         }
-//       },
-//       {
-//         path: '/admin/tenant',
-//         component: () => import('@/views/admin/tenant/index'),
-//         name: 'tenant',
-//         meta: {
-//           title: '租户',
-//           icon: 'tenant'
-//         }
-//       },
-//       {
-//         path: '/admin/user',
-//         component: () => import('@/views/admin/user/index'),
-//         name: 'user',
-//         meta: {
-//           title: '用户',
-//           icon: 'user'
-//         }
-//       }
-//     ]
-//   }
-// ]
+import store from '@/store'
+import { addRoutes } from '@/utils/route'
+import { toRaw } from 'vue'
 
 const commonsRoutes = [
   {
@@ -100,7 +54,7 @@ const commonsRoutes = [
         component: () => import('@/views/home/index'),
         name: 'home',
         meta: {
-          title: '主页',
+          title: 'home',
           icon: 'home'
         }
       }
@@ -112,5 +66,19 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: commonsRoutes
 })
+
+const getPrivateRoutes = () => {
+  if (store.getters.token) {
+    if (store.getters.userMenus <= 0) {
+      store.dispatch('user/getMenu').then(response => {
+        return response
+      })
+    }
+  }
+  if (store.getters.userMenus) {
+    addRoutes(toRaw(store.getters.userMenus), router)
+  }
+}
+getPrivateRoutes()
 
 export default router

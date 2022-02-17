@@ -57,8 +57,11 @@
 <script setup>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { validatePassword } from '@/utils/rules'
+
+const router = useRouter()
 
 const i18n = useI18n()
 
@@ -103,6 +106,7 @@ const handleLogin = () => {
       loading.value = true
       store.dispatch('user/login', loginForm.value)
         .then(() => {
+          router.push('/')
           loading.value = false
         })
         .catch(e => {

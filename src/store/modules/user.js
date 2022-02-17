@@ -27,7 +27,6 @@ import { getUserInfo } from '@/api/user'
 import { getMenu } from '@/api/menu'
 import { setStorage, getStorage, delAllStorage } from '@/utils/storage'
 import { tenant, refreshTokenName, tokenName } from '@/config'
-import router from '@/router'
 
 const actions = {
   login (context, loginForm) {
@@ -36,7 +35,6 @@ const actions = {
         this.commit('user/setToken', response.access_token)
         this.commit('user/setRefreshToken', response.refresh_token)
         this.commit('user/setTenantId', response.tenant_id)
-        router.push('/')
         resolve()
       }).catch(error => {
         reject(error)
@@ -50,9 +48,15 @@ const actions = {
     this.commit('user/setRoles', res.roles)
     return res
   },
-  async logout ({ dispatch }) {
-    await logout()
-    dispatch('delAnything')
+  logout ({ dispatch }) {
+    return new Promise((resolve, reject) => {
+      logout().then(response => {
+        dispatch('delAnything')
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
   },
   // 获取用户菜单
   getMenu (context) {
@@ -71,7 +75,6 @@ const actions = {
     this.commit('user/setPermissions', [])
     this.commit('user/setRoles', [])
     delAllStorage()
-    router.push('/login')
   },
   refreshToken (context) {
     return new Promise((resolve, reject) => {
