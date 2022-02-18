@@ -24,6 +24,8 @@
 
 import router from '@/router'
 import store from '@/store'
+import { title } from '@/config'
+import i18n from '@/i18n'
 
 const whiteList = ['/login']
 
@@ -31,6 +33,7 @@ const whiteList = ['/login']
  * 前置
  */
 router.beforeEach(async (to, from, next) => {
+  document.title = to.meta.title ? i18n.global.t('menu.' + to.meta.title) : title
   if (store.getters.token) {
     if (to.path === '/login') {
       next('/')

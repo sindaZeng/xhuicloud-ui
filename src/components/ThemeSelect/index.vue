@@ -23,26 +23,31 @@
   -->
 
 <template>
-  <div class=''>{{ $t('msg.hello') }}
-    <el-pagination
-      :page-sizes="[100]"
-      layout="total, prev, pager, next"
-      :total="1000"
-    >
-    </el-pagination>
-    <el-row class="mb-4">
-      <el-button>Default</el-button>
-      <el-button type="primary">Primary</el-button>
-      <el-button type="success">Success</el-button>
-      <el-button type="info">Info</el-button>
-      <el-button type="warning">Warning</el-button>
-      <el-button type="danger">Danger</el-button>
-      <el-button>中文</el-button>
-    </el-row>
+  <el-dropdown v-bind='$attrs' trigger='click' class='theme' @command='handleSelectTheme'>
+    <div>
+        <xhui-svg icon='theme'></xhui-svg>
+    </div>
+    <template #dropdown>
+      <el-dropdown-menu command='themeColor'>
+        <el-dropdown-item>{{ $t(`msg.selectTheme`) }}</el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
+  <div>
+    <colorSelect v-model='colorSelectVisible'></colorSelect>
   </div>
 </template>
 
 <script setup>
+import ColorSelect from '@/components/ColorSelect'
+import { ref } from 'vue'
+
+const handleSelectTheme = command => {
+  colorSelectVisible.value = true
+}
+
+const colorSelectVisible = ref(false)
+
 </script>
 
 <style lang='scss' scoped>

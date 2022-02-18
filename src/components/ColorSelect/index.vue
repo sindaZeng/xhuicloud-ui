@@ -23,28 +23,58 @@
   -->
 
 <template>
-  <div class=''>{{ $t('msg.hello') }}
-    <el-pagination
-      :page-sizes="[100]"
-      layout="total, prev, pager, next"
-      :total="1000"
-    >
-    </el-pagination>
-    <el-row class="mb-4">
-      <el-button>Default</el-button>
-      <el-button type="primary">Primary</el-button>
-      <el-button type="success">Success</el-button>
-      <el-button type="info">Info</el-button>
-      <el-button type="warning">Warning</el-button>
-      <el-button type="danger">Danger</el-button>
-      <el-button>中文</el-button>
-    </el-row>
-  </div>
+  <el-dialog title='提示' :model-value='modelValue' @close='closed' width='22%'>
+    <div class='content'>
+      <span class='title'>主题色</span>
+      <el-color-picker
+        v-model="themeColor"
+        :predefine="['#409EFF', '#1890ff', '#304156','#212121','#11a983', '#13c2c2', '#6959CD', '#f5222d']"></el-color-picker>
+    </div>
+    <template #footer>
+      <el-button @click='closed'>取消</el-button>
+      <el-button @click='confirm' type='primary'>确认</el-button>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup>
+import { defineProps, defineEmits, ref, onBeforeMount } from 'vue'
+import { useStore } from 'vuex'
+import { getStyle, saveStyle } from '@/utils/theme'
+
+const store = useStore()
+
+defineProps({
+  modelValue: {
+    type: Boolean,
+    required: true
+  }
+})
+const themeColor = ref(store.getters.themeColor)
+
+const emits = defineEmits(['update:modelValue'])
+
+const closed = () => {
+  emits('update:modelValue', false)
+}
+
+const confirm = async () => {
+  const newStyle = await getStyle(themeColor.value)
+  saveStyle(newStyle)
+  store.commit('theme/setThemeColor', themeColor.value)
+  closed()
+}
+onBeforeMount(confirm)
 </script>
 
 <style lang='scss' scoped>
+.content {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
 
+  .title {
+    margin-right: 16px;
+  }
+}
 </style>

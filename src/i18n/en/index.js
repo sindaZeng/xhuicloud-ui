@@ -38,7 +38,8 @@ export default {
     passwordNotNull: 'The password must contain more than six characters',
     homePage: 'home',
     userInfo: 'user info',
-    logout: 'logout'
+    logout: 'logout',
+    selectTheme: 'select theme'
   },
   menu: {
     home: 'home',

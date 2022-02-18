@@ -27,7 +27,8 @@
     <hamburger class='hamburger-container'/>
     <breadcrumb class='breadcrumb-container'/>
     <div class='right-menu'>
-      <langSelect class='right-menu-langSelect hover-effect'/>
+      <themeSelect class='right-menu-item hover-effect'/>
+      <langSelect class='right-menu-item hover-effect'/>
       <el-dropdown class='avatar-container' trigger='click'>
         <div class='avatar-wrapper'>
           <el-avatar shape='square' :size='40' :src='$store.getters.userInfo.avatar'></el-avatar>
@@ -56,6 +57,7 @@ import { useRouter } from 'vue-router'
 import Hamburger from '@/components/Hamburger'
 import Breadcrumb from '@/components/Breadcrumb'
 import LangSelect from '@/components/LangSelect'
+import ThemeSelect from '@/components/ThemeSelect'
 
 const store = useStore()
 
@@ -95,10 +97,10 @@ const logout = () => {
     float: right;
     padding-right: 16px;
 
-      ::v-deep(.right-menu-langSelect) {
+      ::v-deep(.right-menu-item) {
         display: inline-block;
-        padding: 5px 15px 0 0;
-        font-size: 24px;
+        padding: 5px 10px 0 0;
+        font-size: 20px;
         color: #fff;
         vertical-align: text-bottom;
 

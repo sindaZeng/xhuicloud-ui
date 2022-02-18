@@ -22,50 +22,8 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { createRouter, createWebHashHistory } from 'vue-router'
-import layout from '@/layout'
-import RouterPlugin from '@/utils/route'
-import store from '@/store'
-const commonsRoutes = [
-  {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/error/404'),
-    hidden: true
-  },
-  {
-    path: '/401',
-    component: () => import('@/views/error/401'),
-    hidden: true
-  },
-  {
-    path: '/',
-    redirect: '/home',
-    component: layout,
-    children: [
-      {
-        path: '/home',
-        component: () => import('@/views/home/index'),
-        name: 'home',
-        meta: {
-          title: 'home',
-          icon: 'home'
-        }
-      }
-    ]
-  }
-]
-
-const router = createRouter({
-  history: createWebHashHistory(),
-  routes: commonsRoutes
-})
-RouterPlugin.install(router)
-
-router.$xhuiRouter.addRoutes(store.getters.userMenus)
-
-export default router
+const theme = {
+  themeColor: '#409eff',
+  themeKey: 'theme'
+}
+module.exports = theme

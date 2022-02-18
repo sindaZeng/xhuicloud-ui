@@ -32,8 +32,9 @@ const getters = {
   tenantId: state => state.user.tenantId,
   permissions: state => state.user.permissions,
   roles: state => state.user.roles,
-  ddCss: state => variables,
   sidebarStatus: state => state.app.sidebarStatus,
-  language: state => state.app.lang
+  language: state => state.app.lang,
+  themeColor: state => state.theme.themeColor,
+  ddCss: state => variables
 }
 export default getters

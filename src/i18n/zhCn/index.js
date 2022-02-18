@@ -38,7 +38,8 @@ export default {
     passwordNotNull: '密码必须大于6位',
     homePage: '系统主页',
     userInfo: '用户信息',
-    logout: '用户登出'
+    logout: '用户登出',
+    selectTheme: '切換主题'
   },
   menu: {
     home: '主页',

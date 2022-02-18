@@ -23,7 +23,7 @@
  */
 
 import { setStorage, getStorage } from '@/utils/storage'
-import { language } from '@/config'
+import { language, languageKey } from '@/config'
 const actions = {
 }
 
@@ -32,14 +32,14 @@ const mutations = {
     state.sidebarStatus = !state.sidebarStatus
   },
   setLang (state, lang) {
-    setStorage(language, lang)
+    setStorage(languageKey, lang)
     state.lang = lang
   }
 }
 
 const state = {
   sidebarStatus: true,
-  lang: getStorage(language) || 'zhCn'
+  lang: getStorage(languageKey) || language
 }
 
 export default {

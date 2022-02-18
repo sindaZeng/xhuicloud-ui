@@ -23,4 +23,5 @@
  */
 
 const setting = require('./setting.config')
-module.exports = Object.assign({}, setting)
+const theme = require('./theme.config')
+module.exports = Object.assign({}, setting, theme)

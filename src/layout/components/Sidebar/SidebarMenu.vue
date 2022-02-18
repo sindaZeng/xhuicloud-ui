@@ -39,12 +39,23 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
-import { filterRoutes, generateRoutes } from '@/utils/route'
 import SidebarItem from './SidebarItem.vue'
 
+const store = useStore()
+
+const router = useRouter()
+
+const getMenu = async () => {
+  await store.dispatch('user/getMenu')
+}
+
 const routers = computed(() => {
-  return generateRoutes(filterRoutes(useRouter().getRoutes()))
+  if (store.getters.userMenus.length === 0) {
+    getMenu()
+  }
+  return router.$xhuiRouter.addRoutes(store.getters.userMenus)
 })
 
 const activeMenu = computed(() => {

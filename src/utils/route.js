@@ -26,71 +26,81 @@ import { validURL, isNull } from './validate'
 import layout from '@/layout'
 import path from 'path'
 
-export const getChildRoutes = (routes) => {
-  const result = []
-  routes.forEach((route) => {
-    if (route.children && route.children.length > 0) {
-      result.push(...route.children)
-    }
-  })
-  return result
+const RouterPlugin = function () {
+  this.$router = null
 }
 
-export const filterRoutes = (routes) => {
-  const childRoutes = getChildRoutes(routes)
-  return routes.filter((route) => {
-    return !childRoutes.find((childRoute) => {
-      return childRoute.path === route.path
-    })
-  })
+RouterPlugin.install = function (router) {
+  this.$router = router
+  this.$router.$xhuiRouter = {
+    safe: this,
+    getChildRoutes: function (routes) {
+      const result = []
+      routes.forEach((route) => {
+        if (route.children && route.children.length > 0) {
+          result.push(...route.children)
+        }
+      })
+      return result
+    },
+    filterRoutes: function (routes) {
+      const childRoutes = this.getChildRoutes(routes)
+      return routes.filter((route) => {
+        return !childRoutes.find((childRoute) => {
+          return childRoute.path === route.path
+        })
+      })
+    },
+    addRoutes: function (routes) {
+      if (routes.length === 0) return
+      routes.forEach((item) => {
+        if (!isNull(item.children)) {
+          item.component = layout
+        } else {
+          item.component = require(`@/views${item.path}`).default
+        }
+        if (validURL(item.path)) {
+          item.redirect = item.path
+        }
+        item.meta = { title: item.internationalization || '', icon: item.icon || '' }
+        if (!isNull(item.children)) {
+          this.addRoutes(item.children)
+        }
+        this.safe.$router.addRoute(item)
+      })
+      return this.generateRoutes(this.filterRoutes(this.safe.$router.getRoutes()))
+    },
+    generateRoutes: function (routes, basePath = '') {
+      const result = []
+      routes.forEach(item => {
+        if (isNull(item.children) && isNull(item.meta)) {
+          return
+        }
+        if (!isNull(item.children) && isNull(item.meta)) {
+          result.push(...this.generateRoutes(item.children))
+          return
+        }
+        const routePath = path.resolve(basePath, item.path)
+
+        let route = result.find(item => item.path === routePath)
+        // 路由没有加载到result
+        if (!route) {
+          route = {
+            ...item,
+            path: routePath,
+            children: []
+          }
+          if (route.meta.icon && route.meta.title) {
+            result.push(route)
+          }
+        }
+        if (!isNull(item.children)) {
+          route.children.push(...this.generateRoutes(item.children, route.path))
+        }
+      })
+      return result
+    }
+  }
 }
 
-export const addRoutes = (routes, $router) => {
-  routes.forEach((item) => {
-    if (!isNull(item.children)) {
-      item.component = layout
-    } else {
-      item.component = require(`@/views${item.path}`).default
-    }
-    if (validURL(item.path)) {
-      item.redirect = item.path
-    }
-    item.meta = { title: item.internationalization || '', icon: item.icon || '' }
-    if (!isNull(item.children)) {
-      addRoutes(item.children, $router)
-    }
-    $router.addRoute(item)
-  })
-}
-
-export const generateRoutes = (routes, basePath = '') => {
-  const result = []
-  routes.forEach(item => {
-    if (isNull(item.children) && isNull(item.meta)) {
-      return
-    }
-    if (!isNull(item.children) && isNull(item.meta)) {
-      result.push(...generateRoutes(item.children))
-      return
-    }
-    const routePath = path.resolve(basePath, item.path)
-
-    let route = result.find(item => item.path === routePath)
-    // 路由没有加载到result
-    if (!route) {
-      route = {
-        ...item,
-        path: routePath,
-        children: []
-      }
-      if (route.meta.icon && route.meta.title) {
-        result.push(route)
-      }
-    }
-
-    if (!isNull(item.children)) {
-      route.children.push(...generateRoutes(item.children, route.path))
-    }
-  })
-  return result
-}
+export default RouterPlugin

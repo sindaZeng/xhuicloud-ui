@@ -23,6 +23,7 @@
  */
 
 import { login, logout, refreshToken } from '@/api/auth'
+import { toRaw } from 'vue'
 import { getUserInfo } from '@/api/user'
 import { getMenu } from '@/api/menu'
 import { setStorage, getStorage, delAllStorage } from '@/utils/storage'
@@ -59,15 +60,10 @@ const actions = {
     })
   },
   // 获取用户菜单
-  getMenu (context) {
-    return new Promise((resolve, reject) => {
-      getMenu().then(response => {
-        this.commit('user/setUserMenus', response)
-        resolve(response)
-      }).catch(error => {
-        reject(error)
-      })
-    })
+  async getMenu (context) {
+    const res = toRaw(await getMenu())
+    this.commit('user/setUserMenus', res)
+    return res
   },
   delAnything (context) {
     this.commit('user/setToken', '')
