@@ -23,22 +23,24 @@
   -->
 
 <template>
-  <el-dialog title='提示' :model-value='modelValue' @close='closed' width='22%'>
+  <el-dialog :title='$t(`msg.settingLayout`)' :model-value='modelValue' @close='closed' width='22%'>
     <div class='content'>
-      <span class='title'>主题色</span>
-      <el-color-picker
-        v-model="themeColor"
-        :predefine="['#409EFF', '#1890ff', '#304156','#212121','#11a983', '#13c2c2', '#6959CD', '#f5222d']"></el-color-picker>
+      <div class="item">
+        <span class='title'>{{ $t('msg.themeColor') }}</span>
+        <el-color-picker
+          v-model="themeColor" style='float: right;margin-top: -10px'
+          :predefine="['#409EFF', '#1890ff', '#304156','#212121','#11a983', '#13c2c2', '#6959CD', '#f5222d']" @change='confirm'></el-color-picker>
+      </div>
+      <div class="item">
+        <span class='title'>{{ $t('msg.sidebarLogo') }}</span>
+        <el-switch v-model="sidebarLogo" class="switch" />
+      </div>
     </div>
-    <template #footer>
-      <el-button @click='closed'>取消</el-button>
-      <el-button @click='confirm' type='primary'>确认</el-button>
-    </template>
   </el-dialog>
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref, onBeforeMount } from 'vue'
+import { defineProps, defineEmits, ref, onBeforeMount, computed } from 'vue'
 import { useStore } from 'vuex'
 import { getStyle, saveStyle } from '@/utils/theme'
 
@@ -48,6 +50,14 @@ defineProps({
   modelValue: {
     type: Boolean,
     required: true
+  }
+})
+const sidebarLogo = computed({
+  get () {
+    return store.getters.sidebarLogo
+  },
+  set (val) {
+    store.commit('theme/setSidebarLogo', val)
   }
 })
 const themeColor = ref(store.getters.themeColor)
@@ -69,12 +79,26 @@ onBeforeMount(confirm)
 
 <style lang='scss' scoped>
 .content {
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
+  padding: 24px;
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
 
   .title {
-    margin-right: 16px;
+    margin-bottom: 12px;
+    color: rgba(0, 0, 0, .85);
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .item {
+    color: rgba(0, 0, 0, .65);
+    font-size: 14px;
+    padding: 12px 0;
+  }
+
+  .switch {
+    float: right
   }
 }
 </style>

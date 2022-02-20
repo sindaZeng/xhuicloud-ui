@@ -22,7 +22,9 @@
  * @Email:  xhuicloud@163.com
  */
 
-import variables from '@/styles/variables.scss'
+import { getColor } from '@/utils/theme'
+import { themeKey } from '@/config'
+import { getStorage } from '@/utils/storage'
 
 const getters = {
   token: state => state.user.token,
@@ -35,6 +37,10 @@ const getters = {
   sidebarStatus: state => state.app.sidebarStatus,
   language: state => state.app.lang,
   themeColor: state => state.theme.themeColor,
-  ddCss: state => variables
+  sidebarLogo: state => state.theme.sidebarLogo,
+  ddCss: state => ({
+    ...state.theme.variables,
+    ...getColor(getStorage(themeKey))
+  })
 }
 export default getters

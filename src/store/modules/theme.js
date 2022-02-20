@@ -24,6 +24,7 @@
 
 import { themeKey, themeColor } from '@/config'
 import { setStorage, getStorage } from '@/utils/storage'
+import variables from '@/styles/variables.scss'
 
 const actions = {
 }
@@ -32,10 +33,17 @@ const mutations = {
   setThemeColor (state, themeColor) {
     setStorage(themeKey, themeColor)
     state.themeColor = themeColor
+    state.variables.navbarBg = themeColor
+  },
+  setSidebarLogo (state, sidebarLogo) {
+    setStorage('sidebarLogo', sidebarLogo)
+    state.sidebarLogo = sidebarLogo
   }
 }
 
 const state = {
+  sidebarLogo: getStorage('sidebarLogo') || true,
+  variables: variables,
   themeColor: getStorage(themeKey) || themeColor
 }
 

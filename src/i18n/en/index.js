@@ -39,7 +39,9 @@ export default {
     homePage: 'home',
     userInfo: 'user info',
     logout: 'logout',
-    selectTheme: 'select theme'
+    settingLayout: 'setting layout',
+    themeColor: 'Theme Color',
+    sidebarLogo: 'Sidebar Logo'
   },
   menu: {
     home: 'home',

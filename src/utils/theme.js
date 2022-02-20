@@ -42,7 +42,7 @@ const formula = {
   subMenuHover: 'color(primary tint(70%))',
   subMenuBg: 'color(primary tint(80%))',
   menuHover: 'color(primary tint(90%))',
-  menuBg: 'color(primary)'
+  navbarBg: 'color(primary)'
 }
 
 const elementPlusColor = {
@@ -64,12 +64,11 @@ const elementPlusColor = {
  * @param color
  * @returns {{color}}
  */
-const getColor = color => {
+export const getColor = color => {
   if (!color) return
   const colors = {
     primary: color
   }
-
   Object.keys(formula).forEach(key => {
     const val = formula[key].replace(/primary/g, color)
     colors[key] = '#' + rgbHex(colorConvert.convert(val))

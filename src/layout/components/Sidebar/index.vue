@@ -24,7 +24,7 @@
 
 <template>
   <div>
-    <div class='logo-container'>
+    <div class='logo-container' v-if='$store.getters.sidebarLogo' :style='{ background: $store.getters.ddCss.navbarBg }'>
       <img src="https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto" class="sidebar-logo" >
       <h1 class='logo-title' style='color: black' v-if='$store.getters.sidebarStatus'>11111</h1>
     </div>
@@ -47,7 +47,6 @@ import SidebarMenu from './SidebarMenu.vue'
   line-height: 50px;
   text-align: center;
   overflow: hidden;
-  background: #409eff;
 }
 
 .sidebar-logo {

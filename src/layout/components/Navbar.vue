@@ -23,7 +23,7 @@
   -->
 
 <template>
-  <div class="navbar">
+  <div class="navbar" :style='{ background: $store.getters.ddCss.navbarBg }'>
     <hamburger class='hamburger-container'/>
     <breadcrumb class='breadcrumb-container'/>
     <div class='right-menu'>
@@ -78,7 +78,6 @@ const logout = () => {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #409eff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
 
   .hamburger-container {

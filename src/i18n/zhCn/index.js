@@ -39,7 +39,9 @@ export default {
     homePage: '系统主页',
     userInfo: '用户信息',
     logout: '用户登出',
-    selectTheme: '切換主题'
+    settingLayout: '布局设置',
+    themeColor: '主題色',
+    sidebarLogo: 'Logo'
   },
   menu: {
     home: '主页',

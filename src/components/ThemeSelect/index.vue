@@ -29,24 +29,24 @@
     </div>
     <template #dropdown>
       <el-dropdown-menu command='themeColor'>
-        <el-dropdown-item>{{ $t(`msg.selectTheme`) }}</el-dropdown-item>
+        <el-dropdown-item>{{ $t(`msg.settingLayout`) }}</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
   <div>
-    <colorSelect v-model='colorSelectVisible'></colorSelect>
+    <settingSelect v-model='settingsVisible'></settingSelect>
   </div>
 </template>
 
 <script setup>
-import ColorSelect from '@/components/ColorSelect'
+import SettingSelect from '@/components/SettingSelect'
 import { ref } from 'vue'
 
 const handleSelectTheme = command => {
-  colorSelectVisible.value = true
+  settingsVisible.value = true
 }
 
-const colorSelectVisible = ref(false)
+const settingsVisible = ref(false)
 
 </script>
 
