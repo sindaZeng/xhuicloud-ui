@@ -95,4 +95,5 @@ onUnmounted(() => {
 .closeSidebar .fixed-header {
   width: calc(100% - 54px);
 }
+
 </style>

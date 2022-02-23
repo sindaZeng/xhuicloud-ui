@@ -23,22 +23,34 @@
   -->
 
 <template>
-  <div class="app-main">
-    <router-view/>
+  <div
+    class="card-container">
+    <el-card>
+      <slot/>
+    </el-card>
   </div>
 </template>
 
 <script setup>
-import {} from 'vue'
-
 </script>
 
-<style lang="scss" scoped>
-.app-main {
-  min-height: calc(100vh - 50px);
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  padding: 60px 0 5px 5px;
+<style lang='scss' scoped>
+.card-container {
+  padding: 8px 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+
+  .el-card {
+    width: 100%;
+  }
+  &:first-child {
+    padding-top: 0;
+  }
+  &--block {
+    height: 100%;
+    .el-card {
+      height: 100%;
+    }
+  }
 }
 </style>

@@ -28,6 +28,8 @@ import store from './store'
 import router from './router'
 import i18n from './i18n'
 import './router/permission'
+import Table from '@/components/Table'
+import CardContainer from '@/components/CardContainer'
 
 import installElementPlus from './plugins/element'
 import installXHuiIcon from './icons' // icon
@@ -41,4 +43,6 @@ app
   .use(store)
   .use(router)
   .use(i18n)
+  .component('xhuiTable', Table)
+  .component('xhui-Card', CardContainer)
   .mount('#app')

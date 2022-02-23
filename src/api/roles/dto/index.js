@@ -22,16 +22,24 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XHuiSvg from '@/components/Svg'// svg component
-
-/**
- * 参数1: 要搜索的目录
- * 参数2: 是否包含子目录
- * 参数3: 匹配文件后缀
- */
-const req = require.context('./svg', false, /\.svg$/)
-req.keys().forEach(svg => req(svg))
-
-export default app => {
-  app.component('xhui-svg', XHuiSvg)
+export const tableAttributes = {
+  columns: [{
+    label: 'id',
+    prop: 'id'
+  }, {
+    label: '角色编码',
+    prop: 'roleCode'
+  }, {
+    label: '角色描述',
+    prop: 'roleDesc'
+  }, {
+    label: '角色名',
+    prop: 'roleName'
+  }, {
+    label: '创建时间',
+    prop: 'createTime'
+  }, {
+    label: '更新时间',
+    prop: 'updateTime'
+  }]
 }

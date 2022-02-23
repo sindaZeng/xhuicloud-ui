@@ -23,22 +23,57 @@
   -->
 
 <template>
-  <div class="app-main">
-    <router-view/>
-  </div>
+  <div v-if='externalIcon' :style='externalIconStyle' class='svg-external-icon svg-icon' :class='className'></div>
+  <svg v-else class='svg-icon' :class='className' aria-hidden="true">
+    <use :xlink:href="innerIcon" />
+  </svg>
 </template>
 
 <script setup>
-import {} from 'vue'
+import { defineProps, computed } from 'vue'
+import { isExternal } from '@/utils/validate'
 
+const props = defineProps({
+  // icon图标
+  icon: {
+    type: String,
+    required: true
+  },
+  // 图标类名
+  className: {
+    type: String,
+    default: ''
+  }
+})
+
+const externalIcon = computed(() => isExternal(props.icon))
+
+/**
+ * 外部图标样式
+ */
+const externalIconStyle = computed(() => ({
+  mask: `url(${props.icon}) no-repeat 50% 50%`,
+  '-webkit-mask': `url(${props.icon}) no-repeat 50% 50%`
+}))
+
+/**
+ * 内部图标样式
+ */
+const innerIcon = computed(() => `#icon-${props.icon}`)
 </script>
 
-<style lang="scss" scoped>
-.app-main {
-  min-height: calc(100vh - 50px);
-  width: 100%;
-  position: relative;
+<style lang='scss' scoped>
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
   overflow: hidden;
-  padding: 60px 0 5px 5px;
+}
+
+.svg-external-icon {
+  background-color: currentColor;
+  mask-size: cover!important;
+  display: inline-block;
 }
 </style>

@@ -23,11 +23,20 @@
   -->
 
 <template>
-  <div class=''>角色页</div>
+  <xhui-Card>
+    <xhuiTable :tableAttributes='tableAttributes' v-model:page='page' :getTableData='getTableData'></xhuiTable>
+  </xhui-Card>
 </template>
 
 <script setup>
+import { tableAttributes } from '@/api/roles/dto'
+import { page } from '@/mixins/page'
+import { rolesPage } from '@/api/roles'
 
+const getTableData = async page => {
+  const { records } = await rolesPage(page)
+  return records
+}
 </script>
 
 <style lang='scss' scoped>

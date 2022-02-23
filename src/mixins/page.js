@@ -22,16 +22,10 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XHuiSvg from '@/components/Svg'// svg component
+import { ref } from 'vue'
 
-/**
- * 参数1: 要搜索的目录
- * 参数2: 是否包含子目录
- * 参数3: 匹配文件后缀
- */
-const req = require.context('./svg', false, /\.svg$/)
-req.keys().forEach(svg => req(svg))
-
-export default app => {
-  app.component('xhui-svg', XHuiSvg)
-}
+export const page = ref({
+  total: 10000, // 总页数
+  currentPage: 1, // 当前页数
+  pageSize: 5 // 每页显示多少条
+})

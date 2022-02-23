@@ -23,13 +23,13 @@
   -->
 
 <template>
-  <el-menu :uniqueOpened='true'
-           :collapse='!$store.getters.sidebarStatus'
-           :default-active='activeMenu'
-           :background-color='$store.getters.ddCss.menuBg'
-           :text-color='$store.getters.ddCss.menuText'
-           :active-text-color='$store.getters.ddCss.menuActiveText'
-           router>
+    <el-menu :uniqueOpened='true'
+                      :collapse='!$store.getters.sidebarStatus'
+                      :default-active='activeMenu'
+                      :background-color='$store.getters.ddCss.menuBg'
+                      :text-color='$store.getters.ddCss.menuText'
+                      :active-text-color='$store.getters.ddCss.menuActiveText'
+                      router>
     <sidebar-item v-for='item in routers'
                   :key='item.path'
                   :route='item'>

@@ -22,16 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XHuiSvg from '@/components/Svg'// svg component
+import request from '@/utils/request'
 
-/**
- * 参数1: 要搜索的目录
- * 参数2: 是否包含子目录
- * 参数3: 匹配文件后缀
- */
-const req = require.context('./svg', false, /\.svg$/)
-req.keys().forEach(svg => req(svg))
-
-export default app => {
-  app.component('xhui-svg', XHuiSvg)
+export const rolesPage = query => {
+  return request({
+    url: '/admin/role/page',
+    method: 'get',
+    params: query
+  })
 }
