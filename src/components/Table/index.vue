@@ -100,7 +100,8 @@ const autoPage = async () => {
     _tableData.value = props.tableData
   }
   const tableDataLength = _tableData.value.length
-  if (tableDataLength > _page.value.pageSize) {
+  console.log(_page)
+  if (_page.value !== 'undefined' || tableDataLength > _page.value.pageSize) {
     _tableData.value = _tableData.value.slice((_page.value.currentPage - 1) * _page.value.pageSize, _page.value.currentPage * _page.value.pageSize)
   }
 }

@@ -24,13 +24,12 @@
 
 <template>
   <xhui-Card>
-    <xhuiTable :tableAttributes='tableAttributes' v-model:page='page' :getTableData='getTableData'></xhuiTable>
+    <xhuiTable :tableAttributes='tableAttributes' :getTableData='getTableData'></xhuiTable>
   </xhui-Card>
 </template>
 
 <script setup>
 import { tableAttributes } from '@/api/roles/dto'
-import { page } from '@/mixins/page'
 import { rolesPage } from '@/api/roles'
 
 const getTableData = async page => {
