@@ -23,6 +23,15 @@
  */
 
 export default {
+  button: {
+    operations: '操作',
+    search: '搜索',
+    edit: '编辑',
+    del: '删除',
+    download: '导出',
+    upload: '导入',
+    create: '新增'
+  },
   msg: {
     hello: '你好世界',
     langSuccess: '切换语言成功,当前语言为:简体中文',
@@ -41,7 +50,8 @@ export default {
     logout: '用户登出',
     settingLayout: '布局设置',
     themeColor: '主題色',
-    sidebarLogo: 'Logo'
+    sidebarLogo: 'Logo',
+    cardStyle: '卡片风格'
   },
   menu: {
     home: '主页',

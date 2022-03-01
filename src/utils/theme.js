@@ -98,10 +98,27 @@ const getDefaultStyle = async () => {
   return markStyle(data)
 }
 
+/**
+ * 动态保存样式
+ * @param newStyle
+ */
 export const saveStyle = newStyle => {
   const style = document.createElement('style')
   style.innerText = newStyle
   document.head.appendChild(style)
+}
+
+/**
+ * 动态保存link
+ * @param url
+ */
+export const saveLink = url => {
+  const link = document.createElement('link')
+  link.type = 'text/css'
+  link.rel = 'stylesheet'
+  link.href = url
+  const head = document.getElementsByTagName('head')[0]
+  head.appendChild(link)
 }
 
 export const getStyle = async themeColor => {

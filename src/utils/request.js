@@ -48,6 +48,7 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
   response => {
+    console.log(1111)
     const status = Number(response.status)
     const { code, msg, data } = response.data
     if (status === 200) {
@@ -62,9 +63,12 @@ request.interceptors.response.use(
     }
   },
   error => {
+    console.log(2222)
     const response = error.response
     if (Number(response.status) === 401) {
-      store.dispatch('user/delAnything')
+      store.dispatch('user/delAnything').then(() => {
+        window.location.reload()
+      })
     }
     ElMessage.error(response.data.msg)
     return Promise.reject(error)

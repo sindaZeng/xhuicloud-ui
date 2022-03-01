@@ -38,6 +38,7 @@ const getters = {
   language: state => state.app.lang,
   themeColor: state => state.theme.themeColor,
   sidebarLogo: state => state.theme.sidebarLogo,
+  cardStyle: state => state.theme.cardStyle,
   ddCss: state => ({
     ...state.theme.variables,
     ...getColor(getStorage(themeKey))

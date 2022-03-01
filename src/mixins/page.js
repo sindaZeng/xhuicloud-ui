@@ -25,7 +25,7 @@
 import { ref } from 'vue'
 
 export const page = ref({
-  total: 10000, // 总页数
-  currentPage: 1, // 当前页数
-  pageSize: 5 // 每页显示多少条
+  total: 20, // 总页数
+  current: 1, // 当前页数
+  size: 10 // 每页显示多少条
 })

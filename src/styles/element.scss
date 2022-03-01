@@ -25,3 +25,16 @@
 .el-avatar {
   --el-avatar-background-color: none;
 }
+
+.el-table th {
+  word-break: break-word;
+  color: black;
+}
+
+.el-table__header {
+  --el-table-header-bg-color: #fafafa;
+}
+
+.el-button--small {
+  --el-button-size: 30px!important;
+}

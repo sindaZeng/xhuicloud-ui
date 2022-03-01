@@ -25,9 +25,10 @@
 <template>
   <div
     class="card-container">
-    <el-card>
+    <el-card v-if='$store.getters.cardStyle'>
       <slot/>
     </el-card>
+    <slot v-else/>
   </div>
 </template>
 

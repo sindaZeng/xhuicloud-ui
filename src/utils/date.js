@@ -22,38 +22,36 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { themeKey, themeColor } from '@/config'
-import { setStorage, getStorage } from '@/utils/storage'
-import variables from '@/styles/variables.scss'
-
-const actions = {
-}
-
-const mutations = {
-  setThemeColor (state, themeColor) {
-    setStorage(themeKey, themeColor)
-    state.themeColor = themeColor
-    state.variables.navbarBg = themeColor
-  },
-  setSidebarLogo (state, sidebarLogo) {
-    setStorage('sidebarLogo', sidebarLogo)
-    state.sidebarLogo = sidebarLogo
-  },
-  setCardStyle (state, cardStyle) {
-    setStorage('cardStyle', cardStyle)
-    state.cardStyle = cardStyle
+export const parseTime = (row, column) => {
+  let time = row[column.property]
+  const format = '{y}-{m}-{d} {h}:{i}:{s}'
+  let date
+  if (time === null) {
+    return null
   }
-}
-
-const state = {
-  sidebarLogo: getStorage('sidebarLogo') || true,
-  cardStyle: getStorage('cardStyle') || true,
-  variables: variables,
-  themeColor: getStorage(themeKey) || themeColor
-}
-
-export default {
-  actions,
-  mutations,
-  state
+  if (typeof time === 'object') {
+    date = time
+  } else {
+    if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
+      time = parseInt(time)
+    }
+    if ((typeof time === 'number') && (time.toString().length === 10)) {
+      time = time * 1000
+    }
+    date = new Date(time)
+  }
+  const formatObj = {
+    y: date.getFullYear(),
+    m: date.getMonth() + 1,
+    d: date.getDate(),
+    h: date.getHours(),
+    i: date.getMinutes(),
+    s: date.getSeconds(),
+    a: date.getDay()
+  }
+  return format.replace(/{([ymdhisa])+}/g, (result, key) => {
+    const value = formatObj[key]
+    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
+    return value.toString().padStart(2, '0')
+  })
 }

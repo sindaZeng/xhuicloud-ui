@@ -34,6 +34,7 @@ function resolve (dir) {
 }
 
 module.exports = {
+  assetsDir: 'static',
   publicPath: './',
   devServer: {
     port: devPort

@@ -23,6 +23,15 @@
  */
 
 export default {
+  button: {
+    operations: 'Operations',
+    search: 'Search',
+    edit: 'Edit',
+    del: 'Delete',
+    download: 'Download',
+    upload: 'Upload',
+    create: 'Create'
+  },
   msg: {
     hello: 'hello world',
     langSuccess: 'language switched successfully,current language: English',
@@ -41,7 +50,8 @@ export default {
     logout: 'logout',
     settingLayout: 'setting layout',
     themeColor: 'Theme Color',
-    sidebarLogo: 'Sidebar Logo'
+    sidebarLogo: 'Sidebar Logo',
+    cardStyle: 'card style'
   },
   menu: {
     home: 'home',

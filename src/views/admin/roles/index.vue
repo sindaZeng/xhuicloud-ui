@@ -23,18 +23,29 @@
   -->
 
 <template>
-  <xhui-Card>
-    <xhuiTable :tableAttributes='tableAttributes' :getTableData='getTableData'></xhuiTable>
-  </xhui-Card>
+    <xhuiTable
+      :tableAttributes='tableAttributes'
+      v-model:page='page'
+      :getTableData='getTableData'
+      :handleRowDel='handleRowDel'>
+      <template #searchTableHead><el-input size='small' placeholder="Please input" /></template>
+      <template #searchTableTail><el-input placeholder="Please input" /></template>
+    </xhuiTable>
 </template>
 
 <script setup>
 import { tableAttributes } from '@/api/roles/dto'
+import { page } from '@/mixins/page'
 import { rolesPage } from '@/api/roles'
 
-const getTableData = async page => {
-  const { records } = await rolesPage(page)
+const getTableData = async (page, searchForm) => {
+  const { records, total } = await rolesPage({ ...page, ...searchForm })
+  page.total = total
   return records
+}
+
+const handleRowDel = id => {
+  console.log(id)
 }
 </script>
 

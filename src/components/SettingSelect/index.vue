@@ -35,6 +35,10 @@
         <span class='title'>{{ $t('msg.sidebarLogo') }}</span>
         <el-switch v-model="sidebarLogo" class="switch" />
       </div>
+      <div class="item">
+        <span class='title'>{{ $t('msg.cardStyle') }}</span>
+        <el-switch v-model="cardStyle" class="switch" />
+      </div>
     </div>
   </el-dialog>
 </template>
@@ -58,6 +62,15 @@ const sidebarLogo = computed({
   },
   set (val) {
     store.commit('theme/setSidebarLogo', val)
+  }
+})
+
+const cardStyle = computed({
+  get () {
+    return store.getters.cardStyle
+  },
+  set (val) {
+    store.commit('theme/setCardStyle', val)
   }
 })
 const themeColor = ref(store.getters.themeColor)

@@ -22,13 +22,21 @@
  * @Email:  xhuicloud@163.com
  */
 
+import { parseTime } from '@/utils/date'
+
 export const tableAttributes = {
+  enableSearch: true,
   columns: [{
     label: 'id',
     prop: 'id'
   }, {
     label: '角色编码',
-    prop: 'roleCode'
+    prop: 'roleCode',
+    search: {
+      type: 'input',
+      placeholder: '请输入角色编码',
+      size: 'small'
+    }
   }, {
     label: '角色描述',
     prop: 'roleDesc'
@@ -37,9 +45,17 @@ export const tableAttributes = {
     prop: 'roleName'
   }, {
     label: '创建时间',
-    prop: 'createTime'
+    prop: 'createTime',
+    formatter: parseTime,
+    valueFormat: 'YYYY-MM-DD HH:mm:ss',
+    search: {
+      type: 'datetime',
+      placeholder: '请选择创建时间',
+      size: 'small'
+    }
   }, {
     label: '更新时间',
-    prop: 'updateTime'
+    prop: 'updateTime',
+    formatter: parseTime
   }]
 }

@@ -23,36 +23,103 @@
   -->
 
 <template>
-  <div class='table-container'>
-    <el-table
-      ref="xhuiTable"
-      :data="_tableData" style="width: 100%">
-      <template v-for="(column, cIndex) in tableAttributes.columns" :key='cIndex'>
-        <el-table-column
-          :column-key="cIndex"
-          :prop='column.prop'
-          :label="column.label"
-          :width="column.width || 'auto'"
-        ></el-table-column>
+  <!-- 表格搜索栏 -->
+  <xhui-Card v-if='tableAttributes.enableSearch'>
+    <div class='search-container'>
+      <!--  搜索栏头部插槽    -->
+      <slot class='search-container' name='searchTableHead' />
+      <template v-for='(column, cIndex) in tableAttributes.columns' :key='cIndex'>
+        <el-input v-model='searchForm[column.prop]'
+                  v-if='(column.search || {}).type === `input`'
+                  :placeholder='(column.search || {}).placeholder'
+                  :clearable='(column.search || {}).clearable'
+                  :size='(column.search || {}).size' />
+        <el-date-picker v-model='searchForm[column.prop]'
+                        v-if='(column.search || {}).type === `datetime` || (column.search || {}).type === `date` '
+                        :type='(column.search || {}).type'
+                        :value-format='column.valueFormat'
+                        :placeholder='(column.search || {}).placeholder'
+                        :clearable='(column.search || {}).clearable'
+                        :size='(column.search || {}).size' />
       </template>
-    </el-table>
-    <el-pagination
-      v-if='_page'
-      v-bind="$attrs"
-      :layout="pageLayout"
-      :page-sizes="pageSizes"
-      :total="_page.total"
-      v-model:currentPage="_page.currentPage"
-      v-model:page-size="_page.pageSize"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange">
-    </el-pagination>
-  </div>
+      <el-button style='margin-right: 20px' type='primary'
+                 :icon='Search'
+                 :loading-icon='Eleme'
+                 size='small'
+                 :loading='searchLoading'
+                 @click='getTableData'>
+        {{ $t(`button.search`) }}
+      </el-button>
+      <!--  搜索栏尾部插槽    -->
+      <slot name='searchTableTail' />
+    </div>
+  </xhui-Card>
+  <!-- 表格  -->
+  <xhui-Card>
+    <div class='table-head' style='height: 50px;width: 100%;'>
+      <el-button type='primary' size='small' :icon='Plus'>{{ $t(`button.create`) }}</el-button>
+      <el-button type='primary' size='small' :icon='Download'>{{ $t(`button.download`) }}</el-button>
+      <el-button type='primary' size='small' :icon='Upload'>{{ $t(`button.upload`) }}</el-button>
+      <slot name='tableHead' />
+      <el-button :icon="Refresh" style='float: right;margin-right: 45px' size="default" circle></el-button>
+      <el-button :icon="View" style='float: right' size="default" circle></el-button>
+    </div>
+    <div class='table-container'>
+      <el-table
+        ref='xhuiTable'
+        :data='_tableData' style='width: 100%'>
+        <template v-for='(column, cIndex) in tableAttributes.columns' :key='cIndex'>
+          <el-table-column
+            :column-key='cIndex'
+            align='center'
+            :prop='column.prop'
+            :formatter='column.formatter'
+            :label='column.label'
+            :width="column.width || 'auto'">
+          </el-table-column>
+          <el-table-column
+            v-if='tableAttributes.columns.length - 1 === cIndex'
+            :label='$t(`button.operations`)'
+            align='center'>
+            <template #default='scope'>
+              <el-button size='small' :icon='Edit'>{{ $t(`button.edit`) }}</el-button>
+              <el-button size='small' :icon='Delete' type='danger' @click='handleRowDel(scope.row.id)'>
+                {{ $t(`button.del`) }}
+              </el-button>
+            </template>
+          </el-table-column>
+        </template>
+      </el-table>
+    </div>
+    <div class='table-foot'>
+      <el-pagination
+        class='table-pagination'
+        background
+        v-if='_page'
+        v-bind='$attrs'
+        :layout='pageLayout'
+        :page-sizes='pageSizes'
+        :total='_page.total'
+        v-model:current='_page.current'
+        v-model:page-size='_page.size'
+        @size-change='handleSizeChange'
+        @current-change='handleCurrentChange'>
+      </el-pagination>
+    </div>
+  </xhui-Card>
 </template>
 
 <script setup>
-import { defineProps, defineEmits, computed, ref, watch } from 'vue'
+import { defineProps, defineEmits, computed, ref, watch, reactive } from 'vue'
+import { isNull } from '@/utils/validate'
+import { Edit, Search, Delete, Plus, Download, Upload, Refresh, View } from '@element-plus/icons-vue' //  element-plus@1.1.0-beta.24  @See: https://github.com/element-plus/element-plus/issues/2898 貌似有BUG 后续观望
+
 const _tableData = ref([])
+
+const searchForm = reactive({})
+
+const searchLoading = ref(false)
+
 const props = defineProps({
   page: {
     type: Object,
@@ -60,7 +127,7 @@ const props = defineProps({
   },
   pageLayout: {
     type: String,
-    default: 'total, prev, pager, next'
+    default: 'total, sizes,  prev, pager, next, jumper'
   },
   pageSizes: {
     type: Array,
@@ -81,9 +148,33 @@ const props = defineProps({
   getTableData: {
     type: Function,
     required: false
+  },
+  handleRowSave: {
+    type: Function,
+    required: false
+  },
+  handleRowDel: {
+    type: Function,
+    required: false
+  },
+  handleRowUpdate: {
+    type: Function,
+    required: false
   }
 })
 
+const getTableData = () => {
+  searchLoading.value = !searchLoading.value
+  props.getTableData({
+    current: _page.value.current,
+    size: _page.value.size
+  }, searchForm).then(res => {
+    _tableData.value = res
+  })
+  searchLoading.value = !searchLoading.value
+}
+
+// --------------- 分页 ----------------------
 const pageEmits = defineEmits(['update:page'])
 
 const _page = computed({
@@ -95,14 +186,16 @@ const _page = computed({
 
 const autoPage = async () => {
   if (props.tableData) {
-    _tableData.value = await props.getTableData(_page.value)
+    _tableData.value = await props.getTableData({
+      current: _page.value.current,
+      size: _page.value.size
+    }, searchForm)
   } else {
     _tableData.value = props.tableData
   }
   const tableDataLength = _tableData.value.length
-  console.log(_page)
-  if (_page.value !== 'undefined' || tableDataLength > _page.value.pageSize) {
-    _tableData.value = _tableData.value.slice((_page.value.currentPage - 1) * _page.value.pageSize, _page.value.currentPage * _page.value.pageSize)
+  if (!isNull(_page.value) && tableDataLength > _page.value.size) {
+    _tableData.value = _tableData.value.slice((_page.value.current - 1) * _page.value.size, _page.value.current * _page.value.size)
   }
 }
 
@@ -115,30 +208,45 @@ watch(_page, () => {
 watch(props.tableData, () => {
   _tableData.value = props.tableData
 }, {
-  immediate: true,
-  deep: true
+  immediate: true
 })
 
-// autoPage()
-
-const handleSizeChange = pageSize => {
-  _page.value = { ...props.page, pageSize: pageSize }
-  props.getTableData()
+const handleSizeChange = size => {
+  _page.value = {
+    ...props.page,
+    size: size
+  }
 }
 
-const handleCurrentChange = currentPage => {
-  _page.value = { ...props.page, currentPage: currentPage }
-  props.getTableData(_page.value)
+const handleCurrentChange = current => {
+  _page.value = {
+    ...props.page,
+    current: current
+  }
 }
 </script>
 
-<style lang='scss' scoped>
-.el-pagination {
+<style lang='scss'>
+.table-foot {
+  position: relative;
+  padding: 20px 0;
   text-align: center;
-  background: #fff;
-  padding: 32px 16px;
+
+  .el-pagination {
+    display: inline-flex;
+    float: none;
+    background: #fff;
+  }
 }
-.el-pagination.hidden {
-  display: none;
+
+.search-container {
+  display: inline-flex;
+
+  .el-input__inner {
+    height: 30px!important;
+    width: 250px!important;
+    margin-right: 20px;
+  }
 }
+
 </style>
