@@ -28,8 +28,8 @@
     <xhui-Card v-if='tableAttributes.enableSearch'>
       <div class='search-container'>
         <!--  搜索栏头部插槽    -->
-        <slot class='search-container' name='searchTableHead' />
-        <template v-for='(column, cIndex) in tableAttributes.columns' :key='cIndex'>
+        <slot class='search-container' name='searchTableHead'/>
+        <template v-for='(column, cIndex) in _tableAttributesColumns' :key='cIndex'>
           <el-input v-model='searchForm[column.prop]'
                     v-if='(column.search || {}).type === `input`'
                     :placeholder='(column.search || {}).placeholder'
@@ -69,9 +69,11 @@
         <el-table
           ref='xhuiTable'
           :data='_tableData' style='width: 100%'>
-          <template v-for='(column, cIndex) in tableAttributes.columns' :key='cIndex'>
+          <template v-for='(column, cIndex) in _tableAttributesColumns' :key='cIndex'>
             <el-table-column
               v-if='!column.hidden'
+              :fixed='column.fixed'
+              :sortable='column.sortable'
               :column-key='cIndex'
               align='center'
               :prop='column.prop'
@@ -110,27 +112,36 @@
       </div>
     </xhui-Card>
     <!--  右侧表格属性  -->
-    <el-drawer v-model='tableDrawer'>
+    <el-drawer v-model='tableDrawer' size="50%">
       <template #title>
         <h4>表格属性</h4>
       </template>
       <template #default>
           <el-table
             ref='xhuiDrawerTable'
-            :data='tableAttributes.columns' style='width: 100%'>
+            :data='_tableAttributesColumns' style='width: 100%'>
             <el-table-column prop="label" label="列表名称" width="180" />
             <el-table-column prop="hidden" label="显示/隐藏" width="180">
               <template v-slot="scope">
-                <el-switch v-model="scope.row.hidden" />
+                <el-checkbox v-model="scope.row.hidden" name="type"></el-checkbox>
+              </template>
+            </el-table-column>
+            <el-table-column prop="fixed" label="固定列" width="180">
+              <template v-slot="scope">
+                <el-checkbox v-model="scope.row.fixed" name="type"></el-checkbox>
+              </template>
+            </el-table-column>
+            <el-table-column prop="sortable" label="排序" width="180">
+              <template v-slot="scope">
+                <el-checkbox v-model="scope.row.sortable" name="type"></el-checkbox>
+              </template>
+            </el-table-column>
+            <el-table-column prop="sortable" label="排序" width="180">
+              <template v-slot="scope">
+                <el-checkbox v-model="scope.row.sortable" name="type"></el-checkbox>
               </template>
             </el-table-column>
           </el-table>
-      </template>
-      <template #footer>
-        <div style="flex: auto">
-          <el-button>cancel</el-button>
-          <el-button type="primary" @click='consolell'>confirm</el-button>
-        </div>
       </template>
     </el-drawer>
   </div>
@@ -192,6 +203,8 @@ const props = defineProps({
   }
 })
 
+const _tableAttributesColumns = ref(props.tableAttributes.columns)
+
 const getTableData = () => {
   searchLoading.value = !searchLoading.value
   props.getTableData({
@@ -201,12 +214,6 @@ const getTableData = () => {
     _tableData.value = res
   })
   searchLoading.value = !searchLoading.value
-}
-const xhuiTable = ref(null)
-
-const consolell = () => {
-  console.log(xhuiTable.value.doLayout)
-  xhuiTable.value.doLayout()
 }
 
 // --------------- 分页 ----------------------
@@ -242,12 +249,6 @@ watch(_page, () => {
 
 watch(props.tableData, () => {
   _tableData.value = props.tableData
-}, {
-  immediate: true
-})
-
-watch(props.tableAttributes, () => {
-  console.log(props.tableAttributes)
 }, {
   immediate: true
 })
