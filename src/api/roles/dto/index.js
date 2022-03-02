@@ -28,7 +28,8 @@ export const tableAttributes = {
   enableSearch: true,
   columns: [{
     label: 'id',
-    prop: 'id'
+    prop: 'id',
+    hidden: false
   }, {
     label: '角色编码',
     prop: 'roleCode',
