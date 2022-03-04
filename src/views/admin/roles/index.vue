@@ -23,29 +23,45 @@
   -->
 
 <template>
-    <xhuiTable
-      :tableAttributes='tableAttributes'
-      v-model:page='page'
-      :getTableData='getTableData'
-      :handleRowDel='handleRowDel'>
-      <template #searchTableHead><el-input size='small' placeholder="Please input" /></template>
-      <template #searchTableTail><el-input placeholder="Please input" /></template>
-    </xhuiTable>
+  <xhuiTable
+    :tableAttributes='tableAttributes'
+    v-model:page='page'
+    :getTableData='getTableData'
+    :handleRowDel='handleRowDel'
+    :handleToSave='handleToSave'
+    :handleRowUpdate='handleRowUpdate'>
+  </xhuiTable>
 </template>
 
 <script setup>
 import { tableAttributes } from '@/api/roles/dto'
 import { page } from '@/mixins/page'
-import { rolesPage } from '@/api/roles'
+import { rolesPage, delRole, updateRole, createRole } from '@/api/roles'
+import { ElMessageBox } from 'element-plus'
 
 const getTableData = async (page, searchForm) => {
-  const { records, total } = await rolesPage({ ...page, ...searchForm })
+  const {
+    records,
+    total
+  } = await rolesPage({ ...page, ...searchForm })
   page.total = total
   return records
 }
 
-const handleRowDel = id => {
-  console.log(id)
+const handleRowUpdate = row => {
+  return updateRole(row)
+}
+
+const handleToSave = data => {
+  return createRole(data)
+}
+
+const handleRowDel = row => {
+  ElMessageBox.confirm(`Are you confirm to delete ${row.name} ?`)
+    .then(() => {
+      delRole(row.id)
+    }).catch(() => {
+    })
 }
 </script>
 

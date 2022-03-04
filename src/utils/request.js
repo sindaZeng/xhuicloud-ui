@@ -25,7 +25,6 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import store from '@/store'
-
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
   timeout: 5000
@@ -65,7 +64,12 @@ request.interceptors.response.use(
   error => {
     console.log(2222)
     const response = error.response
-    if (Number(response.status) === 401) {
+    const status = response.status
+    if (status === 503) {
+      ElMessage.error('网络开小差啦~')
+      return Promise.reject(error)
+    }
+    if (status === 401) {
       store.dispatch('user/delAnything').then(() => {
         window.location.reload()
       })

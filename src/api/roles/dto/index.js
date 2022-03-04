@@ -25,16 +25,18 @@
 import { parseTime } from '@/utils/date'
 
 export const tableAttributes = {
-  enableSearch: true,
+  enableSearch: true, // 开启搜索栏
+  enableOperations: true, // 开启操作栏
   columns: [{
     label: 'id',
     prop: 'id',
+    editDisabled: true,
+    createDisabled: true,
     hidden: false
   }, {
     label: '角色编码',
     prop: 'roleCode',
     search: {
-      type: 'input',
       placeholder: '请输入角色编码',
       size: 'small'
     }
@@ -47,16 +49,21 @@ export const tableAttributes = {
   }, {
     label: '创建时间',
     prop: 'createTime',
+    type: 'datetime',
     formatter: parseTime,
+    editDisplay: true,
+    createDisplay: true,
     valueFormat: 'YYYY-MM-DD HH:mm:ss',
     search: {
-      type: 'datetime',
       placeholder: '请选择创建时间',
       size: 'small'
     }
   }, {
     label: '更新时间',
     prop: 'updateTime',
-    formatter: parseTime
+    type: 'datetime',
+    formatter: parseTime,
+    createDisplay: true,
+    editDisplay: true
   }]
 }

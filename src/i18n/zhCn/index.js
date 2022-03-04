@@ -23,6 +23,15 @@
  */
 
 export default {
+  table: {
+    attributes: '表格属性',
+    label: '列表名称',
+    hidden: '隐藏',
+    fixed: '固定列',
+    sortable: '排序',
+    editDialog: '编辑',
+    createDialog: '新增'
+  },
   button: {
     operations: '操作',
     search: '搜索',

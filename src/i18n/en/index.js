@@ -23,6 +23,15 @@
  */
 
 export default {
+  table: {
+    attributes: 'Table Attributes',
+    label: 'label',
+    hidden: 'hidden',
+    fixed: 'fixed',
+    sortable: 'sortable',
+    editDialog: 'Edit',
+    createDialog: 'Create'
+  },
   button: {
     operations: 'Operations',
     search: 'Search',

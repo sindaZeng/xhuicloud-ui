@@ -24,10 +24,53 @@
 
 import request from '@/utils/request'
 
+/**
+ * 角色分页
+ * @param query
+ * @returns {*}
+ */
 export const rolesPage = query => {
   return request({
     url: '/admin/role/page',
     method: 'get',
     params: query
+  })
+}
+
+/**
+ * 新增角色
+ * @param data
+ * @returns {*}
+ */
+export const createRole = data => {
+  return request({
+    url: '/admin/role',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 删除角色
+ * @param id
+ * @returns {*}
+ */
+export const delRole = id => {
+  return request({
+    url: '/admin/role/' + id,
+    method: 'delete'
+  })
+}
+
+/**
+ * 更新角色
+ * @param data
+ * @returns {*}
+ */
+export const updateRole = data => {
+  return request({
+    url: 'admin/role/',
+    method: 'put',
+    data
   })
 }

@@ -122,6 +122,11 @@ $dark_gray: #889aa4;
 $light_gray: black;
 $cursor: black;
 .login-form {
+
+  .el-button {
+    height: 45px;
+  }
+
   ::v-deep(.el-form-item) {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background-color: rgba(0, 0, 0, 0.1);
@@ -137,8 +142,9 @@ $cursor: black;
     input {
       background-color: transparent;
       border: none;
+      width: 100%;
       border-radius: 0px;
-      padding: 12px 5px 12px 15px;
+      padding: 23px 5px 12px 15px;
       color: $light_gray;
       caret-color: $cursor;
     }
