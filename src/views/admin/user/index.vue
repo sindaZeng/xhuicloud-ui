@@ -23,28 +23,128 @@
   -->
 
 <template>
-  <div class=''>{{ $t('msg.hello') }}
-    <el-pagination
-      :page-sizes="[100]"
-      layout="total, prev, pager, next"
-      :total="1000"
-    >
-    </el-pagination>
-    <el-row class="mb-4">
-      <el-button>Default</el-button>
-      <el-button type="primary">Primary</el-button>
-      <el-button type="success">Success</el-button>
-      <el-button type="info">Info</el-button>
-      <el-button type="warning">Warning</el-button>
-      <el-button type="danger">Danger</el-button>
-      <el-button>中文</el-button>
+  <xhui-card>
+    <el-row :span="24">
+      <el-col :xs="24" :sm="24" :md="4">
+        <div class='search-container'>
+          <el-input
+            v-model="deptName"
+            placeholder="请输入部门名称"
+            clearable
+            size="small"
+          />
+        </div>
+        <el-tree
+          :data="deptTreeData"
+          :props="defaultProps"
+          :expand-on-click-node="false"
+          :filter-node-method="filterDeptTreeData"
+          @node-click="handleNodeClick"
+          ref="deptTreeRef"
+          default-expand-all
+        />
+      </el-col>
+      <el-col :xs="24" :sm="24" :md="20">
+        <xhui-table
+          ref='userTableRef'
+          :cardStyle='false'
+          :tableAttributes='tableAttributes'
+          v-model:page='page'
+          :tableData='tableData'
+          :getTableData='getTableData'
+          :handleRowDel='handleRowDel'
+          :handleToSave='handleToSave'
+          :handleRowUpdate='handleRowUpdate'>
+        </xhui-table>
+      </el-col>
     </el-row>
-  </div>
+  </xhui-card>
 </template>
 
 <script setup>
+import { tableAttributes } from '@/api/user/dto'
+import { page } from '@/mixins/page'
+import { userPage, createUser, delUser, updateUser } from '@/api/user'
+import { deptTree } from '@/api/dept'
+import { ElMessageBox } from 'element-plus'
+import { ref, watchPostEffect } from 'vue'
+import { validatenull } from '@/utils/validate'
+
+const deptTreeData = ref({})
+
+const deptName = ref('')
+
+const deptTreeRef = ref(null)
+
+const deptIds = ref([])
+
+const tableData = ref([])
+
+// https://v3.cn.vuejs.org/guide/composition-api-template-refs.html#%E4%BE%A6%E5%90%AC%E6%A8%A1%E6%9D%BF%E5%BC%95%E7%94%A8 解决watch 获取不到dom
+watchPostEffect(() => {
+  if (!validatenull(deptName.value)) {
+    deptTreeRef.value.filter(deptName.value)
+  }
+})
+
+const handleNodeClick = (data) => {
+  deptIds.value = []
+  deptIds.value.push(data.id)
+  getDeptNodeChildrenId(deptIds, data.children)
+  getTableData(page.value, null)
+}
+
+const getDeptNodeChildrenId = (deptIds, node) => {
+  for (const dataKey in node) {
+    const dept = node[dataKey]
+    deptIds.value.push(dept.id)
+    if (dept.children !== null) {
+      getDeptNodeChildrenId(deptIds, dept.children)
+    }
+  }
+}
+
+const getDeptTree = async () => {
+  const data = await deptTree()
+  deptTreeData.value = data
+}
+
+getDeptTree()
+
+const defaultProps = {
+  children: 'children',
+  label: 'name'
+}
+
+const filterDeptTreeData = (value, data) => {
+  if (!value) return true
+  return data.name.indexOf(value) !== -1
+}
+
+const getTableData = (page, searchForm) => {
+  userPage({ ...page, ...searchForm, deptIds: deptIds.value.join(',') }).then(response => {
+    page.total = response.total
+    tableData.value = response.records
+  }).catch(() => {
+  })
+}
+
+const handleRowUpdate = row => {
+  return updateUser(row)
+}
+
+const handleToSave = data => {
+  return createUser(data)
+}
+
+const handleRowDel = row => {
+  ElMessageBox.confirm(`Are you confirm to delete ${row.username} ?`)
+    .then(() => {
+      delUser(row.id)
+    }).catch(() => {
+    })
+}
 </script>
 
 <style lang='scss' scoped>
-
 </style>

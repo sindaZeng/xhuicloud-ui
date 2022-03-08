@@ -23,14 +23,15 @@
   -->
 
 <template>
-  <xhuiTable
+  <xhui-table
     :tableAttributes='tableAttributes'
     v-model:page='page'
+    :tableData='tableData'
     :getTableData='getTableData'
     :handleRowDel='handleRowDel'
     :handleToSave='handleToSave'
     :handleRowUpdate='handleRowUpdate'>
-  </xhuiTable>
+  </xhui-table>
 </template>
 
 <script setup>
@@ -38,6 +39,9 @@ import { tableAttributes } from '@/api/roles/dto'
 import { page } from '@/mixins/page'
 import { rolesPage, delRole, updateRole, createRole } from '@/api/roles'
 import { ElMessageBox } from 'element-plus'
+import { ref } from 'vue'
+
+const tableData = ref([])
 
 const getTableData = async (page, searchForm) => {
   const {
@@ -45,6 +49,7 @@ const getTableData = async (page, searchForm) => {
     total
   } = await rolesPage({ ...page, ...searchForm })
   page.total = total
+  tableData.value = records
   return records
 }
 
@@ -57,7 +62,7 @@ const handleToSave = data => {
 }
 
 const handleRowDel = row => {
-  ElMessageBox.confirm(`Are you confirm to delete ${row.name} ?`)
+  return ElMessageBox.confirm(`Are you confirm to delete ${row.roleName} ?`)
     .then(() => {
       delRole(row.id)
     }).catch(() => {

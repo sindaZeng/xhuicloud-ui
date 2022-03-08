@@ -39,7 +39,10 @@ export default {
     del: '删除',
     download: '导出',
     upload: '导入',
-    create: '新增'
+    create: '新增',
+    cancel: '取消',
+    confirm: '确认',
+    reset: '重置'
   },
   msg: {
     hello: '你好世界',

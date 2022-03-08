@@ -25,7 +25,7 @@
 <template>
   <div
     class="card-container">
-    <el-card v-if='$store.getters.cardStyle'>
+    <el-card v-if='$store.getters.cardStyle && cardStyle'>
       <slot/>
     </el-card>
     <slot v-else/>
@@ -33,6 +33,14 @@
 </template>
 
 <script setup>
+import { defineProps } from 'vue'
+
+defineProps({
+  cardStyle: {
+    type: Boolean,
+    default: false
+  }
+})
 </script>
 
 <style lang='scss' scoped>

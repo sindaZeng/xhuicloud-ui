@@ -23,148 +23,263 @@
   -->
 
 <template>
-  <div class='table-body'>
+  <div class="table-body">
     <!-- 表格搜索栏 -->
-    <xhui-Card v-if='tableAttributes.enableSearch'>
-      <div class='search-container'>
+    <xhui-card v-if="tableAttributes.enableSearch" :cardStyle="cardStyle">
+      <div class="search-container">
         <!--  搜索栏头部插槽    -->
-        <slot name='searchTableHead' />
-        <template v-for='(column, cIndex) in _tableAttributesColumns' :key='cIndex'>
-          <el-date-picker v-model='searchForm[column.prop]'
-                          v-if='column.search && (column.type === `datetime` || column.type === `date`)'
-                          :type='column.type'
-                          :value-format='column.valueFormat'
-                          :placeholder='(column.search || {}).placeholder == undefined ? (column.search || {}).label : (column.search || {}).placeholder'
-                          :clearable='(column.search || {}).clearable'
-                          :size='(column.search || {}).size' />
-          <el-input v-model='searchForm[column.prop]'
-                    v-else-if='column.search'
-                    :placeholder='(column.search || {}).placeholder == undefined ? column.label : (column.search || {}).placeholder'
-                    :clearable='(column.search || {}).clearable'
-                    :size='(column.search || {}).size' />
+        <slot name="searchTableHead" />
+        <template
+          v-for="(column, cIndex) in _tableAttributesColumns"
+          :key="cIndex"
+        >
+          <el-date-picker
+            v-model="searchForm[column.prop]"
+            v-if="
+              column.search &&
+              (column.type === `datetime` || column.type === `date`)
+            "
+            :type="column.type"
+            :value-format="column.valueFormat"
+            :placeholder="
+              (column.search || {}).placeholder == undefined
+                ? (column.search || {}).label
+                : (column.search || {}).placeholder
+            "
+            clearable
+            :size="(column.search || {}).size || `small`"
+          />
+          <el-input
+            v-model="searchForm[column.prop]"
+            v-else-if="column.search"
+            :placeholder="
+              (column.search || {}).placeholder == undefined
+                ? column.label
+                : (column.search || {}).placeholder
+            "
+            clearable
+            :size="(column.search || {}).size || `small`"
+          />
         </template>
-        <el-button style='margin-left: 50px' type='primary'
-                   :loading-icon='Eleme'
-                   :icon='Search'
-                   size='small'
-                   :loading='searchLoading'
-                   @click='getTableData'>
+        <el-button
+          style="margin-left: 50px"
+          type="primary"
+          :loading-icon="Eleme"
+          :icon="Search"
+          size="small"
+          :loading="searchLoading"
+          @click="getTableData"
+        >
           {{ $t(`button.search`) }}
         </el-button>
         <!--  搜索栏尾部插槽    -->
-        <slot name='searchTableTail' />
+        <slot name="searchTableTail" />
       </div>
-    </xhui-Card>
+    </xhui-card>
     <!-- 表格  -->
-    <xhui-Card>
-      <div class='table-head' style='height: 50px;width: 100%;'>
-        <el-button type='primary' size='small' :icon='Plus' v-if='props.handleToSave' @click='handleToSave'>{{ $t(`button.create`) }}</el-button>
-        <el-button type='primary' size='small' :icon='Download'>{{ $t(`button.download`) }}</el-button>
-        <el-button type='primary' size='small' :icon='Upload'>{{ $t(`button.upload`) }}</el-button>
-        <slot name='tableHead' />
-        <el-button :icon='Refresh' style='float: right;margin-right: 45px' size='default' @click='getTableData'
-                   circle></el-button>
-        <el-button :icon='View' style='float: right' size='default' @click='tableDrawer = !tableDrawer'
-                   circle></el-button>
+    <xhui-card :cardStyle="cardStyle">
+      <div class="table-head" style="height: 50px; width: 100%">
+        <el-button
+          type="primary"
+          size="small"
+          :icon="Plus"
+          v-if="props.handleToSave"
+          @click="handleToSave"
+          >{{ $t(`button.create`) }}</el-button
+        >
+        <el-button type="primary" size="small" :icon="Download">{{
+          $t(`button.download`)
+        }}</el-button>
+        <el-button type="primary" size="small" :icon="Upload">{{
+          $t(`button.upload`)
+        }}</el-button>
+        <slot name="tableHead" />
+        <el-button
+          :icon="Refresh"
+          style="float: right; margin-right: 45px"
+          size="default"
+          @click="getTableData"
+          circle
+        ></el-button>
+        <el-button
+          :icon="View"
+          style="float: right"
+          size="default"
+          @click="tableDrawer = !tableDrawer"
+          circle
+        ></el-button>
       </div>
-      <div class='table-container'>
-        <el-table
-          ref='xhuiTable'
-          :data='_tableData' style='width: 100%'>
-          <template v-for='(column, cIndex) in _tableAttributesColumns' :key='cIndex'>
+      <div class="table-container">
+        <el-table ref="xhuiTableRef" :data="_tableData" style="width: 100%">
+          <template
+            v-for="(column, cIndex) in _tableAttributesColumns"
+            :key="cIndex"
+          >
             <el-table-column
-              v-if='!column.hidden'
-              :fixed='column.fixed'
-              :sortable='column.sortable'
-              :column-key='cIndex'
-              align='center'
-              :prop='column.prop'
-              :formatter='column.formatter'
-              :label='column.label'
-              :width="column.width || 'auto'">
+              v-if="!column.hidden"
+              :fixed="column.fixed"
+              :sortable="column.sortable"
+              :column-key="cIndex"
+              align="center"
+              :prop="column.prop"
+              :formatter="column.formatter"
+              :label="column.label"
+              :show-overflow-tooltip="column.showOverflowTooltip || true"
+              :width="column.width || 'auto'"
+            >
+              <template #default="scope" v-if="column.type === `image`">
+                <el-image
+                  v-if="column.type === `image`"
+                  style="width: 60px; height: 60px"
+                  :src="scope.row[column.prop]"
+                >
+                </el-image>
+              </template>
+              <template #default="scope" v-else-if="column.type === `avatar`">
+                <el-avatar
+                  v-if="column.type === `avatar`"
+                  shape="square"
+                  :size="50"
+                  :src="scope.row[column.prop]"
+                ></el-avatar>
+              </template>
+              <template #default="scope" v-else-if="column.type === `tag`">
+              <el-tag :type="column.tagTpye ? column.tagTpye(scope.row) : `success`">
+                {{ column.valueFormat ? column.valueFormat(scope.row) : scope.row[column.prop] }}
+              </el-tag>
+              </template>
             </el-table-column>
             <el-table-column
-              v-if='tableAttributes.columns.length - 1 === cIndex
-              &&
-              tableAttributes.enableOperations'
-              :label='$t(`button.operations`)'
-              align='center'>
-              <template #default='scope'>
-                <el-button size='small' v-if='props.handleRowUpdate' :icon='Edit' @click='handleRowUpdate(scope.row)'>
+              v-if="
+                tableAttributes.columns.length - 1 === cIndex &&
+                tableAttributes.enableOperations"
+              :label="$t(`button.operations`)"
+              align="center"
+            >
+              <template #default="scope">
+                <el-button
+                  size="small"
+                  v-if="props.handleRowUpdate"
+                  :icon="Edit"
+                  @click="handleRowUpdate(scope.row)"
+                >
                   {{ $t(`button.edit`) }}
                 </el-button>
-                <el-button size='small' v-if='props.handleRowDel' :icon='Delete' type='danger'
-                           @click='handleRowDel(scope.row)'>
+                <el-button
+                  size="small"
+                  v-if="props.handleRowDel"
+                  :icon="Delete"
+                  type="danger"
+                  @click="toDel(scope.row)">
                   {{ $t(`button.del`) }}
                 </el-button>
                 <!-- 表格操作栏插槽 -->
-                <slot name='tableOperation'/>
+                <slot name="tableOperation" />
               </template>
             </el-table-column>
           </template>
         </el-table>
       </div>
-      <div class='table-foot'>
+      <div class="table-foot">
         <el-pagination
-          class='table-pagination'
+          class="table-pagination"
           background
-          v-if='_page'
-          v-bind='$attrs'
-          :layout='pageLayout'
-          :page-sizes='pageSizes'
-          :total='_page.total'
-          v-model:current='_page.current'
-          v-model:page-size='_page.size'
-          @size-change='handleSizeChange'
-          @current-change='handleCurrentChange'>
+          v-if="_page"
+          v-bind="$attrs"
+          :layout="pageLayout"
+          :page-sizes="pageSizes"
+          :total="_page.total"
+          v-model:current="_page.current"
+          v-model:page-size="_page.size"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        >
         </el-pagination>
       </div>
-    </xhui-Card>
+    </xhui-card>
     <!--  右侧表格属性  -->
-    <el-drawer v-model='tableDrawer' size='40%'>
+    <el-drawer v-model="tableDrawer" size="40%">
       <template #title>
         <h4>{{ $t(`table.attributes`) }}</h4>
       </template>
       <template #default>
         <el-table
-          ref='xhuiDrawerTable'
-          :data='_tableAttributesColumns' style='width: 100%'>
-          <el-table-column prop='label' :label='$t(`table.label`)' width='180' />
-          <el-table-column prop='hidden' :label='$t(`table.hidden`)' width='180'>
-            <template v-slot='scope'>
-              <el-checkbox v-model='scope.row.hidden' name='type'></el-checkbox>
+          ref="xhuiDrawerTableRef"
+          :data="_tableAttributesColumns"
+          style="width: 100%"
+        >
+          <el-table-column
+            prop="label"
+            :label="$t(`table.label`)"
+            width="180"
+          />
+          <el-table-column
+            prop="hidden"
+            :label="$t(`table.hidden`)"
+            width="180"
+          >
+            <template v-slot="scope">
+              <el-checkbox v-model="scope.row.hidden" name="type"></el-checkbox>
             </template>
           </el-table-column>
-          <el-table-column prop='fixed' :label='$t(`table.fixed`)' width='180'>
-            <template v-slot='scope'>
-              <el-checkbox v-model='scope.row.fixed' name='type'></el-checkbox>
+          <el-table-column prop="fixed" :label="$t(`table.fixed`)" width="180">
+            <template v-slot="scope">
+              <el-checkbox v-model="scope.row.fixed" name="type"></el-checkbox>
             </template>
           </el-table-column>
-          <el-table-column prop='sortable' :label='$t(`table.sortable`)' width='180'>
-            <template v-slot='scope'>
-              <el-checkbox v-model='scope.row.sortable' name='type'></el-checkbox>
+          <el-table-column
+            prop="sortable"
+            :label="$t(`table.sortable`)"
+            width="180"
+          >
+            <template v-slot="scope">
+              <el-checkbox
+                v-model="scope.row.sortable"
+                name="type"
+              ></el-checkbox>
             </template>
           </el-table-column>
         </el-table>
       </template>
     </el-drawer>
     <!--  新增/修改  -->
-    <div class='createOrUpdateDialog'>
-      <slot name='createOrUpdateDialog'>
-        <el-dialog v-model='createOrUpdateDialog' :title='$t(`table.`+createOrUpdateDialogTitle+`Dialog`)' width='40%' :before-close="toClose" draggable>
-          <el-form ref='createOrUpdateForm' :model='_formData' label-width='120px'>
-            <template v-for='(column, cIndex) in _tableAttributesColumns' :key='cIndex'>
-              <el-row :span='24' :gutter='5'>
-                <template v-for='(xColumn, xIndex) in _tableAttributesColumns.slice(cIndex*2,cIndex*2+2)' :key='xIndex'>
-                  <el-col :xl='12' :lg='12'>
-                    <el-form-item :label='xColumn.label' v-if='!xColumn.editDisplay || !xColumn.createDisplay'>
-                      <el-date-picker v-model='_formData[xColumn.prop]'
-                                      v-if='(xColumn.type === `datetime` || column.type === `date`)'
-                                      :type='xColumn.type'
-                                      :value-format='xColumn.valueFormat'
-                                      :clearable='(xColumn.search || {}).clearable' />
-                      <el-input v-else v-model='_formData[xColumn.prop]'
-                                :disabled='xColumn.createDisabled || xColumn.editDisabled'></el-input>
+    <div class="createOrUpdateDialog">
+      <slot name="createOrUpdateDialog">
+        <el-dialog
+          v-model="createOrUpdateDialog"
+          :title="$t(`table.` + createOrUpdateDialogTitle + `Dialog`)"
+          width="40%"
+          :before-close="toClose"
+          draggable>
+          <el-form
+            ref="createOrUpdateFormRef"
+            :model="_formData"
+            label-width="120px">
+            <template
+              v-for="(column, cIndex) in _tableAttributesColumns"
+              :key="cIndex">
+              <el-row :span="24" :gutter="5">
+                <template
+                  v-for="(xColumn, xIndex) in _tableAttributesColumns.slice(
+                    cIndex * 2,
+                    cIndex * 2 + 2)"
+                  :key="xIndex">
+                  <el-col :xl="12" :lg="12">
+                    <el-form-item
+                      :label="xColumn.label"
+                      :prop="xColumn.prop"
+                      v-if="!xColumn.editDisplay || !xColumn.createDisplay"
+                      :rules='xColumn.rules'>
+                      <el-date-picker
+                        v-model="_formData[xColumn.prop]"
+                        v-if="xColumn.type === `datetime` || column.type === `date`"
+                        :type="xColumn.type"
+                        :value-format="xColumn.valueFormat"
+                        :clearable="(xColumn.search || {}).clearable" />
+                      <el-input
+                        v-else
+                        v-model="_formData[xColumn.prop]"
+                        :disabled="xColumn.createDisabled || xColumn.editDisabled"></el-input>
                     </el-form-item>
                   </el-col>
                 </template>
@@ -172,10 +287,13 @@
             </template>
           </el-form>
           <template #footer>
-          <span class='dialog-footer'>
-            <el-button @click='toClose'>Cancel</el-button>
-            <el-button type='primary' @click='createOrUpdateDialogTitle === `edit` ? toUpdate() : toSave()'>Confirm</el-button>
-          </span>
+            <span class="dialog-footer">
+              <el-button type="warning" @click="resetFields">{{ $t(`button.reset`) }}</el-button>
+              <el-button @click="toClose">{{ $t(`button.cancel`) }}</el-button>
+              <el-button
+                type="primary"
+                @click="createOrUpdateDialogTitle === `edit` ? toUpdate() : toSave()">{{ $t(`button.confirm`) }}</el-button>
+            </span>
           </template>
         </el-dialog>
       </slot>
@@ -186,23 +304,31 @@
 <script setup>
 import { defineProps, defineEmits, computed, ref, watch } from 'vue'
 import { isNull } from '@/utils/validate'
-import { Edit, Delete, Search, Plus, Download, Upload, Refresh, View } from '@element-plus/icons-vue' //  element-plus@1.1.0-beta.24  @See: https://github.com/element-plus/element-plus/issues/2898 貌似有BUG 后续观望
-
-const _tableData = ref([])
-
-const _formData = ref({})
-
-const searchForm = ref({})
-
-const searchLoading = ref(false)
-
-const tableDrawer = ref(false)
-
-const createOrUpdateDialog = ref(false)
-
-const createOrUpdateDialogTitle = ref('')
+import { ElNotification } from 'element-plus'
+import {
+  Edit,
+  Delete,
+  Search,
+  Plus,
+  Download,
+  Upload,
+  Refresh,
+  View
+} from '@element-plus/icons-vue' //  element-plus@1.1.0-beta.24  @See: https://github.com/element-plus/element-plus/issues/2898 貌似有BUG 后续观望
 
 const props = defineProps({
+  cardStyle: {
+    type: Boolean,
+    default: true
+  },
+  searchLoading: {
+    type: Boolean,
+    default: false
+  },
+  tableLoading: {
+    type: Boolean,
+    default: false
+  },
   page: {
     type: Object,
     required: false
@@ -248,20 +374,24 @@ const props = defineProps({
   }
 })
 
+const _tableData = ref([])
+
+const _formData = ref({})
+
+const searchForm = ref({})
+
+const tableDrawer = ref(false)
+
+const createOrUpdateDialog = ref(false)
+
+const createOrUpdateDialogTitle = ref('')
+
+const createOrUpdateFormRef = ref(null)
+
 const _tableAttributesColumns = ref(props.tableAttributes.columns)
 
-const getTableData = () => {
-  searchLoading.value = !searchLoading.value
-  props.getTableData({
-    current: _page.value.current,
-    size: _page.value.size
-  }, searchForm).then(res => {
-    _tableData.value = res
-  })
-  searchLoading.value = !searchLoading.value
-}
-
-const handleRowUpdate = row => {
+// -------------- 操作 ------------------
+const handleRowUpdate = (row) => {
   createOrUpdateDialog.value = !createOrUpdateDialog.value
   createOrUpdateDialogTitle.value = 'edit'
   _formData.value = row
@@ -274,20 +404,57 @@ const handleToSave = () => {
 }
 
 const toSave = () => {
-  props.handleToSave(_formData.value).then(res => {
-    createOrUpdateDialog.value = !createOrUpdateDialog.value
-    getTableData()
+  createOrUpdateFormRef.value.validate((valid) => {
+    if (valid) {
+      props.handleToSave(_formData.value).then(() => {
+        ElNotification({
+          title: 'Success',
+          message: 'Create success',
+          type: 'success'
+        })
+        createOrUpdateDialog.value = !createOrUpdateDialog.value
+        getTableData()
+      })
+    } else {
+      return false
+    }
   })
 }
 
 const toClose = () => {
   createOrUpdateDialog.value = !createOrUpdateDialog.value
 }
+const toDel = row => {
+  props.handleRowDel(row).then(() => {
+    ElNotification({
+      title: 'Success',
+      message: 'Delete success',
+      type: 'success'
+    })
+    getTableData()
+  })
+}
 
 const toUpdate = () => {
-  props.handleRowUpdate(_formData.value).then(res => {
-    createOrUpdateDialog.value = !createOrUpdateDialog.value
+  createOrUpdateFormRef.value.validate((valid) => {
+    if (valid) {
+      props.handleRowUpdate(_formData.value).then(() => {
+        ElNotification({
+          title: 'Success',
+          message: 'Update success',
+          type: 'success'
+        })
+        createOrUpdateDialog.value = !createOrUpdateDialog.value
+      })
+    } else {
+      return false
+    }
   })
+}
+
+// -------------- form 方法------------------
+const resetFields = () => {
+  createOrUpdateFormRef.value.resetFields()
 }
 
 // --------------- 分页 ----------------------
@@ -300,41 +467,51 @@ const _page = computed({
   }
 })
 
-const autoPage = async () => {
-  if (props.tableData) {
-    _tableData.value = await props.getTableData({
+const getTableData = () => {
+  if (props.getTableData) {
+    props.getTableData({
       current: _page.value.current,
       size: _page.value.size
-    }, searchForm)
-  } else {
-    _tableData.value = props.tableData
-  }
-  const tableDataLength = _tableData.value.length
-  if (!isNull(_page.value) && tableDataLength > _page.value.size) {
-    _tableData.value = _tableData.value.slice((_page.value.current - 1) * _page.value.size, _page.value.current * _page.value.size)
+    }, searchForm.value)
   }
 }
 
-watch(_page, () => {
-  autoPage()
-}, {
-  immediate: true
-})
+watch(
+  _page,
+  () => {
+    getTableData()
+  },
+  {
+    immediate: true
+  }
+)
 
-watch(props.tableData, () => {
-  _tableData.value = props.tableData
-}, {
-  immediate: true
-})
+watch(
+  () => props.tableData,
+  () => {
+    _tableData.value = props.tableData
+    const tableDataLength = _tableData.value.length
+    if (!isNull(_page.value) && tableDataLength > _page.value.size) {
+      _tableData.value = _tableData.value.slice(
+        (_page.value.current - 1) * _page.value.size,
+        _page.value.current * _page.value.size
+      )
+    }
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
 
-const handleSizeChange = size => {
+const handleSizeChange = (size) => {
   _page.value = {
     ...props.page,
     size: size
   }
 }
 
-const handleCurrentChange = current => {
+const handleCurrentChange = (current) => {
   _page.value = {
     ...props.page,
     current: current
@@ -342,7 +519,7 @@ const handleCurrentChange = current => {
 }
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 .table-body {
   .table-foot {
     position: relative;
@@ -356,17 +533,19 @@ const handleCurrentChange = current => {
     }
   }
 
-  .search-container {
-    display: inline-flex;
-    .el-input__inner {
-      height: 30px !important;
-      width: 230px !important;
-      margin-right: 20px;
-    }
-  }
-
   .el-button--small {
     --el-button-size: 30px !important;
+  }
+}
+
+.search-container {
+  display: inline-flex;
+  .el-input__inner {
+    height: 30px !important;
+    width: 250px !important;
+  }
+  .el-input {
+    margin-right: 20px;
   }
 }
 </style>

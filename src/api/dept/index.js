@@ -22,27 +22,11 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { createApp } from 'vue'
-import App from './App.vue'
-import store from './store'
-import router from './router'
-import i18n from './i18n'
-import './router/permission'
-import Table from '@/components/Table'
-import CardContainer from '@/components/CardContainer'
+import request from '@/utils/request'
 
-import installElementPlus from './plugins/element'
-import installXHuiIcon from './icons' // icon
-
-import '@/styles/index.scss' // global css
-
-const app = createApp(App)
-installElementPlus(app)
-installXHuiIcon(app)
-app
-  .use(store)
-  .use(router)
-  .use(i18n)
-  .component('xhui-table', Table)
-  .component('xhui-card', CardContainer)
-  .mount('#app')
+export const deptTree = () => {
+  return request({
+    url: '/admin/dept/tree',
+    method: 'get'
+  })
+}

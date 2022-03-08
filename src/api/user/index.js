@@ -24,9 +24,64 @@
 
 import request from '@/utils/request'
 
+/**
+ * 获取用户信息
+ * @returns {*}
+ */
 export const getUserInfo = () => {
   return request({
     url: '/admin/user/info',
     method: 'get'
+  })
+}
+
+/**
+ * 用户分页
+ * @param query
+ * @returns {*}
+ */
+export const userPage = query => {
+  return request({
+    url: '/admin/user/page',
+    method: 'get',
+    params: query
+  })
+}
+
+/**
+ * 新增用户
+ * @param data
+ * @returns {*}
+ */
+export const createUser = data => {
+  return request({
+    url: '/admin/user',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 删除用户
+ * @param id
+ * @returns {*}
+ */
+export const delUser = id => {
+  return request({
+    url: '/admin/user/' + id,
+    method: 'delete'
+  })
+}
+
+/**
+ * 更新用户
+ * @param data
+ * @returns {*}
+ */
+export const updateUser = data => {
+  return request({
+    url: '/admin/user',
+    method: 'put',
+    data
   })
 }

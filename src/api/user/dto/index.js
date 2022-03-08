@@ -28,34 +28,51 @@ export const tableAttributes = {
   enableSearch: true, // 开启搜索栏
   enableOperations: true, // 开启操作栏
   columns: [{
-    label: 'id',
-    prop: 'id',
+    label: '用户编号',
+    prop: 'userId',
     editDisabled: true,
     createDisabled: true,
-    hidden: false
+    hidden: false,
+    width: 80
   }, {
-    label: '角色编码',
-    prop: 'roleCode',
-    rules: [{
-      required: true,
-      message: '请输入角色编码',
-      trigger: 'blur'
-    }],
+    label: '用户名称',
+    prop: 'username',
+    width: 200,
     search: {
-      placeholder: '请输入角色编码',
+      placeholder: '请输入用户名称',
       size: 'small'
     }
   }, {
-    label: '角色描述',
-    prop: 'roleDesc'
+    label: '用户头像',
+    prop: 'avatar',
+    type: 'image',
+    width: 150
   }, {
-    label: '角色名称',
-    prop: 'roleName',
-    rules: [{
-      required: true,
-      message: '请输入角色名称',
-      trigger: 'blur'
-    }]
+    label: '用户性别',
+    prop: 'sex',
+    formatter: row => {
+      return row.sex === 0 ? '女' : '男'
+    },
+    width: 150
+  }, {
+    label: '用户邮箱',
+    prop: 'email',
+    width: 200
+  }, {
+    label: '用户手机',
+    prop: 'phone',
+    width: 200
+  }, {
+    label: '锁定状态',
+    prop: 'lockFlag',
+    type: 'tag',
+    tagTpye: row => {
+      return row.lockFlag === 0 ? 'success' : 'danger'
+    },
+    valueFormat: row => {
+      return row.lockFlag === 0 ? '正常' : '锁定'
+    },
+    width: 100
   }, {
     label: '创建时间',
     prop: 'createTime',
@@ -63,17 +80,11 @@ export const tableAttributes = {
     formatter: parseTime,
     editDisplay: true,
     createDisplay: true,
+    width: 100,
     valueFormat: 'YYYY-MM-DD HH:mm:ss',
     search: {
       placeholder: '请选择创建时间',
       size: 'small'
     }
-  }, {
-    label: '更新时间',
-    prop: 'updateTime',
-    type: 'datetime',
-    formatter: parseTime,
-    createDisplay: true,
-    editDisplay: true
   }]
 }

@@ -39,7 +39,10 @@ export default {
     del: 'Delete',
     download: 'Download',
     upload: 'Upload',
-    create: 'Create'
+    create: 'Create',
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+    reset: 'Reset'
   },
   msg: {
     hello: 'hello world',
