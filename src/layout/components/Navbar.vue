@@ -27,12 +27,12 @@
     <hamburger class='hamburger-container'/>
     <breadcrumb class='breadcrumb-container'/>
     <div class='right-menu'>
+      <screenfull class='right-menu-item hover-effect'/>
       <themeSelect class='right-menu-item hover-effect'/>
       <langSelect class='right-menu-item hover-effect'/>
       <el-dropdown class='avatar-container' trigger='click'>
         <div class='avatar-wrapper'>
           <el-avatar shape='square' :size='40' :src='$store.getters.userInfo.avatar'></el-avatar>
-          <i class='el-icon-s-tools'></i>
         </div>
         <template #dropdown>
           <el-dropdown-menu class='user-dropdown'>
@@ -58,6 +58,7 @@ import Hamburger from '@/components/Hamburger'
 import Breadcrumb from '@/components/Breadcrumb'
 import LangSelect from '@/components/LangSelect'
 import ThemeSelect from '@/components/ThemeSelect'
+import Screenfull from '@/components/Screenfull'
 
 const store = useStore()
 
