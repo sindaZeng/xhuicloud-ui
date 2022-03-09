@@ -23,24 +23,34 @@
   -->
 
 <template>
-  <div class="app-main">
-    <router-view/>
+  <div class='tag-view-container'>
+    <el-tabs v-model="activeTag" closable type="card" class="tabs" @tab-click='tabClick' @edit="editTag">
+      <el-tab-pane v-for='(tag, index) in $store.getters.tagViews' :key='tag.name'
+                   :label='tag.title' :name='index'></el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <script setup>
-import {} from 'vue'
+import { ref } from 'vue'
+// import { useStore } from 'vuex'
+
+const activeTag = ref('')
+// const store = useStore()
+const tabClick = () => {
+
+}
+/**
+ * 关闭
+ * @param index
+ */
+const editTag = (targetName, action) => {
+  if (action === 'remove') {
+    console.log(activeTag)
+  }
+}
 
 </script>
 
-<style lang="scss" scoped>
-.app-main {
-  min-height: calc(100vh - 50px);
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-}
-.fixed-header+.app-main {
-  padding-top: 100px;
-}
+<style lang='scss'>
 </style>

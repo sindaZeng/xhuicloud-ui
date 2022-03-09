@@ -33,13 +33,25 @@ const whiteList = ['/login']
  * 前置
  */
 router.beforeEach(async (to, from, next) => {
-  document.title = to.meta.title ? i18n.global.t('menu.' + to.meta.title) : title
+  const meta = to.meta || {}
+  document.title = meta.title ? i18n.global.t('menu.' + meta.title) : title
   if (store.getters.token) {
     if (to.path === '/login') {
       next('/')
     } else {
       if (JSON.stringify(store.getters.userInfo) === '{}') {
         await store.dispatch('user/getUserInfo')
+      }
+      if (meta.tagView !== false) {
+        const { fullPath, meta, name, path, params, query } = to
+        store.commit('app/addTagView', {
+          fullPath,
+          meta,
+          name,
+          path,
+          params,
+          query
+        })
       }
       next()
     }

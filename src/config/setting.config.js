@@ -37,7 +37,8 @@ const settingConfig = {
   // 当有值时候会在登录页展示版权信息
   copyright: process.env.NODE_ENV === 'production' ? '<a href=\'http://beian.miit.gov.cn\' target="view_window">粤ICP备2022008047号-1</a>' : '版权信息',
   language: 'zhCn',
-  languageKey: 'languageKey'
+  languageKey: 'languageKey',
+  tagViewsKey: 'tagViewsKey'
 }
 
 module.exports = settingConfig

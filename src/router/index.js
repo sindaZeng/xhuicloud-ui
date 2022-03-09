@@ -30,17 +30,23 @@ const commonsRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
-    hidden: true
+    meta: {
+      tagView: false
+    }
   },
   {
     path: '/404',
     component: () => import('@/views/error/404'),
-    hidden: true
+    meta: {
+      tagView: false
+    }
   },
   {
     path: '/401',
     component: () => import('@/views/error/401'),
-    hidden: true
+    meta: {
+      tagView: false
+    }
   },
   {
     path: '/',

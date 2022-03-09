@@ -1,6 +1,7 @@
 @import './variables.scss';
 @import "./mixin.scss";
 @import "./sidebar.scss";
+@import "./tag.scss";
 @import "./element.scss";
 @import "./transition.scss";
 
@@ -21,6 +22,10 @@ body {
 
 #app {
   height: 100%;
+}
+
+div, span, p {
+  caret-color: transparent;
 }
 
 *,

@@ -23,7 +23,7 @@
  */
 
 import { setStorage, getStorage } from '@/utils/storage'
-import { language, languageKey } from '@/config'
+import { language, languageKey, tagViewsKey } from '@/config'
 const actions = {
 }
 
@@ -34,11 +34,26 @@ const mutations = {
   setLang (state, lang) {
     setStorage(languageKey, lang)
     state.lang = lang
+  },
+  addTagView (state, tagView) {
+    if (state.tagViews.find(item => {
+      return item.path === tagView.path
+    })) return
+    state.tagViews.push(tagView)
+    setStorage(tagViewsKey, state.tagViews)
+  },
+  delTagView (state, tagView) {
+    if (state.tagViews.filter(item => {
+      return item.path === tagView.path
+    })) return
+    state.tagViews.push(tagView)
+    setStorage(tagViewsKey, state.tagViews)
   }
 }
 
 const state = {
   sidebarStatus: true,
+  tagViews: getStorage(tagViewsKey) || [],
   lang: getStorage(languageKey) || language
 }
 

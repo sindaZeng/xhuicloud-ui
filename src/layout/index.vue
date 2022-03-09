@@ -31,6 +31,8 @@
       <div class="fixed-header">
         <!-- 顶部 navbar -->
         <navbar/>
+        <!--  标签      -->
+        <tag-view/>
       </div>
       <!-- main -->
       <app-main/>
@@ -41,6 +43,7 @@
 <script setup>
 import Navbar from './components/Navbar.vue'
 import Sidebar from './components/Sidebar'
+import TagView from '@/components/TagView'
 import AppMain from './components/AppMain.vue'
 import variables from '@/styles/variables.scss'
 import { ref, onUnmounted } from 'vue'

@@ -1,4 +1,4 @@
-/*
+/*!
  * MIT License
  * Copyright <2021-2022>
  *
@@ -22,27 +22,17 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { getColor } from '@/utils/theme'
-import { themeKey } from '@/config'
-import { getStorage } from '@/utils/storage'
+.tag-view-container {
+  height: 40px;
+  width: 100%;
+  background: #ffffff;
+  position: relative;
 
-const getters = {
-  token: state => state.user.token,
-  refreshToken: state => state.user.refreshToken,
-  userInfo: state => state.user.userInfo,
-  userMenus: state => state.user.userMenus,
-  tenantId: state => state.user.tenantId,
-  permissions: state => state.user.permissions,
-  roles: state => state.user.roles,
-  sidebarStatus: state => state.app.sidebarStatus,
-  language: state => state.app.lang,
-  themeColor: state => state.theme.themeColor,
-  sidebarLogo: state => state.theme.sidebarLogo,
-  cardStyle: state => state.theme.cardStyle,
-  ddCss: state => ({
-    ...state.theme.variables,
-    ...getColor(getStorage(themeKey))
-  }),
-  tagViews: state => state.app.tagViews
+  .tabs > .el-tabs__content {
+    padding: 32px;
+    color: #6b778c;
+    font-size: 32px;
+    font-weight: 600;
+  }
 }
-export default getters
+
