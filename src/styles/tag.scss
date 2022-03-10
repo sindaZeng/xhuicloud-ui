@@ -28,6 +28,11 @@
   background: #ffffff;
   position: relative;
 
+  .tabs {
+    display: inline-block;
+    position: relative;
+  }
+
   .tabs > .el-tabs__content {
     padding: 32px;
     color: black;

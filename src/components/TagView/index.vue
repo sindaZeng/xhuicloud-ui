@@ -24,19 +24,18 @@
 
 <template>
   <div class='tag-view-container'>
-    <el-tabs v-model="activeTag"
-             :closable='$store.getters.tagViews.length > 1'
-             type="card"
-             class="tabs"
-             @contextmenu.prevent="openContextmenu($event, index)"
-             @tab-click='tabClick'
-             @edit="delTagViewByIndex">
-      <el-tab-pane v-for='item in $store.getters.tagViews' :key='item.name'
-                   :label='item.name' :name='item.path'></el-tab-pane>
-    </el-tabs>
+      <el-tabs v-model="activeTag"
+               :closable='$store.getters.tagViews.length > 1'
+               type="card"
+               class="tabs"
+               v-on:contextmenu.prevent="openContextmenu($event)"
+               v-on:tab-click='tabClick'
+               v-on:edit="delTagView">
+        <el-tab-pane v-for='item in $store.getters.tagViews' :key='item.name'
+                     :label='item.name' :name='item.path'></el-tab-pane>
+      </el-tabs>
     <ul v-show="visible" :style="contextmenuStyle" class="contextmenu">
-      <li>Refresh</li>
-      <li>Close</li>
+      <li @click='delTagView(contextmenuTag, `remove`)'>Close</li>
       <li>Close Others</li>
       <li>Close All</li>
     </ul>
@@ -51,6 +50,8 @@ import { useRoute, useRouter } from 'vue-router'
 const store = useStore()
 
 const activeTag = ref('')
+
+const contextmenuTag = ref('')
 
 const visible = ref(false)
 
@@ -93,10 +94,11 @@ const tabClick = item => {
   }).catch(() => {})
 }
 
-const openContextmenu = (e, index) => {
+const openContextmenu = (e) => {
   const { x, y } = e
   contextmenuStyle.value.left = x + 'px'
   contextmenuStyle.value.top = y + 'px'
+  contextmenuTag.value = e.target.getAttribute('aria-controls').slice(5)
   visible.value = !visible.value
 }
 
@@ -107,7 +109,7 @@ const closeContextmenu = () => {
  * 关闭
  * @param index
  */
-const delTagViewByIndex = (path, action) => {
+const delTagView = (path, action) => {
   if (action === 'remove') {
     store.commit('app/delTagView', path)
   }
