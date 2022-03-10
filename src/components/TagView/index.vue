@@ -24,29 +24,92 @@
 
 <template>
   <div class='tag-view-container'>
-    <el-tabs v-model="activeTag" closable type="card" class="tabs" @tab-click='tabClick' @edit="editTag">
-      <el-tab-pane v-for='(tag, index) in $store.getters.tagViews' :key='tag.name'
-                   :label='tag.title' :name='index'></el-tab-pane>
+    <el-tabs v-model="activeTag"
+             :closable='$store.getters.tagViews.length > 1'
+             type="card"
+             class="tabs"
+             @contextmenu.prevent="openContextmenu($event, index)"
+             @tab-click='tabClick'
+             @edit="delTagViewByIndex">
+      <el-tab-pane v-for='item in $store.getters.tagViews' :key='item.name'
+                   :label='item.name' :name='item.path'></el-tab-pane>
     </el-tabs>
+    <ul v-show="visible" :style="contextmenuStyle" class="contextmenu">
+      <li>Refresh</li>
+      <li>Close</li>
+      <li>Close Others</li>
+      <li>Close All</li>
+    </ul>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-// import { useStore } from 'vuex'
+import { ref, watch } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
+
+const store = useStore()
 
 const activeTag = ref('')
-// const store = useStore()
-const tabClick = () => {
 
+const visible = ref(false)
+
+const contextmenuStyle = ref({
+  left: 0,
+  top: 0
+})
+
+const router = useRouter()
+
+const route = useRoute()
+
+watch(
+  route,
+  (to, form) => {
+    activeTag.value = to.path
+  },
+  {
+    immediate: true
+  }
+)
+watch(visible, value => {
+  if (value) {
+    document.body.addEventListener('click', closeContextmenu)
+  } else {
+    document.body.removeEventListener('click', closeContextmenu)
+  }
+})
+const tabClick = item => {
+  let tag
+  store.getters.tagViews.map(tagView => {
+    if (tagView.path === item.props.name) {
+      tag = tagView
+    }
+  })
+  router.push({
+    path: tag.path,
+    query: tag.query,
+    fullPath: tag.fullPath
+  }).catch(() => {})
+}
+
+const openContextmenu = (e, index) => {
+  const { x, y } = e
+  contextmenuStyle.value.left = x + 'px'
+  contextmenuStyle.value.top = y + 'px'
+  visible.value = !visible.value
+}
+
+const closeContextmenu = () => {
+  visible.value = false
 }
 /**
  * 关闭
  * @param index
  */
-const editTag = (targetName, action) => {
+const delTagViewByIndex = (path, action) => {
   if (action === 'remove') {
-    console.log(activeTag)
+    store.commit('app/delTagView', path)
   }
 }
 

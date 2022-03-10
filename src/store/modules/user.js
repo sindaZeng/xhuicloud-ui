@@ -70,6 +70,7 @@ const actions = {
     this.commit('user/setUserInfo', {})
     this.commit('user/setPermissions', [])
     this.commit('user/setRoles', [])
+    this.commit('app/delAllTagViews')
     delAllStorage()
   },
   refreshToken (context) {

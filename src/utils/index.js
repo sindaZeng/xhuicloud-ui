@@ -22,28 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { getColor } from '@/utils/theme'
-import { themeKey } from '@/config'
-import { getStorage } from '@/utils/storage'
-
-const getters = {
-  token: state => state.user.token,
-  refreshToken: state => state.user.refreshToken,
-  userInfo: state => state.user.userInfo,
-  userMenus: state => state.user.userMenus,
-  tenantId: state => state.user.tenantId,
-  permissions: state => state.user.permissions,
-  roles: state => state.user.roles,
-  sidebarStatus: state => state.app.sidebarStatus,
-  language: state => state.app.lang,
-  themeColor: state => state.theme.themeColor,
-  sidebarLogo: state => state.theme.sidebarLogo,
-  cardStyle: state => state.theme.cardStyle,
-  ddCss: state => ({
-    ...state.theme.variables,
-    ...getColor(getStorage(themeKey))
-  }),
-  tagViews: state => state.app.tagViews,
-  tagView: state => state.app.tagView
+export function findTagViewsIndex (tagViews, path) {
+  let key
+  tagViews.map((item, index) => {
+    if (item.path === path) {
+      key = index
+    }
+  })
+  return key
 }
-export default getters

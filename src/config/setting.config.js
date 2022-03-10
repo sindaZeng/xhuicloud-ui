@@ -38,7 +38,8 @@ const settingConfig = {
   copyright: process.env.NODE_ENV === 'production' ? '<a href=\'http://beian.miit.gov.cn\' target="view_window">粤ICP备2022008047号-1</a>' : '版权信息',
   language: 'zhCn',
   languageKey: 'languageKey',
-  tagViewsKey: 'tagViewsKey'
+  tagViewsKey: 'tagViewsKey',
+  tagViewKey: 'tagViewKey'
 }
 
 module.exports = settingConfig

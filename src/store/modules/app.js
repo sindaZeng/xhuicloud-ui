@@ -23,7 +23,8 @@
  */
 
 import { setStorage, getStorage } from '@/utils/storage'
-import { language, languageKey, tagViewsKey } from '@/config'
+import { findTagViewsIndex } from '@/utils'
+import { language, languageKey, tagViewsKey, tagViewKey } from '@/config'
 const actions = {
 }
 
@@ -36,24 +37,49 @@ const mutations = {
     state.lang = lang
   },
   addTagView (state, tagView) {
+    state.tagView = tagView.path
+    setStorage(tagViewKey, state.tagView)
     if (state.tagViews.find(item => {
       return item.path === tagView.path
     })) return
     state.tagViews.push(tagView)
     setStorage(tagViewsKey, state.tagViews)
   },
-  delTagView (state, tagView) {
-    if (state.tagViews.filter(item => {
-      return item.path === tagView.path
-    })) return
-    state.tagViews.push(tagView)
+  /**
+   * 根据下标删除
+   * @param state
+   * @param index
+   */
+  delTagView (state, path) {
+    state.tagViews.splice(findTagViewsIndex(state.tagViews, path), 1)
     setStorage(tagViewsKey, state.tagViews)
+  },
+  /**
+   * 删除其他标签
+   * @param state
+   * @param index
+   */
+  delOtherTagView (state, path) {
+    const index = findTagViewsIndex(state.tagViews, path)
+    // 删除当前右侧
+    state.tagViews.splice(index + 1, state.tagViews.length - index + 1)
+    // 删除当前左侧
+    state.tagViews.splice(0, index)
+    setStorage(tagViewsKey, state.tagViews)
+  },
+  /**
+   * 删除所有标签
+   * @param state
+   */
+  delAllTagViews (state) {
+    state.tagViews = []
   }
 }
 
 const state = {
-  sidebarStatus: true,
   tagViews: getStorage(tagViewsKey) || [],
+  tagView: getStorage(tagViewKey) || 0,
+  sidebarStatus: true,
   lang: getStorage(languageKey) || language
 }
 
