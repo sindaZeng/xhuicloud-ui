@@ -28,6 +28,21 @@ import { language, languageKey, tagViewsKey, tagViewKey } from '@/config'
 const actions = {
 }
 
+const homeTag = {
+  fullPath: '/home',
+  meta: { title: 'home', icon: 'home' },
+  name: 'home',
+  params: {},
+  path: '/home',
+  query: {}
+}
+
+const tagViewsNull = (tagViews) => {
+  if (tagViews.length < 1) {
+    tagViews.push(homeTag)
+  }
+}
+
 const mutations = {
   changeSidebarStatus (state) {
     state.sidebarStatus = !state.sidebarStatus
@@ -52,6 +67,7 @@ const mutations = {
    */
   delTagView (state, path) {
     state.tagViews.splice(findTagViewsIndex(state.tagViews, path), 1)
+    tagViewsNull(state.tagViews)
     setStorage(tagViewsKey, state.tagViews)
   },
   /**
@@ -72,12 +88,13 @@ const mutations = {
    * @param state
    */
   delAllTagViews (state) {
-    state.tagViews = []
+    state.tagViews = [homeTag]
+    setStorage(tagViewsKey, state.tagViews)
   }
 }
 
 const state = {
-  tagViews: getStorage(tagViewsKey) || [],
+  tagViews: getStorage(tagViewsKey) || [homeTag],
   tagView: getStorage(tagViewKey) || 0,
   sidebarStatus: true,
   lang: getStorage(languageKey) || language

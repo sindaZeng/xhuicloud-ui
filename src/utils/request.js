@@ -47,7 +47,6 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
   response => {
-    console.log(1111)
     const status = Number(response.status)
     const { code, msg, data } = response.data
     if (status === 200) {
@@ -62,7 +61,6 @@ request.interceptors.response.use(
     }
   },
   error => {
-    console.log(2222)
     const response = error.response
     const status = response.status
     if (status === 503) {

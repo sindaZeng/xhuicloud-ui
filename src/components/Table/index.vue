@@ -143,10 +143,10 @@
                   :src="scope.row[column.prop]"
                 ></el-avatar>
               </template>
-              <template #default="scope" v-else-if="column.type === `tag`">
-              <el-tag :type="column.tagTpye ? column.tagTpye(scope.row) : `success`">
-                {{ column.valueFormat ? column.valueFormat(scope.row) : scope.row[column.prop] }}
-              </el-tag>
+              <template #default="scope" v-else-if="column.type === `tag` || column.type === `radio`">
+                <el-tag :type="column.tagTpye ? column.tagTpye(scope.row) : `success`">
+                  {{ column.valueFormat ? column.valueFormat(scope.row) : scope.row[column.prop] }}
+                </el-tag>
               </template>
             </el-table-column>
             <el-table-column
@@ -276,6 +276,9 @@
                         :type="xColumn.type"
                         :value-format="xColumn.valueFormat"
                         :clearable="(xColumn.search || {}).clearable" />
+                      <el-radio-group v-else-if="xColumn.type === `radio`" v-model="_formData[xColumn.prop]" >
+                        <el-radio v-for='item in xColumn.baseData' :key='item.label' :label="item.label" border>{{ item.value }}</el-radio>
+                      </el-radio-group>
                       <el-input
                         v-else
                         v-model="_formData[xColumn.prop]"

@@ -36,8 +36,8 @@
       </el-tabs>
     <ul v-show="visible" :style="contextmenuStyle" class="contextmenu">
       <li @click='delTagView(contextmenuTag, `remove`)'>Close</li>
-      <li>Close Others</li>
-      <li>Close All</li>
+      <li @click='delOtherTagView(contextmenuTag)'>Close Others</li>
+      <li @click='delAllTagViews'>Close All</li>
     </ul>
   </div>
 </template>
@@ -80,6 +80,7 @@ watch(visible, value => {
     document.body.removeEventListener('click', closeContextmenu)
   }
 })
+
 const tabClick = item => {
   let tag
   store.getters.tagViews.map(tagView => {
@@ -106,15 +107,56 @@ const closeContextmenu = () => {
   visible.value = false
 }
 /**
- * 关闭
+ * 关闭当前
  * @param index
  */
 const delTagView = (path, action) => {
   if (action === 'remove') {
     store.commit('app/delTagView', path)
+    if (isActive(path)) {
+      pushLastView()
+    }
   }
 }
 
+/**
+ * 关闭其他
+ * @param index
+ */
+const delOtherTagView = path => {
+  store.commit('app/delOtherTagView', path)
+  pushLastView()
+}
+
+/**
+ * 关闭其他
+ * @param index
+ */
+const delAllTagViews = () => {
+  store.commit('app/delAllTagViews')
+  pushLastView()
+}
+
+/**
+ * 去到上一个视图
+ */
+const pushLastView = () => {
+  const latestView = store.getters.tagViews.slice(-1)[0]
+  if (latestView) {
+    router.push(latestView.path || latestView.fullPath)
+  } else {
+    router.push('/')
+  }
+}
+
+/**
+ * 是否当前
+ * @param path
+ * @returns {boolean}
+ */
+const isActive = path => {
+  return path === route.path
+}
 </script>
 
 <style lang='scss'>

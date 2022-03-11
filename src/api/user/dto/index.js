@@ -65,7 +65,14 @@ export const tableAttributes = {
   }, {
     label: '锁定状态',
     prop: 'lockFlag',
-    type: 'tag',
+    type: 'radio',
+    baseData: [{
+      value: '正常',
+      label: 0
+    }, {
+      value: '锁定',
+      label: 1
+    }],
     tagTpye: row => {
       return row.lockFlag === 0 ? 'success' : 'danger'
     },

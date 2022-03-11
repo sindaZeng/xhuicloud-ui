@@ -43,7 +43,6 @@ router.beforeEach(async (to, from, next) => {
         await store.dispatch('user/getUserInfo')
       }
       if (meta.tagView !== false) {
-        console.log(to)
         const { fullPath, meta, name, path, params, query } = to
         store.commit('app/addTagView', {
           fullPath,

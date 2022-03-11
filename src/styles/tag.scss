@@ -25,19 +25,24 @@
 .tag-view-container {
   height: 40px;
   width: 100%;
-  background: #ffffff;
+  background: #fff;
   position: relative;
+
+  .el-tabs--card>.el-tabs__header .el-tabs__item {
+    border-bottom: 1px solid var(--el-border-color-light)!important;
+  }
 
   .tabs {
     display: inline-block;
     position: relative;
+    &:first-of-type {
+      margin-left: 12px;
+    }
   }
 
   .tabs > .el-tabs__content {
-    padding: 32px;
     color: black;
     font-size: 32px;
-    font-weight: 600;
   }
 }
 
