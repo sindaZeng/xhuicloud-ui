@@ -36,3 +36,18 @@
 .breadcrumb-leave-active {
   position: absolute;
 }
+
+.xhui-transition-leave-active,
+.xhui-transition-enter-active {
+  transition: all 0.5s;
+}
+
+.xhui-transition-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.xhui-transition-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}

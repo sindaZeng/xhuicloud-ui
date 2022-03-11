@@ -24,7 +24,13 @@
 
 <template>
   <div class="app-main">
-    <router-view/>
+    <router-view v-slot="{ Component, route }">
+      <transition name="xhui-transition" mode='out-in'>
+        <keep-alive>
+          <component :is="Component" :key='route.path'/>
+        </keep-alive>
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -35,12 +41,11 @@ import {} from 'vue'
 
 <style lang="scss" scoped>
 .app-main {
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 50px - 40px);
   width: 100%;
   position: relative;
   overflow: hidden;
+  padding: 100px 10px 10px 0;
 }
-.fixed-header+.app-main {
-  padding-top: 100px;
-}
+
 </style>
