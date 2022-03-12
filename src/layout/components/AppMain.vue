@@ -26,9 +26,10 @@
   <div class="app-main">
     <router-view v-slot="{ Component, route }">
       <transition name="xhui-transition" mode='out-in'>
-        <keep-alive>
+        <keep-alive v-if='route.keepAlive'>
           <component :is="Component" :key='route.path'/>
         </keep-alive>
+        <component v-else :is="Component" :key='route.path'/>
       </transition>
     </router-view>
   </div>

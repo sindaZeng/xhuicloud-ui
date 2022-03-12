@@ -31,17 +31,71 @@
     :handleRowDel='handleRowDel'
     :handleToSave='handleToSave'
     :handleRowUpdate='handleRowUpdate'>
+    <template #tableOperation='{ scope }'>
+      <el-button
+        size="small"
+        @click='handlePermission(scope.row)'>
+        权限
+      </el-button>
+    </template>
   </xhui-table>
+  <el-dialog title="角色权限"
+             width="40%"
+             :before-close="toClose"
+             v-model="dialogPermissionVisible">
+    <el-tree
+      ref='roleMenuTreeRef'
+      :data="menuData"
+      highlight-current
+      show-checkbox
+      :height="500"
+      node-key='id'
+      :check-strictly="true"
+      :default-expanded-keys='checkandExpandMenuData'
+      :default-checked-keys='checkandExpandMenuData'>
+        <template #default="{ node }">
+          <el-tag v-if='node.data.type === 0' type='success'>菜单</el-tag>
+          <el-tag v-else>按钮</el-tag>
+          <span class='tree-node'>{{ node.label }}</span>
+      </template>
+    </el-tree>
+    <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="toClose">{{ $t(`button.cancel`) }}</el-button>
+              <el-button
+                type="primary"
+                @click="toUpdateRoleMenus">{{ $t(`button.confirm`) }}</el-button>
+            </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup>
 import { tableAttributes } from '@/api/roles/dto'
 import { page } from '@/mixins/page'
-import { rolesPage, delRole, updateRole, createRole } from '@/api/roles'
-import { ElMessageBox } from 'element-plus'
+import { rolesPage, delRole, updateRole, createRole, updateRoleMenus } from '@/api/roles'
+import { ElMessageBox, ElNotification } from 'element-plus'
 import { ref } from 'vue'
+import { menuTree, getRoleTree } from '@/api/menu'
 
 const tableData = ref([])
+
+const roleId = ref(null)
+
+const roleMenuTreeRef = ref(null)
+
+const menuData = ref([])
+
+const checkandExpandMenuData = ref([])
+
+const dialogPermissionVisible = ref(false)
+
+const toClose = () => {
+  dialogPermissionVisible.value = !dialogPermissionVisible.value
+  menuData.value = []
+  checkandExpandMenuData.value = []
+  roleId.value = null
+}
 
 const getTableData = async (page, searchForm) => {
   const {
@@ -53,6 +107,31 @@ const getTableData = async (page, searchForm) => {
   return records
 }
 
+const handlePermission = row => {
+  menuTree({ disabled: false }).then(res => {
+    menuData.value = res
+    return getRoleTree(row.id)
+  }).then(res => {
+    const arr = []
+    for (const datum of res) {
+      arr.push(Number(datum))
+    }
+    checkandExpandMenuData.value = arr
+    roleId.value = row.id
+  })
+  dialogPermissionVisible.value = !dialogPermissionVisible.value
+}
+
+const toUpdateRoleMenus = () => {
+  const keys = roleMenuTreeRef.value.getCheckedKeys()
+  updateRoleMenus(roleId.value, keys.join(',')).then(data => {
+    ElNotification({
+      title: 'Success',
+      message: 'Create success',
+      type: 'success'
+    })
+  })
+}
 const handleRowUpdate = row => {
   return updateRole(row)
 }
@@ -71,5 +150,7 @@ const handleRowDel = row => {
 </script>
 
 <style lang='scss' scoped>
-
+.tree-node {
+  margin-left: 10px;
+}
 </style>

@@ -49,6 +49,7 @@
           ref='userTableRef'
           :cardStyle='false'
           :tableAttributes='tableAttributes'
+          :permission='permission'
           v-model:page='page'
           :tableData='tableData'
           :getTableData='getTableData'
@@ -67,8 +68,10 @@ import { page } from '@/mixins/page'
 import { userPage, createUser, delUser, updateUser } from '@/api/user'
 import { deptTree } from '@/api/dept'
 import { ElMessageBox } from 'element-plus'
-import { ref, watchPostEffect } from 'vue'
+import { computed, ref, watchPostEffect } from 'vue'
 import { validatenull } from '@/utils/validate'
+import { useStore } from 'vuex'
+import { checkData } from '@/utils'
 
 const deptTreeData = ref({})
 
@@ -78,7 +81,19 @@ const deptTreeRef = ref(null)
 
 const deptIds = ref([])
 
+const currentDeptId = ref(null)
+
 const tableData = ref([])
+
+const store = useStore()
+
+const permission = computed(() => {
+  return {
+    addBtn: checkData(store.getters.permissions.sys_permission_role, false),
+    editBtn: false,
+    delBtn: false
+  }
+})
 
 // https://v3.cn.vuejs.org/guide/composition-api-template-refs.html#%E4%BE%A6%E5%90%AC%E6%A8%A1%E6%9D%BF%E5%BC%95%E7%94%A8 解决watch 获取不到dom
 watchPostEffect(() => {
@@ -89,6 +104,7 @@ watchPostEffect(() => {
 
 const handleNodeClick = (data) => {
   deptIds.value = []
+  currentDeptId.value = data.id
   deptIds.value.push(data.id)
   getDeptNodeChildrenId(deptIds, data.children)
   getTableData(page.value, null)
@@ -134,7 +150,7 @@ const handleRowUpdate = row => {
 }
 
 const handleToSave = data => {
-  return createUser(data)
+  return createUser({ ...data, deptIds: [currentDeptId.value] })
 }
 
 const handleRowDel = row => {

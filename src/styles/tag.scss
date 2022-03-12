@@ -23,10 +23,12 @@
  */
 
 .tag-view-container {
+  display: flex;
   height: 40px;
   width: 100%;
   background: #fff;
   position: relative;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .05);
 
   .el-tabs--card>.el-tabs__header .el-tabs__item {
     border-bottom: 1px solid var(--el-border-color-light)!important;

@@ -78,19 +78,20 @@
     </xhui-card>
     <!-- 表格  -->
     <xhui-card :cardStyle="cardStyle">
+      <!-- 表格操作栏     -->
       <div class="table-head" style="height: 50px; width: 100%">
         <el-button
           type="primary"
           size="small"
           :icon="Plus"
-          v-if="props.handleToSave"
+          v-if="props.handleToSave && permission.addBtn"
           @click="handleToSave"
           >{{ $t(`button.create`) }}</el-button
         >
-        <el-button type="primary" size="small" :icon="Download">{{
+        <el-button type="primary" v-if='permission.exportBtn' size="small" :icon="Download">{{
           $t(`button.download`)
         }}</el-button>
-        <el-button type="primary" size="small" :icon="Upload">{{
+        <el-button type="primary" v-if='permission.importBtn' size="small" :icon="Upload">{{
           $t(`button.upload`)
         }}</el-button>
         <slot name="tableHead" />
@@ -109,6 +110,7 @@
           circle
         ></el-button>
       </div>
+      <!-- 表格内容     -->
       <div class="table-container">
         <el-table ref="xhuiTableRef" :data="_tableData" style="width: 100%">
           <template
@@ -152,34 +154,34 @@
             <el-table-column
               v-if="
                 tableAttributes.columns.length - 1 === cIndex &&
-                tableAttributes.enableOperations"
+                tableAttributes.enableOperations && (permission.editBtn || permission.delBtn || $slots.tableOperation)"
+              min-width='100'
               :label="$t(`button.operations`)"
-              align="center"
-            >
+              align="center">
               <template #default="scope">
                 <el-button
                   size="small"
-                  v-if="props.handleRowUpdate"
+                  v-if="props.handleRowUpdate && permission.editBtn"
                   :icon="Edit"
-                  @click="handleRowUpdate(scope.row)"
-                >
+                  @click="handleRowUpdate(scope.row)">
                   {{ $t(`button.edit`) }}
                 </el-button>
                 <el-button
                   size="small"
-                  v-if="props.handleRowDel"
+                  v-if="props.handleRowDel && permission.delBtn"
                   :icon="Delete"
                   type="danger"
                   @click="toDel(scope.row)">
                   {{ $t(`button.del`) }}
                 </el-button>
                 <!-- 表格操作栏插槽 -->
-                <slot name="tableOperation" />
+                <slot name="tableOperation" :scope='scope'/>
               </template>
             </el-table-column>
           </template>
         </el-table>
       </div>
+      <!-- 表格底部分页     -->
       <div class="table-foot">
         <el-pagination
           class="table-pagination"
@@ -255,16 +257,9 @@
             ref="createOrUpdateFormRef"
             :model="_formData"
             label-width="120px">
-            <template
-              v-for="(column, cIndex) in _tableAttributesColumns"
-              :key="cIndex">
-              <el-row :span="24" :gutter="5">
-                <template
-                  v-for="(xColumn, xIndex) in _tableAttributesColumns.slice(
-                    cIndex * 2,
-                    cIndex * 2 + 2)"
-                  :key="xIndex">
-                  <el-col :xl="12" :lg="12">
+              <el-row :span="4">
+                  <el-col :xl="12" :lg="12" v-for="(xColumn, xIndex) in tableColumns"
+                          :key="xIndex">
                     <el-form-item
                       :label="xColumn.label"
                       :prop="xColumn.prop"
@@ -272,7 +267,7 @@
                       :rules='xColumn.rules'>
                       <el-date-picker
                         v-model="_formData[xColumn.prop]"
-                        v-if="xColumn.type === `datetime` || column.type === `date`"
+                        v-if="xColumn.type === `datetime` || xColumn.type === `date`"
                         :type="xColumn.type"
                         :value-format="xColumn.valueFormat"
                         :clearable="(xColumn.search || {}).clearable" />
@@ -285,13 +280,10 @@
                         :disabled="xColumn.createDisabled || xColumn.editDisabled"></el-input>
                     </el-form-item>
                   </el-col>
-                </template>
               </el-row>
-            </template>
           </el-form>
           <template #footer>
             <span class="dialog-footer">
-              <el-button type="warning" @click="resetFields">{{ $t(`button.reset`) }}</el-button>
               <el-button @click="toClose">{{ $t(`button.cancel`) }}</el-button>
               <el-button
                 type="primary"
@@ -374,6 +366,18 @@ const props = defineProps({
     type: Function,
     required: false,
     default: null
+  },
+  permission: {
+    type: Object,
+    default: () => {
+      return {
+        addBtn: false,
+        editBtn: false,
+        delBtn: false,
+        importBtn: false,
+        exportBtn: false
+      }
+    }
   }
 })
 
@@ -392,6 +396,24 @@ const createOrUpdateDialogTitle = ref('')
 const createOrUpdateFormRef = ref(null)
 
 const _tableAttributesColumns = ref(props.tableAttributes.columns)
+
+const tableColumns = computed(() => {
+  let tableColumns
+  if (createOrUpdateDialogTitle.value === 'edit') {
+    tableColumns = _tableAttributesColumns.value.filter(item => {
+      if (!item.editDisplay) {
+        return item
+      }
+    })
+  } else {
+    tableColumns = _tableAttributesColumns.value.filter(item => {
+      if (!item.createDisplay) {
+        return item
+      }
+    })
+  }
+  return tableColumns
+})
 
 // -------------- 操作 ------------------
 const handleRowUpdate = (row) => {
@@ -453,11 +475,6 @@ const toUpdate = () => {
       return false
     }
   })
-}
-
-// -------------- form 方法------------------
-const resetFields = () => {
-  createOrUpdateFormRef.value.resetFields()
 }
 
 // --------------- 分页 ----------------------

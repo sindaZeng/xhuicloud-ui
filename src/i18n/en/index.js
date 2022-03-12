@@ -41,8 +41,7 @@ export default {
     upload: 'Upload',
     create: 'Create',
     cancel: 'Cancel',
-    confirm: 'Confirm',
-    reset: 'Reset'
+    confirm: 'Confirm'
   },
   msg: {
     hello: 'hello world',

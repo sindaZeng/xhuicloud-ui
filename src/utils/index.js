@@ -22,6 +22,8 @@
  * @Email:  xhuicloud@163.com
  */
 
+// import { validatenull } from './validate'
+
 export function findTagViewsIndex (tagViews, path) {
   let key
   tagViews.map((item, index) => {
@@ -30,4 +32,10 @@ export function findTagViewsIndex (tagViews, path) {
     }
   })
   return key
+}
+
+export function checkData (val, defaultVal) {
+  console.log('校验')
+  console.log(val)
+  return defaultVal
 }

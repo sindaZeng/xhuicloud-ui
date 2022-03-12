@@ -100,7 +100,11 @@ const mutations = {
     state.userInfo = userInfo
   },
   setPermissions (state, permissions) {
-    state.permissions = permissions
+    const list = {}
+    permissions.forEach(item => {
+      list[item] = true
+    })
+    state.permissions = list
   },
   setUserMenus (state, userMenus) {
     state.userMenus = userMenus

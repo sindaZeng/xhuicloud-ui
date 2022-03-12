@@ -32,12 +32,10 @@ export const tableAttributes = {
     prop: 'userId',
     editDisabled: true,
     createDisabled: true,
-    hidden: false,
-    width: 80
+    hidden: false
   }, {
     label: '用户名称',
     prop: 'username',
-    width: 200,
     search: {
       placeholder: '请输入用户名称',
       size: 'small'
@@ -46,22 +44,28 @@ export const tableAttributes = {
     label: '用户头像',
     prop: 'avatar',
     type: 'image',
-    width: 150
+    editDisplay: true,
+    createDisplay: true
+  }, {
+    label: '用户邮箱',
+    prop: 'email'
+  }, {
+    label: '用户手机',
+    prop: 'phone'
   }, {
     label: '用户性别',
     prop: 'sex',
-    formatter: row => {
+    type: 'radio',
+    baseData: [{
+      value: '女',
+      label: 0
+    }, {
+      value: '男',
+      label: 1
+    }],
+    valueFormat: row => {
       return row.sex === 0 ? '女' : '男'
-    },
-    width: 150
-  }, {
-    label: '用户邮箱',
-    prop: 'email',
-    width: 200
-  }, {
-    label: '用户手机',
-    prop: 'phone',
-    width: 200
+    }
   }, {
     label: '锁定状态',
     prop: 'lockFlag',
@@ -87,7 +91,6 @@ export const tableAttributes = {
     formatter: parseTime,
     editDisplay: true,
     createDisplay: true,
-    width: 100,
     valueFormat: 'YYYY-MM-DD HH:mm:ss',
     search: {
       placeholder: '请选择创建时间',

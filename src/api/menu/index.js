@@ -24,9 +24,38 @@
 
 import request from '@/utils/request'
 
+/**
+ * 获取用户菜单
+ * @returns {*}
+ */
 export const getMenu = () => {
   return request({
     url: '/admin/menu',
+    method: 'get'
+  })
+}
+
+/**
+ * 菜单树
+ * @param data
+ * @returns {*}
+ */
+export const menuTree = data => {
+  return request({
+    url: '/admin/menu/tree',
+    method: 'get',
+    params: data
+  })
+}
+
+/**
+ * 角色菜单树
+ * @param roleId
+ * @returns {*}
+ */
+export const getRoleTree = roleId => {
+  return request({
+    url: '/admin/menu/tree/' + roleId,
     method: 'get'
   })
 }

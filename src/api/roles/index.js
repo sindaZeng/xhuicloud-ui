@@ -74,3 +74,20 @@ export const updateRole = data => {
     data
   })
 }
+
+/**
+ * 更新角色菜单
+ * @param roleId
+ * @param menuIds
+ * @returns {*}
+ */
+export const updateRoleMenus = (roleId, menuIds) => {
+  return request({
+    url: 'admin/role/menus',
+    method: 'post',
+    params: {
+      roleId: roleId,
+      menuIds: menuIds
+    }
+  })
+}
