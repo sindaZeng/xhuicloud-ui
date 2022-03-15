@@ -22,21 +22,42 @@
  * @Email:  xhuicloud@163.com
  */
 
-// import { validatenull } from './validate'
-
-export function findTagViewsIndex (tagViews, path) {
-  let key
-  tagViews.map((item, index) => {
-    if (item.path === path) {
-      key = index
+export const tableAttributes = {
+  enableOperations: true, // 开启操作栏
+  stripe: true, // 斑马纹表格
+  height: 680, // 表格高度
+  columns: [{
+    label: '名称',
+    prop: 'name'
+  }, {
+    label: '图标',
+    prop: 'icon',
+    isIcon: true
+  }, {
+    label: '类型',
+    prop: 'type',
+    type: 'radio',
+    baseData: [{
+      value: '菜单',
+      label: 0
+    }, {
+      value: '按钮',
+      label: 1
+    }],
+    tagTpye: row => {
+      return row.type === 0 ? 'success' : ''
+    },
+    valueFormat: row => {
+      return row.type === 0 ? '菜单' : '按钮'
     }
-  })
-  return key
-}
-
-export function checkData (val, defaultVal) {
-  if (val) {
-    return true
-  }
-  return defaultVal
+  }, {
+    label: '路由路径',
+    prop: 'path'
+  }, {
+    label: '授权标识',
+    prop: 'permission'
+  }, {
+    label: '排序',
+    prop: 'sort'
+  }]
 }

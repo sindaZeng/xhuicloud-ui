@@ -59,3 +59,16 @@ export const getRoleTree = roleId => {
     method: 'get'
   })
 }
+
+/**
+ * 更新菜单
+ * @param data
+ * @returns {*}
+ */
+export const updateMenu = data => {
+  return request({
+    url: '/admin/menu',
+    method: 'put',
+    data
+  })
+}

@@ -39,7 +39,12 @@ export const tableAttributes = {
     search: {
       placeholder: '请输入用户名称',
       size: 'small'
-    }
+    },
+    rules: [{
+      required: true,
+      message: '请输入用户名称',
+      trigger: 'blur'
+    }]
   }, {
     label: '用户头像',
     prop: 'avatar',
@@ -51,7 +56,12 @@ export const tableAttributes = {
     prop: 'email'
   }, {
     label: '用户手机',
-    prop: 'phone'
+    prop: 'phone',
+    rules: [{
+      required: true,
+      message: '请输入用户手机',
+      trigger: 'blur'
+    }]
   }, {
     label: '用户性别',
     prop: 'sex',
@@ -62,6 +72,11 @@ export const tableAttributes = {
     }, {
       value: '男',
       label: 1
+    }],
+    rules: [{
+      required: true,
+      message: '请选择用户性别',
+      trigger: 'blur'
     }],
     valueFormat: row => {
       return row.sex === 0 ? '女' : '男'

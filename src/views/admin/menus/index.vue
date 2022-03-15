@@ -23,13 +23,52 @@
   -->
 
 <template>
-  <div class=''>菜单页面</div>
+  <xhui-table
+    :tableAttributes='tableAttributes'
+    :permission='permission'
+    :tableData='tableData'
+    :getTableData='getTableData'>
+    <template #createOrUpdateDialog='{ status, title, row }'>
+      <tableForm :status='status' :row='row' :title='title' @refreshTableData='getTableData'></tableForm>
+    </template>
+  </xhui-table>
 </template>
 
 <script setup>
+import { menuTree } from '@/api/menu'
+import { computed, ref } from 'vue'
+import { tableAttributes } from '@/api/menu/dto'
+import { checkData } from '@/utils'
+import { useStore } from 'vuex'
+import TableForm from './form'
 
+const store = useStore()
+
+const tableData = ref([])
+
+const permission = computed(() => {
+  return {
+    addBtn: checkData(store.getters.permissions.sys_add_role, false),
+    editBtn: checkData(store.getters.permissions.sys_editor_role, false),
+    delBtn: checkData(store.getters.permissions.sys_delete_role, false)
+  }
+})
+
+const getTableData = async () => {
+  const records = await menuTree({ disabled: false })
+  tableData.value = records
+  return records
+}
 </script>
 
 <style lang='scss' scoped>
-
+::v-deep(.el-table) {
+  tr{
+    height: 50px;
+  }
+  .svg-icon {
+    width: 30px;
+    height: 30px;
+  }
+}
 </style>

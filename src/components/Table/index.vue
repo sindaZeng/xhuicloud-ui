@@ -84,7 +84,7 @@
           type="primary"
           size="small"
           :icon="Plus"
-          v-if="props.handleToSave && permission.addBtn"
+          v-if="permission.addBtn"
           @click="handleToSave"
           >{{ $t(`button.create`) }}</el-button
         >
@@ -112,7 +112,13 @@
       </div>
       <!-- 表格内容     -->
       <div class="table-container">
-        <el-table ref="xhuiTableRef" :data="_tableData" style="width: 100%">
+        <el-table ref="xhuiTableRef"
+                  :data="_tableData"
+                  row-key="id"
+                  :height='tableAttributes.height'
+                  :stripe='tableAttributes.stripe'
+                  :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+                  style="width: 100%">
           <template
             v-for="(column, cIndex) in _tableAttributesColumns"
             :key="cIndex"
@@ -133,9 +139,11 @@
                 <el-image
                   v-if="column.type === `image`"
                   style="width: 60px; height: 60px"
-                  :src="scope.row[column.prop]"
-                >
+                  :src="scope.row[column.prop]">
                 </el-image>
+              </template>
+              <template #default="scope" v-else-if="column.isIcon">
+                <xhui-svg :icon='scope.row[column.prop]'></xhui-svg>
               </template>
               <template #default="scope" v-else-if="column.type === `avatar`">
                 <el-avatar
@@ -159,23 +167,23 @@
               :label="$t(`button.operations`)"
               align="center">
               <template #default="scope">
+                <!-- 表格操作栏插槽 -->
+                <slot name="tableOperation" :scope='scope'/>
                 <el-button
                   size="small"
-                  v-if="props.handleRowUpdate && permission.editBtn"
+                  v-if="permission.editBtn"
                   :icon="Edit"
                   @click="handleRowUpdate(scope.row)">
                   {{ $t(`button.edit`) }}
                 </el-button>
                 <el-button
                   size="small"
-                  v-if="props.handleRowDel && permission.delBtn"
+                  v-if="permission.delBtn"
                   :icon="Delete"
                   type="danger"
                   @click="toDel(scope.row)">
                   {{ $t(`button.del`) }}
                 </el-button>
-                <!-- 表格操作栏插槽 -->
-                <slot name="tableOperation" :scope='scope'/>
               </template>
             </el-table-column>
           </template>
@@ -246,13 +254,12 @@
     </el-drawer>
     <!--  新增/修改  -->
     <div class="createOrUpdateDialog">
-      <slot name="createOrUpdateDialog">
+      <slot name="createOrUpdateDialog" :row='getFormData' :title='createOrUpdateDialogTitle' :status='getCreateOrUpdateDialog'>
         <el-dialog
           v-model="createOrUpdateDialog"
           :title="$t(`table.` + createOrUpdateDialogTitle + `Dialog`)"
           width="40%"
-          :before-close="toClose"
-          draggable>
+          :before-close="toClose">
           <el-form
             ref="createOrUpdateFormRef"
             :model="_formData"
@@ -297,7 +304,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, computed, ref, watch } from 'vue'
+import { defineProps, computed, ref, watch } from 'vue'
 import { isNull } from '@/utils/validate'
 import { ElNotification } from 'element-plus'
 import {
@@ -352,23 +359,24 @@ const props = defineProps({
     type: Function,
     required: false
   },
-  handleToSave: {
+  toSaveRow: {
     type: Function,
     required: false,
     default: null
   },
-  handleRowDel: {
+  toDelRow: {
     type: Function,
     required: false,
     default: null
   },
-  handleRowUpdate: {
+  toUpdateRow: {
     type: Function,
     required: false,
     default: null
   },
   permission: {
     type: Object,
+    required: false,
     default: () => {
       return {
         addBtn: false,
@@ -397,6 +405,13 @@ const createOrUpdateFormRef = ref(null)
 
 const _tableAttributesColumns = ref(props.tableAttributes.columns)
 
+const getCreateOrUpdateDialog = computed(() => {
+  return createOrUpdateDialog
+})
+
+const getFormData = computed(() => {
+  return _formData
+})
 const tableColumns = computed(() => {
   let tableColumns
   if (createOrUpdateDialogTitle.value === 'edit') {
@@ -417,21 +432,21 @@ const tableColumns = computed(() => {
 
 // -------------- 操作 ------------------
 const handleRowUpdate = (row) => {
-  createOrUpdateDialog.value = !createOrUpdateDialog.value
-  createOrUpdateDialogTitle.value = 'edit'
   _formData.value = row
+  createOrUpdateDialogTitle.value = 'edit'
+  createOrUpdateDialog.value = true
 }
 
 const handleToSave = () => {
   _formData.value = {}
-  createOrUpdateDialog.value = !createOrUpdateDialog.value
   createOrUpdateDialogTitle.value = 'create'
+  createOrUpdateDialog.value = true
 }
 
 const toSave = () => {
   createOrUpdateFormRef.value.validate((valid) => {
     if (valid) {
-      props.handleToSave(_formData.value).then(() => {
+      props.toSaveRow(_formData.value).then(() => {
         ElNotification({
           title: 'Success',
           message: 'Create success',
@@ -447,10 +462,11 @@ const toSave = () => {
 }
 
 const toClose = () => {
-  createOrUpdateDialog.value = !createOrUpdateDialog.value
+  createOrUpdateDialog.value = false
+  getTableData()
 }
 const toDel = row => {
-  props.handleRowDel(row).then(() => {
+  props.toDelRow(row).then(() => {
     ElNotification({
       title: 'Success',
       message: 'Delete success',
@@ -463,7 +479,7 @@ const toDel = row => {
 const toUpdate = () => {
   createOrUpdateFormRef.value.validate((valid) => {
     if (valid) {
-      props.handleRowUpdate(_formData.value).then(() => {
+      props.toUpdateRow(_formData.value).then(() => {
         ElNotification({
           title: 'Success',
           message: 'Update success',
@@ -477,22 +493,18 @@ const toUpdate = () => {
   })
 }
 
-// --------------- 分页 ----------------------
-const pageEmits = defineEmits(['update:page'])
-
-const _page = computed({
-  get: () => props.page,
-  set: (val) => {
-    pageEmits('update:page', val)
-  }
-})
+const _page = ref(props.page)
 
 const getTableData = () => {
   if (props.getTableData) {
-    props.getTableData({
-      current: _page.value.current,
-      size: _page.value.size
-    }, searchForm.value)
+    if (_page.value) {
+      props.getTableData({
+        current: _page.value.current,
+        size: _page.value.size
+      }, searchForm.value)
+    } else {
+      props.getTableData(searchForm.value)
+    }
   }
 }
 

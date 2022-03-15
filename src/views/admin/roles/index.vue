@@ -25,17 +25,18 @@
 <template>
   <xhui-table
     :tableAttributes='tableAttributes'
+    :permission='permission'
     v-model:page='page'
     :tableData='tableData'
     :getTableData='getTableData'
-    :handleRowDel='handleRowDel'
-    :handleToSave='handleToSave'
-    :handleRowUpdate='handleRowUpdate'>
+    :toDelRow='toDelRow'
+    :toSaveRow='toSaveRow'
+    :toUpdateRow='toUpdateRow'>
     <template #tableOperation='{ scope }'>
       <el-button
         size="small"
         @click='handlePermission(scope.row)'>
-        权限
+        <el-icon class="el-icon--left"><xhui-svg icon='permission'></xhui-svg></el-icon>权限
       </el-button>
     </template>
   </xhui-table>
@@ -72,11 +73,20 @@
 
 <script setup>
 import { tableAttributes } from '@/api/roles/dto'
-import { page } from '@/mixins/page'
 import { rolesPage, delRole, updateRole, createRole, updateRoleMenus } from '@/api/roles'
 import { ElMessageBox, ElNotification } from 'element-plus'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { menuTree, getRoleTree } from '@/api/menu'
+import { checkData } from '@/utils'
+import { useStore } from 'vuex'
+
+const page = ref({
+  total: 20, // 总页数
+  current: 1, // 当前页数
+  size: 10 // 每页显示多少条
+})
+
+const store = useStore()
 
 const tableData = ref([])
 
@@ -90,6 +100,14 @@ const checkandExpandMenuData = ref([])
 
 const dialogPermissionVisible = ref(false)
 
+const permission = computed(() => {
+  return {
+    addBtn: checkData(store.getters.permissions.sys_add_role, false),
+    editBtn: checkData(store.getters.permissions.sys_editor_role, false),
+    delBtn: checkData(store.getters.permissions.sys_delete_role, false)
+  }
+})
+
 const toClose = () => {
   dialogPermissionVisible.value = !dialogPermissionVisible.value
   menuData.value = []
@@ -97,12 +115,12 @@ const toClose = () => {
   roleId.value = null
 }
 
-const getTableData = async (page, searchForm) => {
+const getTableData = async (searchForm) => {
   const {
     records,
     total
-  } = await rolesPage({ ...page, ...searchForm })
-  page.total = total
+  } = await rolesPage({ ...page.value, ...searchForm })
+  page.value.total = total
   tableData.value = records
   return records
 }
@@ -132,15 +150,15 @@ const toUpdateRoleMenus = () => {
     })
   })
 }
-const handleRowUpdate = row => {
+const toUpdateRow = row => {
   return updateRole(row)
 }
 
-const handleToSave = data => {
+const toSaveRow = data => {
   return createRole(data)
 }
 
-const handleRowDel = row => {
+const toDelRow = row => {
   return ElMessageBox.confirm(`Are you confirm to delete ${row.roleName} ?`)
     .then(() => {
       delRole(row.id)

@@ -53,9 +53,9 @@
           v-model:page='page'
           :tableData='tableData'
           :getTableData='getTableData'
-          :handleRowDel='handleRowDel'
-          :handleToSave='handleToSave'
-          :handleRowUpdate='handleRowUpdate'>
+          :toDelRow='toDelRow'
+          :toSaveRow='toSaveRow'
+          :toUpdateRow='toUpdateRow'>
         </xhui-table>
       </el-col>
     </el-row>
@@ -64,7 +64,6 @@
 
 <script setup>
 import { tableAttributes } from '@/api/user/dto'
-import { page } from '@/mixins/page'
 import { userPage, createUser, delUser, updateUser } from '@/api/user'
 import { deptTree } from '@/api/dept'
 import { ElMessageBox } from 'element-plus'
@@ -72,6 +71,13 @@ import { computed, ref, watchPostEffect } from 'vue'
 import { validatenull } from '@/utils/validate'
 import { useStore } from 'vuex'
 import { checkData } from '@/utils'
+
+const page = ref({
+  total: 20, // 总页数
+  current: 1, // 当前页数
+  size: 10 // 每页显示多少条
+})
+
 
 const deptTreeData = ref({})
 
@@ -89,9 +95,9 @@ const store = useStore()
 
 const permission = computed(() => {
   return {
-    addBtn: checkData(store.getters.permissions.sys_permission_role, false),
-    editBtn: false,
-    delBtn: false
+    addBtn: checkData(store.getters.permissions.sys_add_user, false),
+    editBtn: checkData(store.getters.permissions.sys_editor_user, false),
+    delBtn: checkData(store.getters.permissions.sys_delete_user, false)
   }
 })
 
@@ -137,23 +143,23 @@ const filterDeptTreeData = (value, data) => {
   return data.name.indexOf(value) !== -1
 }
 
-const getTableData = (page, searchForm) => {
-  userPage({ ...page, ...searchForm, deptIds: deptIds.value.join(',') }).then(response => {
-    page.total = response.total
+const getTableData = (searchForm) => {
+  userPage({ ...page.value, ...searchForm, deptIds: deptIds.value.join(',') }).then(response => {
+    page.value.total = response.total
     tableData.value = response.records
   }).catch(() => {
   })
 }
 
-const handleRowUpdate = row => {
+const toUpdateRow = row => {
   return updateUser(row)
 }
 
-const handleToSave = data => {
+const toSaveRow = data => {
   return createUser({ ...data, deptIds: [currentDeptId.value] })
 }
 
-const handleRowDel = row => {
+const toDelRow = row => {
   ElMessageBox.confirm(`Are you confirm to delete ${row.username} ?`)
     .then(() => {
       delUser(row.id)
