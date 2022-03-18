@@ -90,7 +90,7 @@ RouterPlugin.install = function (router) {
             path: routePath,
             children: []
           }
-          if (route.meta.icon && route.meta.title) {
+          if (route.meta.title) {
             result.push(route)
           }
         }

@@ -27,7 +27,8 @@
     :tableAttributes='tableAttributes'
     :permission='permission'
     :tableData='tableData'
-    :getTableData='getTableData'>
+    @toDelRow='toDelRow'
+    @getTableData='getTableData'>
     <template #createOrUpdateDialog='{ status, title, row }'>
       <tableForm :status='status' :row='row' :title='title' @refreshTableData='getTableData'></tableForm>
     </template>
@@ -35,12 +36,13 @@
 </template>
 
 <script setup>
-import { menuTree } from '@/api/menu'
+import { menuTree, deleteMenu } from '@/api/menu'
 import { computed, ref } from 'vue'
 import { tableAttributes } from '@/api/menu/dto'
 import { checkData } from '@/utils'
 import { useStore } from 'vuex'
 import TableForm from './form'
+import { ElMessageBox, ElNotification } from 'element-plus'
 
 const store = useStore()
 
@@ -58,6 +60,21 @@ const getTableData = async () => {
   const records = await menuTree({ disabled: false })
   tableData.value = records
   return records
+}
+
+const toDelRow = row => {
+  ElMessageBox.confirm(`Are you confirm to delete ${row.name} ?`)
+    .then(() => {
+      return deleteMenu(row.id)
+    }).catch(() => {
+    }).then(() => {
+      ElNotification({
+        title: 'Success',
+        message: 'Delete success',
+        type: 'success'
+      })
+      getTableData()
+    })
 }
 </script>
 

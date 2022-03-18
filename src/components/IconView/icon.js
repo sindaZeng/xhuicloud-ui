@@ -22,16 +22,13 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { ref } from 'vue'
+const req = require.context('../../icons/svg', false, /\.svg$/)
+const requireAll = requireContext => requireContext.keys()
 
-export default function () {
-  const page = ref({
-    total: 20, // 总页数
-    current: 1, // 当前页数
-    size: 10 // 每页显示多少条
-  })
+const re = /\.\/(.*)\.svg/
 
-  return {
-    page
-  }
-}
+const icons = requireAll(req).map(i => {
+  return i.match(re)[1]
+})
+
+export default icons

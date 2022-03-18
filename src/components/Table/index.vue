@@ -304,9 +304,8 @@
 </template>
 
 <script setup>
-import { defineProps, computed, ref, watch } from 'vue'
+import { defineProps, computed, ref, watch, defineEmits } from 'vue'
 import { isNull } from '@/utils/validate'
-import { ElNotification } from 'element-plus'
 import {
   Edit,
   Delete,
@@ -316,7 +315,7 @@ import {
   Upload,
   Refresh,
   View
-} from '@element-plus/icons-vue' //  element-plus@1.1.0-beta.24  @See: https://github.com/element-plus/element-plus/issues/2898 貌似有BUG 后续观望
+} from '@element-plus/icons' //  element-plus@1.1.0-beta.24  @See: https://github.com/element-plus/element-plus/issues/2898 貌似有BUG 后续观望
 
 const props = defineProps({
   cardStyle: {
@@ -355,25 +354,6 @@ const props = defineProps({
     type: Object,
     required: true
   },
-  getTableData: {
-    type: Function,
-    required: false
-  },
-  toSaveRow: {
-    type: Function,
-    required: false,
-    default: null
-  },
-  toDelRow: {
-    type: Function,
-    required: false,
-    default: null
-  },
-  toUpdateRow: {
-    type: Function,
-    required: false,
-    default: null
-  },
   permission: {
     type: Object,
     required: false,
@@ -405,6 +385,10 @@ const createOrUpdateFormRef = ref(null)
 
 const _tableAttributesColumns = ref(props.tableAttributes.columns)
 
+const _page = ref(props.page)
+
+const emits = defineEmits(['getTableData', 'toDelRow', 'toSaveRow', 'toUpdateRow', 'updata:page'])
+
 const getCreateOrUpdateDialog = computed(() => {
   return createOrUpdateDialog
 })
@@ -412,6 +396,7 @@ const getCreateOrUpdateDialog = computed(() => {
 const getFormData = computed(() => {
   return _formData
 })
+
 const tableColumns = computed(() => {
   let tableColumns
   if (createOrUpdateDialogTitle.value === 'edit') {
@@ -446,15 +431,8 @@ const handleToSave = () => {
 const toSave = () => {
   createOrUpdateFormRef.value.validate((valid) => {
     if (valid) {
-      props.toSaveRow(_formData.value).then(() => {
-        ElNotification({
-          title: 'Success',
-          message: 'Create success',
-          type: 'success'
-        })
-        createOrUpdateDialog.value = !createOrUpdateDialog.value
-        getTableData()
-      })
+      emits('toSaveRow', _formData.value)
+      createOrUpdateDialog.value = false
     } else {
       return false
     }
@@ -466,45 +444,28 @@ const toClose = () => {
   getTableData()
 }
 const toDel = row => {
-  props.toDelRow(row).then(() => {
-    ElNotification({
-      title: 'Success',
-      message: 'Delete success',
-      type: 'success'
-    })
-    getTableData()
-  })
+  emits('toDelRow', row)
 }
 
 const toUpdate = () => {
   createOrUpdateFormRef.value.validate((valid) => {
     if (valid) {
-      props.toUpdateRow(_formData.value).then(() => {
-        ElNotification({
-          title: 'Success',
-          message: 'Update success',
-          type: 'success'
-        })
-        createOrUpdateDialog.value = !createOrUpdateDialog.value
-      })
+      emits('toUpdateRow', _formData.value)
+      createOrUpdateDialog.value = false
     } else {
       return false
     }
   })
 }
 
-const _page = ref(props.page)
-
 const getTableData = () => {
-  if (props.getTableData) {
-    if (_page.value) {
-      props.getTableData({
-        current: _page.value.current,
-        size: _page.value.size
-      }, searchForm.value)
-    } else {
-      props.getTableData(searchForm.value)
-    }
+  if (_page.value) {
+    emits('getTableData', {
+      current: _page.value.current,
+      size: _page.value.size
+    }, searchForm.value)
+  } else {
+    emits('getTableData', searchForm.value)
   }
 }
 
@@ -522,8 +483,7 @@ watch(
   () => props.tableData,
   () => {
     _tableData.value = props.tableData
-    const tableDataLength = _tableData.value.length
-    if (!isNull(_page.value) && tableDataLength > _page.value.size) {
+    if (!isNull(_page.value) && _tableData.value.length > _page.value.size) {
       _tableData.value = _tableData.value.slice(
         (_page.value.current - 1) * _page.value.size,
         _page.value.current * _page.value.size
@@ -541,6 +501,7 @@ const handleSizeChange = (size) => {
     ...props.page,
     size: size
   }
+  emits('update:page', _page.value)
 }
 
 const handleCurrentChange = (current) => {
@@ -548,6 +509,7 @@ const handleCurrentChange = (current) => {
     ...props.page,
     current: current
   }
+  emits('update:page', _page.value)
 }
 </script>
 

@@ -34,6 +34,9 @@ export const tableAttributes = {
     prop: 'icon',
     isIcon: true
   }, {
+    label: '国际化',
+    prop: 'internationalization'
+  }, {
     label: '类型',
     prop: 'type',
     type: 'radio',

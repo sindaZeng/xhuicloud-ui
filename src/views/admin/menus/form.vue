@@ -41,8 +41,19 @@
         </el-col>
         <el-col :xl="12" :lg="12">
           <el-form-item label="授权标识:" prop="permission">
-            <el-input v-model="form.permission"
+            <el-input v-model="form.permission" :disabled="form.type === 0"
                       clearable/>
+          </el-form-item>
+        </el-col>
+        <el-col :xl="12" :lg="12">
+          <el-form-item label="国际化:" prop="internationalization">
+            <el-input v-model="form.internationalization"
+                      clearable/>
+          </el-form-item>
+        </el-col>
+        <el-col :xl="12" :lg="12">
+          <el-form-item label="路由路径:" prop="path">
+            <el-input v-model="form.path" :disabled="form.type === 1" clearable/>
           </el-form-item>
         </el-col>
         <el-col :xl="12" :lg="12">
@@ -51,14 +62,19 @@
           </el-form-item>
         </el-col>
         <el-col :xl="12" :lg="12">
-          <el-form-item label="路由路径:" prop="path">
-            <el-input v-model="form.path" clearable/>
+          <el-form-item label="上级菜单:" prop="parentId">
+            <el-cascader
+              v-model="form.parentId"
+              :options="menuDatas"
+              :props="{ checkStrictly: true }"
+              clearable
+            ></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :xl="12" :lg="12">
           <el-form-item
             label="类型:" prop="type">
-            <el-radio-group v-model="form.type" @change="agreeChange">
+            <el-radio-group v-model="form.type" @change="change">
               <el-radio :label="0" border>菜单
               </el-radio>
               <el-radio :label="1" border>按钮
@@ -73,15 +89,16 @@
               <el-button @click='toClose'>{{ $t(`button.cancel`) }}</el-button>
               <el-button
                 type="primary"
-                @click="toUpdateRow">{{ $t(`button.confirm`) }}</el-button>
+                @click="_title === 'edit' ? toUpdateRow() : toSaveRow() ">{{ $t(`button.confirm`) }}</el-button>
             </span>
     </template>
   </el-dialog>
 </template>
 
 <script setup>
-import { defineEmits, defineProps, ref } from 'vue'
-import { updateMenu } from '@/api/menu'
+import { defineEmits, defineProps, ref, watch } from 'vue'
+import { updateMenu, menuTree, createMenu } from '@/api/menu'
+import { ElNotification } from 'element-plus'
 
 const props = defineProps({
   status: {
@@ -103,10 +120,50 @@ const emits = defineEmits(['refreshTableData'])
 
 const dialogVisible = ref(props.status)
 
+const menuDatas = ref(null)
+
+const _title = ref(props.title)
+
 const form = ref(props.row)
+
+const change = val => {
+  if (val === 0) {
+    form.value.permission = ''
+  } else {
+    form.value.path = ''
+  }
+}
+
+const loadOptions = () => {
+  menuTree({ disabled: true }).then(response => {
+    menuDatas.value = response
+    const menu = { value: 0, label: '根菜单' }
+    menuDatas.value.unshift(menu)
+  })
+}
+
+watch(dialogVisible, () => {
+  if (dialogVisible.value) {
+    loadOptions()
+  }
+}, {
+  immediate: true
+})
 
 const toUpdateRow = () => {
   return updateMenu(form.value)
+}
+
+const toSaveRow = () => {
+  form.value.parentId = form.value.parentId[form.value.parentId.length - 1]
+  createMenu(form.value).then(() => {
+    ElNotification({
+      title: 'Success',
+      message: 'Create success',
+      type: 'success'
+    })
+    emits('refreshTableData')
+  })
 }
 
 const toClose = () => {

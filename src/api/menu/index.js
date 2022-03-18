@@ -72,3 +72,28 @@ export const updateMenu = data => {
     data
   })
 }
+
+/**
+ * 新增菜单
+ * @param data
+ * @returns {*}
+ */
+export const createMenu = data => {
+  return request({
+    url: '/admin/menu',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 删除菜单
+ * @param Id
+ * @returns {*}
+ */
+export const deleteMenu = id => {
+  return request({
+    url: 'admin/menu/' + id,
+    method: 'delete'
+  })
+}

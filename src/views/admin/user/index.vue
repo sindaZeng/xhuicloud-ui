@@ -52,10 +52,10 @@
           :permission='permission'
           v-model:page='page'
           :tableData='tableData'
-          :getTableData='getTableData'
-          :toDelRow='toDelRow'
-          :toSaveRow='toSaveRow'
-          :toUpdateRow='toUpdateRow'>
+          @getTableData='getTableData'
+          @toDelRow='toDelRow'
+          @toSaveRow='toSaveRow'
+          @toUpdateRow='toUpdateRow'>
         </xhui-table>
       </el-col>
     </el-row>
@@ -66,18 +66,14 @@
 import { tableAttributes } from '@/api/user/dto'
 import { userPage, createUser, delUser, updateUser } from '@/api/user'
 import { deptTree } from '@/api/dept'
-import { ElMessageBox } from 'element-plus'
+import usePage from '@/mixins/page'
+import { ElMessageBox, ElNotification } from 'element-plus'
 import { computed, ref, watchPostEffect } from 'vue'
 import { validatenull } from '@/utils/validate'
 import { useStore } from 'vuex'
 import { checkData } from '@/utils'
 
-const page = ref({
-  total: 20, // 总页数
-  current: 1, // 当前页数
-  size: 10 // 每页显示多少条
-})
-
+const { page } = usePage()
 
 const deptTreeData = ref({})
 
@@ -152,18 +148,38 @@ const getTableData = (searchForm) => {
 }
 
 const toUpdateRow = row => {
-  return updateUser(row)
+  updateUser(row).then(() => {
+    ElNotification({
+      title: 'Success',
+      message: 'Update success',
+      type: 'success'
+    })
+  })
 }
 
 const toSaveRow = data => {
-  return createUser({ ...data, deptIds: [currentDeptId.value] })
+  createUser({ ...data, deptIds: [currentDeptId.value] }).then(() => {
+    ElNotification({
+      title: 'Success',
+      message: 'Create success',
+      type: 'success'
+    })
+    getTableData()
+  })
 }
 
 const toDelRow = row => {
   ElMessageBox.confirm(`Are you confirm to delete ${row.username} ?`)
     .then(() => {
-      delUser(row.id)
+      delUser(row.userId)
     }).catch(() => {
+    }).then(() => {
+      ElNotification({
+        title: 'Success',
+        message: 'Delete success',
+        type: 'success'
+      })
+      getTableData()
     })
 }
 </script>

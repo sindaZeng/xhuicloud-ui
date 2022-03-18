@@ -28,10 +28,10 @@
     :permission='permission'
     v-model:page='page'
     :tableData='tableData'
-    :getTableData='getTableData'
-    :toDelRow='toDelRow'
-    :toSaveRow='toSaveRow'
-    :toUpdateRow='toUpdateRow'>
+    @getTableData='getTableData'
+    @toDelRow='toDelRow'
+    @toSaveRow='toSaveRow'
+    @toUpdateRow='toUpdateRow'>
     <template #tableOperation='{ scope }'>
       <el-button
         size="small"
@@ -73,6 +73,7 @@
 
 <script setup>
 import { tableAttributes } from '@/api/roles/dto'
+import usePage from '@/mixins/page'
 import { rolesPage, delRole, updateRole, createRole, updateRoleMenus } from '@/api/roles'
 import { ElMessageBox, ElNotification } from 'element-plus'
 import { computed, ref } from 'vue'
@@ -80,11 +81,7 @@ import { menuTree, getRoleTree } from '@/api/menu'
 import { checkData } from '@/utils'
 import { useStore } from 'vuex'
 
-const page = ref({
-  total: 20, // 总页数
-  current: 1, // 当前页数
-  size: 10 // 每页显示多少条
-})
+const { page } = usePage()
 
 const store = useStore()
 
@@ -119,7 +116,7 @@ const getTableData = async (searchForm) => {
   const {
     records,
     total
-  } = await rolesPage({ ...page.value, ...searchForm })
+  } = await rolesPage({ ...page, ...searchForm })
   page.value.total = total
   tableData.value = records
   return records
@@ -151,18 +148,38 @@ const toUpdateRoleMenus = () => {
   })
 }
 const toUpdateRow = row => {
-  return updateRole(row)
+  updateRole(row).then(() => {
+    ElNotification({
+      title: 'Success',
+      message: 'Update success',
+      type: 'success'
+    })
+  })
 }
 
 const toSaveRow = data => {
-  return createRole(data)
+  createRole(data).then(() => {
+    ElNotification({
+      title: 'Success',
+      message: 'Create success',
+      type: 'success'
+    })
+    getTableData()
+  })
 }
 
 const toDelRow = row => {
-  return ElMessageBox.confirm(`Are you confirm to delete ${row.roleName} ?`)
+  ElMessageBox.confirm(`Are you confirm to delete ${row.roleName} ?`)
     .then(() => {
       delRole(row.id)
     }).catch(() => {
+    }).then(() => {
+      ElNotification({
+        title: 'Success',
+        message: 'Delete success',
+        type: 'success'
+      })
+      getTableData()
     })
 }
 </script>
