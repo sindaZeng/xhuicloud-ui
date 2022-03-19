@@ -102,6 +102,8 @@ export default {
     DataSourceAdd: 'Add DataSource',
     GeneratorsBatchAdd: 'Batch Generators',
     InterfaceDocs: 'Interface Docs',
-    SystemMonitor: 'System Monitor'
+    SystemMonitor: 'System Monitor',
+    Icons: 'Icons',
+    LoginLog: 'Login Log'
   }
 }

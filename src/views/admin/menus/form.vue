@@ -151,7 +151,8 @@ watch(dialogVisible, () => {
 })
 
 const toUpdateRow = () => {
-  return updateMenu(form.value)
+  updateMenu(form.value)
+  dialogVisible.value = false
 }
 
 const toSaveRow = () => {
@@ -164,6 +165,7 @@ const toSaveRow = () => {
     })
     emits('refreshTableData')
   })
+  dialogVisible.value = false
 }
 
 const toClose = () => {

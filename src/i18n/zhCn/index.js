@@ -102,6 +102,8 @@ export default {
     DataSourceAdd: '新增数据源',
     GeneratorsBatchAdd: '批量生成',
     InterfaceDocs: '接口文档',
-    SystemMonitor: '系统监控'
+    SystemMonitor: '系统监控',
+    Icons: '图库',
+    LoginLog: '登录记录'
   }
 }

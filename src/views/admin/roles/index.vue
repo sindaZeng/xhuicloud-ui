@@ -106,7 +106,7 @@ const permission = computed(() => {
 })
 
 const toClose = () => {
-  dialogPermissionVisible.value = !dialogPermissionVisible.value
+  dialogPermissionVisible.value = false
   menuData.value = []
   checkandExpandMenuData.value = []
   roleId.value = null
@@ -116,7 +116,7 @@ const getTableData = async (searchForm) => {
   const {
     records,
     total
-  } = await rolesPage({ ...page, ...searchForm })
+  } = await rolesPage({ ...page.value, ...searchForm })
   page.value.total = total
   tableData.value = records
   return records
@@ -145,6 +145,7 @@ const toUpdateRoleMenus = () => {
       message: 'Create success',
       type: 'success'
     })
+    dialogPermissionVisible.value = false
   })
 }
 const toUpdateRow = row => {
