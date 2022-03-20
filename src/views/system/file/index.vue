@@ -23,10 +23,60 @@
   -->
 
 <template>
-  <div class=''>文件管理</div>
+  <xhui-table
+    :tableAttributes='tableAttributes'
+    :tableData='tableData'
+    :permission='permission'
+    @toDelRow='toDelRow'
+    @getTableData='getTableData'>
+  </xhui-table>
 </template>
 
 <script setup>
+import usePage from '@/mixins/page'
+import { computed, ref } from 'vue'
+import { filePage, delFile } from '@/api/file'
+import { tableAttributes } from '@/api/file/dto'
+import { ElMessageBox, ElNotification } from 'element-plus'
+import { checkData } from '@/utils'
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const { page } = usePage()
+
+const tableData = ref([])
+
+const permission = computed(() => {
+  return {
+    delBtn: checkData(store.getters.permissions.sys_delete_file, false)
+  }
+})
+
+const getTableData = async (searchForm) => {
+  const {
+    records,
+    total
+  } = await filePage({ ...page.value, ...searchForm })
+  page.value.total = total
+  tableData.value = records
+  return records
+}
+
+const toDelRow = row => {
+  ElMessageBox.confirm(`Are you confirm to delete ${row.name} ?`)
+    .then(() => {
+      delFile(row.id)
+    }).catch(() => {
+    }).then(() => {
+      ElNotification({
+        title: 'Success',
+        message: 'Delete success',
+        type: 'success'
+      })
+      getTableData()
+    })
+}
 </script>
 
 <style lang='scss' scoped>
