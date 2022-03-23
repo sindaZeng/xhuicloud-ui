@@ -82,6 +82,12 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
+        <el-col :xl="12" :lg="12">
+          <el-form-item
+            label="图标:" prop="icon">
+            <xhui-svg @click='iconVisible = true' class='menuIcon' :icon='form.icon'/>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
     <template #footer>
@@ -89,16 +95,18 @@
               <el-button @click='toClose'>{{ $t(`button.cancel`) }}</el-button>
               <el-button
                 type="primary"
-                @click="_title === 'edit' ? toUpdateRow() : toSaveRow() ">{{ $t(`button.confirm`) }}</el-button>
+                @click="form.id ? toUpdateRow() : toSaveRow() ">{{ $t(`button.confirm`) }}</el-button>
             </span>
     </template>
   </el-dialog>
+  <icon-select ref='iconSelectRef' v-model:iconVisible='iconVisible' v-model:icon='form.icon'></icon-select>
 </template>
 
 <script setup>
 import { defineEmits, defineProps, ref, watch } from 'vue'
 import { updateMenu, menuTree, createMenu } from '@/api/menu'
 import { ElNotification } from 'element-plus'
+import iconSelect from './icon-select'
 
 const props = defineProps({
   status: {
@@ -120,9 +128,9 @@ const emits = defineEmits(['refreshTableData'])
 
 const dialogVisible = ref(props.status)
 
-const menuDatas = ref(null)
+const iconVisible = ref(false)
 
-const _title = ref(props.title)
+const menuDatas = ref(null)
 
 const form = ref(props.row)
 
@@ -175,5 +183,8 @@ const toClose = () => {
 </script>
 
 <style lang='scss' scoped>
-
+.menuIcon {
+  width: 35px!important;
+  height: 35px!important;
+}
 </style>

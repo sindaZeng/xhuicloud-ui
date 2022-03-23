@@ -24,6 +24,7 @@
 
 <template>
   <xhui-table
+    v-model:page='page'
     :tableAttributes='tableAttributes'
     :tableData='tableData'
     @getTableData='getTableData'>

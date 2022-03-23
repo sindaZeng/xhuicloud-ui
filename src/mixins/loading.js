@@ -22,25 +22,17 @@
  * @Email:  xhuicloud@163.com
  */
 
-const settingConfig = {
-  title: '星辉云',
-  // 端口号
-  devPort: '80',
-  // 商户字段
-  tenant: 'tenant_id',
-  // 刷新token令牌字段
-  refreshTokenName: 'refresh_token',
-  // token字段名称 存储的token名称
-  tokenName: 'token',
-  // 单位/秒  监听token过期刷新
-  expiredPeriod: 60000,
-  // 当有值时候会在登录页展示版权信息
-  copyright: process.env.NODE_ENV === 'production' ? '<a href=\'http://beian.miit.gov.cn\' target="view_window">粤ICP备2022008047号-1</a>' : '版权信息',
-  ossPath: 'http://127.0.0.1:9000',
-  language: 'zhCn',
-  languageKey: 'languageKey',
-  tagViewsKey: 'tagViewsKey',
-  tagViewKey: 'tagViewKey'
+import { ref } from 'vue'
+
+export const loading = ref(false)
+
+export function open () {
+  loading.value = true
 }
 
-module.exports = settingConfig
+export function close () {
+  // 更好的看出loading
+  setTimeout(() => {
+    loading.value = false
+  }, 500)
+}

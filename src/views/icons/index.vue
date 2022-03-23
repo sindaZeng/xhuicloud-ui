@@ -23,25 +23,36 @@
   -->
 
 <template>
-  <iconView :customLabs='customLabs'>
+  <iconView :customLabs='customLabs' v-model:loading='loading'>
     <template #icon-item-0>
         <div class='icon-item'>
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            :headers='{ Authorization: `Bearer ` + $store.getters.token }'
+            :before-upload="beforeUpload"
+            :on-success="onSuccess"
+            :action="uploadUrl"
             :show-file-list="false">
             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
         </div>
-        <div class='icon-item'>
-            <xhui-svg icon='permission'/>
+        <div class='icon-item' v-for='item in icons' :key='item'>
+            <xhui-svg class='icons' :icon='ossPath + item.url'/>
             <el-tooltip
               effect="dark"
-              content="permission"
+              :content="item.name"
               placement="top">
-              <span>permission</span>
+              <span>{{ item.name }}</span>
             </el-tooltip>
+          <div class='delete-item'>
+            <el-button
+              :icon="Delete"
+              @click='toDelRow(item)'
+              size="default"
+              circle
+            ></el-button>
+          </div>
         </div>
     </template>
   </iconView>
@@ -50,10 +61,64 @@
 <script setup>
 import IconView from '@/components/IconView'
 import { ref } from 'vue'
-import { Plus } from '@element-plus/icons'
+import { Plus, Delete } from '@element-plus/icons'
+import { filePage, delFile } from '@/api/file'
+import { ossPath } from '@/config'
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+import { loading, open, close } from '@/mixins/loading'
 
 const imageUrl = ref('')
+
+const icons = ref([])
+
+const uploadUrl = ref(process.env.VUE_APP_BASE_URL + '/admin/file/upload')
+
 const customLabs = ref(['云端icon'])
+
+const getIcons = async () => {
+  open()
+  const { records } = await filePage({ fileType: 'svg' })
+  icons.value = records
+  close()
+}
+
+const onSuccess = (response, file, fileList) => {
+  getIcons()
+}
+
+const beforeUpload = file => {
+  const isSvg = file.type === 'image/svg+xml'
+  if (!isSvg) {
+    ElMessage({
+      message: '上传头像图片只能是 svg 格式!',
+      type: 'warning'
+    })
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2
+  if (!isLt2M) {
+    ElMessage({
+      message: '上传SVG大小不能超过 2MB!',
+      type: 'warning'
+    })
+  }
+}
+
+getIcons()
+
+const toDelRow = row => {
+  ElMessageBox.confirm(`Are you confirm to delete ${row.name} ?`)
+    .then(() => {
+      delFile(row.id)
+    }).catch(() => {
+    }).then(() => {
+      ElNotification({
+        title: 'Success',
+        message: 'Delete success',
+        type: 'success'
+      })
+    })
+  getIcons()
+}
 </script>
 
 <style lang='scss' scoped>
@@ -76,5 +141,23 @@ const customLabs = ref(['云端icon'])
 .avatar {
   width: 100px;
   display: block;
+}
+.icon-item {
+  position: relative;
+  .delete-item {
+    display: none;
+  }
+  &:hover {
+    .icons {
+      width: 1.5em;
+      height: 1.5em;
+    }
+    .delete-item {
+      position: absolute;
+      display: inline-block;
+      right: -10px;
+      top: -20px;
+    }
+  }
 }
 </style>

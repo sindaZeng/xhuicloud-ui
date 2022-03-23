@@ -30,7 +30,7 @@ const actions = {
 
 const homeTag = {
   fullPath: '/home',
-  meta: { title: 'home', icon: 'home' },
+  meta: { title: 'home', icon: 'home', internationalization: 'home' },
   name: 'home',
   params: {},
   path: '/home',
@@ -57,6 +57,7 @@ const mutations = {
     if (state.tagViews.find(item => {
       return item.path === tagView.path
     })) return
+    console.log(tagView)
     state.tagViews.push(tagView)
     setStorage(tagViewsKey, state.tagViews)
   },

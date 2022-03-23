@@ -113,6 +113,7 @@
       <!-- 表格内容     -->
       <div class="table-container">
         <el-table ref="xhuiTableRef"
+                  v-loading="loading"
                   :data="_tableData"
                   row-key="id"
                   :height='tableAttributes.height'
@@ -316,6 +317,7 @@ import {
   Refresh,
   View
 } from '@element-plus/icons' //  element-plus@1.1.0-beta.24  @See: https://github.com/element-plus/element-plus/issues/2898 貌似有BUG 后续观望
+import { loading, open, close } from '@/mixins/loading'
 
 const props = defineProps({
   cardStyle: {
@@ -459,6 +461,7 @@ const toUpdate = () => {
 }
 
 const getTableData = () => {
+  open()
   if (_page.value) {
     emits('getTableData', {
       current: _page.value.current,
@@ -467,6 +470,7 @@ const getTableData = () => {
   } else {
     emits('getTableData', searchForm.value)
   }
+  close()
 }
 
 watch(

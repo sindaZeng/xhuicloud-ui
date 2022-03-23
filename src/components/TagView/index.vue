@@ -32,7 +32,7 @@
                v-on:tab-click='tabClick'
                v-on:edit="delTagView">
         <el-tab-pane v-for='item in $store.getters.tagViews' :key='item.name'
-                     :label='item.name' :name='item.path'></el-tab-pane>
+                     :label='$t(`menu.`+ item.meta.internationalization)' :name='item.path'></el-tab-pane>
       </el-tabs>
     <ul v-show="visible" :style="contextmenuStyle" class="contextmenu">
       <li @click='delTagView(contextmenuTag, `remove`)'>Close</li>
@@ -63,7 +63,6 @@ const contextmenuStyle = ref({
 const router = useRouter()
 
 const route = useRoute()
-
 watch(
   route,
   (to, form) => {

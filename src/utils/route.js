@@ -62,7 +62,7 @@ RouterPlugin.install = function (router) {
         if (validURL(item.path)) {
           item.redirect = item.path
         }
-        item.meta = { title: item.internationalization || '', icon: item.icon || '' }
+        item.meta = { internationalization: item.internationalization || '', title: item.internationalization || '', icon: item.icon || '' }
         if (!isNull(item.children)) {
           this.addRoutes(item.children)
         }

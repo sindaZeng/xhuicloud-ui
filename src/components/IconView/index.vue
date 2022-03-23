@@ -29,7 +29,7 @@
         <div class='grid'>
           <div v-for='item of icons' :key='item' @click='checkIcon(isElement.NO, item)'>
             <div class='icon-item'>
-              <xhui-svg :icon='item'/>
+              <xhui-svg class='icons' :icon='item'/>
               <el-tooltip
                 effect="dark"
                 :content="item"
@@ -44,7 +44,7 @@
         <div class="grid">
           <div v-for="item of elementIcons" :key="item" @click='checkIcon(isElement.YES, item)'>
             <div class="icon-item">
-              <el-icon>
+              <el-icon class='icons'>
                 <component :is="item"/>
               </el-icon>
               <el-tooltip
@@ -57,7 +57,7 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane :label="item" v-for="(item, index) of customLabs" :key="item">
+      <el-tab-pane v-loading="loading" :label="item" v-for="(item, index) of customLabs" :key="item">
         <div class='grid'>
           <slot :name='`icon-item-` + index'/>
         </div>
@@ -74,6 +74,10 @@ defineProps({
   customLabs: {
     type: Array,
     default: null
+  },
+  loading: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -82,7 +86,7 @@ const icon = ref({
   isElement: '1'
 })
 
-const emits = defineEmits(['update:icon'])
+const emits = defineEmits(['selectIcon'])
 
 const elementIcons = ref(require('@element-plus/icons'))
 
@@ -102,7 +106,7 @@ const checkIcon = (isElement, item) => {
   } else {
     icon.value = { isElement: '0', data: item.name }
   }
-  emits('update:icon', icon.value)
+  emits('selectIcon', icon.value)
 }
 </script>
 
@@ -120,9 +124,9 @@ const checkIcon = (isElement, item) => {
   .icon-item {
     padding-top: 10px;
     margin: 20px;
-    height: 85px;
+    height: 80%;
     text-align: center;
-    width: 100px;
+    width: 100%;
     float: left;
     font-size: 30px;
     color: #24292e;
@@ -131,12 +135,17 @@ const checkIcon = (isElement, item) => {
 
   .icon-item:hover{
     background-color: #b5baba;
+    border-radius:5px;
+    .icons {
+      width: 1.5em;
+      height: 1.5em;
+    }
   }
 
   span {
     display: block;
-    font-size: 16px;
-    margin-top: 10px;
+    font-size: 10px;
+    margin-top: 15px;
   }
 
   .disabled {
