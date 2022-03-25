@@ -58,6 +58,7 @@ const commonsRoutes = [
         component: () => import('@/views/home/index'),
         name: 'home',
         meta: {
+          internationalization: 'home',
           title: 'home',
           icon: 'home'
         }

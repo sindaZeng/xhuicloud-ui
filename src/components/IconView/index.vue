@@ -111,6 +111,8 @@ const checkIcon = (isElement, item) => {
 </script>
 
 <style lang='scss'>
+@import "~@/styles/mixin.scss";
+
 .icons-container {
   margin: 10px 20px 0;
   overflow: hidden;
@@ -131,14 +133,33 @@ const checkIcon = (isElement, item) => {
     font-size: 30px;
     color: #24292e;
     cursor: pointer;
-  }
+    @include prefixed(transform, perspective(1px) translateZ(0));
 
-  .icon-item:hover{
-    background-color: #b5baba;
-    border-radius:5px;
-    .icons {
-      width: 1.5em;
-      height: 1.5em;
+    &:before {
+      pointer-events: none;
+      position: absolute;
+      z-index: -1;
+      content: '';
+      top: 80%;
+      left: 5%;
+      height: 10px;
+      width: 90%;
+      opacity: 0;
+      background: -webkit-radial-gradient(center, ellipse, rgba(0,0,0,.35) 0%, rgba(0, 0, 0, 0) 80%);
+      background: radial-gradient(ellipse at center, rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 80%); /* W3C */
+      @include prefixed(transition-duration, .3s);
+      @include prefixed(transition-property, "transform, opacity");
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      @include prefixed(transform, translateY(-5px)); /* move the element up by 5px */
+
+      &:before {
+        opacity: 1;
+        @include prefixed(transform, translateY(5px)); /* move the element down by 5px (it will stay in place because it's attached to the element that also moves up 5px) */
+      }
     }
   }
 
