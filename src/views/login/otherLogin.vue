@@ -29,10 +29,10 @@
         <xhui-svg class='other-login-type-icon' icon='qq' @click='thirdLogin(`QQ`)'/>
       </el-col>
       <el-col class='other-login-type' :span='6'>
-        <xhui-svg class='other-login-type-icon' icon='qq' />
+        <xhui-svg class='other-login-type-icon' icon='wechat' />
       </el-col>
       <el-col class='other-login-type' :span='6'>
-        <xhui-svg class='other-login-type-icon' icon='qq' />
+        <xhui-svg class='other-login-type-icon' icon='weibo' />
       </el-col>
     </el-row>
   </div>
