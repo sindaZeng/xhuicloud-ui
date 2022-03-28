@@ -26,14 +26,15 @@
   <div class='login-container'>
     <div class='login-form-container'>
       <langSelect class='login-form-langSelect hover-effect'/>
-      <div class='login-logo-container'>
-        <img src="https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto"/>
-      </div>
+
       <FormLogin v-if="login.type==='form'"/>
+      <OtherLogin v-if="login.type==='other'"/>
       <div class='login-footer-container'>
         <el-row>
           <el-col :span="8"><a href="#">{{ $t('msg.register') }}</a></el-col>
-          <el-col :span="8"><a href="#" @click.stop="login.type='other'">{{ $t('msg.otherLogin') }}</a></el-col>
+          <el-col :span="8">
+            <a href="#" @click.stop="selectLoginType">{{ $t('msg.'+ getLoginType() + 'Login') }}</a>
+          </el-col>
           <el-col :span="8"><a href="#">{{ $t('msg.forgetPassword') }}</a></el-col>
         </el-row>
       </div>
@@ -44,6 +45,7 @@
 
 <script setup>
 import FormLogin from './formLogin.vue'
+import OtherLogin from './otherLogin.vue'
 import { ref } from 'vue'
 import { copyright } from '@/config'
 import LangSelect from '@/components/LangSelect'
@@ -51,6 +53,22 @@ import LangSelect from '@/components/LangSelect'
 const login = ref({
   type: 'form'
 })
+
+const selectLoginType = () => {
+  if (login.value.type === 'other') {
+    login.value.type = 'form'
+  } else {
+    login.value.type = 'other'
+  }
+}
+
+const getLoginType = () => {
+  if (login.value.type === 'other') {
+    return 'form'
+  } else {
+    return 'other'
+  }
+}
 </script>
 
 <style lang='scss' scoped>
@@ -77,25 +95,6 @@ const login = ref({
       padding: 5px;
       cursor: pointer;
       border-radius: 5px;
-    }
-
-    .login-logo-container {
-      position:relative;
-      width: 120px;
-      height: 120px;
-      margin: -50px auto 20px auto;
-      border-radius: 50%;
-      -webkit-box-shadow: 0 4px 40px rgba(0, 0, 0, 0.07);
-      box-shadow: 0 4px 40px rgba(0, 0, 0, 0.07);
-      padding: 10px;
-      background-color: #fff;
-      z-index: 1;
-      box-sizing: border-box;
-      overflow: hidden;
-
-      img {
-        width: 100%;
-      }
     }
 
     .login-footer-container {

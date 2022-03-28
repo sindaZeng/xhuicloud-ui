@@ -35,6 +35,10 @@ const commonsRoutes = [
     }
   },
   {
+    path: '/auth-redirect',
+    component: () => import('@/views/login/auth-redirect')
+  },
+  {
     path: '/404',
     component: () => import('@/views/error/404'),
     meta: {

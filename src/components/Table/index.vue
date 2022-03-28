@@ -165,6 +165,7 @@
                 tableAttributes.columns.length - 1 === cIndex &&
                 tableAttributes.enableOperations && (permission.editBtn || permission.delBtn || $slots.tableOperation)"
               min-width='100'
+              :width="tableAttributes.operationWidth"
               :label="$t(`button.operations`)"
               align="center">
               <template #default="scope">
@@ -462,14 +463,7 @@ const toUpdate = () => {
 
 const getTableData = () => {
   open()
-  if (_page.value) {
-    emits('getTableData', {
-      current: _page.value.current,
-      size: _page.value.size
-    }, searchForm.value)
-  } else {
-    emits('getTableData', searchForm.value)
-  }
+  emits('getTableData', searchForm.value)
   close()
 }
 

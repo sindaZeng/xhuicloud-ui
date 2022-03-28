@@ -49,6 +49,7 @@ export default {
     international: 'international',
     register: 'Register',
     otherLogin: 'Other Login',
+    formLogin: 'Username Login',
     forgetPassword: 'Forget Password?',
     inputUserName: 'input username',
     inputPassword: 'input password',

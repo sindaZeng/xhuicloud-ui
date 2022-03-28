@@ -27,24 +27,27 @@ import { parseTime } from '@/utils/date'
 export const tableAttributes = {
   enableSearch: true, // 开启搜索栏
   enableOperations: true, // 开启操作栏
+  operationWidth: '250',
   columns: [{
     label: '用户编号',
     prop: 'userId',
     editDisabled: true,
-    createDisabled: true,
-    hidden: false
+    createDisabled: true
   }, {
     label: '用户名称',
     prop: 'username',
     search: {
       placeholder: '请输入用户名称',
       size: 'small'
-    },
-    rules: [{
-      required: true,
-      message: '请输入用户名称',
-      trigger: 'blur'
-    }]
+    }
+  }, {
+    label: '角色名称',
+    prop: 'roleName',
+    hidden: true,
+    search: {
+      placeholder: '请输入角色名称',
+      size: 'small'
+    }
   }, {
     label: '用户头像',
     prop: 'avatar',

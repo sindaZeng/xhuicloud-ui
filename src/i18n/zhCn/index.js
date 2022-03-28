@@ -49,6 +49,7 @@ export default {
     international: '国际化',
     register: '注册账号',
     otherLogin: '其他登录',
+    formLogin: '用户名密码',
     forgetPassword: '忘记密码?',
     inputUserName: '输入用户名',
     inputPassword: '输入密码',

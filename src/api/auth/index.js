@@ -28,6 +28,11 @@ const basicHeader = 'dGVzdDp0ZXN0'
 
 const scope = 'server'
 
+/**
+ * 账号密码登录
+ * @param loginForm
+ * @returns {*}
+ */
 export const login = loginForm => {
   return request({
     url: '/auth/oauth/token',
@@ -39,6 +44,10 @@ export const login = loginForm => {
   })
 }
 
+/**
+ * 退出
+ * @returns {*}
+ */
 export const logout = () => {
   return request({
     url: '/auth/token/logout',
@@ -46,6 +55,11 @@ export const logout = () => {
   })
 }
 
+/**
+ * 校验凭证
+ * @param token
+ * @returns {*}
+ */
 export const checkToken = token => {
   return request({
     url: '/auth/oauth/check_token',
@@ -57,6 +71,11 @@ export const checkToken = token => {
   })
 }
 
+/**
+ * 刷新凭证
+ * @param refreshToken
+ * @returns {*}
+ */
 export const refreshToken = refreshToken => {
   const param = {
     refresh_token: refreshToken,
@@ -70,5 +89,16 @@ export const refreshToken = refreshToken => {
     },
     method: 'post',
     params: param
+  })
+}
+
+export const loginBySocial = (state, code) => {
+  return request({
+    url: '/auth/token/social',
+    headers: {
+      Authorization: 'Basic ' + basicHeader
+    },
+    method: 'post',
+    params: { auth_code: state + '@' + code, code }
   })
 }

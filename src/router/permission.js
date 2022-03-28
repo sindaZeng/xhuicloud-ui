@@ -27,7 +27,7 @@ import store from '@/store'
 import { title } from '@/config'
 import i18n from '@/i18n'
 
-const whiteList = ['/login']
+const whiteList = ['/login', '/auth-redirect']
 
 /**
  * 前置

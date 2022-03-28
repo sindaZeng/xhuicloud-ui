@@ -56,6 +56,12 @@
           @toDelRow='toDelRow'
           @toSaveRow='toSaveRow'
           @toUpdateRow='toUpdateRow'>
+          <template #tableOperation>
+            <el-button
+              size="small">
+              <el-icon class="el-icon--left"><xhui-svg icon='userRole'></xhui-svg></el-icon>角色
+            </el-button>
+          </template>
         </xhui-table>
       </el-col>
     </el-row>
