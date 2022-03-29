@@ -43,15 +43,22 @@ import { openWindows } from '@/utils'
 import { validatenull } from '@/utils/validate'
 import { useRoute } from 'vue-router'
 import { watch } from 'vue'
+import { useStore } from 'vuex'
 
 const route = useRoute()
+
+const store = useStore()
 
 watch(route, val => {
   const query = val.query
   // 第三方登录
   if (query) {
     if (!validatenull(query.state) && !validatenull(query.code)) {
-      this.$store.dispatch('user/loginBySocial', {})
+      store.dispatch('user/login', {
+        authCode: query.code,
+        type: 'QQ',
+        grant_type: 'social'
+      })
         .then(() => {
           this.$router.push({ path: query.redirect || '/' })
         })
