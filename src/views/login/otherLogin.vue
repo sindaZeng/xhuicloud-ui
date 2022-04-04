@@ -29,7 +29,7 @@
         <xhui-svg class='other-login-type-icon' icon='qq' @click='thirdLogin(`QQ`)'/>
       </el-col>
       <el-col class='other-login-type' :span='6'>
-        <xhui-svg class='other-login-type-icon' icon='wechat' />
+        <xhui-svg class='other-login-type-icon' icon='wechat' @click='thirdLogin(`WXMP`)'/>
       </el-col>
       <el-col class='other-login-type' :span='6'>
         <xhui-svg class='other-login-type-icon' icon='weibo' />
@@ -41,13 +41,19 @@
 <script setup>
 import { openWindows } from '@/utils'
 import { validatenull } from '@/utils/validate'
-import { useRoute } from 'vue-router'
-import { watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { defineEmits, ref, watch } from 'vue'
 import { useStore } from 'vuex'
+import { loginWeChatMpQrCode, weChatMpScanSuccess } from '@/api/auth'
 
 const route = useRoute()
 
+const router = useRouter()
+
 const store = useStore()
+const url = ref('')
+
+const emit = defineEmits(['tenantWarn'])
 
 watch(route, val => {
   const query = val.query
@@ -56,11 +62,11 @@ watch(route, val => {
     if (!validatenull(query.state) && !validatenull(query.code)) {
       store.dispatch('user/login', {
         authCode: query.code,
-        type: 'QQ',
+        type: query.state,
         grant_type: 'social'
       })
         .then(() => {
-          this.$router.push({ path: query.redirect || '/' })
+          router.push({ path: query.redirect || '/' })
         })
         .catch(() => {
         })
@@ -70,14 +76,49 @@ watch(route, val => {
   immediate: true
 })
 
-const thirdLogin = way => {
+const thirdLogin = async way => {
   const redirectUri = encodeURIComponent(window.location.origin + '/#/auth-redirect')
-  let url
+  let newWindow
+  let timer
+  let scanSuccess
+  if (validatenull(store.getters.tenantId)) {
+    emit('tenantWarn', true)
+    return
+  }
   if (way === 'QQ') {
     const clientId = '101887822'
-    url = `https://graph.qq.com/oauth2.0/authorize?response_type=code&state=QQ&client_id=${clientId}&redirect_uri=${redirectUri}`
+    url.value = `https://graph.qq.com/oauth2.0/authorize?response_type=code&state=QQ&client_id=${clientId}&redirect_uri=${redirectUri}`
+  } else if (way === 'WXMP') {
+    let ticket = await loginWeChatMpQrCode()
+    const prefix = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='
+    url.value = prefix + ticket
+    let seconds = 0
+    timer = setInterval(async () => {
+      scanSuccess = await weChatMpScanSuccess(ticket)
+      if (scanSuccess) {
+        await router.push(`/login?state=WXMP&code=${ticket}&time=` + new Date().getTime())
+        clearInterval(timer)
+      } else {
+        seconds = seconds + 1
+        if (seconds === 25) {
+          ticket = await loginWeChatMpQrCode()
+          url.value = prefix + ticket
+          newWindow = openWindows(url.value, way, 540, 540)
+        }
+      }
+    }, 1000)
   }
-  openWindows(url, way, 540, 540)
+  newWindow = openWindows(url.value, way, 540, 540)
+
+  const closedWindows = setInterval(() => {
+    if (newWindow.closed) {
+      clearInterval(closedWindows)
+      clearInterval(timer)
+    }
+    if (scanSuccess) {
+      newWindow.close()
+    }
+  }, 500)
 }
 </script>
 

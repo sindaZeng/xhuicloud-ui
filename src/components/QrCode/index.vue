@@ -23,47 +23,24 @@
   -->
 
 <template>
-  <div>
-    <div class='logo-container' v-if='$store.getters.sidebarLogo' :style='{ background: $store.getters.ddCss.navbarBg }'>
-      <img :src="$store.getters.tenant.logo" class="sidebar-logo" >
-      <h1 class='logo-title' style='color: black' v-if='$store.getters.sidebarStatus'>{{ $store.getters.tenant.name }}</h1>
-    </div>
-    <el-scrollbar>
-      <sidebar-menu></sidebar-menu>
-    </el-scrollbar>
-  </div>
+    <vue-qrcode :value="value" :options="options"></vue-qrcode>
 </template>
 
 <script setup>
-import {} from 'vue'
-import SidebarMenu from './SidebarMenu.vue'
+import VueQrcode from '@chenfengyuan/vue-qrcode'
+import { defineProps } from 'vue'
+defineProps({
+  value: {
+    type: String,
+    required: true
+  },
+  options: {
+    type: Object,
+    required: false
+  }
+})
 </script>
 
-<style lang="scss" scoped>
-.logo-container {
-  position: relative;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  overflow: hidden;
-}
+<style lang='scss' scoped>
 
-.sidebar-logo {
-  width: 32px;
-  height: 32px;
-  vertical-align: middle;
-
-}
-
-.logo-title {
-  display: inline-block;
-  color: black;
-  font-weight: 600;
-  line-height: 50px;
-  font-size: 14px;
-  font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
-  vertical-align: middle;
-  margin-left: 12px;
-}
 </style>

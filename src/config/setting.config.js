@@ -32,6 +32,7 @@ const settingConfig = {
   refreshTokenName: 'refresh_token',
   // token字段名称 存储的token名称
   tokenName: 'token',
+  tenantKey: 'tenant',
   // 单位/秒  监听token过期刷新
   expiredPeriod: 60000,
   // 当有值时候会在登录页展示版权信息

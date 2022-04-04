@@ -45,6 +45,29 @@ export const login = loginForm => {
 }
 
 /**
+ * 获取微信公众号登录二维码
+ * @returns {*}
+ */
+export const loginWeChatMpQrCode = () => {
+  return request({
+    url: '/admin/wechat-mp/login-qrcode',
+    method: 'get'
+  })
+}
+
+/**
+ * 用户是否扫码成功
+ * @returns {*}
+ */
+export const weChatMpScanSuccess = ticket => {
+  return request({
+    url: '/admin/wechat-mp/scan-success',
+    method: 'get',
+    params: { ticket }
+  })
+}
+
+/**
  * 退出
  * @returns {*}
  */
@@ -89,16 +112,5 @@ export const refreshToken = refreshToken => {
     },
     method: 'post',
     params: param
-  })
-}
-
-export const loginBySocial = (state, code) => {
-  return request({
-    url: '/auth/token/social',
-    headers: {
-      Authorization: 'Basic ' + basicHeader
-    },
-    method: 'post',
-    params: { auth_code: state + '@' + code, code }
   })
 }

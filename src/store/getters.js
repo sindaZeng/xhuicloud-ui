@@ -28,10 +28,11 @@ import { getStorage } from '@/utils/storage'
 
 const getters = {
   token: state => state.user.token,
+  tenant: state => state.user.tenant,
   refreshToken: state => state.user.refreshToken,
   userInfo: state => state.user.userInfo,
   userMenus: state => state.user.userMenus,
-  tenantId: state => state.user.tenantId,
+  tenantId: state => state.user.tenant.id,
   permissions: state => state.user.permissions,
   roles: state => state.user.roles,
   sidebarStatus: state => state.app.sidebarStatus,

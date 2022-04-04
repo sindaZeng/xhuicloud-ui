@@ -27,7 +27,7 @@ import { toRaw } from 'vue'
 import { getUserInfo } from '@/api/user'
 import { getMenu } from '@/api/menu'
 import { setStorage, getStorage, delAllStorage } from '@/utils/storage'
-import { tenant, refreshTokenName, tokenName } from '@/config'
+import { tenant, refreshTokenName, tokenName, tenantKey } from '@/config'
 
 const actions = {
   login (context, loginForm) {
@@ -92,6 +92,10 @@ const mutations = {
     state.token = token
     setStorage(tokenName, token)
   },
+  setTenant (state, tenant) {
+    state.tenant = tenant
+    setStorage(tenantKey, tenant)
+  },
   setRefreshToken (state, refreshToken) {
     state.refreshToken = refreshToken
     setStorage(refreshTokenName, refreshToken)
@@ -114,13 +118,14 @@ const mutations = {
     state.roles = roles
   },
   setTenantId (state, tenantId) {
-    state.tenantId = tenantId
-    setStorage(tenant, tenantId)
+    state.tenant[tenant] = tenantId
+    setStorage(tenantKey, state.tenant)
   }
 }
 
 const state = {
   token: getStorage(tokenName) || '',
+  tenant: getStorage(tenantKey) || '',
   refreshToken: getStorage(refreshTokenName) || '',
   userInfo: {},
   userMenus: getStorage('userMenus') || [],

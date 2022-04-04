@@ -23,18 +23,8 @@
   -->
 
 <template>
-  <div class='login-logo-container'>
-    <img src="https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto"/>
-  </div>
+
     <el-form ref="loginFormRef" class='login-form' :model='loginForm' :rules='loginRules'>
-      <el-form-item prop='tenantId'>
-        <span class='svg-container'>
-          <xhui-svg icon='tenant'/>
-        </span>
-        <el-autocomplete
-          :placeholder='$t(`msg.inputTenant`)'
-          type="text" />
-      </el-form-item>
       <el-form-item prop='username'>
         <span class='svg-container'>
           <xhui-svg icon='user'/>
@@ -58,11 +48,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { validatePassword } from '@/utils/rules'
+import { validatenull } from '@/utils/validate'
+
+const emit = defineEmits(['tenantWarn'])
 
 const router = useRouter()
 
@@ -105,6 +98,10 @@ const onchangePasswordType = () => {
 
 const handleLogin = () => {
   loginFormRef.value.validate(valid => {
+    if (validatenull(store.getters.tenantId)) {
+      emit('tenantWarn', true)
+      valid = false
+    }
     if (valid) {
       loading.value = true
       store.dispatch('user/login', loginForm.value)
@@ -124,25 +121,6 @@ const handleLogin = () => {
 $dark_gray: #889aa4;
 $light_gray: black;
 $cursor: black;
-
-.login-logo-container {
-  position:relative;
-  width: 120px;
-  height: 120px;
-  margin: -50px auto 20px auto;
-  border-radius: 50%;
-  -webkit-box-shadow: 0 4px 40px rgba(0, 0, 0, 0.07);
-  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.07);
-  padding: 10px;
-  background-color: #fff;
-  z-index: 1;
-  box-sizing: border-box;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-  }
-}
 
 .login-form {
 

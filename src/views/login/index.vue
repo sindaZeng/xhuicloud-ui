@@ -23,24 +23,51 @@
   -->
 
 <template>
-  <div class='login-container'>
-    <div class='login-form-container'>
-      <langSelect class='login-form-langSelect hover-effect'/>
-
-      <FormLogin v-if="login.type==='form'"/>
-      <OtherLogin v-if="login.type==='other'"/>
-      <div class='login-footer-container'>
+  <div class="login-container">
+    <div class="login-form-container">
+      <div class="login-logo-container">
+        <img
+          :src="
+            $store.getters.tenant
+              ? $store.getters.tenant.logo
+              : `https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto`
+          "
+        />
+      </div>
+      <langSelect class="login-langSelect hover-effect" />
+      <h4 class="login-tenantSelect" :style="tenantSelectAnimation">
+        <el-select
+          v-model="active"
+          @change="changeTenant"
+          placeholder="点击请选择租户">
+          <el-option
+            v-for="tenant in tenants"
+            :key="tenant.id"
+            :label="tenant.name"
+            :value="tenant.id">
+          </el-option>
+        </el-select>
+      </h4>
+      <FormLogin v-if="login.type === 'form'" @tenantWarn="tenantWran" />
+      <OtherLogin v-if="login.type === 'other'" @tenantWarn="tenantWran" />
+      <div class="login-footer-container">
         <el-row>
-          <el-col :span="8"><a href="#">{{ $t('msg.register') }}</a></el-col>
+          <el-col :span="8"
+            ><a href="#">{{ $t('msg.register') }}</a></el-col
+          >
           <el-col :span="8">
-            <a href="#" @click.stop="selectLoginType">{{ $t('msg.'+ getLoginType() + 'Login') }}</a>
+            <a href="#" @click.stop="selectLoginType">{{
+              $t('msg.' + getLoginType() + 'Login')
+            }}</a>
           </el-col>
-          <el-col :span="8"><a href="#">{{ $t('msg.forgetPassword') }}</a></el-col>
+          <el-col :span="8"
+            ><a href="#">{{ $t('msg.forgetPassword') }}</a></el-col
+          >
         </el-row>
       </div>
     </div>
   </div>
-  <div class='copyright' v-html="copyright"></div>
+  <div class="copyright" v-html="copyright"></div>
 </template>
 
 <script setup>
@@ -49,10 +76,22 @@ import OtherLogin from './otherLogin.vue'
 import { ref } from 'vue'
 import { copyright } from '@/config'
 import LangSelect from '@/components/LangSelect'
+import { tenantList } from '@/api/tenant'
+import { validatenull } from '@/utils/validate'
+import { useStore } from 'vuex'
+import { ElNotification } from 'element-plus'
 
 const login = ref({
   type: 'form'
 })
+
+const store = useStore()
+
+const active = ref(store.getters.tenantId)
+
+const tenants = ref([])
+
+const tenantSelectAnimation = ref('')
 
 const selectLoginType = () => {
   if (login.value.type === 'other') {
@@ -69,54 +108,36 @@ const getLoginType = () => {
     return 'other'
   }
 }
-</script>
 
-<style lang='scss' scoped>
+const changeTenant = (val) => {
+  store.commit(
+    'user/setTenant',
+    tenants.value.find((item) => item.id === val)
+  )
+}
 
-.login-container {
-  height: 100vh;
-  background: url('~@/assets/login/background.jpg') center center fixed no-repeat;
-  background-size: cover;
-  overflow: hidden;
-
-  .login-form-container {
-    position: relative;
-    width: 520px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    padding: 80px 35px 50px;
-    margin: 200px 100px auto auto;
-    overflow: hidden;
-
-    ::v-deep(.login-form-langSelect) {
-      position: absolute;
-      top: 5px;
-      right:5px;
-      font-size: 25px;
-      padding: 5px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .login-footer-container {
-      margin-top: 10px;
-      width: 100%;
-      text-align: center;
-
-      a {
-        color: #409eff;
-        font-weight: 700;
-        font-size: 12px;
-        margin: 0px 8px;
-      }
-    }
+const getTenantList = () => {
+  if (validatenull(tenants.value)) {
+    tenantList().then((response) => {
+      tenants.value = response
+    })
   }
 }
 
-.copyright {
-  color: black;
-  width: 100%;
-  position: fixed;
-  bottom: 50px;
-  text-align: center;
+getTenantList()
+
+const tenantWran = val => {
+  if (val) {
+    ElNotification({
+      title: 'Warning',
+      message: '请选择一个租户!',
+      type: 'warning'
+    })
+    tenantSelectAnimation.value = '-webkit-animation: tenantWarn 0.5s linear 2 both;'
+  }
 }
+</script>
+
+<style lang="scss">
+@import '@/styles/login.scss';
 </style>

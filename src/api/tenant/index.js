@@ -1,4 +1,4 @@
-/*!
+/*
  * MIT License
  * Copyright <2021-2022>
  *
@@ -22,53 +22,15 @@
  * @Email:  xhuicloud@163.com
  */
 
-.breadcrumb-enter-active,
-.breadcrumb-leave-active {
-  transition: all 0.5s;
-}
+import request from '@/utils/request'
 
-.breadcrumb-enter-from,
-.breadcrumb-leave-active {
-  opacity: 0;
-  transform: translateX(20px);
-}
-
-.breadcrumb-leave-active {
-  position: absolute;
-}
-
-@keyframes tenantWarn {
-  0% {
-    transform: translate(0);
-  }
-  10% {
-    transform: translate(-2px, -2px);
-  }
-  20% {
-    transform: translate(2px, -2px);
-  }
-  30% {
-    transform: translate(-2px, 2px);
-  }
-  40% {
-    transform: translate(2px, 2px);
-  }
-  50% {
-    transform: translate(-2px, -2px);
-  }
-  60% {
-    transform: translate(2px, -2px);
-  }
-  70% {
-    transform: translate(-2px, 2px);
-  }
-  80% {
-    transform: translate(-2px, -2px);
-  }
-  90% {
-    transform: translate(2px, -2px);
-  }
-  100% {
-    transform: translate(0);
-  }
+/**
+ * 租户列表
+ * @returns {*}
+ */
+export const tenantList = () => {
+  return request({
+    url: '/admin/tenant/list',
+    method: 'get'
+  })
 }
