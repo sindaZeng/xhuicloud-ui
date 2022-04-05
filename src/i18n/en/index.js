@@ -23,6 +23,9 @@
  */
 
 export default {
+  error: {
+    demoEnv: 'The demo env does not allow operations'
+  },
   table: {
     attributes: 'Table Attributes',
     label: 'label',

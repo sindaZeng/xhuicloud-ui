@@ -25,6 +25,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import store from '@/store'
+
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
   timeout: 5000
@@ -63,11 +64,13 @@ request.interceptors.response.use(
   error => {
     const response = error.response
     const status = response.status
-    if (status === 503) {
+    if (status === 423) {
+      ElMessage.error('演示环境不允许操作哦~')
+      return Promise.reject(error)
+    } else if (status === 503) {
       ElMessage.error('网络开小差啦~')
       return Promise.reject(error)
-    }
-    if (status === 401) {
+    } else if (status === 401) {
       store.dispatch('user/delAnything').then(() => {
         window.location.reload()
       })

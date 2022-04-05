@@ -23,6 +23,9 @@
  */
 
 export default {
+  error: {
+    demoEnv: '演示环境不允许操作哦~'
+  },
   table: {
     attributes: '表格属性',
     label: '列表名称',

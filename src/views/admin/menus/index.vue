@@ -65,14 +65,15 @@ const getTableData = async () => {
 const toDelRow = row => {
   ElMessageBox.confirm(`Are you confirm to delete ${row.name} ?`)
     .then(() => {
-      return deleteMenu(row.id)
+      return deleteMenu(row.id).then(res => {
+        ElNotification({
+          title: 'Success',
+          message: 'Delete success',
+          type: 'success'
+        })
+      })
     }).catch(() => {
     }).then(() => {
-      ElNotification({
-        title: 'Success',
-        message: 'Delete success',
-        type: 'success'
-      })
       getTableData()
     })
 }

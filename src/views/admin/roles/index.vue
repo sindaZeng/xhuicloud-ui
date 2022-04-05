@@ -172,14 +172,15 @@ const toSaveRow = data => {
 const toDelRow = row => {
   ElMessageBox.confirm(`Are you confirm to delete ${row.roleName} ?`)
     .then(() => {
-      delRole(row.id)
+      return delRole(row.id).then(res => {
+        ElNotification({
+          title: 'Success',
+          message: 'Delete success',
+          type: 'success'
+        })
+      })
     }).catch(() => {
     }).then(() => {
-      ElNotification({
-        title: 'Success',
-        message: 'Delete success',
-        type: 'success'
-      })
       getTableData()
     })
 }
