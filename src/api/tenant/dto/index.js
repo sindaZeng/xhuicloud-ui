@@ -26,42 +26,73 @@ import { parseTime } from '@/utils/date'
 
 export const tableAttributes = {
   enableSearch: true, // 开启搜索栏
+  enableOperations: true, // 开启操作栏
+  operationWidth: '250',
   columns: [{
-    label: 'id',
-    prop: 'id'
+    label: '租户id',
+    prop: 'id',
+    editDisabled: true,
+    createDisabled: true
   }, {
-    label: '用户名称',
-    prop: 'username',
+    label: '租户名称',
+    prop: 'name',
     search: {
       placeholder: '请输入用户名称',
       size: 'small'
     }
   }, {
-    label: '用户id',
-    prop: 'userId'
+    label: 'logo',
+    prop: 'logo',
+    type: 'image'
   }, {
-    label: 'ip',
-    prop: 'ip'
-  }, {
-    label: 'UA',
-    prop: 'useragent'
-  }, {
-    label: '登录状态',
-    prop: 'status',
-    type: 'tag',
+    label: '租户状态',
+    prop: 'state',
+    type: 'select',
+    baseData: [{
+      value: 0,
+      label: '禁用'
+    }, {
+      value: 1,
+      label: '正常'
+    }, {
+      value: 2,
+      label: '待审核'
+    }, {
+      value: 3,
+      label: '拒绝'
+    }],
     tagType: row => {
-      return row.status === 0 ? 'success' : 'danger'
+      return row.state === 1 ? 'success' : 'danger'
     },
     valueFormat: row => {
-      return row.status === 0 ? '登录成功' : '登录失败'
+      if (row.state === 0) {
+        return '禁用'
+      } else if (row.state === 1) {
+        return '正常'
+      } else if (row.state === 2) {
+        return '待审核'
+      } else if (row.state === 3) {
+        return '拒绝'
+      }
+    },
+    width: 100
+  }, {
+    label: '有效期',
+    prop: 'expirationTime',
+    type: 'datetime',
+    formatter: parseTime,
+    valueFormat: 'YYYY-MM-DD HH:mm:ss',
+    search: {
+      placeholder: '请选择有效期',
+      size: 'small'
     }
   }, {
-    label: '备注',
-    prop: 'remake'
-  }, {
-    label: '登录时间',
-    prop: 'loginTime',
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'datetime',
     formatter: parseTime,
+    editDisplay: true,
+    createDisplay: true,
     valueFormat: 'YYYY-MM-DD HH:mm:ss'
   }]
 }

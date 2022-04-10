@@ -73,7 +73,7 @@ export const weChatMpScanSuccess = ticket => {
  */
 export const logout = () => {
   return request({
-    url: '/auth/token/logout',
+    url: '/auth/oauth2/logout',
     method: 'post'
   })
 }

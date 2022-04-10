@@ -95,7 +95,7 @@ export const tableAttributes = {
       value: '锁定',
       label: 1
     }],
-    tagTpye: row => {
+    tagType: row => {
       return row.lockFlag === 0 ? 'success' : 'danger'
     },
     valueFormat: row => {

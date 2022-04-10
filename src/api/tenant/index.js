@@ -34,3 +34,54 @@ export const tenantList = () => {
     method: 'get'
   })
 }
+
+/**
+ * 租户分页
+ * @param query
+ * @returns {*}
+ */
+export const tenantPage = query => {
+  return request({
+    url: '/admin/tenant/page',
+    method: 'get',
+    params: query
+  })
+}
+
+/**
+ * 新增租户
+ * @param data
+ * @returns {*}
+ */
+export const createTenant = data => {
+  return request({
+    url: '/admin/tenant',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 删除租户
+ * @param id
+ * @returns {*}
+ */
+export const delTenant = id => {
+  return request({
+    url: '/admin/tenant/' + id,
+    method: 'delete'
+  })
+}
+
+/**
+ * 更新租户
+ * @param data
+ * @returns {*}
+ */
+export const updateTenant = data => {
+  return request({
+    url: '/admin/tenant',
+    method: 'put',
+    data
+  })
+}

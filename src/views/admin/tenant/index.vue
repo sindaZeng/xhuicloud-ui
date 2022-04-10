@@ -23,11 +23,92 @@
   -->
 
 <template>
-  <div class=''>租户页</div>
+  <xhui-table
+    ref='userTableRef'
+    :permission='permission'
+    :tableAttributes='tableAttributes'
+    :uploadData='uploadData'
+    v-model:page='page'
+    :tableData='tableData'
+    @getTableData='getTableData'
+    @toDelRow='toDelRow'
+    @toSaveRow='toSaveRow'
+    @toUpdateRow='toUpdateRow'>
+  </xhui-table>
 </template>
 
 <script setup>
+import { tableAttributes } from '@/api/tenant/dto'
+import { tenantPage, delTenant, updateTenant, createTenant } from '@/api/tenant'
+import usePage from '@/mixins/page'
+import { computed, ref } from 'vue'
+import { ElMessageBox, ElNotification } from 'element-plus'
+import { checkData } from '@/utils'
+import { useStore } from 'vuex'
 
+const store = useStore()
+
+const { page } = usePage()
+
+const tableData = ref([])
+
+const uploadData = ref({
+  headers: { Authorization: 'Bearer ' + store.getters.token },
+  action: process.env.VUE_APP_BASE_URL + '/admin/file/upload'
+})
+
+const permission = computed(() => {
+  return {
+    addBtn: checkData(store.getters.permissions.sys_add_tenant, false),
+    editBtn: checkData(store.getters.permissions.sys_editor_tenant, false),
+    delBtn: checkData(store.getters.permissions.sys_delete_tenant, false)
+  }
+})
+
+const getTableData = (searchForm) => {
+  tenantPage({ ...page.value, ...searchForm }).then(response => {
+    page.value.total = response.total
+    tableData.value = response.records
+  }).catch(() => {
+  })
+}
+
+const toUpdateRow = row => {
+  updateTenant(row).then(() => {
+    ElNotification({
+      title: 'Success',
+      message: 'Update success',
+      type: 'success'
+    })
+  })
+}
+
+const toSaveRow = data => {
+  createTenant(data).then(() => {
+    ElNotification({
+      title: 'Success',
+      message: 'Create success',
+      type: 'success'
+    })
+    getTableData()
+  })
+}
+
+const toDelRow = row => {
+  ElMessageBox.confirm(`Are you confirm to delete ${row.name} ?`)
+    .then(() => {
+      return delTenant(row.id).then(res => {
+        ElNotification({
+          title: 'Success',
+          message: 'Delete success',
+          type: 'success'
+        })
+      })
+    }).catch(() => {
+    }).then(() => {
+      getTableData()
+    })
+}
 </script>
 
 <style lang='scss' scoped>

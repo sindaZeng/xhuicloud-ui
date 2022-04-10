@@ -33,7 +33,8 @@ export default {
     fixed: 'fixed',
     sortable: 'sortable',
     editDialog: 'Edit',
-    createDialog: 'Create'
+    createDialog: 'Create',
+    pleaseSelect: 'please select '
   },
   button: {
     operations: 'Operations',

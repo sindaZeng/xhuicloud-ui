@@ -154,8 +154,8 @@
                   :src="scope.row[column.prop]"
                 ></el-avatar>
               </template>
-              <template #default="scope" v-else-if="column.type === `tag` || column.type === `radio`">
-                <el-tag :type="column.tagTpye ? column.tagTpye(scope.row) : `success`">
+              <template #default="scope" v-else-if="column.type === `tag` || column.type === `radio` || column.type === `select`">
+                <el-tag :type="column.tagType ? column.tagType(scope.row) : `success`">
                   {{ column.valueFormat ? column.valueFormat(scope.row) : scope.row[column.prop] }}
                 </el-tag>
               </template>
@@ -283,6 +283,25 @@
                       <el-radio-group v-else-if="xColumn.type === `radio`" v-model="_formData[xColumn.prop]" >
                         <el-radio v-for='item in xColumn.baseData' :key='item.label' :label="item.label" border>{{ item.value }}</el-radio>
                       </el-radio-group>
+                      <el-select v-model="_formData[xColumn.prop]" v-else-if="xColumn.type === `select`" :placeholder="$t(`table.pleaseSelect`) + xColumn.label">
+                        <el-option
+                          v-for="item in xColumn.baseData"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        />
+                      </el-select>
+                      <el-upload
+                        v-else-if="xColumn.type === `image`"
+                        class="avatar-uploader"
+                        :headers='uploadData.headers'
+                        :action="uploadData.action"
+                        :show-file-list="false"
+                        :on-success="(response, file, fileList)=>{ uploadSuccess(xColumn.prop, response, file, fileList) }"
+                        :before-upload="beforeUpload">
+                        <img style='width: 50px;height: 50px' v-if="_formData[xColumn.prop]" :src="_formData[xColumn.prop]" class="avatar" />
+                        <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+                      </el-upload>
                       <el-input
                         v-else
                         v-model="_formData[xColumn.prop]"
@@ -319,6 +338,7 @@ import {
   View
 } from '@element-plus/icons' //  element-plus@1.1.0-beta.24  @See: https://github.com/element-plus/element-plus/issues/2898 貌似有BUG 后续观望
 import { loading, open, close } from '@/mixins/loading'
+import { ossPath } from '@/config'
 
 const props = defineProps({
   cardStyle: {
@@ -351,6 +371,16 @@ const props = defineProps({
     type: Array,
     default: () => {
       return []
+    }
+  },
+  uploadData: {
+    type: Object,
+    required: false,
+    default: () => {
+      return {
+        headers: {},
+        action: ''
+      }
     }
   },
   tableAttributes: {
@@ -390,7 +420,7 @@ const _tableAttributesColumns = ref(props.tableAttributes.columns)
 
 const _page = ref(props.page)
 
-const emits = defineEmits(['getTableData', 'toDelRow', 'toSaveRow', 'toUpdateRow', 'updata:page'])
+const emits = defineEmits(['uploadSuccess', 'beforeUpload', 'getTableData', 'toDelRow', 'toSaveRow', 'toUpdateRow', 'updata:page'])
 
 const getCreateOrUpdateDialog = computed(() => {
   return createOrUpdateDialog
@@ -446,6 +476,16 @@ const toClose = () => {
   createOrUpdateDialog.value = false
   getTableData()
 }
+
+const beforeUpload = () => {
+  emits('beforeUpload')
+}
+
+const uploadSuccess = (prop, response, file, fileList) => {
+  _formData.value[prop] = ossPath + response.data
+  emits('uploadSuccess', response, file, fileList)
+}
+
 const toDel = row => {
   emits('toDelRow', row)
 }

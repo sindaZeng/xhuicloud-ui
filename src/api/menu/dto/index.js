@@ -47,7 +47,7 @@ export const tableAttributes = {
       value: '按钮',
       label: 1
     }],
-    tagTpye: row => {
+    tagType: row => {
       return row.type === 0 ? 'success' : ''
     },
     valueFormat: row => {

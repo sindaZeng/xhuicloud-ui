@@ -33,7 +33,8 @@ export default {
     fixed: '固定列',
     sortable: '排序',
     editDialog: '编辑',
-    createDialog: '新增'
+    createDialog: '新增',
+    pleaseSelect: '请选择'
   },
   button: {
     operations: '操作',
