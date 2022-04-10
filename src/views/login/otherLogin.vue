@@ -45,12 +45,14 @@ import { useRoute, useRouter } from 'vue-router'
 import { defineEmits, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { loginWeChatMpQrCode, weChatMpScanSuccess } from '@/api/auth'
+import { ElNotification } from 'element-plus'
 
 const route = useRoute()
 
 const router = useRouter()
 
 const store = useStore()
+
 const url = ref('')
 
 const emit = defineEmits(['tenantWarn'])
@@ -86,22 +88,29 @@ const thirdLogin = async way => {
     return
   }
   if (way === 'QQ') {
-    const clientId = '101887822'
-    url.value = `https://graph.qq.com/oauth2.0/authorize?response_type=code&state=QQ&client_id=${clientId}&redirect_uri=${redirectUri}`
+    const QQ = store.getters.tenant.socials.QQ
+    if (validatenull(QQ)) {
+      error(store.getters.tenant.name)
+    }
+    url.value = `https://graph.qq.com/oauth2.0/authorize?response_type=code&state=QQ&client_id=${QQ.appId}&redirect_uri=${redirectUri}`
   } else if (way === 'WXMP') {
-    let ticket = await loginWeChatMpQrCode()
+    const WXMP = store.getters.tenant.socials.WXMP
+    if (validatenull(WXMP)) {
+      error(store.getters.tenant.name)
+    }
+    let ticket = await loginWeChatMpQrCode(WXMP.appId)
     const prefix = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='
     url.value = prefix + ticket
     let seconds = 0
     timer = setInterval(async () => {
-      scanSuccess = await weChatMpScanSuccess(ticket)
+      scanSuccess = await weChatMpScanSuccess(WXMP.appId, ticket)
       if (scanSuccess) {
         await router.push(`/login?state=WXMP&code=${ticket}&time=` + new Date().getTime())
         clearInterval(timer)
       } else {
         seconds = seconds + 1
         if (seconds === 25) {
-          ticket = await loginWeChatMpQrCode()
+          ticket = await loginWeChatMpQrCode(WXMP.appId)
           url.value = prefix + ticket
           newWindow = openWindows(url.value, way, 540, 540)
         }
@@ -119,6 +128,14 @@ const thirdLogin = async way => {
       newWindow.close()
     }
   }, 500)
+}
+
+const error = name => {
+  ElNotification({
+    title: 'Error',
+    message: name + '不支持此第三方登录',
+    type: 'error'
+  })
 }
 </script>
 

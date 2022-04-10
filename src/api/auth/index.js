@@ -48,9 +48,9 @@ export const login = loginForm => {
  * 获取微信公众号登录二维码
  * @returns {*}
  */
-export const loginWeChatMpQrCode = () => {
+export const loginWeChatMpQrCode = appId => {
   return request({
-    url: '/admin/wechat-mp/login-qrcode',
+    url: '/admin/wechat-mp/' + appId + '/login-qrcode',
     method: 'get'
   })
 }
@@ -59,9 +59,9 @@ export const loginWeChatMpQrCode = () => {
  * 用户是否扫码成功
  * @returns {*}
  */
-export const weChatMpScanSuccess = ticket => {
+export const weChatMpScanSuccess = (appId, ticket) => {
   return request({
-    url: '/admin/wechat-mp/scan-success',
+    url: '/admin/wechat-mp/' + appId + '/scan-success',
     method: 'get',
     params: { ticket }
   })
