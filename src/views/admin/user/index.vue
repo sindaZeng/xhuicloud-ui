@@ -56,6 +56,16 @@
           @toDelRow='toDelRow'
           @toSaveRow='toSaveRow'
           @toUpdateRow='toUpdateRow'>
+          <template #deptVos='{ data }'>
+            <span v-for="(item, index) in data" :key="index">
+                <el-tag>{{ item.deptName }}</el-tag>
+            </span>
+          </template>
+          <template #roleVos='{ data }'>
+            <span v-for="(item, index) in data" :key="index">
+                <el-tag>{{ item.roleName }}</el-tag>
+            </span>
+          </template>
           <template #tableOperation>
             <el-button
               size="small">

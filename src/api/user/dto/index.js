@@ -85,6 +85,14 @@ export const tableAttributes = {
       return row.sex === 0 ? '女' : '男'
     }
   }, {
+    label: '用户部门',
+    prop: 'deptVos',
+    showOverflowTooltip: false
+  }, {
+    label: '用户角色',
+    prop: 'roleVos',
+    showOverflowTooltip: false
+  }, {
     label: '锁定状态',
     prop: 'lockFlag',
     type: 'radio',
