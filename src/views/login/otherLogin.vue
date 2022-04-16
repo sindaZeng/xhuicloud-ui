@@ -32,7 +32,7 @@
         <xhui-svg class='other-login-type-icon' icon='wechat' @click='thirdLogin(`WXMP`)'/>
       </el-col>
       <el-col class='other-login-type' :span='6'>
-        <xhui-svg class='other-login-type-icon' icon='weibo' />
+        <xhui-svg class='other-login-type-icon' icon='weibo' @click='thirdLogin(`WB`)'/>
       </el-col>
     </el-row>
   </div>
@@ -87,12 +87,19 @@ const thirdLogin = async way => {
     emit('tenantWarn', true)
     return
   }
+  const socials = store.getters.tenant.socials
+  if (validatenull(socials)) {
+    error(store.getters.tenant.name)
+  }
   if (way === 'QQ') {
-    const QQ = store.getters.tenant.socials.QQ
-    if (validatenull(QQ)) {
+    if (validatenull(socials.QQ)) {
       error(store.getters.tenant.name)
     }
-    url.value = `https://graph.qq.com/oauth2.0/authorize?response_type=code&state=QQ&client_id=${QQ.appId}&redirect_uri=${redirectUri}`
+    url.value = `https://graph.qq.com/oauth2.0/authorize?response_type=code&state=QQ&client_id=${socials.QQ.appId}&redirect_uri=${redirectUri}`
+  } else if (way === 'WB') {
+    if (validatenull(socials.WB)) {
+      error(store.getters.tenant.name)
+    }
   } else if (way === 'WXMP') {
     const WXMP = store.getters.tenant.socials.WXMP
     if (validatenull(WXMP)) {
