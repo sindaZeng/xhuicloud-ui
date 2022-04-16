@@ -53,9 +53,9 @@
       overflow: hidden;
     }
 
-    .svg-icon {
-      margin-right: 16px;
-    }
+    //.svg-icon {
+    //  margin-right: 16px;
+    //}
 
     .sub-el-icon {
       margin-right: 12px;
@@ -66,6 +66,10 @@
       border: none;
       height: 100%;
       width: 100% !important;
+
+      span {
+        margin-left: 5px;
+      }
     }
 
     // menu hover
@@ -74,6 +78,7 @@
       &:hover {
         background-color: $menuHover !important;
       }
+
     }
 
     .is-active>.el-submenu__title {
