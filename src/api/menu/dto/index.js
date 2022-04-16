@@ -32,7 +32,7 @@ export const tableAttributes = {
   }, {
     label: '图标',
     prop: 'icon',
-    isIcon: true
+    type: 'icon'
   }, {
     label: '国际化',
     prop: 'internationalization'
