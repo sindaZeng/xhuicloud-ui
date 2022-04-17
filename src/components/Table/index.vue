@@ -139,7 +139,7 @@
               :show-overflow-tooltip='column.showOverflowTooltip != false'
               :width="column.width || 'auto'"
             >
-              <template #default='scope' v-if='column.type || $slots[column.prop]'>
+              <template #default='scope' v-if='(column.type && column.type !== `datetime` && column.type !== `date`) || $slots[column.prop]'>
                 <slot :name='column.prop' :data='scope.row[column.prop]'/>
                 <el-image
                   v-if='column.type === `image`'
@@ -272,8 +272,8 @@
                   :prop='xColumn.prop'
                   v-if='!xColumn.editDisplay || !xColumn.createDisplay'
                   :rules='xColumn.rules'>
-                  <template #default='scope'>
-                    <slot :name='xColumn.prop + `Form`' :scope='scope'>
+                  <template #default>
+                    <slot :name='xColumn.prop + `Form`' :data='_formData[xColumn.prop]'>
                       <el-date-picker
                         v-model='_formData[xColumn.prop]'
                         v-if='xColumn.type === `datetime` || xColumn.type === `date`'
@@ -367,6 +367,10 @@ const props = defineProps({
     type: Object,
     required: false
   },
+  formData: {
+    type: Object,
+    required: false
+  },
   pageLayout: {
     type: String,
     default: 'total, sizes,  prev, pager, next, jumper'
@@ -414,7 +418,7 @@ const props = defineProps({
 
 const _tableData = ref([])
 
-const _formData = ref({})
+const _formData = ref(props.formData)
 
 const searchForm = ref({})
 
@@ -430,7 +434,7 @@ const _tableAttributesColumns = ref(props.tableAttributes.columns)
 
 const _page = ref(props.page)
 
-const emits = defineEmits(['uploadSuccess', 'beforeUpload', 'getTableData', 'toDelRow', 'toSaveRow', 'toUpdateRow', 'updata:page'])
+const emits = defineEmits(['uploadSuccess', 'beforeUpload', 'getTableData', 'toDelRow', 'toSaveRow', 'toUpdateRow', 'openBefore', 'closeBefore', 'update:page', 'update:formData'])
 
 const getCreateOrUpdateDialog = computed(() => {
   return createOrUpdateDialog
@@ -461,12 +465,14 @@ const tableColumns = computed(() => {
 // -------------- 操作 ------------------
 const handleRowUpdate = (row) => {
   _formData.value = row
+  emits('openBefore', _formData.value)
   createOrUpdateDialogTitle.value = 'edit'
   createOrUpdateDialog.value = true
 }
 
 const handleToSave = () => {
   _formData.value = {}
+  emits('openBefore', _formData.value)
   createOrUpdateDialogTitle.value = 'create'
   createOrUpdateDialog.value = true
 }
@@ -483,6 +489,7 @@ const toSave = () => {
 }
 
 const toClose = () => {
+  emits('closeBefore')
   createOrUpdateDialog.value = false
   getTableData()
 }
@@ -523,6 +530,17 @@ watch(
     getTableData()
   },
   {
+    immediate: true
+  }
+)
+
+watch(
+  _formData,
+  () => {
+    emits('update:formData', _formData.value)
+  },
+  {
+    deep: true,
     immediate: true
   }
 )
