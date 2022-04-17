@@ -99,7 +99,7 @@
             </span>
     </template>
   </el-dialog>
-  <icon-select ref='iconSelectRef' v-model:iconVisible='iconVisible' v-model:icon='form.icon'></icon-select>
+  <icon-select v-if='form' ref='iconSelectRef' v-model:iconVisible='iconVisible' v-model:icon='form.icon'></icon-select>
 </template>
 
 <script setup>
