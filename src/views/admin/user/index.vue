@@ -36,7 +36,6 @@
         </div>
         <el-tree
           :data="deptTreeData"
-          :props="defaultProps"
           :expand-on-click-node="false"
           :filter-node-method="filterDeptTreeData"
           @node-click="handleNodeClick"
@@ -52,25 +51,45 @@
           :permission='permission'
           v-model:page='page'
           :tableData='tableData'
+          @open-before='openBefore'
+          @close-before='closeBefore'
           @getTableData='getTableData'
           @toDelRow='toDelRow'
           @toSaveRow='toSaveRow'
           @toUpdateRow='toUpdateRow'>
+          <template #deptVosForm>
+            <el-cascader
+              v-model="currentDeptId"
+              :options="deptTreeData"
+              :show-all-levels='false'
+              :props="{ checkStrictly: true, multiple: true, emitPath: false }"
+              clearable
+            ></el-cascader>
+          </template>
           <template #deptVos='{ data }'>
             <span v-for="(item, index) in data" :key="index">
-                <el-tag>{{ item.deptName }}</el-tag>
+              <el-tag type='success' size='large'>{{ item.deptName }}</el-tag>
             </span>
+          </template>
+          <template #roleVosForm>
+            <el-select
+              v-model="role"
+              multiple
+              placeholder="请选择角色"
+              style="width: 240px"
+            >
+              <el-option
+                v-for="item in roles"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
           </template>
           <template #roleVos='{ data }'>
             <span v-for="(item, index) in data" :key="index">
-                <el-tag>{{ item.roleName }}</el-tag>
+              <el-tag type='success' size='large'>{{ item.roleName }}</el-tag>
             </span>
-          </template>
-          <template #tableOperation>
-            <el-button
-              size="small">
-              <el-icon class="el-icon--left"><xhui-svg icon='userRole'></xhui-svg></el-icon>角色
-            </el-button>
           </template>
         </xhui-table>
       </el-col>
@@ -88,6 +107,7 @@ import { computed, ref, watchPostEffect } from 'vue'
 import { validatenull } from '@/utils/validate'
 import { useStore } from 'vuex'
 import { checkData } from '@/utils'
+import { rolesList } from '@/api/roles'
 
 const { page } = usePage()
 
@@ -99,7 +119,11 @@ const deptTreeRef = ref(null)
 
 const deptIds = ref([])
 
-const currentDeptId = ref(null)
+const roles = ref([])
+
+const role = ref([])
+
+const currentDeptId = ref([])
 
 const tableData = ref([])
 
@@ -120,9 +144,37 @@ watchPostEffect(() => {
   }
 })
 
+const openBefore = (formData) => {
+  getRolesList()
+  const roleVos = formData.roleVos
+  if (roleVos) {
+    roleVos.forEach(item => {
+      role.value.push(item.roleId)
+    })
+  }
+  const deptVos = formData.deptVos
+  console.log(deptVos)
+  if (deptVos) {
+    deptVos.forEach(item => {
+      currentDeptId.value.push(item.deptId)
+    })
+  }
+}
+const closeBefore = () => {
+  role.value = []
+  role.value = []
+}
+
+const getRolesList = () => {
+  rolesList().then(res => {
+    roles.value = res
+  })
+}
+
 const handleNodeClick = (data) => {
+  currentDeptId.value = []
   deptIds.value = []
-  currentDeptId.value = data.id
+  currentDeptId.value.push(data.id)
   deptIds.value.push(data.id)
   getDeptNodeChildrenId(deptIds, data.children)
   getTableData(page.value, null)
@@ -145,11 +197,6 @@ const getDeptTree = async () => {
 
 getDeptTree()
 
-const defaultProps = {
-  children: 'children',
-  label: 'name'
-}
-
 const filterDeptTreeData = (value, data) => {
   if (!value) return true
   return data.name.indexOf(value) !== -1
@@ -164,17 +211,18 @@ const getTableData = (searchForm) => {
 }
 
 const toUpdateRow = row => {
-  updateUser(row).then(() => {
+  updateUser({ ...row, roleIds: role.value }).then(() => {
     ElNotification({
       title: 'Success',
       message: 'Update success',
       type: 'success'
     })
   })
+  getTableData()
 }
 
 const toSaveRow = data => {
-  createUser({ ...data, deptIds: [currentDeptId.value] }).then(() => {
+  createUser({ ...data, deptIds: currentDeptId.value, roleIds: role.value }).then(() => {
     ElNotification({
       title: 'Success',
       message: 'Create success',

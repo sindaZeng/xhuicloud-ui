@@ -41,14 +41,6 @@ export const tableAttributes = {
       size: 'small'
     }
   }, {
-    label: '角色名称',
-    prop: 'roleName',
-    hidden: true,
-    search: {
-      placeholder: '请输入角色名称',
-      size: 'small'
-    }
-  }, {
     label: '用户头像',
     prop: 'avatar',
     type: 'image',
@@ -86,12 +78,10 @@ export const tableAttributes = {
     }
   }, {
     label: '用户部门',
-    prop: 'deptVos',
-    showOverflowTooltip: false
+    prop: 'deptVos'
   }, {
     label: '用户角色',
-    prop: 'roleVos',
-    showOverflowTooltip: false
+    prop: 'roleVos'
   }, {
     label: '锁定状态',
     prop: 'lockFlag',

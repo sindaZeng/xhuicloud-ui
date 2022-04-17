@@ -38,6 +38,17 @@ export const rolesPage = query => {
 }
 
 /**
+ * 角色列表
+ * @returns {*}
+ */
+export const rolesList = () => {
+  return request({
+    url: '/admin/role/list',
+    method: 'get'
+  })
+}
+
+/**
  * 新增角色
  * @param data
  * @returns {*}
