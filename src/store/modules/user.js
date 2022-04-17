@@ -28,11 +28,12 @@ import { getUserInfo } from '@/api/user'
 import { getMenu } from '@/api/menu'
 import { setStorage, getStorage, delAllStorage } from '@/utils/storage'
 import { tenant, refreshTokenName, tokenName, tenantKey } from '@/config'
+import { encryption } from '@/utils/encrypt'
 
 const actions = {
   login (context, loginForm) {
     return new Promise((resolve, reject) => {
-      login(loginForm).then(response => {
+      login(encryption(loginForm, 'xhuicloud.cn', ['password'])).then(response => {
         this.commit('user/setToken', response.access_token)
         this.commit('user/setRefreshToken', response.refresh_token)
         this.commit('user/setTenantId', response.tenant_id)
