@@ -23,10 +23,86 @@
   -->
 
 <template>
-  <div class=''>系统参数管理</div>
+  <xhui-table
+    ref='userTableRef'
+    :permission='permission'
+    :tableAttributes='tableAttributes'
+    v-model:page='page'
+    :tableData='tableData'
+    @getTableData='getTableData'
+    @toDelRow='toDelRow'
+    @toSaveRow='toSaveRow'
+    @toUpdateRow='toUpdateRow'>
+  </xhui-table>
 </template>
 
 <script setup>
+import { tableAttributes } from '@/api/param/dto'
+import { paramPage, createParam, delParam, updateParam } from '@/api/param'
+import usePage from '@/mixins/page'
+import { computed, ref } from 'vue'
+import { ElMessageBox, ElNotification } from 'element-plus'
+import { checkData } from '@/utils'
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const { page } = usePage()
+
+const tableData = ref([])
+
+const permission = computed(() => {
+  return {
+    addBtn: checkData(store.getters.permissions.sys_add_param, false),
+    editBtn: checkData(store.getters.permissions.sys_editor_param, false),
+    delBtn: checkData(store.getters.permissions.sys_delete_param, false)
+  }
+})
+
+const getTableData = (searchForm) => {
+  paramPage({ ...page.value, ...searchForm }).then(response => {
+    page.value.total = response.total
+    tableData.value = response.records
+  }).catch(() => {
+  })
+}
+
+const toUpdateRow = row => {
+  updateParam(row).then(() => {
+    ElNotification({
+      title: 'Success',
+      message: 'Update success',
+      type: 'success'
+    })
+  })
+}
+
+const toSaveRow = data => {
+  createParam(data).then(() => {
+    ElNotification({
+      title: 'Success',
+      message: 'Create success',
+      type: 'success'
+    })
+    getTableData()
+  })
+}
+
+const toDelRow = row => {
+  ElMessageBox.confirm(`Are you confirm to delete ${row.name} ?`)
+    .then(() => {
+      return delParam(row.id).then(res => {
+        ElNotification({
+          title: 'Success',
+          message: 'Delete success',
+          type: 'success'
+        })
+      })
+    }).catch(() => {
+    }).then(() => {
+      getTableData()
+    })
+}
 </script>
 
 <style lang='scss' scoped>
