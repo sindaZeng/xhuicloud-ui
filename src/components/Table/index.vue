@@ -139,7 +139,7 @@
               :show-overflow-tooltip='column.showOverflowTooltip != false'
               :width="column.width || 'auto'"
             >
-              <template #default='scope' v-if='(column.type && column.type !== `datetime` && column.type !== `date`) || $slots[column.prop]'>
+              <template #default='scope' v-if='(column.type && column.type !== `datetime` && column.type !== `date` && column.type !== `password`) || $slots[column.prop]'>
                 <slot :name='column.prop' :data='scope.row[column.prop]'/>
                 <el-image
                   v-if='column.type === `image`'
@@ -311,6 +311,7 @@
                       </el-upload>
                       <el-input
                         v-else
+                        :type='xColumn.type'
                         v-model='_formData[xColumn.prop]'
                         :disabled='xColumn.createDisabled || xColumn.editDisabled'></el-input>
                     </slot>
