@@ -108,7 +108,7 @@ export default {
     GeneratorsBatchAdd: '批量生成',
     InterfaceDocs: '接口文档',
     SystemMonitor: '系统监控',
-    Icons: '图库',
+    Icons: '图库管理',
     LoginLog: '登录记录'
   }
 }
