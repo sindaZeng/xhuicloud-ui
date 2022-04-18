@@ -85,7 +85,10 @@
         <el-col :xl="12" :lg="12">
           <el-form-item
             label="图标:" prop="icon">
-            <xhui-svg @click='iconVisible = true' class='menuIcon' :icon='form.icon'/>
+            <xhui-svg @click='iconVisible = true' class='menuIcon' :icon='form.icon' v-if='form.icon'/>
+            <el-icon v-else class='avatar-uploader-icon' @click='iconVisible = true'>
+              <Plus />
+            </el-icon>
           </el-form-item>
         </el-col>
       </el-row>
@@ -100,6 +103,7 @@
     </template>
   </el-dialog>
   <icon-select v-if='form' ref='iconSelectRef' v-model:iconVisible='iconVisible' v-model:icon='form.icon'></icon-select>
+
 </template>
 
 <script setup>
@@ -107,6 +111,7 @@ import { defineEmits, defineProps, ref, watch } from 'vue'
 import { updateMenu, menuTree, createMenu } from '@/api/menu'
 import { ElNotification } from 'element-plus'
 import iconSelect from './icon-select'
+import { Plus } from '@element-plus/icons'
 
 const props = defineProps({
   status: {
