@@ -33,7 +33,7 @@ import { encryption } from '@/utils/encrypt'
 const actions = {
   login (context, loginForm) {
     return new Promise((resolve, reject) => {
-      login(encryption(loginForm, 'xhuicloud.cn', ['password'])).then(response => {
+      login(encryption(loginForm, 'xhuicloud0000000', ['password'])).then(response => {
         this.commit('user/setToken', response.access_token)
         this.commit('user/setRefreshToken', response.refresh_token)
         this.commit('user/setTenantId', response.tenant_id)
