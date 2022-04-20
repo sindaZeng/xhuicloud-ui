@@ -23,8 +23,8 @@
   -->
 
 <template>
-    <el-row :span='4' align='middle'>
-      <el-col :xl='8' :lg='8'>
+    <el-row align='middle'>
+      <el-col :xl='10' :lg='10'>
         <h3 style='text-align:center;padding-bottom: 5px;'>{{ title1 }}</h3>
         <div class='list-contain'>
           <ul class='infinite-list' style='overflow: auto'>
@@ -39,20 +39,20 @@
       <el-col :xl='3' :lg='3' >
         <div class='list-contain-button'>
           <el-button
-            size='small'>
-            <el-icon class='el-icon' @click='pushAll()'>
+            size='small' @click='pushAll()'>
+            <el-icon class='el-icon' >
               <xhui-svg icon='left'></xhui-svg>
             </el-icon>
           </el-button>
           <el-button
-            size='small'>
-            <el-icon class='el-icon' @click='deleteAll()'>
+            size='small' @click='deleteAll()'>
+            <el-icon class='el-icon'>
               <xhui-svg icon='right'></xhui-svg>
             </el-icon>
           </el-button>
         </div>
       </el-col>
-      <el-col :xl='8' :lg='8'>
+      <el-col :xl='10' :lg='10'>
         <h3 style='text-align:center;padding-bottom: 5px;'>{{ title2 }}</h3>
         <div class='list-contain'>
           <ul class='infinite-list' style='overflow: auto'>
@@ -148,11 +148,13 @@ const pushEle = (ele) => {
 
 const pushAll = () => {
   _list1.value = _list1.value.concat(_list2.value)
+  console.log(_list1.value)
   _list2.value = []
 }
 
 const deleteAll = () => {
   _list2.value = _list2.value.concat(_list1.value)
+  console.log(_list2.value)
   _list1.value = []
 }
 
