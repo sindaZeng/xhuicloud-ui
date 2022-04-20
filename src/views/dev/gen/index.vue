@@ -29,6 +29,7 @@
     :permission='permission'
     :tableAttributes='tableAttributes'
     :tableData='tableData'
+    @toSaveRow='toSaveRow'
     @getTableData='getTableData'>
     <template #tableOperation='{ scope }'>
       <el-button
@@ -36,24 +37,42 @@
         @click='test(scope.row)'>
         <el-icon class="el-icon--left"><xhui-svg icon='connect'></xhui-svg></el-icon>测试
       </el-button>
+      <el-button
+        size="small"
+        @click='handleDbInfo(scope.row, ``)'
+        type="success">
+        <el-icon class="el-icon--left"><xhui-svg icon='db'></xhui-svg></el-icon>库信息
+      </el-button>
+      <el-button
+        size="small"
+        @click='handleDbInfo(scope.row, `success`)'
+        type="primary">
+        <el-icon class="el-icon--left"><xhui-svg icon='db'></xhui-svg></el-icon>一键生成
+      </el-button>
     </template>
   </xhui-table>
+  <dbInfo ref='dbInfoRef'></dbInfo>
 </template>
 
 <script setup>
 import { tableAttributes } from '@/api/db/dto'
-import { dbPage, dbTest } from '@/api/db'
+import { dbPage, dbTest, createDb } from '@/api/db'
 import usePage from '@/mixins/page'
 import { computed, ref } from 'vue'
 import { ElNotification } from 'element-plus'
 import { checkData } from '@/utils'
 import { useStore } from 'vuex'
+import { encryption } from '@/utils/encrypt'
+import { aesIv } from '@/config'
+import dbInfo from './db-info'
 
 const store = useStore()
 
 const { page } = usePage()
 
 const tableData = ref([])
+
+const dbInfoRef = ref()
 
 const permission = computed(() => {
   return {
@@ -83,6 +102,21 @@ const test = row => {
       type: 'error'
     })
   })
+}
+
+const toSaveRow = data => {
+  createDb(encryption(data, aesIv, ['username', 'password'])).then(() => {
+    ElNotification({
+      title: 'Success',
+      message: 'Create success',
+      type: 'success'
+    })
+    getTableData()
+  })
+}
+
+const handleDbInfo = (row, type) => {
+  dbInfoRef.value.init(row.id, type)
 }
 </script>
 
