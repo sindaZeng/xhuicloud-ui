@@ -153,7 +153,6 @@ const openBefore = (formData) => {
     })
   }
   const deptVos = formData.deptVos
-  console.log(deptVos)
   if (deptVos) {
     deptVos.forEach(item => {
       currentDeptId.value.push(item.deptId)

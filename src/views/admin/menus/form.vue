@@ -116,7 +116,6 @@ import { Plus } from '@element-plus/icons'
 const props = defineProps({
   status: {
     type: Boolean,
-    required: true,
     default: false
   },
   row: {
