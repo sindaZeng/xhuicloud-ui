@@ -41,7 +41,8 @@ const settingConfig = {
   language: 'zhCn',
   languageKey: 'languageKey',
   tagViewsKey: 'tagViewsKey',
-  tagViewKey: 'tagViewKey'
+  tagViewKey: 'tagViewKey',
+  aesIv: 'xhuicloud0000000'
 }
 
 module.exports = settingConfig

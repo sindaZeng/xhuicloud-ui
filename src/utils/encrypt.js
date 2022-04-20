@@ -31,8 +31,9 @@ export const encryption = (data, iv, encryptParams, type) => {
       result[ele] = btoa(result[ele])
     })
   } else {
+    iv = CryptoJS.enc.Latin1.parse(iv)
+
     encryptParams.forEach(ele => {
-      iv = CryptoJS.enc.Latin1.parse(iv)
       // 加密
       var encrypted = CryptoJS.AES.encrypt(result[ele], iv, {
         iv: iv,

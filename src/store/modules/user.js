@@ -27,13 +27,13 @@ import { toRaw } from 'vue'
 import { getUserInfo } from '@/api/user'
 import { getMenu } from '@/api/menu'
 import { setStorage, getStorage, delAllStorage } from '@/utils/storage'
-import { tenant, refreshTokenName, tokenName, tenantKey } from '@/config'
+import { tenant, refreshTokenName, tokenName, tenantKey, aesIv } from '@/config'
 import { encryption } from '@/utils/encrypt'
 
 const actions = {
   login (context, loginForm) {
     return new Promise((resolve, reject) => {
-      login(encryption(loginForm, 'xhuicloud0000000', ['password'])).then(response => {
+      login(encryption(loginForm, aesIv, ['password'])).then(response => {
         this.commit('user/setToken', response.access_token)
         this.commit('user/setRefreshToken', response.refresh_token)
         this.commit('user/setTenantId', response.tenant_id)
