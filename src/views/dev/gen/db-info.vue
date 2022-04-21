@@ -50,8 +50,17 @@
       <el-form-item label='作者名称' prop='author'>
         <el-input v-model='form.author' />
       </el-form-item>
+      <el-form-item label='表名前缀' prop='tablePrefix'>
+        <el-input v-model='form.tablePrefix' />
+      </el-form-item>
+      <el-form-item label='去表前缀' prop='toReplace'>
+        <el-checkbox-group v-model='form.toReplace' size='large' @change='toReplace'>
+          <el-checkbox-button :label='0'>后端</el-checkbox-button>
+          <el-checkbox-button :label='1'>前端</el-checkbox-button>
+        </el-checkbox-group>
+      </el-form-item>
       <el-form-item label='前端代码' prop='genVue'>
-        <el-radio-group v-model='form.genVue' size='large'>
+        <el-radio-group v-model='form.genVue' size='large' @change='toReplace'>
           <el-radio-button :label='0'>No</el-radio-button>
           <el-radio-button :label='1'>Yes</el-radio-button>
         </el-radio-group>
@@ -61,6 +70,8 @@
     <template #footer>
       <span class='dialog-footer'>
         <el-button @click='toClose'>Cancel</el-button>
+        <el-button type='primary' @click='returnOne' v-if='active != 0 && stepStatus != `success`'
+        >上一步</el-button>
         <el-button type='primary' @click='nextOne' v-if='active != 2 && stepStatus != `success`'
         >下一步</el-button>
         <el-button type='primary' @click='generateCode' v-else>Confirm</el-button>
@@ -93,6 +104,8 @@ const i18n = useI18n()
 
 const dbFormRef = ref(null)
 
+const dbInfoVisible = ref(false)
+
 const nextOne = () => {
   dbFormRef.value.validate(valid => {
     if (valid) {
@@ -101,7 +114,15 @@ const nextOne = () => {
   })
 }
 
-const dbInfoVisible = ref(false)
+const returnOne = () => {
+  active.value = active.value - 2
+}
+
+const toReplace = () => {
+  if (form.value.toReplace.indexOf(1) !== -1) {
+    form.value.genVue = 1
+  }
+}
 
 const rules = ref({
   moduleName: [{
@@ -146,7 +167,7 @@ const generateCode = () => {
     return item.name
   })
   codeDown(form.value).then(res => {
-    toClose()
+    // toClose()
   })
 }
 

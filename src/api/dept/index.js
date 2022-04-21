@@ -30,3 +30,67 @@ export const deptTree = () => {
     method: 'get'
   })
 }
+
+/**
+ * 部门分页
+ * @param query
+ * @returns {*}
+ */
+export const deptPage = query => {
+  return request({
+    url: '/admin/dept/page',
+    method: 'get',
+    params: query
+  })
+}
+
+/**
+ * 通过id查询部门
+ * @param data
+ * @returns {*}
+ */
+export const getDept = data => {
+  return request({
+    url: '/admin/dept',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 新增部门
+ * @param data
+ * @returns {*}
+ */
+export const createDept = data => {
+  return request({
+    url: '/admin/dept',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 删除部门
+ * @param id
+ * @returns {*}
+ */
+export const delDept = id => {
+  return request({
+    url: '/admin/dept/' + id,
+    method: 'delete'
+  })
+}
+
+/**
+ * 更新部门
+ * @param data
+ * @returns {*}
+ */
+export const updateDept = data => {
+  return request({
+    url: '/admin/dept',
+    method: 'put',
+    data
+  })
+}
