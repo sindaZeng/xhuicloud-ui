@@ -40,7 +40,7 @@
        v-model="form.parentId"
        :options="deptTreeData"
        :show-all-levels='false'
-       :props="{ checkStrictly: true }"
+       :props="{ checkStrictly: true, emitPath: false }"
        clearable
      ></el-cascader>
    </template>
