@@ -116,6 +116,7 @@
       <!-- 表格内容     -->
       <div class='table-container'>
         <el-table ref='xhuiTableRef'
+                  :border='tableAttributes.border'
                   v-loading='loading'
                   :data='_tableData'
                   row-key='id'

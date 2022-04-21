@@ -160,7 +160,7 @@ const openBefore = (formData) => {
   }
 }
 const closeBefore = () => {
-  role.value = []
+  roles.value = []
   role.value = []
 }
 

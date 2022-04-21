@@ -75,6 +75,7 @@ export default {
   menu: {
     home: 'home',
     Permissions: 'Permissions',
+    Depts: 'Depts',
     Roles: 'Roles',
     RolesAdd: 'Add Role',
     RolesUpdate: 'Edit Role',

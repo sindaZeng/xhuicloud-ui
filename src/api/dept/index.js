@@ -24,10 +24,11 @@
 
 import request from '@/utils/request'
 
-export const deptTree = () => {
+export const deptTree = query => {
   return request({
     url: '/admin/dept/tree',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }
 

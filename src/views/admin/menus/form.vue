@@ -84,7 +84,8 @@
         </el-col>
         <el-col :xl="12" :lg="12">
           <el-form-item
-            label="图标:" prop="icon">
+            v-if='form.type !== 1'
+            label="菜单图标:" prop="icon">
             <xhui-svg @click='iconVisible = true' class='menuIcon' :icon='form.icon' v-if='form.icon'/>
             <el-icon v-else class='avatar-uploader-icon' @click='iconVisible = true'>
               <Plus />
