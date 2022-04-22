@@ -76,6 +76,7 @@ export default {
     home: 'home',
     Permissions: 'Permissions',
     Depts: 'Depts',
+    Dicts: 'Dicts',
     Roles: 'Roles',
     RolesAdd: 'Add Role',
     RolesUpdate: 'Edit Role',

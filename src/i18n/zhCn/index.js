@@ -76,6 +76,7 @@ export default {
     home: '主页',
     Permissions: '权限管理',
     Depts: '部门管理',
+    Dicts: '数据字典',
     Roles: '角色管理',
     RolesAdd: '新增角色',
     RolesUpdate: '编辑角色',

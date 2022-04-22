@@ -25,7 +25,8 @@
 <template>
   <iconView :customLabs='customLabs' v-model:loading='loading'>
     <template #icon-item-0>
-        <div class='icon-item'>
+        <div class='icon-item'
+             v-if='checkData($store.getters.permissions.sys_upload_icon, false)'>
           <el-upload
             class="avatar-uploader"
             :headers='{ Authorization: `Bearer ` + $store.getters.token }'
@@ -45,7 +46,8 @@
               placement="top">
               <span>{{ item.name }}</span>
             </el-tooltip>
-          <div class='delete-item'>
+          <div class='delete-item'
+               v-if='checkData($store.getters.permissions.sys_delete_icon, false)'>
             <el-button
               :icon="Delete"
               @click='toDelRow(item)'
@@ -66,6 +68,7 @@ import { filePage, delFile } from '@/api/file'
 import { ossPath } from '@/config'
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import { loading, open, close } from '@/mixins/loading'
+import { checkData } from '@/utils'
 
 const imageUrl = ref('')
 
