@@ -23,7 +23,7 @@
   -->
 
 <template>
-  <div class=''>404</div>
+  <div class=''>页面丢失 404</div>
 </template>
 
 <script setup>

@@ -39,7 +39,7 @@ const commonsRoutes = [
     component: () => import('@/views/login/auth-redirect')
   },
   {
-    path: '/404',
+    path: '/:catchAll(.*)',
     component: () => import('@/views/error/404'),
     meta: {
       tagView: false
