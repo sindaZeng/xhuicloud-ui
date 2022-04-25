@@ -53,10 +53,6 @@
       overflow: hidden;
     }
 
-    //.svg-icon {
-    //  margin-right: 16px;
-    //}
-
     .sub-el-icon {
       margin-right: 12px;
       margin-left: -2px;
@@ -99,6 +95,10 @@
   .closeSidebar {
     .sidebar-container {
       width: 54px !important;
+
+      .el-menu {
+        width: 64px !important;
+      }
     }
 
     .main-container {
@@ -153,6 +153,16 @@
             display: inline-block;
           }
         }
+      }
+    }
+
+    & .nest-menu .el-submenu>.el-submenu__title,
+    & .el-submenu .el-menu-item {
+      min-width: $sideBarWidth !important;
+      background-color: $subMenuBg !important;
+
+      &:hover {
+        background-color: $subMenuHover !important;
       }
     }
   }
