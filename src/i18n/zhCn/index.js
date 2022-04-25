@@ -114,6 +114,7 @@ export default {
     InterfaceDocs: '接口文档',
     SystemMonitor: '系统监控',
     Icons: '图库管理',
-    LoginLog: '登录记录'
+    LoginLog: '登录记录',
+    Logs: '操作日志'
   }
 }

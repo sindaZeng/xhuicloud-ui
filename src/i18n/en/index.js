@@ -114,6 +114,7 @@ export default {
     InterfaceDocs: 'Interface Docs',
     SystemMonitor: 'System Monitor',
     Icons: 'Icons',
-    LoginLog: 'Login Log'
+    LoginLog: 'Login Log',
+    Logs: 'Logs'
   }
 }
