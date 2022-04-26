@@ -35,14 +35,39 @@
                      :label='$t(`menu.`+ item.meta.internationalization)' :name='item.path'></el-tab-pane>
       </el-tabs>
     <ul v-show="visible" :style="contextmenuStyle" class="contextmenu">
-      <li @click='delTagView(contextmenuTag, `remove`)'>Close</li>
-      <li @click='delOtherTagView(contextmenuTag)'>Close Others</li>
-      <li @click='delAllTagViews'>Close All</li>
+      <li @click='delTagView(contextmenuTag, `remove`)'>{{ $t(`tags.close`) }}</li>
+      <li @click='delOtherTagView(contextmenuTag)'>{{ $t(`tags.closeOthers`) }}</li>
+      <li @click='delAllTagViews'>{{ $t(`tags.closeAll`) }}</li>
     </ul>
+
+    <el-dropdown class='tabs-more' trigger='click'>
+      <el-button
+        type='primary'
+        size="mini">
+        更多
+        <el-icon style="vertical-align: middle;">
+          <ArrowDown />
+        </el-icon>
+      </el-button>
+      <template #dropdown>
+        <el-dropdown-menu class='user-dropdown'>
+          <router-link to='/'>
+            <el-dropdown-item>{{ $t('msg.homePage') }}</el-dropdown-item>
+          </router-link>
+          <router-link to='/'>
+            <el-dropdown-item>{{ $t('msg.userInfo') }}</el-dropdown-item>
+          </router-link>
+          <el-dropdown-item divided @click='logout'>{{ $t('msg.logout') }}</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
   </div>
 </template>
 
 <script setup>
+import {
+  ArrowDown
+} from '@element-plus/icons'
 import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'

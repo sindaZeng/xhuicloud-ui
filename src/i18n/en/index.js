@@ -36,6 +36,11 @@ export default {
     createDialog: 'Create',
     pleaseSelect: 'please select '
   },
+  tags: {
+    close: 'Close',
+    closeOthers: 'Close Others',
+    closeAll: 'Close All'
+  },
   button: {
     operations: 'Operations',
     search: 'Search',

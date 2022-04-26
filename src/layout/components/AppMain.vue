@@ -42,7 +42,7 @@ import {} from 'vue'
 .app-main {
   width: 100%;
   overflow: hidden;
-  padding: 40px 10px 10px 0;
+  padding: 10px 10px 0;
 }
 
 </style>

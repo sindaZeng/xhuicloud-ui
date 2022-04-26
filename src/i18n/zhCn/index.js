@@ -36,6 +36,11 @@ export default {
     createDialog: '新增',
     pleaseSelect: '请选择'
   },
+  tags: {
+    close: '关闭',
+    closeOthers: '关闭其他',
+    closeAll: '关闭全部'
+  },
   button: {
     operations: '操作',
     search: '搜索',

@@ -22,54 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-.tag-view-container {
-  height: 40px;
-  background: #fff;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .05);
+@media screen and (max-width: 990px) {
 
-  .el-tabs--card>.el-tabs__header .el-tabs__item {
-    border-bottom: 1px solid var(--el-border-color-light)!important;
-  }
 
-  .tabs {
-    display: inline-block;
-    &:first-of-type {
-      margin-left: 12px;
-    }
-
-    &-more {
-      position: absolute;
-      top: 3px;
-      right: 5px;
-      box-sizing: border-box;
-    }
-  }
-
-  .tabs > .el-tabs__content {
-    color: black;
-    font-size: 32px;
-  }
-
-}
-
-.contextmenu {
-  margin: 0;
-  background: #fff;
-  z-index: 3000;
-  position: fixed;
-  list-style-type: none;
-  padding: 5px 0;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 400;
-  color: #333;
-  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
-  li {
-    margin: 0;
-    padding: 7px 16px;
-    cursor: pointer;
-    &:hover {
-      background: #eee;
-    }
-  }
 }
