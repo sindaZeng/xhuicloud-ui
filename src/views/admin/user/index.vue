@@ -25,15 +25,14 @@
 <template>
   <xhui-card>
     <el-row :span="24">
-      <el-col :xs="24" :sm="24" :md="4">
-        <div class='search-container'>
+      <el-col :xs="24" :sm="24" :md="5">
+        <xhui-card>
           <el-input
             v-model="deptName"
             placeholder="请输入部门名称"
             clearable
             size="small"
           />
-        </div>
         <el-tree
           :data="deptTreeData"
           :expand-on-click-node="false"
@@ -42,11 +41,11 @@
           ref="deptTreeRef"
           default-expand-all
         />
+        </xhui-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="20">
+      <el-col :xs="24" :sm="24" :md="19" >
         <xhui-table
           ref='userTableRef'
-          :cardStyle='false'
           :tableAttributes='tableAttributes'
           :permission='permission'
           v-model:page='page'

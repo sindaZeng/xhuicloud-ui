@@ -25,7 +25,7 @@
 <template>
   <div class='table-body'>
     <!-- 表格搜索栏 -->
-    <xhui-card v-if='tableAttributes.enableSearch' :cardStyle='cardStyle'>
+    <xhui-card v-if='tableAttributes.enableSearch'>
       <div class='search-container'>
         <!--  搜索栏头部插槽    -->
         <slot name='searchTableHead' />
@@ -77,7 +77,7 @@
       </div>
     </xhui-card>
     <!-- 表格  -->
-    <xhui-card :cardStyle='cardStyle'>
+    <xhui-card>
       <!-- 表格操作栏     -->
       <div class='table-head' style='height: 50px; width: 100%'>
         <el-button
@@ -353,10 +353,6 @@ import { loading, open, close } from '@/mixins/loading'
 import { ossPath } from '@/config'
 
 const props = defineProps({
-  cardStyle: {
-    type: Boolean,
-    default: true
-  },
   searchLoading: {
     type: Boolean,
     default: false

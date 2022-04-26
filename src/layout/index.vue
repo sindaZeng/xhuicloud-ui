@@ -23,19 +23,22 @@
   -->
 
 <template>
-  <div class="app-wrapper" :class='[$store.getters.sidebarStatus ? `openSidebar` : `closeSidebar`]'>
-    <!-- 左侧菜单 -->
-    <sidebar class="sidebar-container"
-             :style="{ backgroundColor: variables.menuBg }"/>
-    <div class="main-container">
-      <div class="fixed-header">
+  <div class='app-container' :class="{'closeSidebar':!$store.getters.sidebarStatus}">
+    <div class='left-body sidebar-container'>
+      <!-- 左侧菜单 -->
+      <sidebar :style='{ backgroundColor: variables.menuBg }' />
+    </div>
+    <div class='right-body'>
+      <div class='header-container'>
         <!-- 顶部 navbar -->
-        <navbar/>
-        <!--  标签      -->
-        <tag-view/>
+        <navbar />
       </div>
-      <!-- main -->
-      <app-main/>
+      <div class='main-container'>
+        <!--  标签      -->
+        <tag-view />
+        <!-- main -->
+        <app-main />
+      </div>
     </div>
   </div>
 </template>
@@ -75,27 +78,37 @@ onUnmounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-@import "~@/styles/mixin.scss";
+<style lang='scss' scoped>
 @import "~@/styles/variables.scss";
 
-.app-wrapper {
-  @include clearfix;
-  position: relative;
-  height: 100%;
+.app-container {
   width: 100%;
+  height: 100%;
+  background-size: 100%;
+  background: #f0f2f5 no-repeat;
+
+  .header-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9;
+    height: 50px;
+    width: calc(100% - #{$sideBarWidth});
+    transition: width #{$sidebarTransition};
+  }
+
+  .right-body {
+    top: 50px;
+    right: 0;
+    z-index: 9;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    transition: width #{$sidebarTransition};
+  }
 }
 
-.fixed-header {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 9;
-  width: calc(100% - #{$sideBarWidth});
-  transition: width #{$sidebarTransition};
-}
-
-.closeSidebar .fixed-header {
+.closeSidebar .header-container {
   width: calc(100% - 54px);
 }
 

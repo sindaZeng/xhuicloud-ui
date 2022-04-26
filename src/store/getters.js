@@ -42,6 +42,7 @@ const getters = {
   cardStyle: state => state.theme.cardStyle,
   ddCss: state => ({
     ...state.theme.variables,
+    menuActiveText: state.theme.themeColor,
     ...getColor(getStorage(themeKey))
   }),
   tagViews: state => state.app.tagViews,

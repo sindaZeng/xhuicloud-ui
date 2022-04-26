@@ -40,11 +40,9 @@ import {} from 'vue'
 
 <style lang="scss" scoped>
 .app-main {
-  min-height: calc(100vh - 50px - 40px);
   width: 100%;
-  position: relative;
   overflow: hidden;
-  padding: 100px 10px 10px 0;
+  padding: 40px 10px 10px 0;
 }
 
 </style>
