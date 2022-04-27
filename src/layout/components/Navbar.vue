@@ -76,6 +76,7 @@ const logout = () => {
 @import "~@/styles/variables.scss";
 
 .navbar {
+  width: 100%;
   height: 50px;
   overflow: hidden;
   position: relative;
@@ -91,36 +92,37 @@ const logout = () => {
   .breadcrumb-container {
     float: left;
   }
+
   .right-menu {
     display: flex;
     align-items: center;
     float: right;
     padding-right: 16px;
 
-      ::v-deep(.right-menu-item) {
-        display: inline-block;
-        padding: 5px 10px 0 0;
-        font-size: 20px;
-        color: #fff;
-        vertical-align: text-bottom;
+    ::v-deep(.right-menu-item) {
+      display: inline-block;
+      padding: 5px 10px 0 0;
+      font-size: 20px;
+      color: #fff;
+      vertical-align: text-bottom;
 
-        &.hover-effect {
-          cursor: pointer;
-        }
-      }
-
-      ::v-deep(.avatar-container) {
+      &.hover-effect {
         cursor: pointer;
+      }
+    }
 
-        .avatar-wrapper {
-          margin-top: 5px;
-          position: relative;
+    ::v-deep(.avatar-container) {
+      cursor: pointer;
 
-          .el-avatar {
-            margin-right: 12px;
-          }
+      .avatar-wrapper {
+        margin-top: 5px;
+        position: relative;
+
+        .el-avatar {
+          margin-right: 12px;
         }
       }
+    }
   }
 }
 </style>

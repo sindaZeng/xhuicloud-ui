@@ -23,7 +23,7 @@
   -->
 
 <template>
-  <div class='app-container' :class="{'closeSidebar':!$store.getters.sidebarStatus}">
+  <div class='app-container' :class='[$store.getters.sidebarStatus ? `openSidebar` : `closeSidebar`]'>
     <div class='left-body sidebar-container'>
       <!-- 左侧菜单 -->
       <sidebar :style='{ backgroundColor: variables.menuBg }' />
@@ -87,28 +87,25 @@ onUnmounted(() => {
   background-size: 100%;
   background: #f0f2f5 no-repeat;
 
-  .header-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 50px;
-    width: calc(100% - #{$sideBarWidth});
-    transition: width #{$sidebarTransition};
-  }
-
   .right-body {
     top: 50px;
     right: 0;
+    margin-left: $sideBarWidth;
     z-index: 9;
     height: 100%;
     position: fixed;
     width: 100%;
     transition: width #{$sidebarTransition};
-  }
-}
 
-.closeSidebar .header-container {
-  width: calc(100% - 54px);
+    .header-container {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 50px;
+      width: calc(100% - #{$sideBarWidth});
+      transition: width #{$sidebarTransition};
+    }
+  }
 }
 
 </style>

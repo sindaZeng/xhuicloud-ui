@@ -1,14 +1,14 @@
 #app {
   .main-container {
     min-height: 100%;
-    transition: margin-left #{$sidebarTransition};
+    transition: margin-left $sidebarTransition;
     margin-left: $sideBarWidth;
     position: relative;
   }
 
   .sidebar-container {
     transition: width #{$sidebarTransition};
-    width: $sideBarWidth !important;
+    width: $sideBarWidth;
     background-color: $menuBg;
     height: 100%;
     position: fixed;
@@ -93,6 +93,11 @@
   }
 
   .closeSidebar {
+
+    .header-container {
+      width: calc(100% - 54px);
+    }
+
     .sidebar-container {
       width: 54px !important;
 

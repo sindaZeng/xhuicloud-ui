@@ -24,8 +24,7 @@
 
 <template>
   <div class='hamburger-container' @click='sidebarStatus'>
-    <xhui-svg class='hamburger' :icon='icon'>
-    </xhui-svg>
+    <xhui-svg class='hamburger' :icon='icon'/>
   </div>
 </template>
 
@@ -44,7 +43,7 @@ const icon = computed(() => {
 })
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 .hamburger-container {
   padding: 0 16px;
 

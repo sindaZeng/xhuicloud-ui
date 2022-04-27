@@ -24,5 +24,19 @@
 
 @media screen and (max-width: 990px) {
 
+  .openSidebar {
+    .sidebar-container {
+      left: -$sideBarWidth !important;
+    }
+
+    .main-container {
+      margin-left: unset !important;
+    }
+
+    .header-container {
+      width: unset !important;
+      left: 0;
+    }
+  }
 
 }
