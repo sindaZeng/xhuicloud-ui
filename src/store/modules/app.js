@@ -57,7 +57,6 @@ const mutations = {
     if (state.tagViews.find(item => {
       return item.path === tagView.path
     })) return
-    console.log(tagView)
     state.tagViews.push(tagView)
     setStorage(tagViewsKey, state.tagViews)
   },
