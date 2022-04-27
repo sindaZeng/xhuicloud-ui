@@ -23,12 +23,44 @@
   -->
 
 <template>
-  <div class=''>首页</div>
+  <xhui-card :bodyStyle='{ height: 140 + `px` }' class='top-card'>
+    <el-avatar size='large' :src='$store.getters.userInfo.avatar' class='top-card-avatar' />
+    <div class='top-card-tips'>
+      <p style='font-size: 17px;font-weight: 600;margin-bottom: 10px;'>{{ getDoc() + `  ` + $store.getters.userInfo.username }}</p>
+      <p>tips 占位1</p>
+      <p>tips 占位2</p>
+      <p>tips 占位3</p>
+    </div>
+  </xhui-card>
 </template>
 
 <script setup>
+import { period } from '@/utils/copywriting'
+
+const getDoc = () => {
+  const doc = period()
+  return doc[1] + doc[2]
+}
 </script>
 
 <style lang='scss' scoped>
+.top-card {
+  ::v-deep(.el-card__body) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  &-avatar {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+    border-radius: 50%;
+  }
+  &-tips {
+    flex: auto;
+    width: calc(100% - 200px);
+    min-width: 300px;
+  }
+}
 
 </style>

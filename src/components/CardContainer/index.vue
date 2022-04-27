@@ -25,7 +25,7 @@
 <template>
   <div
     class="card-container">
-    <el-card v-if='$store.getters.cardStyle'>
+    <el-card v-if='$store.getters.cardStyle' :body-style='bodyStyle' :shadow='shadow'>
       <slot/>
     </el-card>
     <slot v-else/>
@@ -33,6 +33,17 @@
 </template>
 
 <script setup>
+import { defineProps } from 'vue'
+defineProps({
+  bodyStyle: {
+    type: Object,
+    required: false
+  },
+  shadow: {
+    type: String,
+    required: false
+  }
+})
 </script>
 
 <style lang='scss' scoped>
