@@ -24,43 +24,42 @@
 
 <template>
   <div class='tag-view-container'>
-      <el-tabs v-model="activeTag"
-               :closable='$store.getters.tagViews.length > 1'
-               type="card"
-               class="tabs"
-               v-on:contextmenu.prevent="openContextmenu($event)"
-               v-on:tab-click='tabClick'
-               v-on:edit="delTagView">
-        <el-tab-pane v-for='item in $store.getters.tagViews' :key='item.name'
-                     :label='$t(`menu.`+ item.meta.internationalization)' :name='item.path'></el-tab-pane>
-      </el-tabs>
-    <ul v-show="visible" :style="contextmenuStyle" class="contextmenu">
-      <li @click='delTagView(contextmenuTag, `remove`)'>{{ $t(`tags.close`) }}</li>
-      <li @click='delOtherTagView(contextmenuTag)'>{{ $t(`tags.closeOthers`) }}</li>
-      <li @click='delAllTagViews'>{{ $t(`tags.closeAll`) }}</li>
-    </ul>
-
-    <el-dropdown class='tabs-more' trigger='click'>
-      <el-button
-        type='primary'
-        size="mini">
-        更多
-        <el-icon style="vertical-align: middle;">
-          <ArrowDown />
-        </el-icon>
-      </el-button>
-      <template #dropdown>
-        <el-dropdown-menu class='user-dropdown'>
-          <router-link to='/'>
-            <el-dropdown-item>{{ $t('msg.homePage') }}</el-dropdown-item>
-          </router-link>
-          <router-link to='/'>
-            <el-dropdown-item>{{ $t('msg.userInfo') }}</el-dropdown-item>
-          </router-link>
-          <el-dropdown-item divided @click='logout'>{{ $t('msg.logout') }}</el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+    <div class="tags-box">
+      <div class="tabs">
+        <el-tabs v-model="activeTag"
+                 :closable='$store.getters.tagViews.length > 1'
+                 type="card"
+                 v-on:contextmenu.prevent="openContextmenu($event)"
+                 v-on:tab-click='tabClick'
+                 v-on:edit="delTagView">
+          <el-tab-pane v-for='item in $store.getters.tagViews' :key='item.name'
+                       :label='$t(`menu.`+ item.meta.internationalization)' :name='item.path'></el-tab-pane>
+        </el-tabs>
+        <ul v-show="visible" :style="contextmenuStyle" class="contextmenu">
+          <li @click='delTagView(contextmenuTag, `remove`)'>{{ $t(`tags.close`) }}</li>
+          <li @click='delOtherTagView(contextmenuTag)'>{{ $t(`tags.closeOthers`) }}</li>
+          <li @click='delAllTagViews'>{{ $t(`tags.closeAll`) }}</li>
+        </ul>
+      </div>
+      <div class="tabs-more">
+        <el-dropdown trigger='click'>
+          <el-button
+            type='primary'
+            size="mini">
+            更多
+            <el-icon style="vertical-align: middle;">
+              <ArrowDown />
+            </el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu class='user-dropdown'>
+              <el-dropdown-item @click='delOtherTagView(contextmenuTag)'>{{ $t(`tags.closeOthers`) }}</el-dropdown-item>
+              <el-dropdown-item @click='delAllTagViews'>{{ $t(`tags.closeAll`) }}</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+    </div>
   </div>
 </template>
 
