@@ -23,19 +23,60 @@
   -->
 
 <template>
-  <xhui-card :bodyStyle='{ height: 140 + `px` }' class='top-card'>
-    <el-avatar size='large' :src='$store.getters.userInfo.avatar' class='top-card-avatar' />
-    <div class='top-card-tips'>
-      <p style='font-size: 17px;font-weight: 600;margin-bottom: 10px;'>{{ getDoc() + `  ` + $store.getters.userInfo.username }}</p>
-      <p>tips 占位1</p>
-      <p>tips 占位2</p>
-      <p>tips 占位3</p>
-    </div>
-  </xhui-card>
+  <el-row :gutter="20">
+    <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+      <xhui-card class='top-card'>
+        <el-avatar size='large' :src='$store.getters.userInfo.avatar' class='top-card-avatar'/>
+        <div class='top-card-tips'>
+          <p class="top-card-tips-header">{{ getDoc() + `  ` + $store.getters.userInfo.username }}</p>
+          <p>xhuicloud-ui 是基于vue3和element-plus的快速开发框架</p>
+          <p>前后端分离开发神器</p>
+          <p>我们的核心是数据驱动视图，它把我们从繁琐的传统crud开发中解放出来，我们只需要关注数据本身</p>
+          <p>基于双向数据绑定，所以用起来更爽，更简单</p>
+          <p>它不止局限于传统crud，更有表单组件等更多组件正在开发中</p>
+        </div>
+      </xhui-card>
+    </el-col>
+    <el-col :xs="24" :sm="24" :md="12" :lg="7" :xl="7">
+      <xhui-card>
+        <template #header>
+          <span>访客记录</span>
+        </template>
+        <Charts :option="option"></Charts>
+      </xhui-card>
+    </el-col>
+    <el-col :xs="24" :sm="24" :md="12" :lg="7" :xl="7">
+      <xhui-card>
+        <template #header>
+          <span>收入记录</span>
+        </template>
+        <Charts :option="option"></Charts>
+      </xhui-card>
+    </el-col>
+  </el-row>
 </template>
 
 <script setup>
 import { period } from '@/utils/copywriting'
+import Charts from '@/components/Charts'
+import { ref } from 'vue'
+
+const option = ref({
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [820, 932, 901, 934, 1290, 1330, 1320],
+      type: 'line',
+      smooth: true
+    }
+  ]
+})
 
 const getDoc = () => {
   const doc = period()
@@ -44,23 +85,5 @@ const getDoc = () => {
 </script>
 
 <style lang='scss' scoped>
-.top-card {
-  ::v-deep(.el-card__body) {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  &-avatar {
-    width: 60px;
-    height: 60px;
-    margin-right: 20px;
-    border-radius: 50%;
-  }
-  &-tips {
-    flex: auto;
-    width: calc(100% - 200px);
-    min-width: 300px;
-  }
-}
-
+@import "~@/styles/home.scss";
 </style>
