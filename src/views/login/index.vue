@@ -73,18 +73,13 @@
 <script setup>
 import FormLogin from './formLogin.vue'
 import OtherLogin from './otherLogin.vue'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { copyright } from '@/config'
 import LangSelect from '@/components/LangSelect'
 import { tenantList } from '@/api/tenant'
 import { validatenull } from '@/utils/validate'
 import { useStore } from 'vuex'
 import { ElNotification } from 'element-plus'
-import { useRoute, useRouter } from 'vue-router'
-
-const router = useRouter()
-
-const route = useRoute()
 
 const login = ref({
   type: 'form'
@@ -97,27 +92,6 @@ const active = ref(store.getters.tenantId)
 const tenants = ref([])
 
 const tenantSelectAnimation = ref('')
-
-watch(route, val => {
-  const query = val.query
-  // 第三方登录
-  if (query) {
-    if (!validatenull(query.state) && !validatenull(query.code)) {
-      store.dispatch('user/login', {
-        authCode: query.code,
-        type: query.state,
-        grant_type: 'social'
-      })
-        .then(() => {
-          router.push({ path: query.redirect || '/' })
-        })
-        .catch(() => {
-        })
-    }
-  }
-}, {
-  immediate: true
-})
 
 const selectLoginType = () => {
   if (login.value.type === 'other') {

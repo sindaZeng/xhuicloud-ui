@@ -41,11 +41,13 @@
 <script setup>
 import { openWindows } from '@/utils'
 import { validatenull } from '@/utils/validate'
-import { useRouter } from 'vue-router'
-import { defineEmits, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { defineEmits, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { loginWeChatMpQrCode, weChatMpScanSuccess } from '@/api/auth'
 import { ElNotification } from 'element-plus'
+
+const route = useRoute()
 
 const router = useRouter()
 
@@ -54,6 +56,27 @@ const store = useStore()
 const url = ref('')
 
 const emit = defineEmits(['tenantWarn'])
+
+watch(route, val => {
+  const query = val.query
+  // 第三方登录
+  if (query) {
+    if (!validatenull(query.state) && !validatenull(query.code)) {
+      store.dispatch('user/login', {
+        authCode: query.code,
+        type: query.state,
+        grant_type: 'social'
+      })
+        .then(() => {
+          router.push({ path: query.redirect || '/' })
+        })
+        .catch(() => {
+        })
+    }
+  }
+}, {
+  immediate: true
+})
 
 const thirdLogin = async way => {
   const redirectUri = encodeURIComponent(window.location.origin + '/#/auth-redirect')
