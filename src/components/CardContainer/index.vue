@@ -26,6 +26,9 @@
   <div
     class="card-container">
     <el-card v-if='$store.getters.cardStyle' :body-style='bodyStyle' :shadow='shadow'>
+      <template #header v-if="$slots.header">
+        <slot name="header"/>
+      </template>
       <slot/>
     </el-card>
     <slot v-else/>
