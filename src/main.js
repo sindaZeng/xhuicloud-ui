@@ -30,6 +30,7 @@ import i18n from './i18n'
 import './router/permission'
 import Table from '@/components/Table'
 import CardContainer from '@/components/CardContainer'
+import * as echarts from 'echarts'
 
 import installElementPlus from './plugins/element'
 import installXHuiIcon from './icons' // icon
@@ -37,6 +38,7 @@ import installXHuiIcon from './icons' // icon
 import '@/styles/index.scss' // global css
 
 const app = createApp(App)
+app.config.globalProperties.$echarts = echarts
 installElementPlus(app)
 installXHuiIcon(app)
 app
