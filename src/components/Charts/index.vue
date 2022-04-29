@@ -23,7 +23,9 @@
   -->
 
 <template>
-  <div ref='xhuiChart' :style="{ width: '400px', height: '300px' }">
+  <div class="echarts-box">
+    <div ref='xhuiChart' style="height: 100%; width: 100%">
+    </div>
   </div>
 </template>
 
@@ -44,9 +46,18 @@ const props = defineProps({
 onMounted(() => {
   const charts = echarts.init(xhuiChart.value)
   charts.setOption(props.option)
+  // 自适应
+  window.addEventListener('resize', function () {
+    charts.resize()
+  })
 })
+
 </script>
 
-<style scoped>
-
+<style lang='scss' scoped>
+.echarts-box {
+  width: 100%;
+  height: 300px;
+  margin: 0 auto;
+}
 </style>
