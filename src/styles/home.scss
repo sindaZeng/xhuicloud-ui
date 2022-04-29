@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-.top-card {
+.home-card {
   ::v-deep(.el-card__body) {
     display: flex;
     flex-wrap: wrap;
@@ -43,7 +43,7 @@
       font-size: 14px;
       color: #777c8f;
     }
-    .top-card-tips-header {
+    .home-card-tips-header {
       font-size: 17px;
       font-weight: 600;
       margin-bottom: 10px;

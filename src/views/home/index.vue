@@ -25,10 +25,10 @@
 <template>
   <el-row :gutter="20">
     <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-      <xhui-card class='top-card'>
-        <el-avatar size='large' :src='$store.getters.userInfo.avatar' class='top-card-avatar'/>
-        <div class='top-card-tips'>
-          <p class="top-card-tips-header">{{ getDoc() + `  ` + $store.getters.userInfo.username }}</p>
+      <xhui-card class='home-card'>
+        <el-avatar size='large' :src='$store.getters.userInfo.avatar' class='home-card-avatar'/>
+        <div class='home-card-tips'>
+          <p class="home-card-tips-header">{{ getDoc() + `  ` + $store.getters.userInfo.username }}</p>
           <p>xhuicloud-ui 是基于vue3和element-plus的快速开发框架</p>
           <p>前后端分离开发神器</p>
           <p>我们的核心是数据驱动视图，它把我们从繁琐的传统crud开发中解放出来，我们只需要关注数据本身</p>
@@ -53,12 +53,25 @@
         <Charts :option="option"></Charts>
       </xhui-card>
     </el-col>
+    <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
+      <xhui-card >
+        <template #header>
+          <div style="display: flex;justify-content: space-between;align-items: center;">
+            <span>消息盒子</span>
+            <span style="font-size: 10px">12条未读
+            <xhui-svg icon="red-point"/></span>
+          </div>
+        </template>
+        <Message/>
+      </xhui-card>
+    </el-col>
   </el-row>
 </template>
 
 <script setup>
 import { period } from '@/utils/copywriting'
 import Charts from '@/components/Charts'
+import Message from '@/components/Message'
 import { ref } from 'vue'
 
 const option = ref({
