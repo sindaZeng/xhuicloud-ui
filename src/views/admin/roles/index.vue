@@ -32,7 +32,7 @@
     @toDelRow='toDelRow'
     @toSaveRow='toSaveRow'
     @toUpdateRow='toUpdateRow'>
-    <template #tableOperation='{ scope }'>
+    <template #tableOperation='{ scope }' v-if='permission.rolePermission'>
       <el-button
         size="small"
         @click='handlePermission(scope.row)'>
@@ -101,6 +101,7 @@ const permission = computed(() => {
   return {
     addBtn: checkData(store.getters.permissions.sys_add_role, false),
     editBtn: checkData(store.getters.permissions.sys_editor_role, false),
+    rolePermission: checkData(store.getters.permissions.sys_permission_role, false),
     delBtn: checkData(store.getters.permissions.sys_delete_role, false)
   }
 })
