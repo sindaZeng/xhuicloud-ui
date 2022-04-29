@@ -6,7 +6,7 @@
     position: relative;
   }
 
-  .sidebar-container {
+  .left-body {
     transition: width #{$sidebarTransition};
     width: $sideBarWidth;
     background-color: $menuBg;
@@ -98,7 +98,7 @@
       width: calc(100% - 54px);
     }
 
-    .sidebar-container {
+    .left-body {
       width: 54px !important;
 
       .el-menu {
@@ -179,7 +179,7 @@
   .withoutAnimation {
 
     .main-container,
-    .sidebar-container {
+    .left-body {
       transition: none;
     }
   }

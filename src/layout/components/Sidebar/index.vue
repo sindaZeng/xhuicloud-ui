@@ -23,7 +23,6 @@
   -->
 
 <template>
-  <div>
     <div class='logo-container' v-if='$store.getters.sidebarLogo' :style='{ background: $store.getters.ddCss.navbarBg }'>
       <img :src="$store.getters.tenant.logo" class="sidebar-logo" >
       <h1 class='logo-title' style='color: black' v-if='$store.getters.sidebarStatus'>{{ $store.getters.tenant.name }}</h1>
@@ -31,7 +30,6 @@
     <el-scrollbar>
       <sidebar-menu></sidebar-menu>
     </el-scrollbar>
-  </div>
 </template>
 
 <script setup>

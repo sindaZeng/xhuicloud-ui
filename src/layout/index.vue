@@ -24,7 +24,7 @@
 
 <template>
   <div class='app-container' :class='[$store.getters.sidebarStatus ? `openSidebar` : `closeSidebar`]'>
-    <div class='left-body sidebar-container'>
+    <div class='left-body'>
       <!-- 左侧菜单 -->
       <sidebar :style='{ backgroundColor: variables.menuBg }' />
     </div>
