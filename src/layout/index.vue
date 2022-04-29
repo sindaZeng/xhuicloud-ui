@@ -95,6 +95,7 @@ onUnmounted(() => {
     height: 100%;
     position: fixed;
     width: 100%;
+
     transition: width #{$sidebarTransition};
 
     .header-container {
