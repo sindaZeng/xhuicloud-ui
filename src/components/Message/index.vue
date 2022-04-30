@@ -23,55 +23,52 @@
   -->
 
 <template>
-  <div class="messages">
-    <div class="message">
-      <div class="message-icon">
-        <xhui-svg icon="message"></xhui-svg>
+  <div class='message-box' v-infinite-scroll="load" :infinite-scroll-delay='200' :infinite-scroll-distance='50'>
+    <div class='message' v-for='item in numMsg' :key='item'>
+      <div class='message-body'>
+        <div class='message-body-icon'>
+          <xhui-svg icon='message'></xhui-svg>
+        </div>
+        <div class='message-body-content'>
+          <p style='font-size: 18px;font-weight: 600;padding-bottom: 5px'>消费金</p>
+          <p style='font-size: 15px;color: #8c939d;padding-bottom: 20px;'>消费金待领取通知</p>
+          <div class='message-body-content-footer'>
+            <p style='font-size: 10px;color: #021c40'>查看详情</p>
+            <el-button :icon='ArrowRight' type="text"></el-button>
+          </div>
+        </div>
       </div>
-      <div class="message-content">
-        <p>消息标题</p>
-        <p>消息内容</p>
-        <p>查看详情 ></p>
+      <div class='message-delete'>
+        <el-button
+          style='border-color: red'
+          :icon='Close'
+          size='default'
+          circle
+        ></el-button>
       </div>
     </div>
+    <el-divider v-if='loadEnd'>我也是有底线的</el-divider>
   </div>
 </template>
 
 <script setup>
+import { Close, ArrowRight } from '@element-plus/icons'
+import { ref } from 'vue'
 
+const numMsg = ref(0)
+
+const loadEnd = ref(false)
+
+// TODO 加载
+const load = () => {
+  if (numMsg.value > 10) {
+    loadEnd.value = true
+    return
+  }
+  numMsg.value += 4
+}
 </script>
 
-<style lang="scss" scoped>
-.messages {
-  position: relative;
-  height: 100px;
-  width: 100%;
-  border-radius: 5px;
-  background-color: white;
-  box-shadow: -5px 5px 12px 0 rgba(204, 204, 204, .8);
-
-  .message {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    background: white;
-    padding: 25px 15px 10px;
-
-    &-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 100%;
-      margin-top: 7px;
-
-      :first-child {
-        width: 2.5em;
-        height: 2.5em;
-      }
-    }
-
-    &-content {
-      width: calc(100% - 44px);
-    }
-  }
-}
+<style lang='scss' scoped>
+@import "~@/styles/message-box.scss";
 </style>
