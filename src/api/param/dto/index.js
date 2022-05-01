@@ -41,6 +41,9 @@ export const tableAttributes = {
       size: 'small'
     }
   }, {
+    label: '参数键值',
+    prop: 'paramValue'
+  }, {
     label: '参数名称',
     prop: 'paramName',
     search: {
