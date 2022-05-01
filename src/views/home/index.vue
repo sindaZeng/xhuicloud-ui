@@ -37,7 +37,7 @@
         </div>
       </xhui-card>
     </el-col>
-    <el-col :xs='24' :sm='24' :md='12' :lg='7' :xl='7'>
+    <el-col :xs='24' :sm='24' :md='12' :lg='6' :xl='6'>
       <xhui-card>
         <template #header>
           <span>访客记录</span>
@@ -45,7 +45,7 @@
         <Charts :option='option'></Charts>
       </xhui-card>
     </el-col>
-    <el-col :xs='24' :sm='24' :md='12' :lg='7' :xl='7'>
+    <el-col :xs='24' :sm='24' :md='12' :lg='6' :xl='6'>
       <xhui-card>
         <template #header>
           <span>收入记录</span>
@@ -53,7 +53,7 @@
         <Charts :option='option'></Charts>
       </xhui-card>
     </el-col>
-    <el-col :xs='24' :sm='24' :md='24' :lg='10' :xl='10'>
+    <el-col :xs='24' :sm='24' :md='24' :lg='12' :xl='12'>
       <xhui-card :bodyStyle='bodyStyle'>
         <template #header>
           <div style='display: flex;justify-content: space-between;align-items: center;'>
@@ -62,23 +62,91 @@
             <xhui-svg icon='red-point' /></span>
           </div>
         </template>
-          <Message />
+        <Message />
       </xhui-card>
     </el-col>
     <el-col :xs='24' :sm='24' :md='12' :lg='12' :xl='12'>
       <xhui-card>
         <template #header>
-          <span>xhuicloud-ui</span>
+          <span>xhuicloud-ui 信息</span>
         </template>
-        <Charts :option='option'></Charts>
+        <table class='table'>
+          <tr>
+            <td>@vue/cli版本</td>
+            <td>{{ devDependencies['@vue/cli-service'] }}</td>
+            <td>vue版本</td>
+            <td>{{ dependencies['vue'] }}</td>
+          </tr>
+          <tr>
+            <td>vuex版本</td>
+            <td>{{ dependencies['vuex'] }}</td>
+            <td>vue-router版本</td>
+            <td>{{ dependencies['vue-router'] }}</td>
+          </tr>
+          <tr>
+            <td>element-plus版本</td>
+            <td>{{ dependencies['element-plus'] }}</td>
+            <td>vue-i18n版本</td>
+            <td>{{ dependencies['vue-i18n'] }}</td>
+          </tr>
+          <tr>
+            <td>crypto-js版本</td>
+            <td>{{ dependencies['crypto-js'] }}</td>
+            <td>vuedraggable版本</td>
+            <td>{{ dependencies['vuedraggable'] }}</td>
+          </tr>
+          <tr>
+            <td>eslint版本</td>
+            <td>{{ devDependencies['eslint'] }}</td>
+            <td>axios版本</td>
+            <td>{{ dependencies['axios'] }}</td>
+          </tr>
+          <tr>
+            <td>使用登记:</td>
+            <td colspan="3"><el-button type="success" plain>登记</el-button>
+              <p style='color: red;font-size: 11px'>注: 使用登记后可以获得2次的当前项目的问题解决机会(不限于:BUG,扩展,使用帮助,场景方案)</p>
+            </td>
+          </tr>
+        </table>
       </xhui-card>
     </el-col>
     <el-col :xs='24' :sm='24' :md='12' :lg='12' :xl='12'>
       <xhui-card>
         <template #header>
-          <span>XHuiCloud</span>
+          <span>XHuiCloud 信息</span>
         </template>
-        <Charts :option='option'></Charts>
+        <table class='table'>
+          <tr>
+            <td>SpringBoot</td>
+            <td>2.6.6</td>
+            <td>SpringCloud</td>
+            <td>2021.0.1</td>
+          </tr>
+          <tr>
+            <td>SpringCloud-Alibaba</td>
+            <td>2021.0.1.0</td>
+            <td>Security-OAuth2</td>
+            <td>2.3.6.RELEASE</td>
+          </tr>
+          <tr>
+            <td>Seata</td>
+            <td>1.4.2</td>
+            <td>Nacos</td>
+            <td>2.0.3</td>
+          </tr>
+          <tr>
+            <td>Mybatis-Plus</td>
+            <td>3.5.1</td>
+            <td>Dynamic-Datasource</td>
+            <td>3.4.1</td>
+          </tr>
+          <tr>
+            <td>使用登记:</td>
+            <td colspan="3"><el-button type="success" plain>登记</el-button>
+              <p style='color: red;font-size: 11px'>注: 使用登记后可以获得2次的当前项目的问题解决机会(不限于:BUG,扩展,使用帮助,场景方案)</p>
+            </td>
+          </tr>
+        </table>
       </xhui-card>
     </el-col>
   </el-row>
@@ -86,12 +154,13 @@
 
 <script setup>
 import { period } from '@/utils/copywriting'
+import { dependencies, devDependencies } from '../../../package.json'
 import Charts from '@/components/Charts'
 import Message from '@/components/Message'
 import { ref } from 'vue'
 
 const bodyStyle = {
-  height: 340 + 'px',
+  height: 300 + 'px',
   'overflow-y': 'auto'
 }
 

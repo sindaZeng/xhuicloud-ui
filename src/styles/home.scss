@@ -38,16 +38,40 @@
     flex: auto;
     width: calc(100% - 200px);
     min-width: 300px;
-    p {
-      min-height: 20px;
-      font-size: 14px;
-      color: #777c8f;
-    }
+
     .home-card-tips-header {
       font-size: 17px;
       font-weight: 600;
       margin-bottom: 10px;
       color: black;
+    }
+  }
+}
+
+p {
+  min-height: 20px;
+  font-size: 14px;
+  color: #777c8f;
+}
+
+.table {
+  width: 100%;
+  color: #666;
+  border-collapse: collapse;
+  background-color: #fff;
+
+  td {
+    position: relative;
+    min-height: 20px;
+    padding: 9px 15px;
+    font-size: 14px;
+    line-height: 20px;
+    border: 1px solid #e6e6e6;
+
+    &:nth-child(odd) {
+      width: 20%;
+      text-align: right;
+      background-color: #f7f7f7;
     }
   }
 }
