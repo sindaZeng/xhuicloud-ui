@@ -149,6 +149,11 @@
         </table>
       </xhui-card>
     </el-col>
+    <el-col :xs='24' :sm='24' :md='24' :lg='24' :xl='24'>
+      <xhui-card :bodyStyle="{ 'display': 'flex', 'align-items': 'center', 'justify-content': 'center' }">
+        <span>Copyright 2022 © Sinda xhuicloud-ui</span>
+      </xhui-card>
+    </el-col>
   </el-row>
 </template>
 
