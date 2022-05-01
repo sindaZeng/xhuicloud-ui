@@ -30,6 +30,7 @@
         </keep-alive>
         <component v-else :is="Component" :key='route.path'/>
     </router-view>
+    <el-backtop :right="100" :bottom="100" target='.app-main'/>
   </div>
 </template>
 
