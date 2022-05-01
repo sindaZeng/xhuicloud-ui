@@ -32,8 +32,11 @@
                  v-on:contextmenu.prevent="openContextmenu($event)"
                  v-on:tab-click='tabClick'
                  v-on:edit="delTagView">
-          <el-tab-pane v-for='item in $store.getters.tagViews' :key='item.name'
-                       :label='$t(`menu.`+ item.meta.internationalization)' :name='item.path'></el-tab-pane>
+          <el-tab-pane v-for='item in $store.getters.tagViews' :key='item.name' :name='item.path'>
+            <template #label>
+              <menu-item :title='$t(`menu.`+ item.meta.internationalization)' :icon='item.meta.icon'></menu-item>
+            </template>
+          </el-tab-pane>
         </el-tabs>
         <ul v-show="visible" :style="contextmenuStyle" class="contextmenu">
           <li @click='delTagView(contextmenuTag, `remove`)'>{{ $t(`tags.close`) }}</li>
@@ -70,7 +73,7 @@ import {
 import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
-
+import MenuItem from '@/components/Sidebar/MenuItem'
 const store = useStore()
 
 const activeTag = ref('')

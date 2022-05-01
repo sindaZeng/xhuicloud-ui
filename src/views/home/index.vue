@@ -65,6 +65,22 @@
           <Message />
       </xhui-card>
     </el-col>
+    <el-col :xs='24' :sm='24' :md='12' :lg='12' :xl='12'>
+      <xhui-card>
+        <template #header>
+          <span>xhuicloud-ui</span>
+        </template>
+        <Charts :option='option'></Charts>
+      </xhui-card>
+    </el-col>
+    <el-col :xs='24' :sm='24' :md='12' :lg='12' :xl='12'>
+      <xhui-card>
+        <template #header>
+          <span>XHuiCloud</span>
+        </template>
+        <Charts :option='option'></Charts>
+      </xhui-card>
+    </el-col>
   </el-row>
 </template>
 

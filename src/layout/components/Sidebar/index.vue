@@ -34,7 +34,7 @@
 
 <script setup>
 import {} from 'vue'
-import SidebarMenu from './SidebarMenu.vue'
+import SidebarMenu from '@/components/Sidebar/SidebarMenu'
 </script>
 
 <style lang="scss" scoped>

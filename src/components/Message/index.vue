@@ -33,8 +33,8 @@
           <p style='font-size: 18px;font-weight: 600;padding-bottom: 5px'>消费金</p>
           <p style='font-size: 15px;color: #8c939d;padding-bottom: 20px;'>消费金待领取通知</p>
           <div class='message-body-content-footer'>
-            <p style='font-size: 10px;color: #021c40'>查看详情</p>
-            <el-button :icon='ArrowRight' type="text"></el-button>
+            <p style='font-size: 10px;color: #021c40'>星期一</p>
+            <el-button type="text">查看详情</el-button>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { Close, ArrowRight } from '@element-plus/icons'
+import { Close } from '@element-plus/icons'
 import { ref } from 'vue'
 
 const numMsg = ref(0)
