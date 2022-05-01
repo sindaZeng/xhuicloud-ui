@@ -23,18 +23,20 @@
   -->
 
 <template>
-  <div class="echarts-box">
-    <div ref='xhuiChart' style="height: 100%; width: 100%">
+  <div class='echarts-box'>
+    <div ref='xhuiChart' style='height: 100%; width: 100%'>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, getCurrentInstance, defineProps, ref } from 'vue'
+import { onMounted, onUnmounted, getCurrentInstance, defineProps, ref, markRaw } from 'vue'
 
 const echarts = getCurrentInstance().appContext.config.globalProperties.$echarts
 
 const xhuiChart = ref(null)
+
+const charts = ref({})
 
 const props = defineProps({
   option: {
@@ -44,20 +46,26 @@ const props = defineProps({
 })
 
 onMounted(() => {
-  const charts = echarts.init(xhuiChart.value)
-  charts.setOption(props.option)
+  charts.value = markRaw(echarts.init(xhuiChart.value))
+  charts.value.setOption(props.option)
   // 自适应
-  window.addEventListener('resize', function () {
-    charts.resize()
+  window.addEventListener('resize', () => {
+    charts.value.resize()
   })
 })
 
+onUnmounted(() => {
+  window.removeEventListener('resize', () => {
+    charts.value.resize()
+  })
+})
 </script>
 
 <style lang='scss' scoped>
 .echarts-box {
+  position: relative;
   width: 100%;
-  height: 300px;
+  height: 260px;
   margin: 0 auto;
 }
 </style>
