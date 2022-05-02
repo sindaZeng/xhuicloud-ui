@@ -120,6 +120,7 @@ export default {
     SystemMonitor: 'System Monitor',
     Icons: 'Icons',
     LoginLog: 'Login Log',
-    Logs: 'Logs'
+    Logs: 'Logs',
+    AuthClient: 'Auth Client'
   }
 }
