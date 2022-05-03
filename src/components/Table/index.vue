@@ -100,16 +100,16 @@
         <slot name='tableHead' />
         <el-button
           :icon='Refresh'
-          style='float: right; margin-right: 45px'
+          style='float:right;margin-left: 12px;'
           size='default'
           @click='getTableData'
           circle
         ></el-button>
         <el-button
           :icon='View'
-          style='float: right'
+          style='float:right;'
           size='default'
-          @click='tableDrawer = !tableDrawer'
+          @click='tableDrawer = true'
           circle
         ></el-button>
       </div>
