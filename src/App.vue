@@ -1,38 +1,21 @@
-<!--
-  - MIT License
-  - Copyright <2021-2022>
-  -
-  - Permission is hereby granted, free of charge, to any person obtaining a copy
-  - of this software and associated documentation files (the "Software"), to deal
-  - in the Software without restriction, including without limitation the rights
-  - to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-  - of the Software, and to permit persons to whom the Software is furnished to do so,
-  - subject to the following conditions:
-  -
-  - The above copyright notice and this permission notice shall be included in all
-  - copies or substantial portions of the Software.
-  -
-  - THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-  - INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-  - PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-  - HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-  - CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-  - OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  - @Author: Sinda
-  - @Email:  xhuicloud@163.com
-  -->
-
-<template>
-  <el-config-provider :locale="$store.getters.language === 'en' ? en : zhCn">
-    <router-view />
-  </el-config-provider>
-</template>
-
-<script setup>
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import en from 'element-plus/es/locale/lang/en'
-
+<script setup lang="ts">
+// This starter template is using Vue 3 <script setup> SFCs
+// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
+import HelloWorld from './components/HelloWorld.vue'
 </script>
 
+<template>
+  <img alt="Vue logo" src="./assets/logo.png" />
+  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+</template>
+
 <style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
 </style>
