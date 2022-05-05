@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",
     "target": "esnext",
     "useDefineForClassFields": true,
+    // 生成.d.ts文件
+    "declaration": true,
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
@@ -13,6 +16,7 @@
     "lib": ["esnext", "dom"],
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  // 读取文件
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "types"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
