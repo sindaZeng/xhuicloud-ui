@@ -23,7 +23,7 @@
   -->
 
 <template>
-  <el-dialog :title='$t(`msg.settingLayout`)' :model-value='modelValue' @close='closed' width='22%'>
+  <el-dialog :title='$t(`msg.settingLayout`)' :model-value='modelValue' @close='closed' width='22%' append-to-body>
     <div class='content'>
       <div class="item">
         <span class='title'>{{ $t('msg.themeColor') }}</span>
