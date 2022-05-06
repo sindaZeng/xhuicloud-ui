@@ -20,6 +20,6 @@ module.exports = {
   rules: {
     'no-console': 'warn',
     'no-debugger': 'warn',
-    "no-underscore-dangle": 'off',
+    'vue/multi-word-component-names': 'off'
   }
 }
