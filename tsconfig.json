@@ -5,23 +5,31 @@
     "useDefineForClassFields": true,
     // 生成.d.ts文件
     "declaration": true,
+    "allowJs": true,
+    "checkJs": false,
     "module": "esnext",
     "moduleResolution": "node",
+    "removeComments": true,
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
     "resolveJsonModule": true,
+    "noUnusedLocals": false,
     "isolatedModules": true,
+    "noUnusedParameters": false,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["./src/*"],
       "~/*": ["types/*"]
     }
   },
   // 读取文件
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "types"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["node_modules"]
 }

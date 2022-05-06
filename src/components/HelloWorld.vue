@@ -31,6 +31,8 @@ const count = ref(0)
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
   </p>
+  <xh-svg icon='message'></xh-svg>
+
 </template>
 
 <style scoped>
