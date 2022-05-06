@@ -22,11 +22,9 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { App } from 'vue'
-import xhSvg from '@/components/XhSvg/index.vue'
-
-export default {
-  install: (app: App) => {
-    app.component('xh-svg', xhSvg)
-  }
+const theme = {
+  themeColor: '#409eff',
+  themeKey: 'theme'
 }
+
+export default theme

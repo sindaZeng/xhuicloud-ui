@@ -22,11 +22,27 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { App } from 'vue'
-import xhSvg from '@/components/XhSvg/index.vue'
-
-export default {
-  install: (app: App) => {
-    app.component('xh-svg', xhSvg)
-  }
+const setting = {
+  title: '星辉云',
+  // 端口号
+  devPort: '80',
+  // 商户字段
+  tenant: 'tenant_id',
+  // 刷新token令牌字段
+  refreshTokenName: 'refresh_token',
+  // token字段名称 存储的token名称
+  tokenName: 'token',
+  tenantKey: 'tenant',
+  // 单位/毫秒  监听token过期刷新
+  expiredPeriod: 6000000,
+  // 当有值时候会在登录页展示版权信息
+  copyright: process.env.NODE_ENV === 'production' ? '<a href=\'http://beian.miit.gov.cn\' target="view_window">粤ICP备2022008047号-1</a>' : '版权信息',
+  ossPath: 'http://127.0.0.1:9000',
+  language: 'zhCn',
+  languageKey: 'languageKey',
+  tagViewsKey: 'tagViewsKey',
+  tagViewKey: 'tagViewKey',
+  aesIv: 'xhuicloud0000000'
 }
+
+export default setting

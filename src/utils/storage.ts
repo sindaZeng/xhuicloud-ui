@@ -22,26 +22,37 @@
  * @Email:  xhuicloud@163.com
  */
 
-export const setStorage = (key, value) => {
-  if (typeof value === 'object') {
-    value = JSON.stringify(value)
+interface BaseStorage {
+  getItem(key: string): any;
+  setItem(Key: string, value: string): void;
+  removeItem(key: string): void;
+  clear(): void;
+}
+
+class CommonStorage implements BaseStorage {
+  protected storage: BaseStorage;
+
+  constructor (storage: BaseStorage) {
+    this.storage = storage
   }
-  window.localStorage.setItem(key, value)
-}
 
-export const getStorage = key => {
-  const data = window.localStorage.getItem(key)
-  try {
-    return JSON.parse(data)
-  } catch (e) {
-    return data
+  public setItem (key: string, value: any): void {
+    this.storage.setItem(key, JSON.stringify(value))
+  }
+
+  public getItem (key: string): any {
+    return JSON.parse(this.storage.getItem(key))
+  }
+
+  public removeItem (key: string): void {
+    this.storage.removeItem(key)
+  }
+
+  public clear (): void {
+    this.storage.clear()
   }
 }
 
-export const delStorage = key => {
-  window.localStorage.removeItem(key)
-}
+export const storageSession = new CommonStorage(sessionStorage)
 
-export const delAllStorage = () => {
-  window.localStorage.clear()
-}
+export const storageLocal = new CommonStorage(localStorage)

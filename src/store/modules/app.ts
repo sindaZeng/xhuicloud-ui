@@ -22,11 +22,30 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { App } from 'vue'
-import xhSvg from '@/components/XhSvg/index.vue'
+import { defineStore } from 'pinia'
+import { storageLocal } from '@/utils/storage'
+import setting from '@/config/setting.config'
 
-export default {
-  install: (app: App) => {
-    app.component('xh-svg', xhSvg)
-  }
+const defaultHomeTag = {
+  fullPath: '/home',
+  meta: { title: 'home', icon: 'home', internationalization: 'home' },
+  name: 'home',
+  params: {},
+  path: '/home',
+  query: {}
 }
+
+export const useAppStore = defineStore('app', {
+  state: () => {
+    return {
+      tagViews: storageLocal.getItem(setting.tagViewsKey) || defaultHomeTag,
+      tagView: storageLocal.getItem(setting.tagViewKey) || 0,
+      sidebarStatus: true,
+      lang: storageLocal.getItem(setting.languageKey) || setting.language
+    }
+  },
+
+  actions: {
+
+  }
+})

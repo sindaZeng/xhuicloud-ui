@@ -22,11 +22,17 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { App } from 'vue'
-import xhSvg from '@/components/XhSvg/index.vue'
+interface BaseMeta {
+  title: string,
+  icon: string,
+  internationalization: string
+}
 
-export default {
-  install: (app: App) => {
-    app.component('xh-svg', xhSvg)
-  }
+interface HomeTag {
+  fullPath: string,
+  meta: BaseMeta,
+  name: string,
+  params: any,
+  path: string,
+  query: any
 }
