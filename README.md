@@ -29,7 +29,7 @@
 </p>
 
 
-## 温馨提醒
+## 温馨提醒(ts2.0.1为vite ts重构版。请看主分支:master)
 
 > 1. **快速体验项目**：[在线访问地址](http://xhuicloud.cn/)
 > 2. **前端操作文档**：[建设中](http://doc.xhuicloud.cn/#/)
