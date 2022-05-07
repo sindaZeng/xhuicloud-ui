@@ -24,28 +24,65 @@
 
 import { defineStore } from 'pinia'
 import { storageLocal } from '@/utils/storage'
+import { findTagViewsIndex } from '@/utils'
 import setting from '@/config/setting.config'
 
-const defaultHomeTag = {
-  fullPath: '/home',
-  meta: { title: 'home', icon: 'home', internationalization: 'home' },
-  name: 'home',
-  params: {},
-  path: '/home',
-  query: {}
-}
-
 export const useAppStore = defineStore('app', {
-  state: () => {
-    return {
-      tagViews: storageLocal.getItem(setting.tagViewsKey) || defaultHomeTag,
-      tagView: storageLocal.getItem(setting.tagViewKey) || 0,
-      sidebarStatus: true,
-      lang: storageLocal.getItem(setting.languageKey) || setting.language
-    }
-  },
+  state: () => ({
+    tagViews: storageLocal.getItem<HomeTag[]>(setting.tagViewsKey) ?? defaultHomeTag,
+    tagView: storageLocal.getItem<string>(setting.tagViewKey),
+    sidebarStatus: true,
+    lang: storageLocal.getItem<string>(setting.languageKey) ?? setting.language
+  }),
 
   actions: {
-
+    changeSidebarStatus () {
+      this.sidebarStatus = !this.sidebarStatus
+    },
+    setLang (lang: string) {
+      storageLocal.setItem(setting.languageKey, lang)
+      this.lang = lang
+    },
+    addTagView (tagView: HomeTag) {
+      this.tagView = tagView.path
+      storageLocal.setItem(setting.tagViewKey, this.tagView)
+      if (this.tagViews.find(item => {
+        return item.path === tagView.path
+      })) return
+      this.tagViews.push(tagView)
+      storageLocal.setItem(setting.tagViewsKey, this.tagViews)
+    },
+    /**
+     * 根据path删除
+     * @param path
+     */
+    delTagView (path: string) {
+      this.tagViews.splice(findTagViewsIndex(this.tagViews, path), 1)
+      if (this.tagViews.length < 1) {
+        this.tagViews.push(defaultHomeTag)
+      }
+      storageLocal.setItem(setting.tagViewsKey, this.tagViews)
+    },
+    /**
+     * 删除其他标签
+     * @param state
+     * @param index
+     */
+    delOtherTagView (path: string) {
+      const index = findTagViewsIndex(this.tagViews, path)
+      // 删除当前右侧
+      this.tagViews.splice(index + 1, this.tagViews.length - index + 1)
+      // 删除当前左侧
+      this.tagViews.splice(0, index)
+      storageLocal.setItem(setting.tagViewsKey, this.tagViews)
+    },
+    /**
+     * 删除所有标签
+     * @param state
+     */
+    delAllTagViews () {
+      this.tagViews = [defaultHomeTag]
+      storageLocal.setItem(setting.tagViewsKey, this.tagViews)
+    }
   }
 })

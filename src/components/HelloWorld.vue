@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, defineProps } from 'vue'
+import { useRouter } from 'vue-router'
+
+console.log(useRouter().getRoutes())
 
 defineProps<{ msg: string }>()
 

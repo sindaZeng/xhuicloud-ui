@@ -22,11 +22,28 @@
  * @Email:  xhuicloud@163.com
  */
 
-const theme = {
-  themeColor: '#409eff',
-  themeKey: 'theme',
-  sidebarLogo: 'sidebarLogo',
-  cardStyle: 'cardStyle'
-}
+import { Router, createRouter } from 'vue-router'
+import { historyMode } from '@/utils/route'
+import commonsRoutes from './commons'
+console.log(commonsRoutes)
+// 创建路由
+export const router: Router = createRouter({
+  history: historyMode(),
+  routes: commonsRoutes,
+  strict: true,
+  scrollBehavior (to, from, savedPosition) {
+    return new Promise(resolve => {
+      if (savedPosition && to.meta.keepAlive) {
+        return savedPosition
+      } else {
+        if (from.meta.saveSrollTop) {
+          const top: number =
+            document.documentElement.scrollTop || document.body.scrollTop
+          resolve({ left: 0, top })
+        }
+      }
+    })
+  }
+})
 
-export default theme
+export default router

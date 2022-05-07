@@ -22,11 +22,24 @@
  * @Email:  xhuicloud@163.com
  */
 
-const theme = {
-  themeColor: '#409eff',
-  themeKey: 'theme',
-  sidebarLogo: 'sidebarLogo',
-  cardStyle: 'cardStyle'
-}
+interface Tenant {
+  /**
+  * 租户id
+  */
+  id: number;
 
-export default theme
+  /**
+   * 租户名称
+   */
+  name: string;
+
+  /**
+   * logo地址
+   */
+  logo: string;
+
+  /**
+   * 社交登录配置
+   */
+  socials :Map<string, BaseSocial>;
+}

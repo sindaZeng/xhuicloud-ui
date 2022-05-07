@@ -18,8 +18,8 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
-    'no-console': 'warn',
-    'no-debugger': 'warn',
+    'no-console': 'off',
+    'no-debugger': 'off',
     'vue/multi-word-component-names': 'off'
   }
 }

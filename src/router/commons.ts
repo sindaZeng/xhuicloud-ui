@@ -22,11 +22,15 @@
  * @Email:  xhuicloud@163.com
  */
 
-const theme = {
-  themeColor: '#409eff',
-  themeKey: 'theme',
-  sidebarLogo: 'sidebarLogo',
-  cardStyle: 'cardStyle'
-}
+const commonsRoutes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login/index.vue'),
+    meta: {
+      tagView: false
+    }
+  }
+]
 
-export default theme
+export default commonsRoutes

@@ -21,12 +21,16 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-
-const theme = {
-  themeColor: '#409eff',
-  themeKey: 'theme',
-  sidebarLogo: 'sidebarLogo',
-  cardStyle: 'cardStyle'
+interface Menu {
+    label: string,
+    value: number,
+    parentId: number,
+    children: Menu,
+    icon: string,
+    name: string,
+    internationalization: string,
+    permission: string,
+    path: string,
+    type: number,
+    sort: number
 }
-
-export default theme

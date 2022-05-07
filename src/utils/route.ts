@@ -22,11 +22,24 @@
  * @Email:  xhuicloud@163.com
  */
 
-const theme = {
-  themeColor: '#409eff',
-  themeKey: 'theme',
-  sidebarLogo: 'sidebarLogo',
-  cardStyle: 'cardStyle'
-}
+import { createWebHashHistory, createWebHistory, RouterHistory } from 'vue-router'
 
-export default theme
+export function historyMode (): RouterHistory {
+  const routerHistory: string = import.meta.env.VITE_ROUTER_HISTORY
+  // len为1 代表只有历史模式 为2 代表历史模式中存在base参数
+  const historyMode = routerHistory.split(',')
+  const firstMode = historyMode[0]
+  const secondMode = historyMode[1]
+  if (historyMode.length === 2) {
+    if (firstMode === 'hash') {
+      return createWebHashHistory(secondMode)
+    } else if (firstMode === 'h5') {
+      return createWebHistory(secondMode)
+    }
+  }
+  if (firstMode === 'hash') {
+    return createWebHashHistory('')
+  } else {
+    return createWebHistory('')
+  }
+}

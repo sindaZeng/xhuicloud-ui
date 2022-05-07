@@ -22,11 +22,30 @@
  * @Email:  xhuicloud@163.com
  */
 
-const theme = {
-  themeColor: '#409eff',
-  themeKey: 'theme',
-  sidebarLogo: 'sidebarLogo',
-  cardStyle: 'cardStyle'
-}
+import { defineStore } from 'pinia'
+import { storageLocal } from '@/utils/storage'
+import theme from '@/config/theme.config'
 
-export default theme
+export const useAppStore = defineStore('theme', {
+  state: () => ({
+    sidebarLogo: storageLocal.getItem<boolean>(theme.sidebarLogo) ?? true,
+    cardStyle: storageLocal.getItem<boolean>(theme.cardStyle) ?? true,
+    // variables: variables,
+    themeColor: storageLocal.getItem(theme.themeKey) || theme.themeColor
+  }),
+  actions: {
+    setThemeColor (themeColor: string) {
+      storageLocal.setItem(theme.themeKey, themeColor)
+      this.themeColor = themeColor
+      // this.variables.navbarBg = themeColor
+    },
+    setSidebarLogo (sidebarLogo = true) {
+      storageLocal.setItem(theme.sidebarLogo, sidebarLogo)
+      this.sidebarLogo = sidebarLogo
+    },
+    setCardStyle (cardStyle = true) {
+      storageLocal.setItem(theme.cardStyle, cardStyle)
+      this.cardStyle = cardStyle
+    }
+  }
+})

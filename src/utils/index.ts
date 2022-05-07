@@ -22,9 +22,9 @@
  * @Email:  xhuicloud@163.com
  */
 
-export function findTagViewsIndex (tagViews, path) {
-  let key
-  tagViews.map((item, index) => {
+export function findTagViewsIndex (tagViews: HomeTag[], path: string): number {
+  let key = 0
+  tagViews.forEach((item, index) => {
     if (item.path === path) {
       key = index
     }
@@ -32,31 +32,11 @@ export function findTagViewsIndex (tagViews, path) {
   return key
 }
 
-export function checkData (val, defaultVal) {
+export function checkData (val: any, defaultVal: any) {
   if (val) {
     return true
   }
   return defaultVal
-}
-
-/**
- * 打开小窗口
- */
-export const openWindows = (url, title, w, h) => {
-  const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left
-  const dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top
-
-  const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width
-  const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height
-
-  const left = ((width / 2) - (w / 2)) + dualScreenLeft
-  const top = ((height / 2) - (h / 2)) + dualScreenTop
-  const newWindow = window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left)
-
-  if (window.focus) {
-    newWindow.focus()
-  }
-  return newWindow
 }
 
 /**
@@ -65,7 +45,7 @@ export const openWindows = (url, title, w, h) => {
  * @param paraName
  * @returns {string|*}
  */
-export const getQueryString = (url, paraName) => {
+export const getQueryString = (url: string, paraName: string) => {
   const arrObj = url.split('?')
   if (arrObj.length > 1) {
     const arrPara = arrObj[1].split('&')

@@ -22,11 +22,11 @@
  * @Email:  xhuicloud@163.com
  */
 
-const theme = {
-  themeColor: '#409eff',
-  themeKey: 'theme',
-  sidebarLogo: 'sidebarLogo',
-  cardStyle: 'cardStyle'
-}
+import { DefineComponent } from 'vue'
 
-export default theme
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+  const component: DefineComponent<{}, {}, any>
+  export default component
+}

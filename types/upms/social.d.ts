@@ -22,11 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-const theme = {
-  themeColor: '#409eff',
-  themeKey: 'theme',
-  sidebarLogo: 'sidebarLogo',
-  cardStyle: 'cardStyle'
+interface BaseSocial {
+  appId: string;
+  redirectUrl: string;
 }
-
-export default theme

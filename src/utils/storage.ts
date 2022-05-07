@@ -40,7 +40,7 @@ class CommonStorage implements BaseStorage {
     this.storage.setItem(key, JSON.stringify(value))
   }
 
-  public getItem (key: string): any {
+  public getItem<T> (key: string): T {
     return JSON.parse(this.storage.getItem(key))
   }
 
