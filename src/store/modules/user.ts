@@ -26,7 +26,7 @@ import { defineStore } from 'pinia'
 import { storageLocal } from '@/utils/storage'
 import setting from '@/config/setting.config'
 
-export const useAppStore = defineStore('theme', {
+export const useUserStore = defineStore('user', {
   state: () => ({
     token: storageLocal.getItem<string>(setting.tokenName),
     tenant: storageLocal.getItem<Tenant>(setting.tenantKey),

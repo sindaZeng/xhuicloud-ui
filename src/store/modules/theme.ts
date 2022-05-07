@@ -26,7 +26,7 @@ import { defineStore } from 'pinia'
 import { storageLocal } from '@/utils/storage'
 import theme from '@/config/theme.config'
 
-export const useAppStore = defineStore('theme', {
+export const useThemeStore = defineStore('theme', {
   state: () => ({
     sidebarLogo: storageLocal.getItem<boolean>(theme.sidebarLogo) ?? true,
     cardStyle: storageLocal.getItem<boolean>(theme.cardStyle) ?? true,
