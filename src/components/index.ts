@@ -24,9 +24,11 @@
 
 import { App } from 'vue'
 import xhSvg from '@/components/XhSvg/index.vue'
+import xhLang from '@/components/XhLangSelect/index.vue'
 
 export default {
   install: (app: App) => {
     app.component('xh-svg', xhSvg)
+    app.component('xh-lang', xhLang)
   }
 }

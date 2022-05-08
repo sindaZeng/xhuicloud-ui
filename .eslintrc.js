@@ -11,7 +11,7 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest',
-    parser: '@typescript-eslint/parser',
+    parser: '@typescript-eslint/parser'
   },
   plugins: [
     'vue',
@@ -20,6 +20,7 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'no-debugger': 'off',
-    'vue/multi-word-component-names': 'off'
+    'vue/multi-word-component-names': 'off',
+    '@typescript-eslint/no-explicit-any': 'off'
   }
 }

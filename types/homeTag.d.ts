@@ -36,12 +36,3 @@ interface HomeTag {
   path: string,
   query: any
 }
-
-const defaultHomeTag: HomeTag = {
-  fullPath: '/home',
-  meta: { title: 'home', icon: 'home', internationalization: 'home' },
-  name: 'home',
-  params: {},
-  path: '/home',
-  query: {}
-}

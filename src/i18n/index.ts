@@ -22,15 +22,22 @@
  * @Email:  xhuicloud@163.com
  */
 
-const commonsRoutes = [
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/layout/login/index.vue'),
-    meta: {
-      tagView: false
-    }
-  }
-]
+import { createI18n } from 'vue-i18n'
+import { app } from '@/store'
+import messages from '@intlify/vite-plugin-vue-i18n/messages'
 
-export default commonsRoutes
+const locale = app.lang
+
+const i18n = createI18n({
+  locale,
+  fallbackLocale: 'zhCn',
+  // 使用了composition api
+  legacy: false,
+  // 全局使用 转换函数
+  globalInjection: true,
+  messages: messages
+})
+
+export const $t = (key: string) => key
+
+export default i18n

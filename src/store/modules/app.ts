@@ -27,14 +27,27 @@ import { storageLocal } from '@/utils/storage'
 import { findTagViewsIndex } from '@/utils'
 import setting from '@/config/setting.config'
 
+const defaultHomeTag: HomeTag = {
+  fullPath: '/home',
+  meta: { title: 'home', icon: 'home', internationalization: 'home' },
+  name: 'home',
+  params: {},
+  path: '/home',
+  query: {}
+}
+
 export const useAppStore = defineStore('app', {
+
   state: () => ({
     tagViews: storageLocal.getItem<HomeTag[]>(setting.tagViewsKey) ?? defaultHomeTag,
     tagView: storageLocal.getItem<string>(setting.tagViewKey),
     sidebarStatus: true,
-    lang: storageLocal.getItem<string>(setting.languageKey) ?? setting.language
+    lang: storageLocal.getItem(setting.languageKey) ?? setting.language
   }),
 
+  getters: {
+    getLang: (state) => state.lang
+  },
   actions: {
     changeSidebarStatus () {
       this.sidebarStatus = !this.sidebarStatus

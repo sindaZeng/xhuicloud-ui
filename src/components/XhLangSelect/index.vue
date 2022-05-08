@@ -23,10 +23,42 @@
   -->
 
 <template>
-  <div class=''>我是登录页</div>
+  <el-dropdown class='international' trigger='click' @command='handleSetLang'>
+    <div>
+      <el-tooltip :content='$t(`msg.international`)' :effect='effect'>
+        <xh-svg icon='language'></xh-svg>
+      </el-tooltip>
+    </div>
+    <template #dropdown>
+      <el-dropdown-menu>
+        <el-dropdown-item :disabled='app.getLang === `zhCn`' command='zhCn'>中文</el-dropdown-item>
+        <el-dropdown-item :disabled='app.getLang === `en`' command='en'>English</el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
 </template>
 
 <script lang='ts' setup>
+import i18n from '@/i18n'
+import { app } from '@/store'
+import { defineProps } from 'vue'
+import { ElMessage } from 'element-plus'
+
+defineProps({
+  effect: {
+    type: String,
+    default: 'dark',
+    validator (value: string) {
+      return ['dark', 'light'].indexOf(value) !== -1
+    }
+  }
+})
+
+const handleSetLang = (lang: string) => {
+  i18n.global.locale.value = lang
+  app.setLang(lang)
+  ElMessage.success(i18n.global.t('msg.langSuccess'))
+}
 
 </script>
 
