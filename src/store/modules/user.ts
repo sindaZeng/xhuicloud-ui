@@ -26,16 +26,27 @@ import { defineStore } from 'pinia'
 import { storageLocal } from '@/utils/storage'
 import setting from '@/config/setting.config'
 
+interface UserState {
+  token?: string;
+  refreshToken?: string;
+  tenant?: Tenant;
+  tenantId?: number;
+  userInfo?: UserInfo;
+  userMenus?: Menu[];
+  permissions?: string[];
+  roles?: string[];
+}
+
 export const useUserStore = defineStore('user', {
-  state: () => ({
+  state: (): UserState => ({
     token: storageLocal.getItem<string>(setting.tokenName),
     tenant: storageLocal.getItem<Tenant>(setting.tenantKey),
     refreshToken: storageLocal.getItem<string>(setting.refreshTokenName),
-    userInfo: {} as UserInfo,
+    userInfo: {},
     userMenus: storageLocal.getItem<Menu[]>('userMenus'),
-    permissions: {},
-    roles: [] as string[],
-    tenantId: storageLocal.getItem<number>(setting.tenant) || undefined
+    permissions: [],
+    roles: [],
+    tenantId: storageLocal.getItem<number>(setting.tenant)
   }),
   actions: {
     setToken (token: string) {
@@ -68,7 +79,10 @@ export const useUserStore = defineStore('user', {
       this.roles = roles
     },
     setTenantId (tenantId: number) {
-      this.tenant.id = tenantId
+      if (this.tenant) {
+        this.tenant.id = tenantId
+      }
+      this.tenantId = tenantId
       storageLocal.setItem(setting.tenantKey, this.tenant)
     }
   }
