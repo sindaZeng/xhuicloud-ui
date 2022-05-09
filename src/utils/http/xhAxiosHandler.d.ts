@@ -31,14 +31,19 @@ export interface XhAxiosRequestConfig extends AxiosRequestConfig {
 
 export abstract class XhAxiosHandler {
   /**
-   * 请求前拦截
+   * 请求拦截
    */
   requestInterceptors?: (
     config: XhAxiosRequestConfig
   ) => AxiosRequestConfig;
 
   /**
-   * 返回前拦截
+   * 响应拦截
    */
   responseInterceptors?: (res: AxiosResponse<any>) => AxiosResponse<any>;
+
+  /**
+   * 响应数据处理
+   */
+  responseHandleHook?: (res: AxiosResponse<any>) => AxiosResponse<any>;
 }

@@ -22,23 +22,20 @@
  * @Email:  xhuicloud@163.com
  */
 
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { Response, UploadFile } from '~/axios'
 import { XhAxiosRequestConfig } from '@/utils/http/xhAxiosHandler'
-import { isFunction } from 'util'
+import { isFunction } from '@/utils/is'
 
 interface Axios {
   getAxios(): AxiosInstance;
   setHeader(headers: any): void;
-  request<T = any>(config: AxiosRequestConfig<D>): Promise<T>;
-  get<T = any>(url: string, config?: AxiosRequestConfig<D>): Promise<T>;
-  delete<T = any>(url: string, config?: AxiosRequestConfig<D>): Promise<T>;
-  head<T = any>(url: string, config?: AxiosRequestConfig<D>): Promise<T>;
-  options<T = any>(url: string, config?: AxiosRequestConfig<D>): Promise<T>;
-  post<T = any>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<T>;
-  put<T = any>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<T>;
-  patch<T = any>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<T>;
-  uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFile): Promise<T>;
+  request<T = any>(config: AxiosRequestConfig): Promise<T>;
+  get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  post<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  put<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFile): void;
 }
 
 export class XhAxios implements Axios {
@@ -53,25 +50,26 @@ export class XhAxios implements Axios {
 
   private setupInterceptors () {
     const { handler } = this.config
-    if (handler) {
-      const {
-        requestInterceptors,
-        responseInterceptors
-      } = handler
-      this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
-        if (requestInterceptors && typeof requestInterceptors === 'function') {
-          config = requestInterceptors(config)
-        }
-        return config
-      }, undefined)
-
-      this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
-        if (responseInterceptors && typeof responseInterceptors === 'function') {
-          res = responseInterceptors(res)
-        }
-        return res
-      }, undefined)
+    if (!handler) {
+      return
     }
+    const {
+      requestInterceptors,
+      responseInterceptors
+    } = handler
+    this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
+      if (requestInterceptors && isFunction(requestInterceptors)) {
+        config = requestInterceptors(config)
+      }
+      return config
+    }, undefined)
+
+    this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
+      if (responseInterceptors && isFunction(responseInterceptors)) {
+        res = responseInterceptors(res)
+      }
+      return res
+    }, undefined)
   }
 
   getAxios (): AxiosInstance {
@@ -85,10 +83,11 @@ export class XhAxios implements Axios {
     Object.assign(this.axiosInstance.defaults.headers, headers)
   }
 
-  request<T = any> (config: AxiosRequestConfig<D>): Promise<T> {
+  request<T = any> (config: AxiosRequestConfig): Promise<T> {
+    const { responseHandle } = this.config?.handler
     return new Promise((resolve, reject) => {
       this.axiosInstance
-        .request<any, AxiosResponse<Response>>(conf)
+        .request<any, AxiosResponse<Response>>(config)
         .then((res: AxiosResponse<Response>) => {
           if (transformRequestHook && isFunction(transformRequestHook)) {
             try {
@@ -107,9 +106,39 @@ export class XhAxios implements Axios {
             return
           }
           if (axios.isAxiosError(e)) {
+            console.log(e)
           }
           reject(e)
         })
     })
+  }
+
+  delete<T = any> (url: string, config?: AxiosRequestConfig): Promise<T> {
+    return this.request({ ...config, method: 'DELETE' })
+  }
+
+  get<T = any> (url: string, config?: AxiosRequestConfig): Promise<T> {
+    return this.request({ ...config, method: 'GET' })
+  }
+
+  post<T = any> (url: string, config?: AxiosRequestConfig): Promise<T> {
+    return this.request({ ...config, method: 'POST' })
+  }
+
+  put<T = any> (url: string, config?: AxiosRequestConfig): Promise<T> {
+    return this.request({ ...config, method: 'PUT' })
+  }
+
+  uploadFile<T = any> (config: AxiosRequestConfig, params: UploadFile) {
+    return this.axiosInstance.request<T>({
+      ...config,
+      method: 'POST',
+      data: formData,
+      headers: {
+        'Content-type': ContentTypeEnum.FORM_DATA,
+        // @ts-ignore
+        ignoreCancelToken: true,
+      },
+    });
   }
 }

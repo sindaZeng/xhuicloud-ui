@@ -25,36 +25,32 @@
 import { XhAxios } from './xhAxios'
 import { user } from '@/store'
 import { AxiosResponse } from 'axios'
+import { XhAxiosHandler } from '@/utils/http/xhAxiosHandler'
+
+const handler: XhAxiosHandler = {
+  requestInterceptors: (config) => {
+    if (user.token && config.headers?.Authorization) {
+      config.headers.Authorization = `Bearer ${user.token}`
+    }
+    if (user.tenantId) {
+      (config as Recordable).headers.tenant_id = user.tenantId
+    }
+    return config
+  },
+  responseInterceptors: (res: AxiosResponse<any>) => {
+    return res
+  },
+  responseHandleHook: (res: AxiosResponse<any>) => {
+    return res
+  }
+
+}
 
 function createAxios () {
   return new XhAxios({
     baseURL: import.meta.env.VITE_BASE_API,
     timeout: 5000,
-    handler: {
-      requestInterceptors: (config) => {
-        if (user.token && config.headers?.Authorization) {
-          config.headers.Authorization = `Bearer ${user.token}`
-        }
-        if (user.tenantId) {
-          (config as Recordable).headers.tenant_id = user.tenantId
-        }
-        return config
-      },
-      responseInterceptors: (res: AxiosResponse<any>) => {
-        const status = Number(res.status)
-        const { code, msg, data } = res.data
-        if (status === 200) {
-          if (code === 0) {
-            return data
-          } else {
-            return res.data
-          }
-        } else {
-          return Promise.reject(new Error(msg || 'Error'))
-        }
-        return res
-      }
-    }
+    handler
   })
 }
 
