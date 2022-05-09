@@ -26,6 +26,7 @@ import { defineStore } from 'pinia'
 import { storageLocal } from '@/utils/storage'
 import { findTagViewsIndex } from '@/utils'
 import setting from '@/config/setting.config'
+import { HomeTag } from '~/homeTag'
 
 const defaultHomeTag: HomeTag = {
   fullPath: '/home',
