@@ -26,6 +26,8 @@ import { XhAxios } from './xhAxios'
 import { user } from '@/store'
 import { AxiosResponse } from 'axios'
 import { XhAxiosHandler } from '@/utils/http/xhAxiosHandler'
+import { Response } from '~/axios'
+import { ElMessage } from 'element-plus'
 
 const handler: XhAxiosHandler = {
   requestInterceptors: (config) => {
@@ -40,8 +42,29 @@ const handler: XhAxiosHandler = {
   responseInterceptors: (res: AxiosResponse<any>) => {
     return res
   },
-  responseHandleHook: (res: AxiosResponse<any>) => {
-    return res
+  requestResultHook: (res: AxiosResponse<Response>) => {
+    if (!Reflect.has(res.data, 'code')) {
+      return res
+    }
+    const { code, msg, data } = res.data
+    if (data && code === 0) {
+      return data
+    }
+    throw new Error(msg || 'Error')
+  },
+  responseCatchHook: (error: any) => {
+    const { response } = error || {}
+    const { status } = response
+    if (status === 423) {
+      ElMessage.error('演示环境不允许操作哦~')
+      return Promise.reject(error)
+    } else if (status === 503) {
+      ElMessage.error('网络开小差啦~')
+      return Promise.reject(error)
+    } else if (status === 401) {
+      // todo 删除缓存
+    }
+    return Promise.reject(error)
   }
 
 }

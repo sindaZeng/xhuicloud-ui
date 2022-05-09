@@ -22,25 +22,48 @@
  * @Email:  xhuicloud@163.com
  */
 
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { Response, UploadFile } from '~/axios'
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Canceler } from 'axios'
+import { Response } from '~/axios'
 import { XhAxiosRequestConfig } from '@/utils/http/xhAxiosHandler'
 import { isFunction } from '@/utils/is'
 
-interface Axios {
-  getAxios(): AxiosInstance;
-  setHeader(headers: any): void;
-  request<T = any>(config: AxiosRequestConfig): Promise<T>;
-  get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
-  delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
-  post<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
-  put<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
-  uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFile): void;
+const pendingMap = new Map<string, Canceler>()
+
+const getPendingUrl = (config: AxiosRequestConfig) => [config.method, config.url].join('&')
+
+class AxiosCanceler {
+  addPending = (config: AxiosRequestConfig) => {
+    this.removePending(config)
+    const url = getPendingUrl(config)
+    config.cancelToken =
+      config.cancelToken ||
+      new axios.CancelToken((cancel) => {
+        if (!pendingMap.has(url)) {
+          pendingMap.set(url, cancel)
+        }
+      })
+  }
+
+  removeAllPending () {
+    pendingMap.forEach((cancel) => {
+      cancel && isFunction(cancel) && cancel()
+    })
+    pendingMap.clear()
+  }
+
+  removePending = (config: AxiosRequestConfig) => {
+    const url = getPendingUrl(config)
+    if (pendingMap.has(url)) {
+      const cancel = pendingMap.get(url)
+      cancel && cancel(url)
+      pendingMap.delete(url)
+    }
+  }
 }
 
-export class XhAxios implements Axios {
-  private axiosInstance: AxiosInstance;
-  private readonly config: XhAxiosRequestConfig;
+export class XhAxios {
+  private axiosInstance: AxiosInstance
+  private readonly config: XhAxiosRequestConfig
 
   constructor (config: XhAxiosRequestConfig) {
     this.config = config
@@ -55,21 +78,36 @@ export class XhAxios implements Axios {
     }
     const {
       requestInterceptors,
-      responseInterceptors
+      requestCatchHook,
+      responseInterceptors,
+      responseCatchHook
     } = handler
+
+    const axiosCanceler = new AxiosCanceler()
+
     this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
+      axiosCanceler.addPending(config)
       if (requestInterceptors && isFunction(requestInterceptors)) {
         config = requestInterceptors(config)
       }
       return config
     }, undefined)
 
+    requestCatchHook &&
+    isFunction(requestCatchHook) &&
+    this.axiosInstance.interceptors.request.use(undefined, requestCatchHook)
+
     this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
+      res && axiosCanceler.removePending(res.config)
       if (responseInterceptors && isFunction(responseInterceptors)) {
         res = responseInterceptors(res)
       }
       return res
     }, undefined)
+
+    responseCatchHook &&
+    isFunction(responseCatchHook) &&
+    this.axiosInstance.interceptors.response.use(undefined, responseCatchHook)
   }
 
   getAxios (): AxiosInstance {
@@ -84,14 +122,17 @@ export class XhAxios implements Axios {
   }
 
   request<T = any> (config: AxiosRequestConfig): Promise<T> {
-    const { responseHandle } = this.config?.handler
+    const {
+      requestResultHook,
+      requestCatchHook
+    } = this.config?.handler
     return new Promise((resolve, reject) => {
       this.axiosInstance
         .request<any, AxiosResponse<Response>>(config)
         .then((res: AxiosResponse<Response>) => {
-          if (transformRequestHook && isFunction(transformRequestHook)) {
+          if (requestResultHook && isFunction(requestResultHook)) {
             try {
-              const ret = transformRequestHook(res, opt)
+              const ret = requestResultHook(res)
               resolve(ret)
             } catch (err) {
               reject(err || new Error('request error!'))
@@ -102,7 +143,7 @@ export class XhAxios implements Axios {
         })
         .catch((e: Error | AxiosError) => {
           if (requestCatchHook && isFunction(requestCatchHook)) {
-            reject(requestCatchHook(e, opt))
+            reject(requestCatchHook(e))
             return
           }
           if (axios.isAxiosError(e)) {
@@ -113,32 +154,31 @@ export class XhAxios implements Axios {
     })
   }
 
-  delete<T = any> (url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.request({ ...config, method: 'DELETE' })
-  }
-
-  get<T = any> (url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.request({ ...config, method: 'GET' })
-  }
-
-  post<T = any> (url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.request({ ...config, method: 'POST' })
-  }
-
-  put<T = any> (url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.request({ ...config, method: 'PUT' })
-  }
-
-  uploadFile<T = any> (config: AxiosRequestConfig, params: UploadFile) {
-    return this.axiosInstance.request<T>({
+  delete<T = any> (config?: AxiosRequestConfig): Promise<T> {
+    return this.request({
       ...config,
-      method: 'POST',
-      data: formData,
-      headers: {
-        'Content-type': ContentTypeEnum.FORM_DATA,
-        // @ts-ignore
-        ignoreCancelToken: true,
-      },
-    });
+      method: 'DELETE'
+    })
+  }
+
+  get<T = any> (config?: AxiosRequestConfig): Promise<T> {
+    return this.request({
+      ...config,
+      method: 'GET'
+    })
+  }
+
+  post<T = any> (config?: AxiosRequestConfig): Promise<T> {
+    return this.request({
+      ...config,
+      method: 'POST'
+    })
+  }
+
+  put<T = any> (config?: AxiosRequestConfig): Promise<T> {
+    return this.request({
+      ...config,
+      method: 'PUT'
+    })
   }
 }

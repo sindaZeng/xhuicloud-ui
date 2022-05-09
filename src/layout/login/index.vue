@@ -24,6 +24,7 @@
 
 <template>
   <div class=''>我是登录页 {{ $t('table.attributes') }} </div>
+  <el-button type="primary" @click='getTenantList()'>Primary</el-button>
   <xhLang style='      top: 5px;
       right:5px;
       font-size: 25px;
@@ -34,7 +35,12 @@
 
 <script lang='ts' setup>
 import xhLang from '@/components/XhLangSelect/index.vue'
-
+import { tenantList } from '@/api/upms/tenant'
+const getTenantList = () => {
+  tenantList().then(res => {
+    console.log(res)
+  })
+}
 </script>
 
 <style lang='scss' scoped>

@@ -22,39 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { Response } from '~/axios'
+import { HttpClient } from '@/utils/http'
 
-export interface XhAxiosRequestConfig extends AxiosRequestConfig {
-  authenticationScheme?: string;
-  handler: XhAxiosHandler;
+enum Api {
+  TenantList = '/admin/tenant/list',
 }
 
-export abstract class XhAxiosHandler {
-  /**
-   * 请求拦截
-   */
-  requestInterceptors?: (
-    config: AxiosRequestConfig
-  ) => AxiosRequestConfig;
-
-  /**
-   * 响应拦截
-   */
-  responseInterceptors?: (res: AxiosResponse<any>) => AxiosResponse<any>;
-
-  /**
-   * 响应数据处理
-   */
-  requestResultHook?: (res: AxiosResponse<Response>) => any;
-
-  /**
-   * 请求失败处理
-   */
-  requestCatchHook?: (e: Error | AxiosError) => Promise<any>;
-
-  /**
-   * 请求后失败处理
-   */
-  responseCatchHook?: (error: any) => void;
+export function tenantList () {
+  return HttpClient.get<Tenant>({ url: Api.TenantList })
 }
