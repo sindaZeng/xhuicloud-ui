@@ -21,7 +21,7 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-interface Menu {
+export interface Menu {
     label: string,
     value: number,
     parentId: number,

@@ -21,8 +21,9 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
+import { BaseSocial } from './social'
 
-interface Tenant {
+export interface Tenant {
   /**
   * 租户id
   */

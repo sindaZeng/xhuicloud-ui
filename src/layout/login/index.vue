@@ -24,7 +24,7 @@
 
 <template>
   <div class=''>我是登录页 {{ $t('table.attributes') }} </div>
-  <el-button type="primary" @click='getTenantList()'>Primary</el-button>
+  <el-button type="primary" @click='test()'>Primary</el-button>
   <xhLang style='      top: 5px;
       right:5px;
       font-size: 25px;
@@ -35,11 +35,18 @@
 
 <script lang='ts' setup>
 import xhLang from '@/components/XhLangSelect/index.vue'
-import { tenantList } from '@/api/upms/tenant'
-const getTenantList = () => {
-  tenantList().then(res => {
-    console.log(res)
-  })
+import { user } from '@/store'
+import { ref } from 'vue'
+import { LoginForm } from '@/api/upms/entity/user'
+
+const loginInfo = ref<LoginForm>({
+  username: 'admin',
+  password: '123456',
+  grant_type: 'password'
+})
+
+const test = () => {
+  user.login(loginInfo.value)
 }
 </script>
 

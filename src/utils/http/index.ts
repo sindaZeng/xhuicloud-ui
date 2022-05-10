@@ -30,9 +30,10 @@ import { Response } from '~/axios'
 import { ElMessage } from 'element-plus'
 
 const handler: XhAxiosHandler = {
-  requestInterceptors: (config) => {
-    if (user.token && config.headers?.Authorization) {
-      config.headers.Authorization = `Bearer ${user.token}`
+  requestInterceptors: (config, options) => {
+    debugger
+    if (!options?.whileRequest && user.authInfo?.access_token && config.headers?.Authorization) {
+      config.headers.Authorization = `Bearer ${user.authInfo.access_token}`
     }
     if (user.tenantId) {
       (config as Recordable).headers.tenant_id = user.tenantId
@@ -43,8 +44,11 @@ const handler: XhAxiosHandler = {
     return res
   },
   requestResultHook: (res: AxiosResponse<Response>) => {
+    /**
+     * 返回原载荷
+     */
     if (!Reflect.has(res.data, 'code')) {
-      return res
+      return res.data
     }
     const { code, msg, data } = res.data
     if (data && code === 0) {

@@ -27,7 +27,15 @@ import { Response } from '~/axios'
 
 export interface XhAxiosRequestConfig extends AxiosRequestConfig {
   authenticationScheme?: string;
-  handler: XhAxiosHandler;
+  handler?: XhAxiosHandler;
+  requestOptions?: RequestOptions;
+}
+
+interface RequestOptions {
+  /**
+   * 这个配置不带上token
+   */
+  whileRequest?: boolean
 }
 
 export abstract class XhAxiosHandler {
@@ -35,26 +43,27 @@ export abstract class XhAxiosHandler {
    * 请求拦截
    */
   requestInterceptors?: (
-    config: AxiosRequestConfig
-  ) => AxiosRequestConfig;
+    config: AxiosRequestConfig,
+    options: RequestOptions
+  ) => AxiosRequestConfig
 
   /**
    * 响应拦截
    */
-  responseInterceptors?: (res: AxiosResponse<any>) => AxiosResponse<any>;
+  responseInterceptors?: (res: AxiosResponse<any>) => AxiosResponse<any>
 
   /**
    * 响应数据处理
    */
-  requestResultHook?: (res: AxiosResponse<Response>) => any;
+  requestResultHook?: (res: AxiosResponse<Response>) => any
 
   /**
    * 请求失败处理
    */
-  requestCatchHook?: (e: Error | AxiosError) => Promise<any>;
+  requestCatchHook?: (e: Error | AxiosError) => Promise<any>
 
   /**
    * 请求后失败处理
    */
-  responseCatchHook?: (error: any) => void;
+  responseCatchHook?: (error: any) => void
 }

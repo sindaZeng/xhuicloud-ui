@@ -24,24 +24,17 @@
 
 import CryptoJS from 'crypto-js'
 
-export const encryption = (data, iv, encryptParams, type) => {
+export function encryption (data: any, iv: string, encryptParams: string[]): any {
   const result = JSON.parse(JSON.stringify(data))
-  if (type === 'Base64') {
-    encryptParams.forEach(ele => {
-      result[ele] = btoa(result[ele])
+  const wordArray = CryptoJS.enc.Latin1.parse(iv)
+  encryptParams.forEach(ele => {
+    // 加密
+    const encrypted = CryptoJS.AES.encrypt(result[ele], iv, {
+      iv: wordArray,
+      mode: CryptoJS.mode.CFB,
+      padding: CryptoJS.pad.NoPadding
     })
-  } else {
-    iv = CryptoJS.enc.Latin1.parse(iv)
-
-    encryptParams.forEach(ele => {
-      // 加密
-      var encrypted = CryptoJS.AES.encrypt(result[ele], iv, {
-        iv: iv,
-        mode: CryptoJS.mode.CFB,
-        padding: CryptoJS.pad.NoPadding
-      })
-      result[ele] = encrypted.toString()
-    })
-  }
+    result[ele] = encrypted.toString()
+  })
   return result
 }

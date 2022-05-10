@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-interface BaseSocial {
+export interface BaseSocial {
   appId: string;
   redirectUrl: string;
 }

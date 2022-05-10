@@ -23,6 +23,7 @@
  */
 
 import { HttpClient } from '@/utils/http'
+import { Tenant} from './entity/tenant'
 
 enum Api {
   TenantList = '/admin/tenant/list',

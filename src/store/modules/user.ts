@@ -24,11 +24,15 @@
 
 import { defineStore } from 'pinia'
 import { storageLocal } from '@/utils/storage'
+import { encryption } from '@/utils/encrypt'
 import setting from '@/config/setting.config'
+import { LoginForm, AuthInfo, UserInfo } from '@/api/upms/entity/user'
+import { Menu } from '@/api/upms/entity/menu'
+import { Tenant } from '@/api/upms/entity/tenant'
+import { loginApi } from '@/api/upms/auth'
 
 interface UserState {
-  token?: string;
-  refreshToken?: string;
+  authInfo?: AuthInfo;
   tenant?: Tenant;
   tenantId?: number;
   userInfo?: UserInfo;
@@ -39,27 +43,22 @@ interface UserState {
 
 export const useUserStore = defineStore('user', {
   state: (): UserState => ({
-    token: storageLocal.getItem<string>(setting.tokenName),
+    authInfo: storageLocal.getItem<AuthInfo>(setting.authInfo),
     tenant: storageLocal.getItem<Tenant>(setting.tenantKey),
-    refreshToken: storageLocal.getItem<string>(setting.refreshTokenName),
+    tenantId: storageLocal.getItem<number>(setting.tenant),
     userInfo: {},
     userMenus: storageLocal.getItem<Menu[]>('userMenus'),
     permissions: [],
-    roles: [],
-    tenantId: storageLocal.getItem<number>(setting.tenant)
+    roles: []
   }),
   actions: {
-    setToken (token: string) {
-      this.token = token
-      storageLocal.setItem(setting.tokenName, token)
+    setAuthInfo (authInfo: AuthInfo) {
+      this.authInfo = authInfo
+      storageLocal.setItem(setting.authInfo, authInfo)
     },
     setTenant (tenant: Tenant) {
       this.tenant = tenant
       storageLocal.setItem(setting.tenantKey, tenant)
-    },
-    setRefreshToken (refreshToken: string) {
-      this.refreshToken = refreshToken
-      storageLocal.setItem(setting.refreshTokenName, refreshToken)
     },
     setUserInfo (userInfo: UserInfo) {
       this.userInfo = userInfo
@@ -84,6 +83,16 @@ export const useUserStore = defineStore('user', {
       }
       this.tenantId = tenantId
       storageLocal.setItem(setting.tenantKey, this.tenant)
+    },
+
+    async login (loginInfo: LoginForm): Promise<AuthInfo | null> {
+      try {
+        const data = await loginApi(encryption(loginInfo, setting.aesIv, ['password']))
+        this.setAuthInfo(data)
+        return null
+      } catch (error) {
+        return Promise.reject(error)
+      }
     }
   }
 })

@@ -28,10 +28,8 @@ const setting = {
   devPort: '80',
   // 商户字段
   tenant: 'tenant_id',
-  // 刷新token令牌字段
-  refreshTokenName: 'refresh_token',
-  // token字段名称 存储的token名称
-  tokenName: 'token',
+  // 存储的AuthInfo
+  authInfo: 'authInfo',
   tenantKey: 'tenant',
   // 单位/毫秒  监听token过期刷新
   expiredPeriod: 6000000,

@@ -22,40 +22,21 @@
  * @Email:  xhuicloud@163.com
  */
 
-export function isExternal (path) {
-  return /^(https?:|http:|mailto:|tel:)/.test(path)
+import { HttpClient } from '@/utils/http'
+import { LoginForm, AuthInfo } from '@/api/upms/entity/user'
+
+const basicHeader = 'dGVzdDp0ZXN0'
+
+enum Api {
+  Token = '/auth/oauth/token',
 }
 
-/**
- * @param {string} url
- * @returns {Boolean}
- */
-export function validURL (url) {
-  const reg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
-  return reg.test(url)
-}
-
-export function isNull (data) {
-  return !data || JSON.stringify(data) === '{}' || JSON.stringify(data) === '[]'
-}
-
-/**
- * 判断是否为空
- */
-export function validatenull (val) {
-  if (typeof val === 'boolean') {
-    return false
-  }
-  if (typeof val === 'number') {
-    return false
-  }
-  if (val instanceof Array) {
-    if (val.length === 0) return true
-  } else if (val instanceof Object) {
-    if (JSON.stringify(val) === '{}') return true
-  } else {
-    if (val === 'null' || val == null || val === 'undefined' || val === undefined || val === '') return true
-    return false
-  }
-  return false
+export function loginApi (params: LoginForm) {
+  return HttpClient.get<AuthInfo>({
+    url: Api.Token,
+    headers: {
+      Authorization: 'Basic ' + basicHeader
+    },
+    params
+  })
 }

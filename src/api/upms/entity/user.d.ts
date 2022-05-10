@@ -21,14 +21,26 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-interface LoginInfo {
+
+export interface LoginForm {
   username: string,
   password: string,
-  // eslint-disable-next-line camelcase
   grant_type: string
 }
 
-interface UserInfo {
+export interface AuthInfo {
+  access_token: string,
+  token_type: string,
+  refresh_token: string
+  expires_in: number,
+  scope: string,
+  tenant_id: number,
+  id: number,
+  tenantName: string,
+  phone: string
+}
+
+export interface UserInfo {
   userId?: number,
   username?: string,
   avatar?: string,

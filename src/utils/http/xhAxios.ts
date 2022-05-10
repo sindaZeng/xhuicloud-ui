@@ -24,7 +24,8 @@
 
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Canceler } from 'axios'
 import { Response } from '~/axios'
-import { XhAxiosRequestConfig } from '@/utils/http/xhAxiosHandler'
+import { cloneDeep } from 'lodash-es'
+import { RequestOptions, XhAxiosRequestConfig } from '@/utils/http/xhAxiosHandler'
 import { isFunction } from '@/utils/is'
 
 const pendingMap = new Map<string, Canceler>()
@@ -35,15 +36,16 @@ class AxiosCanceler {
   addPending = (config: AxiosRequestConfig) => {
     this.removePending(config)
     const url = getPendingUrl(config)
-    config.cancelToken =
-      config.cancelToken ||
-      new axios.CancelToken((cancel) => {
-        if (!pendingMap.has(url)) {
-          pendingMap.set(url, cancel)
-        }
-      })
+    config.cancelToken = new axios.CancelToken((cancel) => {
+      if (!pendingMap.has(url)) {
+        pendingMap.set(url, cancel)
+      }
+    })
   }
 
+  /**
+   * TODO 切换路由取消请求
+   */
   removeAllPending () {
     pendingMap.forEach((cancel) => {
       cancel && isFunction(cancel) && cancel()
@@ -88,7 +90,7 @@ export class XhAxios {
     this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
       axiosCanceler.addPending(config)
       if (requestInterceptors && isFunction(requestInterceptors)) {
-        config = requestInterceptors(config)
+        config = requestInterceptors(config, this.config.requestOptions)
       }
       return config
     }, undefined)
@@ -121,14 +123,19 @@ export class XhAxios {
     Object.assign(this.axiosInstance.defaults.headers, headers)
   }
 
-  request<T = any> (config: AxiosRequestConfig): Promise<T> {
+  request<T = any> (config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
     const {
       requestResultHook,
       requestCatchHook
-    } = this.config?.handler
+    } = this.config?.handler || {}
+    const conf: XhAxiosRequestConfig = cloneDeep(config)
+    const { requestOptions } = this.config
+
+    const opt: RequestOptions = Object.assign({}, requestOptions, options)
+    conf.requestOptions = opt
     return new Promise((resolve, reject) => {
       this.axiosInstance
-        .request<any, AxiosResponse<Response>>(config)
+        .request<any, AxiosResponse<Response>>(conf)
         .then((res: AxiosResponse<Response>) => {
           if (requestResultHook && isFunction(requestResultHook)) {
             try {
@@ -154,31 +161,31 @@ export class XhAxios {
     })
   }
 
-  delete<T = any> (config?: AxiosRequestConfig): Promise<T> {
+  delete<T = any> (config?: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
     return this.request({
       ...config,
       method: 'DELETE'
-    })
+    }, options)
   }
 
-  get<T = any> (config?: AxiosRequestConfig): Promise<T> {
+  get<T = any> (config?: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
     return this.request({
       ...config,
       method: 'GET'
-    })
+    }, options)
   }
 
-  post<T = any> (config?: AxiosRequestConfig): Promise<T> {
+  post<T = any> (config?: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
     return this.request({
       ...config,
       method: 'POST'
-    })
+    }, options)
   }
 
-  put<T = any> (config?: AxiosRequestConfig): Promise<T> {
+  put<T = any> (config?: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
     return this.request({
       ...config,
       method: 'PUT'
-    })
+    }, options)
   }
 }
