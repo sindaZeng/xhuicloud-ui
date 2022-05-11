@@ -23,57 +23,32 @@
   -->
 
 <template>
-  <div v-if='externalIcon' :style='externalIconStyle' class='svg-external-icon svg-icon' :class='className'></div>
-  <svg v-else class='svg-icon' :class='className' aria-hidden="true">
-    <use :xlink:href="innerIcon" />
-  </svg>
+  <el-sub-menu v-if='route.children && route.children.length > 0' :index='route.path'>
+    <template #title>
+      <menu-item :title='$t(`menu.`+ route.meta.internationalization)' :icon='route.meta.icon'></menu-item>
+    </template>
+    <sidebar-item v-for='item in route.children'
+                  :key='item.path'
+                  :route='item'>
+    </sidebar-item>
+  </el-sub-menu>
+  <el-menu-item v-else :index='route.path'>
+    <menu-item :title='$t(`menu.`+ route.meta.internationalization)' :icon='route.meta.icon'></menu-item>
+  </el-menu-item>
 </template>
 
 <script lang='ts' setup>
-import { defineProps, computed } from 'vue'
-import { isExternal } from '@/utils/is'
+import { defineProps } from 'vue'
+import MenuItem from './MenuItem.vue'
 
-const props = defineProps({
-  // icon图标
-  icon: {
-    type: String,
+defineProps({
+  route: {
+    type: Object,
     required: true
-  },
-  // 图标类名
-  className: {
-    type: String,
-    default: ''
   }
 })
-
-const externalIcon = computed(() => isExternal(props.icon))
-
-/**
- * 外部图标样式
- */
-const externalIconStyle = computed(() => ({
-  mask: `url(${props.icon}) no-repeat 50% 50%`,
-  '-webkit-mask': `url(${props.icon}) no-repeat 50% 50%`
-}))
-
-/**
- * 内部图标样式
- */
-const innerIcon = computed(() => `#icon-${props.icon}`)
 </script>
 
 <style lang='scss' scoped>
-.svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-}
 
-.svg-external-icon {
-  background-color: currentColor;
-  mask-size: cover!important;
-  display: inline-block;
-}
 </style>

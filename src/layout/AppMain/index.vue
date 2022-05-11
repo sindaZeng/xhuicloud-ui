@@ -23,57 +23,29 @@
   -->
 
 <template>
-  <div v-if='externalIcon' :style='externalIconStyle' class='svg-external-icon svg-icon' :class='className'></div>
-  <svg v-else class='svg-icon' :class='className' aria-hidden="true">
-    <use :xlink:href="innerIcon" />
-  </svg>
+  <div class="app-main">
+    <router-view v-slot="{ Component, route }">
+      <keep-alive v-if='!route.keepAlive'>
+        <component :is="Component" :key='route.path'/>
+      </keep-alive>
+      <component v-else :is="Component" :key='route.path'/>
+    </router-view>
+    <el-backtop :right="50" :bottom="50" target='.app-main'/>
+  </div>
 </template>
 
-<script lang='ts' setup>
-import { defineProps, computed } from 'vue'
-import { isExternal } from '@/utils/is'
+<script setup>
+import {} from 'vue'
 
-const props = defineProps({
-  // icon图标
-  icon: {
-    type: String,
-    required: true
-  },
-  // 图标类名
-  className: {
-    type: String,
-    default: ''
-  }
-})
-
-const externalIcon = computed(() => isExternal(props.icon))
-
-/**
- * 外部图标样式
- */
-const externalIconStyle = computed(() => ({
-  mask: `url(${props.icon}) no-repeat 50% 50%`,
-  '-webkit-mask': `url(${props.icon}) no-repeat 50% 50%`
-}))
-
-/**
- * 内部图标样式
- */
-const innerIcon = computed(() => `#icon-${props.icon}`)
 </script>
 
-<style lang='scss' scoped>
-.svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
+<style lang="scss" scoped>
+.app-main {
+  height: calc(100vh - 90px);
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px 10px 0;
 }
 
-.svg-external-icon {
-  background-color: currentColor;
-  mask-size: cover!important;
-  display: inline-block;
-}
 </style>

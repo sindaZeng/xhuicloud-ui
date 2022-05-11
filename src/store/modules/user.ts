@@ -32,6 +32,7 @@ import { Tenant } from '@/api/upms/entity/tenant'
 import { loginApi } from '@/api/upms/auth'
 import { getUserInfo } from '@/api/upms/user'
 import { store } from '@/store'
+import { getMenu } from '@/api/upms/menu'
 
 export interface UserState {
   authInfo: AuthInfo | null;
@@ -107,6 +108,7 @@ export const userStore = defineStore('user', {
       try {
         const data = await loginApi(encryption(loginInfo, setting.aesIv, ['password']))
         this.setAuthInfo(data)
+        this.initRouter()
         return this.getUserInfo()
       } catch (error) {
         return Promise.reject(error)
@@ -118,6 +120,10 @@ export const userStore = defineStore('user', {
       this.setPermissions(res.permissions)
       this.setRoles(res.roles)
       return res
+    },
+    async initRouter (): Promise<void> {
+      const res = await getMenu()
+      this.setUserMenus(res)
     }
   }
 })

@@ -23,57 +23,36 @@
   -->
 
 <template>
-  <div v-if='externalIcon' :style='externalIconStyle' class='svg-external-icon svg-icon' :class='className'></div>
-  <svg v-else class='svg-icon' :class='className' aria-hidden="true">
-    <use :xlink:href="innerIcon" />
-  </svg>
+    <el-menu :uniqueOpened='true'
+                      :collapse='!$store.getters.sidebarStatus'
+                      :default-active='activeMenu'
+                      :background-color='$store.getters.ddCss.menuBg'
+                      :text-color='$store.getters.ddCss.menuText'
+                      :active-text-color='$store.getters.ddCss.menuActiveText'
+                      router>
+    <sidebar-item v-for='item in menus'
+                  :key='item.path'
+                  :route='item'>
+    </sidebar-item>
+  </el-menu>
 </template>
 
 <script lang='ts' setup>
-import { defineProps, computed } from 'vue'
-import { isExternal } from '@/utils/is'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import SidebarItem from './SidebarItem.vue'
+import { useUserStore } from '@/store/modules/user'
 
-const props = defineProps({
-  // icon图标
-  icon: {
-    type: String,
-    required: true
-  },
-  // 图标类名
-  className: {
-    type: String,
-    default: ''
-  }
+const userStore = useUserStore()
+
+const menus = userStore.getUserMenus
+
+const activeMenu = computed(() => {
+  return useRoute().path
 })
 
-const externalIcon = computed(() => isExternal(props.icon))
-
-/**
- * 外部图标样式
- */
-const externalIconStyle = computed(() => ({
-  mask: `url(${props.icon}) no-repeat 50% 50%`,
-  '-webkit-mask': `url(${props.icon}) no-repeat 50% 50%`
-}))
-
-/**
- * 内部图标样式
- */
-const innerIcon = computed(() => `#icon-${props.icon}`)
 </script>
 
 <style lang='scss' scoped>
-.svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-}
 
-.svg-external-icon {
-  background-color: currentColor;
-  mask-size: cover!important;
-  display: inline-block;
-}
 </style>

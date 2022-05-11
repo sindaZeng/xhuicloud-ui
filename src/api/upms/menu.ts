@@ -21,3 +21,14 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
+
+import { HttpClient } from '@/utils/http'
+import { Menu } from './entity/menu'
+
+enum Api {
+  GetMenu = '/admin/menu',
+}
+
+export function getMenu () {
+  return HttpClient.get<Menu[]>({ url: Api.GetMenu })
+}

@@ -26,7 +26,7 @@ const commonsRoutes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/layout/login/index.vue'),
+    component: () => import('@/layout/Login/index.vue'),
     meta: {
       tagView: false
     }

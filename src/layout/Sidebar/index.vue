@@ -23,57 +23,45 @@
   -->
 
 <template>
-  <div v-if='externalIcon' :style='externalIconStyle' class='svg-external-icon svg-icon' :class='className'></div>
-  <svg v-else class='svg-icon' :class='className' aria-hidden="true">
-    <use :xlink:href="innerIcon" />
-  </svg>
+    <div class='logo-container' v-if='$store.getters.sidebarLogo' :style='{ background: $store.getters.ddCss.navbarBg }'>
+      <img :src="$store.getters.tenant.logo" class="sidebar-logo" >
+      <h1 class='logo-title' style='color: black' v-if='$store.getters.sidebarStatus'>{{ $store.getters.tenant.name }}</h1>
+    </div>
+    <el-scrollbar>
+      <sidebar-menu></sidebar-menu>
+    </el-scrollbar>
 </template>
 
-<script lang='ts' setup>
-import { defineProps, computed } from 'vue'
-import { isExternal } from '@/utils/is'
-
-const props = defineProps({
-  // icon图标
-  icon: {
-    type: String,
-    required: true
-  },
-  // 图标类名
-  className: {
-    type: String,
-    default: ''
-  }
-})
-
-const externalIcon = computed(() => isExternal(props.icon))
-
-/**
- * 外部图标样式
- */
-const externalIconStyle = computed(() => ({
-  mask: `url(${props.icon}) no-repeat 50% 50%`,
-  '-webkit-mask': `url(${props.icon}) no-repeat 50% 50%`
-}))
-
-/**
- * 内部图标样式
- */
-const innerIcon = computed(() => `#icon-${props.icon}`)
+<script setup>
+import {} from 'vue'
+import SidebarMenu from '@/components/Sidebar/SidebarMenu'
 </script>
 
-<style lang='scss' scoped>
-.svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
+<style lang="scss" scoped>
+.logo-container {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
   overflow: hidden;
 }
 
-.svg-external-icon {
-  background-color: currentColor;
-  mask-size: cover!important;
+.sidebar-logo {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+
+}
+
+.logo-title {
   display: inline-block;
+  color: black;
+  font-weight: 600;
+  line-height: 50px;
+  font-size: 14px;
+  font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+  vertical-align: middle;
+  margin-left: 12px;
 }
 </style>
