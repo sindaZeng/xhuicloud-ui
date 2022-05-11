@@ -44,7 +44,7 @@
           </el-option>
         </el-select>
       </h4>
-<!--      <FormLogin v-if="login.type === 'form'" @tenantWarn="tenantWarn" />-->
+      <FormLogin v-if="login.type === 'form'" @tenantWarn="tenantWarn" />
 <!--      <OtherLogin v-if="login.type === 'other'" @tenantWarn="tenantWarn" />-->
       <div class="login-footer-container">
         <el-row>
@@ -67,11 +67,11 @@
 </template>
 
 <script lang='ts' setup>
-// import FormLogin from './formLogin.vue'
+import FormLogin from './formLogin.vue'
+import LangSelect from '@/components/XhLangSelect/index.vue'
 import { onMounted, ref } from 'vue'
 import setting from '@/config/setting.config'
 import { useUserStore } from '@/store/modules/user'
-import LangSelect from '@/components/XhLangSelect/index.vue'
 import { tenantList } from '@/api/upms/tenant'
 import { ElNotification } from 'element-plus'
 import { Tenant } from '@/api/upms/entity/tenant'

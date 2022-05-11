@@ -25,21 +25,36 @@
 <template>
   <el-form ref='loginFormRef' class='login-form' :model='loginInfo' :rules='loginRules'>
     <el-form-item prop='username'>
-        <span class='svg-container'>
-          <xhui-svg icon='user' />
-        </span>
       <el-input :placeholder='$t(`msg.inputUserName`)' name='username' type='text'
-                v-model='loginInfo.username'></el-input>
+                v-model='loginInfo.username'>
+        <template #prefix>
+          <el-icon class='el-input__icon'>
+            <span class='svg-container'>
+              <xh-svg icon='user' />
+            </span>
+          </el-icon>
+        </template>
+      </el-input>
     </el-form-item>
     <el-form-item prop='password'>
-        <span class='svg-container'>
-          <xhui-svg icon='password' />
-        </span>
+
       <el-input :placeholder='$t(`msg.inputPassword`)' name='password' :type='passwordType'
-                v-model='loginInfo.password'></el-input>
-      <span class='show-pwd' @click='onchangePasswordType()'>
-          <xhui-svg :icon="passwordType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
+                v-model='loginInfo.password'>
+        <template #prefix>
+          <el-icon class='el-input__icon'>
+            <span class='svg-container'>
+              <xh-svg icon='password' />
+            </span>
+          </el-icon>
+        </template>
+        <template #suffix>
+          <el-icon class='el-input__icon'>
+            <span class='show-pwd' @click='onchangePasswordType()'>
+              <xh-svg :icon="passwordType === 'password' ? 'eye' : 'eye-open'" />
+            </span>
+          </el-icon>
+        </template>
+      </el-input>
     </el-form-item>
     <el-button type='primary'
                style='width: 100%; margin-bottom: 30px'
@@ -57,10 +72,13 @@ import { isNullOrUnDef } from '@/utils/is'
 import { LoginForm } from '@/api/upms/entity/user'
 import type { FormInstance } from 'element-plus'
 import i18n from '@/i18n'
+import { useUserStore } from '@/store/modules/user'
 
 const emit = defineEmits(['tenantWarn'])
 
 const router = useRouter()
+
+const userStore = useUserStore()
 
 const loginInfo = ref<LoginForm>({
   username: 'admin',
@@ -99,12 +117,12 @@ const handleLogin = (form: FormInstance | undefined) => {
   if (!form) return
   loading.value = true
   form.validate(valid => {
-    if (isNullOrUnDef(user.tenantId)) {
+    if (isNullOrUnDef(userStore.getTenantId)) {
       emit('tenantWarn', true)
       valid = false
     }
     if (valid) {
-      user.login(loginInfo.value).then(res => {
+      userStore.login(loginInfo.value).then(() => {
         router.push('/')
       })
     }
@@ -124,31 +142,29 @@ $cursor: black;
     height: 45px;
   }
 
+  .el-input {
+    --el-input-bg-color: transparent;
+  }
   ::v-deep(.el-form-item) {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     color: #454545;
   }
-
   ::v-deep(.el-input) {
-    display: inline-block;
     height: 47px;
-    width: 85%;
-
     input {
       background-color: transparent;
       border: none;
       width: 100%;
       border-radius: 0px;
-      padding: 23px 5px 12px 15px;
       color: $light_gray;
       caret-color: $cursor;
     }
   }
 
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    padding: 6px 15px 6px 15px;
     color: $dark_gray;
     vertical-align: middle;
     display: inline-block;
@@ -165,7 +181,6 @@ $cursor: black;
   .show-pwd {
     position: absolute;
     right: 10px;
-    top: 7px;
     font-size: 16px;
     color: $dark_gray;
     caret-color: $cursor;
