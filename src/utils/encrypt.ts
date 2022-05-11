@@ -22,19 +22,20 @@
  * @Email:  xhuicloud@163.com
  */
 
-import CryptoJS from 'crypto-js'
+import { encrypt } from 'crypto-js/aes'
+import { parse } from 'crypto-js/enc-utf8'
+import CFB from 'crypto-js/mode-cfb'
+import NoPadding from 'crypto-js/pad-nopadding'
 
 export function encryption (data: any, iv: string, encryptParams: string[]): any {
   const result = JSON.parse(JSON.stringify(data))
-  const wordArray = CryptoJS.enc.Latin1.parse(iv)
+  const _iv = parse(iv)
   encryptParams.forEach(ele => {
-    // 加密
-    const encrypted = CryptoJS.AES.encrypt(result[ele], iv, {
-      iv: wordArray,
-      mode: CryptoJS.mode.CFB,
-      padding: CryptoJS.pad.NoPadding
-    })
-    result[ele] = encrypted.toString()
+    result[ele] = encrypt(result[ele], _iv, {
+      iv: _iv,
+      mode: CFB,
+      padding: NoPadding
+    }).toString()
   })
   return result
 }

@@ -90,7 +90,7 @@ export class XhAxios {
     this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
       axiosCanceler.addPending(config)
       if (requestInterceptors && isFunction(requestInterceptors)) {
-        config = requestInterceptors(config, this.config.requestOptions)
+        config = requestInterceptors(config)
       }
       return config
     }, undefined)
@@ -130,7 +130,6 @@ export class XhAxios {
     } = this.config?.handler || {}
     const conf: XhAxiosRequestConfig = cloneDeep(config)
     const { requestOptions } = this.config
-
     const opt: RequestOptions = Object.assign({}, requestOptions, options)
     conf.requestOptions = opt
     return new Promise((resolve, reject) => {

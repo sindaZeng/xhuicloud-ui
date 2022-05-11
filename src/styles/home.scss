@@ -1,4 +1,4 @@
-/*
+/*!
  * MIT License
  * Copyright <2021-2022>
  *
@@ -22,21 +22,56 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { HttpClient } from '@/utils/http'
-import { LoginForm, AuthInfo } from '@/api/upms/entity/user'
+.home-card {
+  ::v-deep(.el-card__body) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  &-avatar {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+    border-radius: 50%;
+  }
+  &-tips {
+    flex: auto;
+    width: calc(100% - 200px);
+    min-width: 300px;
 
-const basicHeader = 'dGVzdDp0ZXN0'
-
-enum Api {
-  Token = '/auth/oauth/token',
+    .home-card-tips-header {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: black;
+    }
+  }
 }
 
-export function loginApi (params: LoginForm) {
-  return HttpClient.get<AuthInfo>({
-    url: Api.Token,
-    headers: {
-      Authorization: 'Basic ' + basicHeader
-    },
-    params
-  }, { withToken: false })
+p {
+  min-height: 20px;
+  font-size: 14px;
+  color: #777c8f;
+}
+
+.table {
+  width: 100%;
+  color: #666;
+  border-collapse: collapse;
+  background-color: #fff;
+
+  td {
+    position: relative;
+    min-height: 20px;
+    padding: 9px 15px;
+    font-size: 14px;
+    line-height: 20px;
+    border: 1px solid #e6e6e6;
+
+    &:nth-child(odd) {
+      width: 20%;
+      text-align: right;
+      background-color: #f7f7f7;
+    }
+  }
 }

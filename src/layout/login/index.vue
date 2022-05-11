@@ -23,33 +23,107 @@
   -->
 
 <template>
-  <div class=''>我是登录页 {{ $t('table.attributes') }} </div>
-  <el-button type="primary" @click='test()'>Primary</el-button>
-  <xhLang style='      top: 5px;
-      right:5px;
-      font-size: 25px;
-      padding: 5px;
-      cursor: pointer;
-      border-radius: 5px;'></xhLang>
+  <div class="login-container">
+    <div class="login-form-container">
+      <div class="login-logo-container">
+        <img
+          :src="userStore.getTenant?.logo || 'https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto'"
+        />
+      </div>
+      <langSelect class="login-langSelect hover-effect" />
+      <h4 class="login-tenantSelect" :style="tenantSelectAnimation">
+        <el-select
+          v-model="active"
+          @change="changeTenant"
+          placeholder="点击请选择租户">
+          <el-option
+            v-for="tenant in tenants"
+            :key="tenant.id"
+            :label="tenant.name"
+            :value="tenant.id">
+          </el-option>
+        </el-select>
+      </h4>
+<!--      <FormLogin v-if="login.type === 'form'" @tenantWarn="tenantWarn" />-->
+<!--      <OtherLogin v-if="login.type === 'other'" @tenantWarn="tenantWarn" />-->
+      <div class="login-footer-container">
+        <el-row>
+          <el-col :span="8"
+          ><a href="#">{{ $t('msg.register') }}</a></el-col
+          >
+          <el-col :span="8">
+            <a href="#" @click.stop="selectLoginType">{{
+                $t('msg.' + getLoginType() + 'Login')
+              }}</a>
+          </el-col>
+          <el-col :span="8"
+          ><a href="#">{{ $t('msg.forgetPassword') }}</a></el-col
+          >
+        </el-row>
+      </div>
+    </div>
+  </div>
+  <div class="copyright" v-html="setting.copyright"></div>
 </template>
 
 <script lang='ts' setup>
-import xhLang from '@/components/XhLangSelect/index.vue'
-import { user } from '@/store'
-import { ref } from 'vue'
-import { LoginForm } from '@/api/upms/entity/user'
+// import FormLogin from './formLogin.vue'
+import { onMounted, ref } from 'vue'
+import setting from '@/config/setting.config'
+import { useUserStore } from '@/store/modules/user'
+import LangSelect from '@/components/XhLangSelect/index.vue'
+import { tenantList } from '@/api/upms/tenant'
+import { ElNotification } from 'element-plus'
+import { Tenant } from '@/api/upms/entity/tenant'
 
-const loginInfo = ref<LoginForm>({
-  username: 'admin',
-  password: '123456',
-  grant_type: 'password'
+const userStore = useUserStore()
+
+const login = ref({
+  type: 'form'
 })
 
-const test = () => {
-  user.login(loginInfo.value)
+const active = ref(userStore.getTenantId)
+
+const tenants = ref<Tenant[]>()
+
+const tenantSelectAnimation = ref('')
+
+const selectLoginType = () => {
+  if (login.value.type === 'other') {
+    login.value.type = 'form'
+  } else {
+    login.value.type = 'other'
+  }
+}
+
+const getLoginType = () => {
+  if (login.value.type === 'other') {
+    return 'form'
+  } else {
+    return 'other'
+  }
+}
+
+const changeTenant = (val: number) => {
+  useUserStore().setTenant(tenants.value?.find((item) => item.id === val) as Tenant)
+}
+onMounted(async () => {
+  const res = await tenantList()
+  tenants.value = res
+})
+
+const tenantWarn = (val: boolean) => {
+  if (val) {
+    ElNotification({
+      title: 'Warning',
+      message: '请选择一个租户!',
+      type: 'warning'
+    })
+    tenantSelectAnimation.value = '-webkit-animation: tenantWarn 0.5s linear 2 both;'
+  }
 }
 </script>
 
-<style lang='scss' scoped>
-
+<style lang="scss">
+@import '@/styles/login.scss';
 </style>

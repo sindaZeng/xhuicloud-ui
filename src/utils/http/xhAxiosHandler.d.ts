@@ -35,7 +35,7 @@ interface RequestOptions {
   /**
    * 这个配置不带上token
    */
-  whileRequest?: boolean
+  withToken?: boolean
 }
 
 export abstract class XhAxiosHandler {
@@ -43,8 +43,7 @@ export abstract class XhAxiosHandler {
    * 请求拦截
    */
   requestInterceptors?: (
-    config: AxiosRequestConfig,
-    options: RequestOptions
+    config: AxiosRequestConfig
   ) => AxiosRequestConfig
 
   /**

@@ -22,21 +22,52 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { HttpClient } from '@/utils/http'
-import { LoginForm, AuthInfo } from '@/api/upms/entity/user'
+import router from '@/router'
+import setting from '@/config/setting.config'
+import i18n from '@/i18n'
+import { isNullAndUnDef } from '@/utils/is'
+import { useUserStore } from '@/store/modules/user'
+import { useAppStore } from '@/store/modules/app'
+import { toRouteType } from '@/router/types'
 
-const basicHeader = 'dGVzdDp0ZXN0'
+const whiteList = ['/login', '/auth-redirect']
 
-enum Api {
-  Token = '/auth/oauth/token',
-}
-
-export function loginApi (params: LoginForm) {
-  return HttpClient.get<AuthInfo>({
-    url: Api.Token,
-    headers: {
-      Authorization: 'Basic ' + basicHeader
-    },
-    params
-  }, { withToken: false })
-}
+/**
+ * 前置
+ */
+router.beforeEach(async (to: toRouteType, _from, next) => {
+  const meta = to.meta || {}
+  document.title = meta.title ? i18n.global.t('menu.' + meta.title) : setting.title
+  const userStore = useUserStore()
+  const appStore = useAppStore()
+  if (userStore.getToken) {
+    if (to.path === '/login') {
+      next('/')
+    } else {
+      if (isNullAndUnDef(userStore.getSysUser)) {
+        userStore.getUserInfo()
+      }
+      const {
+        fullPath,
+        meta,
+        path,
+        params,
+        query
+      } = to
+      appStore.addTagView({
+        fullPath,
+        meta,
+        path,
+        params,
+        query
+      })
+      next()
+    }
+  } else {
+    if (whiteList.indexOf(to.path) > -1) {
+      next()
+    } else {
+      next(`/login?redirect=${to.path}`)
+    }
+  }
+})

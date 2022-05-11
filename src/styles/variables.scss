@@ -1,0 +1,32 @@
+// sidebar
+$menuText: black;//菜单栏字体颜色
+$menuActiveText: rgba(35, 65, 184, 0.91);
+$subMenuActiveText: black; // 选中子菜单 父菜单的字体颜色
+
+$menuBg: #ffffff; //菜单栏背景
+$menuHover: #ffffff;//鼠标移动至一级菜单时颜色
+
+$subMenuBg: #ffffff;  //一级菜单 下拉打开二级菜单的颜色
+$subMenuHover: #b5baba; //鼠标移动至二级菜单时颜色
+
+$sideBarWidth: 210px;
+$closeSidebarWidth: 54px;
+
+$navbarBg: #409eff; //Navbar 背景
+
+$sidebarTransition: 0.5s; //Sidebar 相关动画
+
+// 共享变量
+:export {
+  menuText: $menuText;
+  menuActiveText: $menuActiveText;
+  subMenuActiveText: $subMenuActiveText;
+  menuBg: $menuBg;
+  menuHover: $menuHover;
+  subMenuBg: $subMenuBg;
+  subMenuHover: $subMenuHover;
+  sideBarWidth: $sideBarWidth;
+  closeSidebarWidth: $closeSidebarWidth;
+  navbarBg: $navbarBg;
+  sidebarTransition: $sidebarTransition;
+}

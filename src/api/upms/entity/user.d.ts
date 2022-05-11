@@ -40,7 +40,7 @@ export interface AuthInfo {
   phone: string
 }
 
-export interface UserInfo {
+export interface SysUser {
   userId?: number,
   username?: string,
   avatar?: string,
@@ -48,4 +48,11 @@ export interface UserInfo {
   email?: string,
   sex?: number,
   tenantId?: number
+}
+
+export interface UserInfo {
+  sysUser: SysUser,
+  permissions: string[],
+  roles?: [],
+  tenantName?: string
 }

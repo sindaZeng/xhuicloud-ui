@@ -52,7 +52,6 @@
 <script lang='ts' setup>
 import { ref, defineEmits } from 'vue'
 import { useRouter } from 'vue-router'
-import { user } from '@/store'
 import { validatePassword } from '@/utils/rules'
 import { isNullOrUnDef } from '@/utils/is'
 import { LoginForm } from '@/api/upms/entity/user'
@@ -105,16 +104,12 @@ const handleLogin = (form: FormInstance | undefined) => {
       valid = false
     }
     if (valid) {
-      store.dispatch('user/login', loginInfo.value)
-        .then(() => {
-          router.push('/')
-          loading.value = false
-        })
-        .catch(e => {
-          loading.value = false
-        })
+      user.login(loginInfo.value).then(res => {
+        router.push('/')
+      })
     }
   })
+  loading.value = false
 }
 </script>
 

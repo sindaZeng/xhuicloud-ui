@@ -23,12 +23,12 @@
  */
 
 import { HttpClient } from '@/utils/http'
-import { Tenant} from './entity/tenant'
+import { Tenant } from './entity/tenant'
 
 enum Api {
   TenantList = '/admin/tenant/list',
 }
 
 export function tenantList () {
-  return HttpClient.get<Tenant>({ url: Api.TenantList })
+  return HttpClient.get<Tenant[]>({ url: Api.TenantList })
 }

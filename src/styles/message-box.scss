@@ -1,4 +1,4 @@
-/*
+/*!
  * MIT License
  * Copyright <2021-2022>
  *
@@ -22,21 +22,64 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { HttpClient } from '@/utils/http'
-import { LoginForm, AuthInfo } from '@/api/upms/entity/user'
+.message-box {
+  .message {
+    position: relative;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    height: 120px;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: -5px 5px 12px 0 rgba(204, 204, 204, .8);
+    $width: calc(100% - 35px);
 
-const basicHeader = 'dGVzdDp0ZXN0'
+    &-body {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      width: $width;
+      height: 100%;
 
-enum Api {
-  Token = '/auth/oauth/token',
+      > div {
+        margin-left: 25px;
+      }
+
+      &-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 100%;
+
+        :first-child {
+          width: 2.5em;
+          height: 2.5em;
+        }
+      }
+
+      &-content {
+        width: calc(100% - 44px);
+
+        &-footer {
+          height: 21px;
+          border-top: 1px solid #dddddd;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+    }
+
+    &-delete {
+      margin-left: $width;
+      padding-top: 10px;
+      ::v-deep(.el-icon) {
+        --color: red;
+      }
+      ::v-deep(.el-button) {
+        width: 15px;
+        height: 15px;
+      }
+    }
+  }
+
 }
 
-export function loginApi (params: LoginForm) {
-  return HttpClient.get<AuthInfo>({
-    url: Api.Token,
-    headers: {
-      Authorization: 'Basic ' + basicHeader
-    },
-    params
-  }, { withToken: false })
-}

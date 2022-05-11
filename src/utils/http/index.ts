@@ -23,20 +23,21 @@
  */
 
 import { XhAxios } from './xhAxios'
-import { user } from '@/store'
+import { useUserStore } from '@/store/modules/user'
 import { AxiosResponse } from 'axios'
 import { XhAxiosHandler } from '@/utils/http/xhAxiosHandler'
 import { Response } from '~/axios'
 import { ElMessage } from 'element-plus'
 
 const handler: XhAxiosHandler = {
-  requestInterceptors: (config, options) => {
-    debugger
-    if (!options?.whileRequest && user.authInfo?.access_token && config.headers?.Authorization) {
-      config.headers.Authorization = `Bearer ${user.authInfo.access_token}`
+  requestInterceptors: (config) => {
+    const userStore = useUserStore()
+    if ((config as Recordable)?.requestOptions?.withToken !== false &&
+      userStore.getToken) {
+      (config as Recordable).headers.Authorization = `Bearer ${userStore.getToken}`
     }
-    if (user.tenantId) {
-      (config as Recordable).headers.tenant_id = user.tenantId
+    if (userStore.getTenantId) {
+      (config as Recordable).headers.tenant_id = userStore.getTenantId
     }
     return config
   },
@@ -50,7 +51,11 @@ const handler: XhAxiosHandler = {
     if (!Reflect.has(res.data, 'code')) {
       return res.data
     }
-    const { code, msg, data } = res.data
+    const {
+      code,
+      msg,
+      data
+    } = res.data
     if (data && code === 0) {
       return data
     }
@@ -70,7 +75,6 @@ const handler: XhAxiosHandler = {
     }
     return Promise.reject(error)
   }
-
 }
 
 function createAxios () {

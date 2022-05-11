@@ -26,31 +26,51 @@ import { defineStore } from 'pinia'
 import { storageLocal } from '@/utils/storage'
 import { encryption } from '@/utils/encrypt'
 import setting from '@/config/setting.config'
-import { LoginForm, AuthInfo, UserInfo } from '@/api/upms/entity/user'
+import { LoginForm, AuthInfo, SysUser, UserInfo } from '@/api/upms/entity/user'
 import { Menu } from '@/api/upms/entity/menu'
 import { Tenant } from '@/api/upms/entity/tenant'
 import { loginApi } from '@/api/upms/auth'
+import { getUserInfo } from '@/api/upms/user'
+import { store } from '@/store'
 
-interface UserState {
-  authInfo?: AuthInfo;
-  tenant?: Tenant;
+export interface UserState {
+  authInfo: AuthInfo | null;
+  tenant: Tenant | null;
   tenantId?: number;
-  userInfo?: UserInfo;
-  userMenus?: Menu[];
-  permissions?: string[];
+  sysUser: SysUser | null;
+  userMenus: Menu[] | null;
+  permissions: any;
   roles?: string[];
 }
 
-export const useUserStore = defineStore('user', {
+export const userStore = defineStore('user', {
   state: (): UserState => ({
-    authInfo: storageLocal.getItem<AuthInfo>(setting.authInfo),
-    tenant: storageLocal.getItem<Tenant>(setting.tenantKey),
-    tenantId: storageLocal.getItem<number>(setting.tenant),
-    userInfo: {},
-    userMenus: storageLocal.getItem<Menu[]>('userMenus'),
-    permissions: [],
-    roles: []
+    authInfo: null,
+    tenant: null,
+    sysUser: null,
+    userMenus: null,
+    permissions: null
   }),
+  getters: {
+    getSysUser (): SysUser {
+      return this.sysUser || {}
+    },
+    getToken (): string {
+      return this.authInfo?.access_token || storageLocal.getItem<AuthInfo>(setting.authInfo)?.access_token
+    },
+    getTenant (): Tenant {
+      return this.tenant || storageLocal.getItem<Tenant>(setting.tenant)
+    },
+    getTenantId (): number {
+      return this.tenant?.id || storageLocal.getItem<Tenant>(setting.tenant)?.id
+    },
+    getUserMenus (): Menu[] {
+      return this.userMenus || storageLocal.getItem<Menu[]>(setting.userMenus)
+    },
+    getPermissions (): any {
+      return this.permissions
+    }
+  },
   actions: {
     setAuthInfo (authInfo: AuthInfo) {
       this.authInfo = authInfo
@@ -58,10 +78,10 @@ export const useUserStore = defineStore('user', {
     },
     setTenant (tenant: Tenant) {
       this.tenant = tenant
-      storageLocal.setItem(setting.tenantKey, tenant)
+      storageLocal.setItem(setting.tenant, tenant)
     },
-    setUserInfo (userInfo: UserInfo) {
-      this.userInfo = userInfo
+    setSysUser (sysUser: SysUser) {
+      this.sysUser = sysUser
     },
     setPermissions (permissions: string[]) {
       const list: any = {}
@@ -72,27 +92,36 @@ export const useUserStore = defineStore('user', {
     },
     setUserMenus (userMenus: Menu[]) {
       this.userMenus = userMenus
-      storageLocal.setItem('userMenus', userMenus)
+      storageLocal.setItem(setting.userMenus, userMenus)
     },
-    setRoles (roles: string[]) {
+    setRoles (roles: string[] = []) {
       this.roles = roles
     },
     setTenantId (tenantId: number) {
       if (this.tenant) {
         this.tenant.id = tenantId
       }
-      this.tenantId = tenantId
-      storageLocal.setItem(setting.tenantKey, this.tenant)
+      storageLocal.setItem(setting.tenant, this.tenant)
     },
-
-    async login (loginInfo: LoginForm): Promise<AuthInfo | null> {
+    async login (loginInfo: LoginForm): Promise<UserInfo | null> {
       try {
         const data = await loginApi(encryption(loginInfo, setting.aesIv, ['password']))
         this.setAuthInfo(data)
-        return null
+        return this.getUserInfo()
       } catch (error) {
         return Promise.reject(error)
       }
+    },
+    async getUserInfo (): Promise<UserInfo | null> {
+      const res = await getUserInfo()
+      this.setSysUser(res.sysUser)
+      this.setPermissions(res.permissions)
+      this.setRoles(res.roles)
+      return res
     }
   }
 })
+
+export function useUserStore () {
+  return userStore(store)
+}

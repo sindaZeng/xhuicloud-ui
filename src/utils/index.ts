@@ -22,6 +22,8 @@
  * @Email:  xhuicloud@163.com
  */
 
+import { HomeTag } from '~/homeTag'
+
 export function findTagViewsIndex (tagViews: HomeTag[], path: string): number {
   let key = 0
   tagViews.forEach((item, index) => {

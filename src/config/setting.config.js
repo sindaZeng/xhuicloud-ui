@@ -27,10 +27,11 @@ const setting = {
   // 端口号
   devPort: '80',
   // 商户字段
-  tenant: 'tenant_id',
+  tenant: 'tenant',
   // 存储的AuthInfo
   authInfo: 'authInfo',
-  tenantKey: 'tenant',
+  // 存储的userMenus
+  userMenus: 'userMenus',
   // 单位/毫秒  监听token过期刷新
   expiredPeriod: 6000000,
   // 当有值时候会在登录页展示版权信息

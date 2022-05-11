@@ -1,4 +1,4 @@
-/*
+/*!
  * MIT License
  * Copyright <2021-2022>
  *
@@ -22,21 +22,53 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { HttpClient } from '@/utils/http'
-import { LoginForm, AuthInfo } from '@/api/upms/entity/user'
-
-const basicHeader = 'dGVzdDp0ZXN0'
-
-enum Api {
-  Token = '/auth/oauth/token',
+.breadcrumb-enter-active,
+.breadcrumb-leave-active {
+  transition: all 0.5s;
 }
 
-export function loginApi (params: LoginForm) {
-  return HttpClient.get<AuthInfo>({
-    url: Api.Token,
-    headers: {
-      Authorization: 'Basic ' + basicHeader
-    },
-    params
-  }, { withToken: false })
+.breadcrumb-enter-from,
+.breadcrumb-leave-active {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.breadcrumb-leave-active {
+  position: absolute;
+}
+
+@keyframes tenantWarn {
+  0% {
+    transform: translate(0);
+  }
+  10% {
+    transform: translate(-2px, -2px);
+  }
+  20% {
+    transform: translate(2px, -2px);
+  }
+  30% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(2px, 2px);
+  }
+  50% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, -2px);
+  }
+  70% {
+    transform: translate(-2px, 2px);
+  }
+  80% {
+    transform: translate(-2px, -2px);
+  }
+  90% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
 }

@@ -27,17 +27,17 @@ import { storageLocal } from '@/utils/storage'
 import { findTagViewsIndex } from '@/utils'
 import setting from '@/config/setting.config'
 import { HomeTag } from '~/homeTag'
+import { store } from '@/store'
 
 const defaultHomeTag: HomeTag = {
   fullPath: '/home',
   meta: { title: 'home', icon: 'home', internationalization: 'home' },
-  name: 'home',
   params: {},
   path: '/home',
   query: {}
 }
 
-export const useAppStore = defineStore('app', {
+export const appStore = defineStore('app', {
 
   state: () => ({
     tagViews: storageLocal.getItem<HomeTag[]>(setting.tagViewsKey) ?? defaultHomeTag,
@@ -100,3 +100,7 @@ export const useAppStore = defineStore('app', {
     }
   }
 })
+
+export function useAppStore () {
+  return appStore(store)
+}

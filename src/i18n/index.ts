@@ -23,10 +23,10 @@
  */
 
 import { createI18n } from 'vue-i18n'
-import { app } from '@/store'
+import { useAppStore } from '@/store/modules/app'
 import messages from '@intlify/vite-plugin-vue-i18n/messages'
 
-const locale = app.lang
+const locale = useAppStore().getLang
 
 const i18n = createI18n({
   locale,
@@ -38,6 +38,6 @@ const i18n = createI18n({
   messages: messages
 })
 
-export const $t = (key: string) => key
+export const t = (key: string) => key
 
 export default i18n

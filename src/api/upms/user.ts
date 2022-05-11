@@ -23,20 +23,14 @@
  */
 
 import { HttpClient } from '@/utils/http'
-import { LoginForm, AuthInfo } from '@/api/upms/entity/user'
-
-const basicHeader = 'dGVzdDp0ZXN0'
+import { UserInfo } from '@/api/upms/entity/user'
 
 enum Api {
-  Token = '/auth/oauth/token',
+  GetUserInfo = '/admin/user/info',
 }
 
-export function loginApi (params: LoginForm) {
-  return HttpClient.get<AuthInfo>({
-    url: Api.Token,
-    headers: {
-      Authorization: 'Basic ' + basicHeader
-    },
-    params
-  }, { withToken: false })
+export function getUserInfo () {
+  return HttpClient.get<UserInfo>({
+    url: Api.GetUserInfo
+  })
 }

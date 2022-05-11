@@ -22,16 +22,9 @@
  * @Email:  xhuicloud@163.com
  */
 
-export interface BaseMeta {
-  title: string,
-  icon: string,
-  internationalization: string
-}
-
 export interface HomeTag {
   fullPath: string,
-  meta: BaseMeta,
-  name: string,
+  meta: any,
   params: any,
   path: string,
   query: any
