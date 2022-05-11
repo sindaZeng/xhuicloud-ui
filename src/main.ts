@@ -1,7 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import { store } from './store'
+
 import router from './router'
+import './router/permission'
+
 import i18n from './i18n'
 import 'virtual:svg-icons-register' // 导入svg注册脚本
 import componentsInstall from '@/components'

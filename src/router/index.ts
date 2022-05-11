@@ -25,7 +25,6 @@
 import { Router, createRouter } from 'vue-router'
 import { historyMode } from '@/utils/route'
 import commonsRoutes from './commons'
-
 // 创建路由
 export const router: Router = createRouter({
   history: historyMode(),

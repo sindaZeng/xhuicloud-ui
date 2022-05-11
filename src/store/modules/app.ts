@@ -40,13 +40,20 @@ const defaultHomeTag: HomeTag = {
 export const appStore = defineStore('app', {
 
   state: () => ({
-    tagViews: storageLocal.getItem<HomeTag[]>(setting.tagViewsKey) ?? defaultHomeTag,
-    tagView: storageLocal.getItem<string>(setting.tagViewKey),
+    tagViews: [defaultHomeTag],
+    tagView: '',
     sidebarStatus: true,
-    lang: storageLocal.getItem(setting.languageKey) ?? setting.language
+    lang: setting.language
   }),
 
   getters: {
+    getTagViews (): HomeTag[] {
+      return this.tagViews || storageLocal.getItem<HomeTag[]>(setting.tagViewsKey)
+    },
+    getTagView (): string {
+      return this.tagView || storageLocal.getItem<string>(setting.tagViewKey)
+    },
+    getSidebarStatus: (state) => state.sidebarStatus,
     getLang: (state) => state.lang
   },
   actions: {
@@ -60,7 +67,7 @@ export const appStore = defineStore('app', {
     addTagView (tagView: HomeTag) {
       this.tagView = tagView.path
       storageLocal.setItem(setting.tagViewKey, this.tagView)
-      if (this.tagViews.find(item => {
+      if (this.tagViews?.find(item => {
         return item.path === tagView.path
       })) return
       this.tagViews.push(tagView)
