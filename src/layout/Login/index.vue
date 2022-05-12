@@ -45,7 +45,7 @@
         </el-select>
       </h4>
       <FormLogin v-if="login.type === 'form'" @tenantWarn="tenantWarn" />
-<!--      <OtherLogin v-if="login.type === 'other'" @tenantWarn="tenantWarn" />-->
+      <OtherLogin v-if="login.type === 'other'" @tenantWarn="tenantWarn" />
       <div class="login-footer-container">
         <el-row>
           <el-col :span="8"
@@ -68,6 +68,7 @@
 
 <script lang='ts' setup>
 import FormLogin from './formLogin.vue'
+import OtherLogin from './otherLogin.vue'
 import LangSelect from '@/components/XhLangSelect/index.vue'
 import { onMounted, ref } from 'vue'
 import setting from '@/config/setting.config'
@@ -107,6 +108,7 @@ const getLoginType = () => {
 const changeTenant = (val: number) => {
   useUserStore().setTenant(tenants.value?.find((item) => item.id === val) as Tenant)
 }
+
 onMounted(async () => {
   const res = await tenantList()
   tenants.value = res

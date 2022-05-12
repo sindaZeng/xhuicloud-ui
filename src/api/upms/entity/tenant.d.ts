@@ -42,5 +42,5 @@ export interface Tenant {
   /**
    * 社交登录配置
    */
-  socials :Map<string, BaseSocial>;
+  socials: {[key: string], BaseSocial};
 }

@@ -23,17 +23,25 @@
  */
 
 export interface LoginForm {
-  username: string,
-  password: string,
+  authCode?: string,
+  type?: string,
+  username?: string,
+  password?: string,
+  // eslint-disable-next-line camelcase
   grant_type: string
 }
 
 export interface AuthInfo {
+  // eslint-disable-next-line camelcase
   access_token: string,
+  // eslint-disable-next-line camelcase
   token_type: string,
+  // eslint-disable-next-line camelcase
   refresh_token: string
+  // eslint-disable-next-line camelcase
   expires_in: number,
   scope: string,
+  // eslint-disable-next-line camelcase
   tenant_id: number,
   id: number,
   tenantName: string,

@@ -63,3 +63,17 @@ export const getQueryString = (url: string, paraName: string) => {
     return ''
   }
 }
+
+export function openWindows (url: string, title: string, w: number, h: number): Window | null {
+  const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width
+  const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height
+
+  const left = ((width / 2) - (w / 2)) + window.screenLeft
+  const top = ((height / 2) - (h / 2)) + window.screenTop
+  const newWindow: Window | null = window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left)
+
+  if ((window.focus)) {
+    newWindow?.focus()
+  }
+  return newWindow
+}

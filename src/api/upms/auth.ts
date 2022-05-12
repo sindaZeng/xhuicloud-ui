@@ -24,13 +24,20 @@
 
 import { HttpClient } from '@/utils/http'
 import { LoginForm, AuthInfo } from '@/api/upms/entity/user'
+import { Response } from '~/axios'
 
 const basicHeader = 'dGVzdDp0ZXN0'
 
 enum Api {
-  Token = '/auth/oauth/token',
+    Token = '/auth/oauth/token',
+    GetLoginQrcode = '/admin/wechat-mp/login-qrcode',
+    LoginQrcodeScanSuccess = '/admin/wechat-mp/scan-success',
 }
 
+/**
+ * 登录
+ * @param params
+ */
 export function loginApi (params: LoginForm) {
   return HttpClient.get<AuthInfo>({
     url: Api.Token,
@@ -38,5 +45,24 @@ export function loginApi (params: LoginForm) {
       Authorization: 'Basic ' + basicHeader
     },
     params
+  }, { withToken: false })
+}
+
+/**
+ * 获取微信公众号登录二维码
+ */
+export function getLoginQrcode (appId: string) {
+  return HttpClient.get<Response<string>>({
+    url: Api.GetLoginQrcode
+  }, { withToken: false })
+}
+
+/**
+ * 用户是否扫码成功
+ */
+export const loginQrcodeScanSuccess = (appId: string, ticket: string) => {
+  return HttpClient.get<Response<boolean>>({
+    url: Api.LoginQrcodeScanSuccess,
+    params: { ticket }
   }, { withToken: false })
 }
