@@ -72,7 +72,7 @@ import { isNullOrUnDef } from '@/utils/is'
 import { LoginForm } from '@/api/upms/entity/user'
 import type { FormInstance } from 'element-plus'
 import i18n from '@/i18n'
-import { useUserStore } from '@/store/modules/user'
+import { useUserStore } from '~/store/user'
 
 const emit = defineEmits(['tenantWarn'])
 

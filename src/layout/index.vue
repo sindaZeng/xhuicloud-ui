@@ -23,7 +23,7 @@
   -->
 
 <template>
-  <div class='app-container' :class='[$store.getters.sidebarStatus ? `openSidebar` : `closeSidebar`]'>
+  <div class='app-container' :class='[appStore.getSidebarStatus ? `openSidebar` : `closeSidebar`]'>
     <div class='left-body'>
       <!-- 左侧菜单 -->
       <sidebar :style='{ backgroundColor: variables.menuBg }' />
@@ -48,30 +48,37 @@ import Navbar from './Navbar/index.vue'
 import Sidebar from './Sidebar/index.vue'
 import TagView from '@/components/XhTagView/index.vue'
 import AppMain from './AppMain/index.vue'
-import variables from '@/styles/variables.scss'
-import { ref, onUnmounted } from 'vue'
-import { expiredPeriod } from '@/config'
-import { checkToken } from '@/api/auth'
-import store from '@/store'
+import variables from '@/styles/variables.global.scss'
+import { ref, onUnmounted, onMounted } from 'vue'
+import setting from '@/config/setting.config'
+import { checkToken } from '@/api/upms/auth'
+import { useUserStore } from '~/store/user'
+import { useAppStore } from '~/store/app'
+
+const userStore = useUserStore()
+
+const appStore = useAppStore()
 
 const refreshTime = ref(0)
 
 const onCreate = () => {
-  refreshTime.value = setInterval(() => {
-    if (store.getters.token && store.getters.refreshToken) {
-      checkToken(store.getters.token).then(response => {
+  refreshTime.value = window.setInterval(() => {
+    if (userStore.getToken && userStore.getRefreshToken) {
+      checkToken(userStore.getToken).then(response => {
         const exp = response && response.data && response.data.exp
-        if (exp && exp - new Date().getTime() <= expiredPeriod) {
-          store.dispatch('user/refreshToken').catch(() => {
-            clearInterval(refreshTime.value)
+        if (exp && exp - new Date().getTime() <= setting.expiredPeriod) {
+          userStore.refreshToken().catch(() => {
+            window.clearInterval(refreshTime.value)
           })
         }
       })
     }
-  }, expiredPeriod)
+  }, setting.expiredPeriod)
 }
 
-onCreate()
+onMounted(() => onCreate())
+
+onUnmounted(() => window.clearInterval(refreshTime.value))
 
 onUnmounted(() => {
   clearInterval(refreshTime.value)
@@ -79,7 +86,7 @@ onUnmounted(() => {
 </script>
 
 <style lang='scss' scoped>
-@import "~@/styles/variables.scss";
+//@import "~@/styles/variables.scss";
 
 .app-container {
   width: 100%;

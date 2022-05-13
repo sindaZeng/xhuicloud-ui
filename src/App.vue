@@ -8,11 +8,11 @@
 import { computed } from 'vue'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import en from 'element-plus/es/locale/lang/en'
-import { useAppStore } from '@/store/modules/app'
+import { useAppStore } from '~/store/app'
 const currentLocale = computed(() => {
   return useAppStore().getLang === 'en' ? en : zhCn
 })
 </script>
-<style>
+<style lang='scss'>
 
 </style>

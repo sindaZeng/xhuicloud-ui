@@ -29,7 +29,7 @@ import setting from '@/config/setting.config'
 import { LoginForm, AuthInfo, SysUser, UserInfo } from '@/api/upms/entity/user'
 import { Menu } from '@/api/upms/entity/menu'
 import { Tenant } from '@/api/upms/entity/tenant'
-import { loginApi } from '@/api/upms/auth'
+import { loginApi, logout, refreshToken } from '@/api/upms/auth'
 import { getUserInfo } from '@/api/upms/user'
 import { store } from '@/store'
 import { getMenu } from '@/api/upms/menu'
@@ -58,6 +58,9 @@ export const userStore = defineStore('user', {
     },
     getToken (): string {
       return this.authInfo?.access_token || storageLocal.getItem<AuthInfo>(setting.authInfo)?.access_token
+    },
+    getRefreshToken (): string {
+      return this.authInfo?.refresh_token || storageLocal.getItem<AuthInfo>(setting.authInfo)?.refresh_token
     },
     getTenant (): Tenant {
       return this.tenant || storageLocal.getItem<Tenant>(setting.tenant)
@@ -120,6 +123,15 @@ export const userStore = defineStore('user', {
       this.setPermissions(res.permissions)
       this.setRoles(res.roles)
       return res
+    },
+    async refreshToken () {
+      return this.authInfo && refreshToken(this.authInfo.refresh_token).then(response => {
+        this.setAuthInfo(response)
+        return response
+      })
+    },
+    logout () {
+      return logout()
     },
     async initRouter (): Promise<void> {
       const res = await getMenu()

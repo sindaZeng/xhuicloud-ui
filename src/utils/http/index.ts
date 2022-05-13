@@ -23,7 +23,7 @@
  */
 
 import { XhAxios } from './xhAxios'
-import { useUserStore } from '@/store/modules/user'
+import { useUserStore } from '~/store/user'
 import { AxiosResponse } from 'axios'
 import { XhAxiosHandler } from '@/utils/http/xhAxiosHandler'
 import { Response } from '~/axios'

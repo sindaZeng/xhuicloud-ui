@@ -22,22 +22,19 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { createI18n } from 'vue-i18n'
-import { useAppStore } from '~/store/app'
-import messages from '@intlify/vite-plugin-vue-i18n/messages'
+export interface GlobalScss {
+  menuText: string;
+  menuActiveText: string;
+  subMenuActiveText: string;
+  menuBg: string;
+  menuHover: string;
+  subMenuBg: string;
+  subMenuHover: string;
+  sideBarWidth: string;
+  closeSidebarWidth: string;
+  navbarBg: string;
+  sidebarTransition: string;
+}
+export const styles: GlobalScss
 
-const locale = useAppStore().getLang
-
-const i18n = createI18n({
-  locale,
-  fallbackLocale: 'zhCn',
-  // 使用了composition api
-  legacy: false,
-  // 全局使用 转换函数
-  globalInjection: true,
-  messages: messages
-})
-
-export const t = (key: string) => key
-
-export default i18n
+export default styles

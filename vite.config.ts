@@ -12,7 +12,15 @@ import path, { resolve } from 'path'
 export default defineConfig({
   resolve: {
     alias: {
-      '@': path.join(__dirname, './src')
+      '@': resolve(__dirname, 'src'),
+      '~/store': resolve(__dirname, '.', 'src/store/modules')
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@use "./src/styles/variables.scss" as *;'
+      }
     }
   },
   plugins: [

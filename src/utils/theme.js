@@ -26,7 +26,7 @@ import axios from 'axios'
 import colorConvert from 'css-color-function'
 
 // element-ui version from node_modules
-const version = require('element-plus/package.json').version
+const version = import('element-plus/package.json').version
 
 const formula = {
   'shade-1': 'color(primary shade(10%))',

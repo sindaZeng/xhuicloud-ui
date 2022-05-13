@@ -26,14 +26,30 @@ import { defineStore } from 'pinia'
 import { storageLocal } from '@/utils/storage'
 import theme from '@/config/theme.config'
 import { store } from '@/store'
+import styles from '@/styles/variables.global.scss'
 
 export const themeStore = defineStore('theme', {
   state: () => ({
-    sidebarLogo: storageLocal.getItem<boolean>(theme.sidebarLogo) ?? true,
-    cardStyle: storageLocal.getItem<boolean>(theme.cardStyle) ?? true,
-    // variables: variables,
-    themeColor: storageLocal.getItem(theme.themeKey) || theme.themeColor
+    sidebarLogo: true,
+    cardStyle: true,
+    variables: styles,
+    themeColor: theme.themeColor
   }),
+  getters: {
+    getThemeCss (): any {
+      console.log(this.variables.menuActiveText)
+      return Object.assign({}, this.variables, { menuActiveText: this.themeColor })
+    },
+    showSidebarLogo (): boolean {
+      return this.sidebarLogo || storageLocal.getItem<boolean>(theme.sidebarLogo)
+    },
+    getCardStyles (): boolean {
+      return this.cardStyle || storageLocal.getItem<boolean>(theme.cardStyle)
+    },
+    getThemeColor (): string {
+      return this.themeColor || storageLocal.getItem<string>(theme.themeKey)
+    }
+  },
   actions: {
     setThemeColor (themeColor: string) {
       storageLocal.setItem(theme.themeKey, themeColor)

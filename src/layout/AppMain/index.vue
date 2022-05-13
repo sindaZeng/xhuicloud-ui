@@ -34,9 +34,7 @@
   </div>
 </template>
 
-<script setup>
-import {} from 'vue'
-
+<script lang='ts' setup>
 </script>
 
 <style lang="scss" scoped>

@@ -25,13 +25,18 @@
 import { HttpClient } from '@/utils/http'
 import { LoginForm, AuthInfo } from '@/api/upms/entity/user'
 import { Response } from '~/axios'
+import { RequestOptions } from '@/utils/http/xhAxiosHandler'
 
 const basicHeader = 'dGVzdDp0ZXN0'
+const options: RequestOptions = { withToken: false }
 
 enum Api {
     Token = '/auth/oauth/token',
+    CheckToken = '/auth/oauth/check_token',
+    RefreshToken = '/auth/oauth/token',
     GetLoginQrcode = '/admin/wechat-mp/login-qrcode',
     LoginQrcodeScanSuccess = '/admin/wechat-mp/scan-success',
+    Logout = '/auth/oauth2/logout',
 }
 
 /**
@@ -39,13 +44,46 @@ enum Api {
  * @param params
  */
 export function loginApi (params: LoginForm) {
-  return HttpClient.get<AuthInfo>({
+  return HttpClient.post<AuthInfo>({
     url: Api.Token,
     headers: {
       Authorization: 'Basic ' + basicHeader
     },
     params
-  }, { withToken: false })
+  }, options)
+}
+
+/**
+ * 校验登录态
+ * @param params
+ */
+export function checkToken (token: string) {
+  return HttpClient.get<any>({
+    url: Api.CheckToken,
+    headers: {
+      Authorization: 'Basic ' + basicHeader
+    },
+    params: { token }
+  }, options)
+}
+
+/**
+ * 刷新token
+ * @param refreshToken
+ */
+export function refreshToken (refreshToken: string) {
+  const params = {
+    refresh_token: refreshToken,
+    grant_type: 'refresh_token',
+    scope: 'server'
+  }
+  return HttpClient.post<AuthInfo>({
+    url: Api.RefreshToken,
+    headers: {
+      Authorization: 'Basic ' + basicHeader
+    },
+    params
+  }, options)
 }
 
 /**
@@ -53,16 +91,25 @@ export function loginApi (params: LoginForm) {
  */
 export function getLoginQrcode (appId: string) {
   return HttpClient.get<Response<string>>({
-    url: Api.GetLoginQrcode
-  }, { withToken: false })
+    url: Api.GetLoginQrcode + appId
+  }, options)
 }
 
 /**
  * 用户是否扫码成功
  */
-export const loginQrcodeScanSuccess = (appId: string, ticket: string) => {
+export function loginQrcodeScanSuccess (appId: string, ticket: string) {
   return HttpClient.get<Response<boolean>>({
     url: Api.LoginQrcodeScanSuccess,
     params: { ticket }
-  }, { withToken: false })
+  }, options)
+}
+
+/**
+ * 登出
+ */
+export function logout () {
+  return HttpClient.post({
+    url: Api.Logout
+  })
 }

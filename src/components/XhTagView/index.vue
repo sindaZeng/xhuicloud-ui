@@ -69,7 +69,7 @@
 <script lang="ts" setup>
 import { ArrowDown } from '@element-plus/icons-vue'
 import { ref, watch } from 'vue'
-import { useAppStore } from '@/store/modules/app'
+import { useAppStore } from '~/store/app'
 import { useRoute, useRouter } from 'vue-router'
 import MenuItem from '@/components/XhSidebar/MenuItem.vue'
 import { TabsPaneContext } from 'element-plus'
@@ -93,7 +93,7 @@ const router = useRouter()
 const route = useRoute()
 watch(
   route,
-  (to, form) => {
+  (to) => {
     activeTag.value = to.path
   },
   {
@@ -116,8 +116,8 @@ const tabClick = (pane: TabsPaneContext) => {
     }
   })
   router.push({
-    path: tag!.path,
-    query: tag!.query
+    path: tag?.path,
+    query: tag?.query
   })
 }
 

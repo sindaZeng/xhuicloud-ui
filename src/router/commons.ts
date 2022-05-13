@@ -21,6 +21,7 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
+import layout from '@/layout/index.vue'
 
 const commonsRoutes = [
   {
@@ -30,6 +31,23 @@ const commonsRoutes = [
     meta: {
       tagView: false
     }
+  },
+  {
+    path: '/',
+    redirect: '/home',
+    component: layout,
+    children: [
+      {
+        path: '/home',
+        component: () => import('@/views/home/index.vue'),
+        name: 'home',
+        meta: {
+          internationalization: 'home',
+          title: 'home',
+          icon: 'home'
+        }
+      }
+    ]
   }
 ]
 

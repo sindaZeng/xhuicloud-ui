@@ -23,42 +23,60 @@
   -->
 
 <template>
-    <el-menu :uniqueOpened='true'
-                      :collapse='!appStore.getSidebarStatus'
-                      :default-active='activeMenu'
-                      :background-color='themeStore.getThemeCss.menuBg'
-                      :text-color='themeStore.getThemeCss.menuText'
-                      :active-text-color='themeStore.getThemeCss.menuActiveText'
-                      router>
-    <sidebar-item v-for='item in menus'
-                  :key='item.path'
-                  :route='item'>
-    </sidebar-item>
-  </el-menu>
+  <div class=''>
+    <el-breadcrumb class='breadcrumb'>
+      <transition-group name='breadcrumb'>
+      <el-breadcrumb-item v-for='(item, index) in breadcrumbData' :key='item.path'>
+        <span v-if='index === breadcrumbData.length - 1' class='no-redirect'>{{ $t('menu.' + item.meta.title) }}</span>
+        <span v-else class='redirect' @click='handleLink(item)'>{{ $t('menu.' + item.meta.title) }}</span>
+      </el-breadcrumb-item>
+      </transition-group>
+    </el-breadcrumb>
+  </div>
 </template>
 
 <script lang='ts' setup>
-import SidebarItem from './SidebarItem.vue'
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useUserStore } from '~/store/user'
-import { useAppStore } from '~/store/app'
-import { useThemeStore } from '~/store/theme'
+import { ref, watch } from 'vue'
+import { RouteLocationMatched, useRoute, useRouter } from 'vue-router'
 
-const userStore = useUserStore()
+const route = useRoute()
 
-const appStore = useAppStore()
+const router = useRouter()
 
-const themeStore = useThemeStore()
+const handleLink = (item: RouteLocationMatched) => {
+  router.push(item.path)
+}
 
-const menus = userStore.getUserMenus
+const breadcrumbData = ref<RouteLocationMatched[]>([])
 
-const activeMenu = computed(() => {
-  return useRoute().path
+const getBreadcrumbData = () => {
+  breadcrumbData.value = route.matched.filter(item => item.meta && item.meta.title)
+}
+
+watch(route, () => {
+  getBreadcrumbData()
+}, {
+  immediate: true
 })
 
 </script>
 
 <style lang='scss' scoped>
+.breadcrumb {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 50px;
+  margin-left: 8px;
+  ::v-deep(.no-redirect) {
+    color: #97a8be;
+    cursor: text;
+  }
 
+  .redirect {
+    color: black;
+    //font-weight: 600;
+    cursor: pointer;
+  }
+
+}
 </style>

@@ -23,42 +23,35 @@
   -->
 
 <template>
-    <el-menu :uniqueOpened='true'
-                      :collapse='!appStore.getSidebarStatus'
-                      :default-active='activeMenu'
-                      :background-color='themeStore.getThemeCss.menuBg'
-                      :text-color='themeStore.getThemeCss.menuText'
-                      :active-text-color='themeStore.getThemeCss.menuActiveText'
-                      router>
-    <sidebar-item v-for='item in menus'
-                  :key='item.path'
-                  :route='item'>
-    </sidebar-item>
-  </el-menu>
+  <div class='hamburger-container' @click='sidebarStatus'>
+    <xh-svg class='hamburger' :icon='icon'/>
+  </div>
 </template>
 
 <script lang='ts' setup>
-import SidebarItem from './SidebarItem.vue'
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useUserStore } from '~/store/user'
 import { useAppStore } from '~/store/app'
-import { useThemeStore } from '~/store/theme'
-
-const userStore = useUserStore()
 
 const appStore = useAppStore()
 
-const themeStore = useThemeStore()
+const sidebarStatus = () => {
+  appStore.changeSidebarStatus()
+}
 
-const menus = userStore.getUserMenus
-
-const activeMenu = computed(() => {
-  return useRoute().path
+const icon = computed(() => {
+  return appStore.getSidebarStatus ? 'hamburger-opened' : 'hamburger-closed'
 })
-
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
+.hamburger-container {
+  padding: 0 16px;
 
+  .hamburger {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+  }
+}
 </style>

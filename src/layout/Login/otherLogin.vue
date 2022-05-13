@@ -44,7 +44,7 @@ import { defineEmits, ref, watch } from 'vue'
 import { loginQrcodeScanSuccess, getLoginQrcode } from '@/api/upms/auth'
 import { openWindows } from '@/utils'
 import { isNullOrUnDef } from '@/utils/is'
-import { useUserStore } from '@/store/modules/user'
+import { useUserStore } from '~/store/user'
 import { ElNotification } from 'element-plus'
 
 const route = useRoute()
@@ -62,7 +62,6 @@ watch(route, val => {
   // 第三方登录
   if (query) {
     if (!isNullOrUnDef(query.state) && !isNullOrUnDef(query.code)) {
-      debugger
       userStore.login({
         authCode: query.code as string,
         type: query.state as string,
@@ -79,7 +78,7 @@ watch(route, val => {
 const thirdLogin = async (way: string) => {
   const redirectUri = encodeURIComponent(window.location.origin + '/#/auth-redirect')
   let newWindow: Window | null
-  let timer: ReturnType<typeof setInterval> | null
+  let timer: number
   let scanSuccess: boolean
   if (isNullOrUnDef(userStore.getTenantId)) {
     emit('tenantWarn', true)
@@ -109,7 +108,7 @@ const thirdLogin = async (way: string) => {
     const prefix = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='
     url.value = prefix + qrCode.data
     let seconds = 0
-    timer = setInterval(async () => {
+    timer = window.setInterval(async () => {
       const response = await loginQrcodeScanSuccess(WXMP?.appId as string, qrCode.data)
       scanSuccess = response.data
       if (scanSuccess) {
@@ -127,13 +126,13 @@ const thirdLogin = async (way: string) => {
   }
   newWindow = openWindows(url.value, way, 540, 540)
 
-  const closedWindows = setInterval(() => {
-    if (newWindow?.closed) {
-      clearInterval(closedWindows)
+  const closedWindows = window.setInterval(() => {
+    if (newWindow!.closed) {
+      closedWindows && window.clearInterval(closedWindows)
       timer && window.clearInterval(timer)
     }
     if (scanSuccess) {
-      newWindow?.close()
+      newWindow!.close()
     }
   }, 500)
 }

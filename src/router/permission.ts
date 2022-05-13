@@ -26,8 +26,8 @@ import router from '@/router'
 import setting from '@/config/setting.config'
 import i18n from '@/i18n'
 import { isNullAndUnDef } from '@/utils/is'
-import { useUserStore } from '@/store/modules/user'
-import { useAppStore } from '@/store/modules/app'
+import { useUserStore } from '~/store/user'
+import { useAppStore } from '~/store/app'
 import { toRouteType } from '@/router/types'
 
 const whiteList = ['/login', '/auth-redirect']

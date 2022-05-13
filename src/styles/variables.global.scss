@@ -1,0 +1,16 @@
+@import "./variables.scss";
+
+// 共享变量
+:export {
+  menuText: $menuText;
+  menuActiveText: $menuActiveText;
+  subMenuActiveText: $subMenuActiveText;
+  menuBg: $menuBg;
+  menuHover: $menuHover;
+  subMenuBg: $subMenuBg;
+  subMenuHover: $subMenuHover;
+  sideBarWidth: $sideBarWidth;
+  closeSidebarWidth: $closeSidebarWidth;
+  navbarBg: $navbarBg;
+  sidebarTransition: $sidebarTransition;
+}

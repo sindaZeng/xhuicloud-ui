@@ -23,39 +23,30 @@
   -->
 
 <template>
-    <el-menu :uniqueOpened='true'
-                      :collapse='!appStore.getSidebarStatus'
-                      :default-active='activeMenu'
-                      :background-color='themeStore.getThemeCss.menuBg'
-                      :text-color='themeStore.getThemeCss.menuText'
-                      :active-text-color='themeStore.getThemeCss.menuActiveText'
-                      router>
-    <sidebar-item v-for='item in menus'
-                  :key='item.path'
-                  :route='item'>
-    </sidebar-item>
-  </el-menu>
+  <el-dropdown v-bind='$attrs' trigger='click' class='theme' @command='handleSelectTheme'>
+    <div>
+        <xhui-svg icon='theme'></xhui-svg>
+    </div>
+    <template #dropdown>
+      <el-dropdown-menu command='themeColor'>
+        <el-dropdown-item>{{ $t(`msg.settingLayout`) }}</el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
+  <div>
+    <settingSelect v-model='settingsVisible'></settingSelect>
+  </div>
 </template>
 
 <script lang='ts' setup>
-import SidebarItem from './SidebarItem.vue'
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useUserStore } from '~/store/user'
-import { useAppStore } from '~/store/app'
-import { useThemeStore } from '~/store/theme'
+import SettingSelect from '@/components/XhSettingSelect/index.vue'
+import { ref } from 'vue'
 
-const userStore = useUserStore()
+const handleSelectTheme = () => {
+  settingsVisible.value = true
+}
 
-const appStore = useAppStore()
-
-const themeStore = useThemeStore()
-
-const menus = userStore.getUserMenus
-
-const activeMenu = computed(() => {
-  return useRoute().path
-})
+const settingsVisible = ref(false)
 
 </script>
 

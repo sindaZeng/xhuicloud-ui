@@ -23,40 +23,32 @@
   -->
 
 <template>
-    <el-menu :uniqueOpened='true'
-                      :collapse='!appStore.getSidebarStatus'
-                      :default-active='activeMenu'
-                      :background-color='themeStore.getThemeCss.menuBg'
-                      :text-color='themeStore.getThemeCss.menuText'
-                      :active-text-color='themeStore.getThemeCss.menuActiveText'
-                      router>
-    <sidebar-item v-for='item in menus'
-                  :key='item.path'
-                  :route='item'>
-    </sidebar-item>
-  </el-menu>
+  <div class='' @click='onToggle'>
+    <xhui-svg :icon='isScreenfull ? `screenfull-exit` : `screenfull`'></xhui-svg>
+  </div>
 </template>
 
 <script lang='ts' setup>
-import SidebarItem from './SidebarItem.vue'
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useUserStore } from '~/store/user'
-import { useAppStore } from '~/store/app'
-import { useThemeStore } from '~/store/theme'
+import { ref, onMounted, onUnmounted } from 'vue'
+import screenfull from 'screenfull'
 
-const userStore = useUserStore()
+const isScreenfull = ref(false)
 
-const appStore = useAppStore()
+const change = () => {
+  isScreenfull.value = screenfull.isFullscreen
+}
 
-const themeStore = useThemeStore()
-
-const menus = userStore.getUserMenus
-
-const activeMenu = computed(() => {
-  return useRoute().path
+onMounted(() => {
+  screenfull.on('change', change)
 })
 
+onUnmounted(() => {
+  screenfull.off('change', change)
+})
+
+const onToggle = () => {
+  screenfull.toggle()
+}
 </script>
 
 <style lang='scss' scoped>

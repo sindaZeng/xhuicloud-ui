@@ -23,7 +23,7 @@
   -->
 
 <template>
-  <div class="navbar" :style='{ background: $store.getters.ddCss.navbarBg }'>
+  <div class="navbar" :style='{ background: themeStore.getThemeCss.navbarBg }'>
     <hamburger class='hamburger-container'/>
     <breadcrumb class='breadcrumb-container'/>
     <div class='right-menu'>
@@ -32,7 +32,7 @@
       <langSelect class='right-menu-item hover-effect'/>
       <el-dropdown class='avatar-container' trigger='click'>
         <div class='avatar-wrapper'>
-          <el-avatar shape='square' :size='40' :src='$store.getters.userInfo.avatar'></el-avatar>
+          <el-avatar shape='square' :size='40' :src='userStore.getSysUser.avatar'></el-avatar>
         </div>
         <template #dropdown>
           <el-dropdown-menu class='user-dropdown'>
@@ -50,22 +50,24 @@
   </div>
 </template>
 
-<script setup>
-import {} from 'vue'
-import { useStore } from 'vuex'
+<script lang='ts' setup>
 import { useRouter } from 'vue-router'
-import Hamburger from '@/components/Hamburger'
-import Breadcrumb from '@/components/Breadcrumb'
-import LangSelect from '@/components/LangSelect'
-import ThemeSelect from '@/components/ThemeSelect'
-import Screenfull from '@/components/Screenfull'
-
-const store = useStore()
+import { useUserStore } from '~/store/user'
+import { useThemeStore } from '~/store/theme'
+import Breadcrumb from '@/components/XhBreadcrumb/index.vue'
+import LangSelect from '@/components/XhLangSelect/index.vue'
+import Hamburger from '@/components/XhHamburger/index.vue'
+import Screenfull from '@/components/XhScreenfull/index.vue'
+import ThemeSelect from '@/components/XhThemeSelect/index.vue'
 
 const router = useRouter()
 
+const userStore = useUserStore()
+
+const themeStore = useThemeStore()
+
 const logout = () => {
-  store.dispatch('user/logout').then(() => {
+  userStore.logout().then(() => {
     router.push('/login')
   })
 }
@@ -73,7 +75,7 @@ const logout = () => {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+//@import "~@/styles/variables.scss";
 
 .navbar {
   width: 100%;
