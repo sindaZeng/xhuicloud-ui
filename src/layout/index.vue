@@ -26,7 +26,7 @@
   <div class='app-container' :class='[appStore.getSidebarStatus ? `openSidebar` : `closeSidebar`]'>
     <div class='left-body'>
       <!-- 左侧菜单 -->
-      <sidebar :style='{ backgroundColor: variables.menuBg }' />
+      <sidebar/>
     </div>
     <div class='right-body'>
       <div class='header-container'>
@@ -48,7 +48,6 @@ import Navbar from './Navbar/index.vue'
 import Sidebar from './Sidebar/index.vue'
 import TagView from '@/components/XhTagView/index.vue'
 import AppMain from './AppMain/index.vue'
-import variables from '@/styles/variables.global.scss'
 import { ref, onUnmounted, onMounted } from 'vue'
 import setting from '@/config/setting.config'
 import { checkToken } from '@/api/upms/auth'
@@ -80,9 +79,6 @@ onMounted(() => onCreate())
 
 onUnmounted(() => window.clearInterval(refreshTime.value))
 
-onUnmounted(() => {
-  clearInterval(refreshTime.value)
-})
 </script>
 
 <style lang='scss' scoped>

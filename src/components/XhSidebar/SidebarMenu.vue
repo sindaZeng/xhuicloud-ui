@@ -23,18 +23,20 @@
   -->
 
 <template>
+  <div>
     <el-menu :uniqueOpened='true'
-                      :collapse='!appStore.getSidebarStatus'
-                      :default-active='activeMenu'
-                      :background-color='themeStore.getThemeCss.menuBg'
-                      :text-color='themeStore.getThemeCss.menuText'
-                      :active-text-color='themeStore.getThemeCss.menuActiveText'
-                      router>
-    <sidebar-item v-for='item in menus'
-                  :key='item.path'
-                  :route='item'>
-    </sidebar-item>
-  </el-menu>
+             :background-color='menuBg'
+             :collapse='!appStore.getSidebarStatus'
+             :default-active='activeMenu'
+             :text-color='themeStore.getThemeCss.menuText'
+             :active-text-color='themeStore.getThemeCss.menuActiveText'
+             router>
+      <sidebar-item v-for='item in menus'
+                    :key='item.path'
+                    :route='item'>
+      </sidebar-item>
+    </el-menu>
+  </div>
 </template>
 
 <script lang='ts' setup>
@@ -53,6 +55,10 @@ const themeStore = useThemeStore()
 
 const menus = userStore.getUserMenus
 
+const menuBg = computed<string>(() => {
+  console.log(themeStore.getThemeCss.menuBg)
+  return themeStore.getThemeCss.menuBg
+})
 const activeMenu = computed(() => {
   return useRoute().path
 })

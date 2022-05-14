@@ -24,6 +24,19 @@
 
 import { HomeTag } from '~/homeTag'
 
+export function scssExportToJson (scssExportJson: any) {
+  const jsonString = scssExportJson.replace(/:export\s*/, '').replace(/[\s+\r\n]/g, '')
+  const scssJson: any = {}
+  jsonString
+    .slice(1, jsonString.length - 2)
+    .split(';')
+    .forEach((fItem: string) => {
+      const arr = fItem.split(':')
+      scssJson[arr[0]] = arr[1]
+    })
+  return scssJson
+}
+
 export function findTagViewsIndex (tagViews: HomeTag[], path: string): number {
   let key = 0
   tagViews.forEach((item, index) => {

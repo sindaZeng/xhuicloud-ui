@@ -27,18 +27,18 @@ import { storageLocal } from '@/utils/storage'
 import theme from '@/config/theme.config'
 import { store } from '@/store'
 import styles from '@/styles/variables.global.scss'
+import { scssExportToJson } from '@/utils'
 
 export const themeStore = defineStore('theme', {
   state: () => ({
     sidebarLogo: true,
     cardStyle: true,
-    variables: styles,
+    variables: scssExportToJson(styles),
     themeColor: theme.themeColor
   }),
   getters: {
     getThemeCss (): any {
-      console.log(this.variables.menuActiveText)
-      return Object.assign({}, this.variables, { menuActiveText: this.themeColor })
+      return { ...this.variables, menuActiveText: this.themeColor }
     },
     showSidebarLogo (): boolean {
       return this.sidebarLogo || storageLocal.getItem<boolean>(theme.sidebarLogo)
@@ -54,7 +54,7 @@ export const themeStore = defineStore('theme', {
     setThemeColor (themeColor: string) {
       storageLocal.setItem(theme.themeKey, themeColor)
       this.themeColor = themeColor
-      // this.variables.navbarBg = themeColor
+      this.variables.navbarBg = themeColor
     },
     setSidebarLogo (sidebarLogo = true) {
       storageLocal.setItem(theme.sidebarLogo, sidebarLogo)

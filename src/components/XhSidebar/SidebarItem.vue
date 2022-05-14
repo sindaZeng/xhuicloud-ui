@@ -25,15 +25,15 @@
 <template>
   <el-sub-menu v-if='route.children && route.children.length > 0' :index='route.path'>
     <template #title>
-      <menu-item :title='$t(`menu.`+ route.meta.internationalization)' :icon='route.meta.icon'></menu-item>
+      <menu-item :title='!route.meta.title' :icon='!route.meta.icon'></menu-item>
     </template>
-    <sidebar-item v-for='item in route.children'
+    <sidebar-item v-for='(item) in route.children'
                   :key='item.path'
                   :route='item'>
     </sidebar-item>
   </el-sub-menu>
   <el-menu-item v-else :index='route.path'>
-    <menu-item :title='$t(`menu.`+ route.meta.internationalization)' :icon='route.meta.icon'></menu-item>
+    <menu-item :title='!route.meta.title' :icon='!route.meta.icon'></menu-item>
   </el-menu-item>
 </template>
 
