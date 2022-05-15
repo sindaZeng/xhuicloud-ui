@@ -56,7 +56,6 @@ const themeStore = useThemeStore()
 const menus = userStore.getUserMenus
 
 const menuBg = computed<string>(() => {
-  console.log(themeStore.getThemeCss.menuBg)
   return themeStore.getThemeCss.menuBg
 })
 const activeMenu = computed(() => {

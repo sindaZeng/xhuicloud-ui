@@ -25,7 +25,7 @@
 <template>
   <el-dropdown v-bind='$attrs' trigger='click' class='theme' @command='handleSelectTheme'>
     <div>
-        <xhui-svg icon='theme'></xhui-svg>
+        <xh-svg icon='theme'></xh-svg>
     </div>
     <template #dropdown>
       <el-dropdown-menu command='themeColor'>
