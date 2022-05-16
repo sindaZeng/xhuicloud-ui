@@ -36,13 +36,13 @@ const defaultHomeTag: HomeTag = {
   query: {}
 }
 
-export const useAppStore = defineStore('app', {
+const useAppStore = defineStore('app', {
 
   state: () => ({
     tagViews: [defaultHomeTag],
     tagView: '',
     sidebarStatus: true,
-    lang: setting.language
+    lang: setting.language || storageLocal.getItem(setting.languageKey)
   }),
 
   getters: {
@@ -60,6 +60,7 @@ export const useAppStore = defineStore('app', {
       this.sidebarStatus = !this.sidebarStatus
     },
     setLang (lang: string) {
+      debugger
       storageLocal.setItem(setting.languageKey, lang)
       this.lang = lang
     },
@@ -106,3 +107,5 @@ export const useAppStore = defineStore('app', {
     }
   }
 })
+
+export default useAppStore

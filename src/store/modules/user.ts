@@ -43,7 +43,7 @@ export interface UserState {
   roles?: string[];
 }
 
-export const useUserStore = defineStore('user', {
+const useUserStore = defineStore('user', {
   state: (): UserState => ({
     authInfo: null,
     tenant: null,
@@ -75,6 +75,9 @@ export const useUserStore = defineStore('user', {
     }
   },
   actions: {
+    async reset () {
+      this.$reset()
+    },
     setAuthInfo (authInfo: AuthInfo) {
       this.authInfo = authInfo
       storageLocal.setItem(setting.authInfo, authInfo)
@@ -116,6 +119,11 @@ export const useUserStore = defineStore('user', {
         return Promise.reject(error)
       }
     },
+    async initRouter () {
+      const res = await getMenu()
+      debugger
+      this.setUserMenus(res)
+    },
     async getUserInfo (): Promise<UserInfo | null> {
       const res = await getUserInfo()
       this.setSysUser(res.sysUser)
@@ -130,11 +138,10 @@ export const useUserStore = defineStore('user', {
       })
     },
     logout () {
+      this.reset()
       return logout()
-    },
-    async initRouter (): Promise<void> {
-      const res = await getMenu()
-      this.setUserMenus(res)
     }
   }
 })
+
+export default useUserStore

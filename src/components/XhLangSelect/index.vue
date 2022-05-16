@@ -45,7 +45,6 @@ import { defineProps } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const { app } = useStore()
-
 defineProps({
   effect: {
     type: String,

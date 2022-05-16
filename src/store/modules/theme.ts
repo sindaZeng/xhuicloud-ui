@@ -28,7 +28,7 @@ import theme from '@/config/theme.config'
 import styles from '@/styles/variables.global.scss'
 import { scssExportToJson } from '@/utils'
 
-export const useThemeStore = defineStore('theme', {
+const useThemeStore = defineStore('theme', {
   state: () => ({
     sidebarLogo: true,
     cardStyle: true,
@@ -65,3 +65,5 @@ export const useThemeStore = defineStore('theme', {
     }
   }
 })
+
+export default useThemeStore

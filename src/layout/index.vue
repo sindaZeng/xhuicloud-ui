@@ -23,7 +23,7 @@
   -->
 
 <template>
-  <div class='app-container' :class='[appStore.getSidebarStatus ? `openSidebar` : `closeSidebar`]'>
+  <div class='app-container' :class='[app.getSidebarStatus ? `openSidebar` : `closeSidebar`]'>
     <div class='left-body'>
       <!-- 左侧菜单 -->
       <sidebar/>
@@ -53,7 +53,7 @@ import setting from '@/config/setting.config'
 import { checkToken } from '@/api/upms/auth'
 import useStore from '@/store'
 
-const { user } = useStore()
+const { user, app } = useStore()
 
 const refreshTime = ref(0)
 

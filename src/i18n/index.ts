@@ -23,10 +23,11 @@
  */
 
 import { createI18n } from 'vue-i18n'
-import useStore from '@/store'
+import { storageLocal } from '@/utils/storage'
 import messages from '@intlify/vite-plugin-vue-i18n/messages'
-const { app } = useStore()
-const locale = app.getLang
+import setting from '@/config/setting.config'
+
+const locale = storageLocal.getItem<string>(setting.languageKey)
 
 const i18n = createI18n({
   locale,
@@ -35,7 +36,7 @@ const i18n = createI18n({
   legacy: false,
   // 全局使用 转换函数
   globalInjection: true,
-  messages: messages
+  messages
 })
 
 export const t = (key: string) => key
