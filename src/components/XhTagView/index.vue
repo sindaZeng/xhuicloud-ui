@@ -27,12 +27,12 @@
     <div class="tags-box">
       <div class="tabs">
         <el-tabs v-model="activeTag"
-                 :closable='$store.getters.tagViews.length > 1'
+                 :closable='app.getTagViews.length > 1'
                  type="card"
                  v-on:contextmenu.prevent="openContextmenu($event)"
                  v-on:tab-click='tabClick'
                  v-on:edit="delTagView">
-          <el-tab-pane v-for='item in $store.getters.tagViews' :key='item.name' :name='item.path'>
+          <el-tab-pane v-for='item in app.getTagViews' :key='item.name' :name='item.path'>
             <template #label>
               <menu-item :title='$t(`menu.`+ item.meta.internationalization)' :icon='item.meta.icon'></menu-item>
             </template>

@@ -28,6 +28,8 @@ import i18n from '@/i18n'
 import { isNullAndUnDef } from '@/utils/is'
 import useStore from '@/store'
 import { toRouteType } from '@/router/types'
+import { getMenu } from '@/api/upms/menu'
+import { RouteRecordRaw } from 'vue-router'
 
 const whiteList = ['/login', '/auth-redirect']
 
@@ -37,28 +39,22 @@ const whiteList = ['/login', '/auth-redirect']
 router.beforeEach(async (to: toRouteType, _from, next) => {
   const meta = to.meta || {}
   document.title = meta.title ? i18n.global.t('menu.' + meta.title) : setting.title
-  const { user, app } = useStore()
+  const { user, app, permission } = useStore()
   if (user.getToken) {
     if (to.path === '/login') {
       next('/')
     } else {
       if (isNullAndUnDef(user.getSysUser)) {
         user.getUserInfo()
+      } else {
+        const res = await getMenu()
+        const userRoutes: any = await permission.initRoutes(res)
+        userRoutes.forEach((route: any) => {
+          router.addRoute(route)
+        })
+        const { fullPath, meta, path, params, query } = to
+        app.addTagView({ fullPath, meta, path, params, query })
       }
-      const {
-        fullPath,
-        meta,
-        path,
-        params,
-        query
-      } = to
-      app.addTagView({
-        fullPath,
-        meta,
-        path,
-        params,
-        query
-      })
       next()
     }
   } else {

@@ -60,7 +60,6 @@ const useAppStore = defineStore('app', {
       this.sidebarStatus = !this.sidebarStatus
     },
     setLang (lang: string) {
-      debugger
       storageLocal.setItem(setting.languageKey, lang)
       this.lang = lang
     },

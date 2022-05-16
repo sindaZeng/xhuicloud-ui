@@ -30,5 +30,5 @@ enum Api {
 }
 
 export function getMenu () {
-  return HttpClient.get<Menu[]>({ url: Api.GetMenu })
+  return HttpClient.get<any>({ url: Api.GetMenu })
 }

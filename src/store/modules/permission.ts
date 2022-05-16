@@ -21,35 +21,50 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-import layout from '@/layout/index.vue'
+
+import { defineStore } from 'pinia'
 import { RouteRecordRaw } from 'vue-router'
+import commonsRoutes from '@/router/commons'
+import layout from '@/layout/index.vue'
 
-const commonsRoutes: Array<RouteRecordRaw> = [
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/layout/Login/index.vue'),
-    meta: {
-      tagView: false
-    }
-  },
-  {
-    path: '/',
-    redirect: '/home',
-    component: layout,
-    children: [
-      {
-        path: '/home',
-        component: () => import('@/views/home/index.vue'),
-        name: 'home',
-        meta: {
-          internationalization: 'home',
-          title: 'home',
-          icon: 'home'
+interface Permission {
+  routes: RouteRecordRaw[];
+}
+
+const modules = import.meta.glob('../../views/**/**.vue')
+
+const usePermissionStore = defineStore('permission', {
+
+  state: (): Permission => ({
+    routes: []
+  }),
+  actions: {
+    setRoutes (routes: RouteRecordRaw[]) {
+      this.routes = commonsRoutes.concat(routes)
+    },
+    async initRoutes (routes: RouteRecordRaw[]) {
+      const res: RouteRecordRaw[] = []
+      routes.forEach((route) => {
+        const tmp = { ...route } as any
+        if (tmp.path === 'Layout' || tmp.path === 'layout') {
+          tmp.component = layout
+        } else {
+          const component = modules[`../../views/${tmp.path}.vue`] as any
+          if (component) {
+            tmp.component = modules[`../../views/${tmp.path}.vue`]
+          } else {
+            tmp.component = modules['../../views/error-page/404.vue']
+          }
         }
-      }
-    ]
-  }
-]
+        res.push(tmp)
 
-export default commonsRoutes
+        if (tmp.children) {
+          tmp.children = this.initRoutes(tmp.children)
+        }
+      })
+      return res
+    }
+  }
+})
+
+export default usePermissionStore
