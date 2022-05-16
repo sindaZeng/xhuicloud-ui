@@ -34,7 +34,7 @@ import screenfull from 'screenfull'
 
 const isScreenfull = ref(false)
 
-const change = () => {
+function change () {
   isScreenfull.value = screenfull.isFullscreen
 }
 
@@ -46,7 +46,7 @@ onUnmounted(() => {
   screenfull.off('change', change)
 })
 
-const onToggle = () => {
+function onToggle () {
   screenfull.toggle()
 }
 </script>

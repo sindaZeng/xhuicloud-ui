@@ -57,7 +57,7 @@ const { user } = useStore()
 
 const refreshTime = ref(0)
 
-const onCreate = () => {
+function onCreate () {
   refreshTime.value = window.setInterval(() => {
     if (user.getToken && user.getRefreshToken) {
       checkToken(user.getToken).then(response => {

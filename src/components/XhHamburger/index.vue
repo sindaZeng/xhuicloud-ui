@@ -24,7 +24,7 @@
 
 <template>
   <div class='hamburger-container' @click='sidebarStatus'>
-    <xh-svg class='hamburger' :icon='icon'/>
+    <xh-svg class='hamburger' :icon='icon' />
   </div>
 </template>
 
@@ -34,7 +34,7 @@ import useStore from '@/store'
 
 const { app } = useStore()
 
-const sidebarStatus = () => {
+function sidebarStatus () {
   app.changeSidebarStatus()
 }
 

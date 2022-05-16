@@ -75,9 +75,13 @@ import MenuItem from '@/components/XhSidebar/MenuItem.vue'
 import { HomeTag } from '~/homeTag'
 import useStore from '@/store'
 
-const activeTag = ref('')
-
 const { app } = useStore()
+
+const router = useRouter()
+
+const route = useRoute()
+
+const activeTag = ref('')
 
 const contextmenuTag = ref('')
 
@@ -88,18 +92,13 @@ const contextmenuStyle = ref({
   top: '0'
 })
 
-const router = useRouter()
+watch(route, (to) => {
+  activeTag.value = to.path
+},
+{
+  immediate: true
+})
 
-const route = useRoute()
-watch(
-  route,
-  (to) => {
-    activeTag.value = to.path
-  },
-  {
-    immediate: true
-  }
-)
 watch(visible, value => {
   if (value) {
     document.body.addEventListener('click', closeContextmenu)
@@ -108,7 +107,7 @@ watch(visible, value => {
   }
 })
 
-const tabClick = (pane: TabsPaneContext) => {
+function tabClick (pane: TabsPaneContext) {
   let tag: HomeTag
   app.getTagViews.forEach(tagView => {
     if (tagView.path === pane.props.name) {
@@ -121,7 +120,7 @@ const tabClick = (pane: TabsPaneContext) => {
   })
 }
 
-const openContextmenu = (e: any) => {
+function openContextmenu (e: any) {
   const { x, y } = e
   contextmenuStyle.value.left = x + 'px'
   contextmenuStyle.value.top = y + 'px'
@@ -129,14 +128,14 @@ const openContextmenu = (e: any) => {
   visible.value = !visible.value
 }
 
-const closeContextmenu = () => {
+function closeContextmenu () {
   visible.value = false
 }
 /**
  * 关闭当前
  * @param index
  */
-const delTagView = (path: string, action: string) => {
+function delTagView (path: string, action: string) {
   if (action === 'remove') {
     app.delTagView(path)
     if (isActive(path)) {
@@ -149,7 +148,7 @@ const delTagView = (path: string, action: string) => {
  * 关闭其他
  * @param index
  */
-const delOtherTagView = (path: string) => {
+function delOtherTagView (path: string) {
   app.delOtherTagView(path)
   pushLastView()
 }
@@ -158,7 +157,7 @@ const delOtherTagView = (path: string) => {
  * 关闭其他
  * @param index
  */
-const delAllTagViews = () => {
+function delAllTagViews () {
   app.delAllTagViews()
   pushLastView()
 }
@@ -166,7 +165,7 @@ const delAllTagViews = () => {
 /**
  * 去到上一个视图
  */
-const pushLastView = () => {
+function pushLastView () {
   const latestView = app.getTagViews.slice(-1)[0]
   if (latestView) {
     router.push(latestView.path || latestView.fullPath)
@@ -180,7 +179,7 @@ const pushLastView = () => {
  * @param path
  * @returns {boolean}
  */
-const isActive = (path: string) => {
+function isActive (path: string) {
   return path === route.path
 }
 </script>

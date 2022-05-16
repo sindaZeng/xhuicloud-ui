@@ -25,19 +25,20 @@
 <template>
   <el-dialog :title='$t(`msg.settingLayout`)' :model-value='modelValue' @close='closed' width='22%' append-to-body>
     <div class='content'>
-      <div class="item">
+      <div class='item'>
         <span class='title'>{{ $t('msg.themeColor') }}</span>
         <el-color-picker
-          v-model="themeColor" style='float: right;margin-top: -10px'
-          :predefine="['#409EFF', '#1890ff', '#304156','#212121','#11a983', '#13c2c2', '#6959CD', '#f5222d']" @change='confirm'></el-color-picker>
+          v-model='themeColor' style='float: right;margin-top: -10px'
+          :predefine="['#409EFF', '#1890ff', '#304156','#212121','#11a983', '#13c2c2', '#6959CD', '#f5222d']"
+          @change='confirm'></el-color-picker>
       </div>
-      <div class="item">
+      <div class='item'>
         <span class='title'>{{ $t('msg.sidebarLogo') }}</span>
-        <el-switch v-model="sidebarLogo" class="switch" />
+        <el-switch v-model='sidebarLogo' class='switch' />
       </div>
-      <div class="item">
+      <div class='item'>
         <span class='title'>{{ $t('msg.cardStyle') }}</span>
-        <el-switch v-model="cardStyle" class="switch" />
+        <el-switch v-model='cardStyle' class='switch' />
       </div>
     </div>
   </el-dialog>
@@ -56,6 +57,7 @@ defineProps({
     required: true
   }
 })
+
 const sidebarLogo = computed({
   get () {
     return theme.showSidebarLogo
@@ -77,16 +79,17 @@ const themeColor = ref(theme.getThemeColor)
 
 const emits = defineEmits(['update:modelValue'])
 
-const closed = () => {
+function closed () {
   emits('update:modelValue', false)
 }
 
-const confirm = async () => {
+async function confirm () {
   const newStyle = await getStyle(themeColor.value)
   saveStyle(newStyle)
   theme.setThemeColor(themeColor.value)
   closed()
 }
+
 onBeforeMount(confirm)
 </script>
 

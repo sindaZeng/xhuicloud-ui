@@ -26,19 +26,19 @@
   <div class='other-login'>
     <el-row justify='center'>
       <el-col class='other-login-type' :span='6'>
-        <xh-svg class='other-login-type-icon' icon='qq' @click='thirdLogin(`QQ`)'/>
+        <xh-svg class='other-login-type-icon' icon='qq' @click='thirdLogin(`QQ`)' />
       </el-col>
       <el-col class='other-login-type' :span='6'>
-        <xh-svg class='other-login-type-icon' icon='wechat' @click='thirdLogin(`WXMP`)'/>
+        <xh-svg class='other-login-type-icon' icon='wechat' @click='thirdLogin(`WXMP`)' />
       </el-col>
       <el-col class='other-login-type' :span='6'>
-        <xh-svg class='other-login-type-icon' icon='weibo' @click='thirdLogin(`WB`)'/>
+        <xh-svg class='other-login-type-icon' icon='weibo' @click='thirdLogin(`WB`)' />
       </el-col>
     </el-row>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang='ts' setup>
 import { useRoute, useRouter } from 'vue-router'
 import { defineEmits, ref, watch } from 'vue'
 import { loginQrcodeScanSuccess, getLoginQrcode } from '@/api/upms/auth'
@@ -75,7 +75,7 @@ watch(route, val => {
   immediate: true
 })
 
-const thirdLogin = async (way: string) => {
+async function thirdLogin (way: string) {
   const redirectUri = encodeURIComponent(window.location.origin + '/#/auth-redirect')
   let newWindow: Window | null
   let timer: number
@@ -137,7 +137,7 @@ const thirdLogin = async (way: string) => {
   }, 500)
 }
 
-const error = (name: string) => {
+function error (name: string) {
   ElNotification({
     title: 'Error',
     message: name + '不支持此第三方登录',
@@ -149,6 +149,7 @@ const error = (name: string) => {
 <style lang='scss'>
 .other-login {
   margin-bottom: 50px;
+
   .other-login-type {
     text-align: center;
 

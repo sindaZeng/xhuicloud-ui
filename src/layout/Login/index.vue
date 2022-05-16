@@ -89,7 +89,7 @@ const tenants = ref<Tenant[]>()
 
 const tenantSelectAnimation = ref('')
 
-const selectLoginType = () => {
+function selectLoginType () {
   if (login.value.type === 'other') {
     login.value.type = 'form'
   } else {
@@ -97,7 +97,7 @@ const selectLoginType = () => {
   }
 }
 
-const getLoginType = () => {
+function getLoginType () {
   if (login.value.type === 'other') {
     return 'form'
   } else {
@@ -105,8 +105,8 @@ const getLoginType = () => {
   }
 }
 
-const changeTenant = (val: number) => {
-  useUserStore().setTenant(tenants.value?.find((item) => item.id === val) as Tenant)
+function changeTenant (val: number) {
+  user.setTenant(tenants.value?.find((item) => item.id === val) as Tenant)
 }
 
 onMounted(async () => {
@@ -114,7 +114,7 @@ onMounted(async () => {
   tenants.value = res
 })
 
-const tenantWarn = (val: boolean) => {
+function tenantWarn (val: boolean) {
   if (val) {
     ElNotification({
       title: 'Warning',

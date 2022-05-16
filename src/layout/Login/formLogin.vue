@@ -105,7 +105,7 @@ const loading = ref(false)
 
 const loginFormRef = ref<FormInstance>()
 
-const onchangePasswordType = () => {
+function onchangePasswordType () {
   if (passwordType.value === 'password') {
     passwordType.value = 'text'
   } else {
@@ -113,7 +113,7 @@ const onchangePasswordType = () => {
   }
 }
 
-const handleLogin = (form: FormInstance | undefined) => {
+function handleLogin (form: FormInstance | undefined) {
   if (!form) return
   loading.value = true
   form.validate(valid => {

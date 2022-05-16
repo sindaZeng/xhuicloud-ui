@@ -63,7 +63,7 @@ const router = useRouter()
 
 const { user, theme } = useStore()
 
-const logout = () => {
+function logout () {
   user.logout().then(() => {
     router.push('/login')
   })

@@ -9,6 +9,7 @@ import { computed } from 'vue'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import en from 'element-plus/es/locale/lang/en'
 import useStore from '@/store'
+
 const currentLocale = computed(() => {
   const { app } = useStore()
   return app.getLang === 'en' ? en : zhCn

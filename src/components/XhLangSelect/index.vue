@@ -56,7 +56,7 @@ defineProps({
   }
 })
 
-const handleSetLang = (lang: string) => {
+function handleSetLang (lang: string) {
   i18n.global.locale.value = lang
   app.setLang(lang)
   ElMessage.success(i18n.global.t('msg.langSuccess'))

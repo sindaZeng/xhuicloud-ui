@@ -42,7 +42,7 @@
 import SettingSelect from '@/components/XhSettingSelect/index.vue'
 import { ref } from 'vue'
 
-const handleSelectTheme = () => {
+function handleSelectTheme () {
   settingsVisible.value = true
 }
 

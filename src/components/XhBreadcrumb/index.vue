@@ -26,10 +26,11 @@
   <div class=''>
     <el-breadcrumb class='breadcrumb'>
       <transition-group name='breadcrumb'>
-      <el-breadcrumb-item v-for='(item, index) in breadcrumbData' :key='item.path'>
-        <span v-if='index === breadcrumbData.length - 1' class='no-redirect'>{{ $t('menu.' + item.meta.title) }}</span>
-        <span v-else class='redirect' @click='handleLink(item)'>{{ $t('menu.' + item.meta.title) }}</span>
-      </el-breadcrumb-item>
+        <el-breadcrumb-item v-for='(item, index) in breadcrumbData' :key='item.path'>
+          <span v-if='index === breadcrumbData.length - 1' class='no-redirect'>{{ $t('menu.' + item.meta.title)
+            }}</span>
+          <span v-else class='redirect' @click='handleLink(item)'>{{ $t('menu.' + item.meta.title) }}</span>
+        </el-breadcrumb-item>
       </transition-group>
     </el-breadcrumb>
   </div>
@@ -43,13 +44,13 @@ const route = useRoute()
 
 const router = useRouter()
 
-const handleLink = (item: RouteLocationMatched) => {
+function handleLink (item: RouteLocationMatched) {
   router.push(item.path)
 }
 
 const breadcrumbData = ref<RouteLocationMatched[]>([])
 
-const getBreadcrumbData = () => {
+function getBreadcrumbData () {
   breadcrumbData.value = route.matched.filter(item => item.meta && item.meta.title)
 }
 
@@ -67,6 +68,7 @@ watch(route, () => {
   font-size: 14px;
   line-height: 50px;
   margin-left: 8px;
+
   ::v-deep(.no-redirect) {
     color: #97a8be;
     cursor: text;
