@@ -23,9 +23,9 @@
   -->
 
 <template>
-    <div class='logo-container' v-if='themeStore.showSidebarLogo' :style='{ background: themeStore.getThemeCss.navbarBg }'>
-      <img :src="userStore.getTenant.logo" class="sidebar-logo" >
-      <h1 class='logo-title' style='color: black' v-if='appStore.getSidebarStatus'>{{ name }}</h1>
+    <div class='logo-container' v-if='theme.showSidebarLogo' :style='{ background: theme.getThemeCss.navbarBg }'>
+      <img :src="user.getTenant.logo" class="sidebar-logo" >
+      <h1 class='logo-title' style='color: black' v-if='app.getSidebarStatus'>{{ name }}</h1>
     </div>
     <el-scrollbar>
       <sidebar-menu></sidebar-menu>
@@ -33,18 +33,12 @@
 </template>
 
 <script lang='ts' setup>
-import { useThemeStore } from '~/store/theme'
-import { useUserStore } from '~/store/user'
-import { useAppStore } from '~/store/app'
+import useStore from '@/store'
 import SidebarMenu from '@/components/XhSidebar/SidebarMenu.vue'
 
-const themeStore = useThemeStore()
+const { app, user, theme } = useStore()
 
-const appStore = useAppStore()
-
-const userStore = useUserStore()
-
-const name = userStore.getTenant.name
+const name = user.getTenant.name
 
 </script>
 

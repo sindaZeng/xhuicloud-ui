@@ -30,16 +30,16 @@
 
 <script lang='ts' setup>
 import { computed } from 'vue'
-import { useAppStore } from '~/store/app'
+import useStore from '@/store'
 
-const appStore = useAppStore()
+const { app } = useStore()
 
 const sidebarStatus = () => {
-  appStore.changeSidebarStatus()
+  app.changeSidebarStatus()
 }
 
 const icon = computed(() => {
-  return appStore.getSidebarStatus ? 'hamburger-opened' : 'hamburger-closed'
+  return app.getSidebarStatus ? 'hamburger-opened' : 'hamburger-closed'
 })
 </script>
 

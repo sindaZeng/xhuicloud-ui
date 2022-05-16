@@ -25,11 +25,10 @@
 import { defineStore } from 'pinia'
 import { storageLocal } from '@/utils/storage'
 import theme from '@/config/theme.config'
-import { store } from '@/store'
 import styles from '@/styles/variables.global.scss'
 import { scssExportToJson } from '@/utils'
 
-export const themeStore = defineStore('theme', {
+export const useThemeStore = defineStore('theme', {
   state: () => ({
     sidebarLogo: true,
     cardStyle: true,
@@ -66,7 +65,3 @@ export const themeStore = defineStore('theme', {
     }
   }
 })
-
-export function useThemeStore () {
-  return themeStore(store)
-}

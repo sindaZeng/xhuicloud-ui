@@ -72,13 +72,13 @@ import { isNullOrUnDef } from '@/utils/is'
 import { LoginForm } from '@/api/upms/entity/user'
 import type { FormInstance } from 'element-plus'
 import i18n from '@/i18n'
-import { useUserStore } from '~/store/user'
+import useStore from '@/store'
 
 const emit = defineEmits(['tenantWarn'])
 
 const router = useRouter()
 
-const userStore = useUserStore()
+const { user } = useStore()
 
 const loginInfo = ref<LoginForm>({
   username: 'admin',
@@ -117,12 +117,12 @@ const handleLogin = (form: FormInstance | undefined) => {
   if (!form) return
   loading.value = true
   form.validate(valid => {
-    if (isNullOrUnDef(userStore.getTenantId)) {
+    if (isNullOrUnDef(user.getTenantId)) {
       emit('tenantWarn', true)
       valid = false
     }
     if (valid) {
-      userStore.login(loginInfo.value).then(() => {
+      user.login(loginInfo.value).then(() => {
         router.push('/')
       })
     }

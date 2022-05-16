@@ -51,22 +51,19 @@ import AppMain from './AppMain/index.vue'
 import { ref, onUnmounted, onMounted } from 'vue'
 import setting from '@/config/setting.config'
 import { checkToken } from '@/api/upms/auth'
-import { useUserStore } from '~/store/user'
-import { useAppStore } from '~/store/app'
+import useStore from '@/store'
 
-const userStore = useUserStore()
-
-const appStore = useAppStore()
+const { user } = useStore()
 
 const refreshTime = ref(0)
 
 const onCreate = () => {
   refreshTime.value = window.setInterval(() => {
-    if (userStore.getToken && userStore.getRefreshToken) {
-      checkToken(userStore.getToken).then(response => {
+    if (user.getToken && user.getRefreshToken) {
+      checkToken(user.getToken).then(response => {
         const exp = response && response.data && response.data.exp
         if (exp && exp - new Date().getTime() <= setting.expiredPeriod) {
-          userStore.refreshToken().catch(() => {
+          user.refreshToken().catch(() => {
             window.clearInterval(refreshTime.value)
           })
         }

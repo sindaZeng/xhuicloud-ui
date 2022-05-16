@@ -26,10 +26,10 @@
   <div>
     <el-menu :uniqueOpened='true'
              :background-color='menuBg'
-             :collapse='!appStore.getSidebarStatus'
+             :collapse='!app.getSidebarStatus'
              :default-active='activeMenu'
-             :text-color='themeStore.getThemeCss.menuText'
-             :active-text-color='themeStore.getThemeCss.menuActiveText'
+             :text-color='theme.getThemeCss.menuText'
+             :active-text-color='theme.getThemeCss.menuActiveText'
              router>
       <sidebar-item v-for='item in menus'
                     :key='item.path'
@@ -43,20 +43,14 @@
 import SidebarItem from './SidebarItem.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useUserStore } from '~/store/user'
-import { useAppStore } from '~/store/app'
-import { useThemeStore } from '~/store/theme'
+import useStore from '@/store'
 
-const userStore = useUserStore()
+const { user, app, theme } = useStore()
 
-const appStore = useAppStore()
-
-const themeStore = useThemeStore()
-
-const menus = userStore.getUserMenus
+const menus = user.getUserMenus
 
 const menuBg = computed<string>(() => {
-  return themeStore.getThemeCss.menuBg
+  return theme.getThemeCss.menuBg
 })
 const activeMenu = computed(() => {
   return useRoute().path

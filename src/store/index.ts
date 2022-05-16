@@ -1,3 +1,11 @@
-import { createPinia } from 'pinia'
-const store = createPinia()
-export { store }
+import { useUserStore } from '@/store/modules/user'
+import { useAppStore } from '@/store/modules/app'
+import { useThemeStore } from '@/store/modules/theme'
+
+const useStore = () => ({
+  user: useUserStore(),
+  app: useAppStore(),
+  theme: useThemeStore()
+})
+
+export default useStore

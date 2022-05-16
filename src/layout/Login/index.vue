@@ -27,7 +27,7 @@
     <div class="login-form-container">
       <div class="login-logo-container">
         <img
-          :src="userStore.getTenant?.logo || 'https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto'"
+          :src="user.getTenant?.logo || 'https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto'"
         />
       </div>
       <langSelect class="login-langSelect hover-effect" />
@@ -67,23 +67,23 @@
 </template>
 
 <script lang='ts' setup>
+import { onMounted, ref } from 'vue'
+import { ElNotification } from 'element-plus'
 import FormLogin from './formLogin.vue'
 import OtherLogin from './otherLogin.vue'
 import LangSelect from '@/components/XhLangSelect/index.vue'
-import { onMounted, ref } from 'vue'
 import setting from '@/config/setting.config'
-import { useUserStore } from '~/store/user'
+import useStore from '@/store'
 import { tenantList } from '@/api/upms/tenant'
-import { ElNotification } from 'element-plus'
 import { Tenant } from '@/api/upms/entity/tenant'
 
-const userStore = useUserStore()
+const { user } = useStore()
 
 const login = ref({
   type: 'form'
 })
 
-const active = ref(userStore.getTenantId)
+const active = ref(user.getTenantId)
 
 const tenants = ref<Tenant[]>()
 

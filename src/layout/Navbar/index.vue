@@ -23,7 +23,7 @@
   -->
 
 <template>
-  <div class="navbar" :style='{ background: themeStore.getThemeCss.navbarBg }'>
+  <div class="navbar" :style='{ background: theme.getThemeCss.navbarBg }'>
     <hamburger class='hamburger-container'/>
     <breadcrumb class='breadcrumb-container'/>
     <div class='right-menu'>
@@ -32,7 +32,7 @@
       <langSelect class='right-menu-item hover-effect'/>
       <el-dropdown class='avatar-container' trigger='click'>
         <div class='avatar-wrapper'>
-          <el-avatar shape='square' :size='40' :src='userStore.getSysUser.avatar'></el-avatar>
+          <el-avatar shape='square' :size='40' :src='user.getSysUser.avatar'></el-avatar>
         </div>
         <template #dropdown>
           <el-dropdown-menu class='user-dropdown'>
@@ -52,8 +52,7 @@
 
 <script lang='ts' setup>
 import { useRouter } from 'vue-router'
-import { useUserStore } from '~/store/user'
-import { useThemeStore } from '~/store/theme'
+import useStore from '@/store'
 import Breadcrumb from '@/components/XhBreadcrumb/index.vue'
 import LangSelect from '@/components/XhLangSelect/index.vue'
 import Hamburger from '@/components/XhHamburger/index.vue'
@@ -62,12 +61,10 @@ import ThemeSelect from '@/components/XhThemeSelect/index.vue'
 
 const router = useRouter()
 
-const userStore = useUserStore()
-
-const themeStore = useThemeStore()
+const { user, theme } = useStore()
 
 const logout = () => {
-  userStore.logout().then(() => {
+  user.logout().then(() => {
     router.push('/login')
   })
 }

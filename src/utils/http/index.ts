@@ -23,7 +23,7 @@
  */
 
 import { XhAxios } from './xhAxios'
-import { useUserStore } from '~/store/user'
+import useStore from '@/store'
 import { AxiosResponse } from 'axios'
 import { XhAxiosHandler } from '@/utils/http/xhAxiosHandler'
 import { Response } from '~/axios'
@@ -31,13 +31,13 @@ import { ElMessage } from 'element-plus'
 
 const handler: XhAxiosHandler = {
   requestInterceptors: (config) => {
-    const userStore = useUserStore()
+    const { user } = useStore()
     if ((config as Recordable)?.requestOptions?.withToken !== false &&
-      userStore.getToken) {
-      (config as Recordable).headers.Authorization = `Bearer ${userStore.getToken}`
+      user.getToken) {
+      (config as Recordable).headers.Authorization = `Bearer ${user.getToken}`
     }
-    if (userStore.getTenantId) {
-      (config as Recordable).headers.tenant_id = userStore.getTenantId
+    if (user.getTenantId) {
+      (config as Recordable).headers.tenant_id = user.getTenantId
     }
     return config
   },

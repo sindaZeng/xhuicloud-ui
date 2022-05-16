@@ -46,9 +46,9 @@
 <script lang='ts' setup>
 import { defineProps, defineEmits, ref, onBeforeMount, computed } from 'vue'
 import { getStyle, saveStyle } from '@/utils/theme'
-import { useThemeStore } from '~/store/theme'
+import useStore from '@/store'
 
-const themeStore = useThemeStore()
+const { theme } = useStore()
 
 defineProps({
   modelValue: {
@@ -58,22 +58,22 @@ defineProps({
 })
 const sidebarLogo = computed({
   get () {
-    return themeStore.showSidebarLogo
+    return theme.showSidebarLogo
   },
   set (val: boolean) {
-    themeStore.setSidebarLogo(val)
+    theme.setSidebarLogo(val)
   }
 })
 
 const cardStyle = computed({
   get () {
-    return themeStore.getCardStyles
+    return theme.getCardStyles
   },
   set (val: boolean) {
-    themeStore.setCardStyle(val)
+    theme.setCardStyle(val)
   }
 })
-const themeColor = ref(themeStore.getThemeColor)
+const themeColor = ref(theme.getThemeColor)
 
 const emits = defineEmits(['update:modelValue'])
 
@@ -84,7 +84,7 @@ const closed = () => {
 const confirm = async () => {
   const newStyle = await getStyle(themeColor.value)
   saveStyle(newStyle)
-  themeStore.setThemeColor(themeColor.value)
+  theme.setThemeColor(themeColor.value)
   closed()
 }
 onBeforeMount(confirm)

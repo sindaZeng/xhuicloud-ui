@@ -31,7 +31,6 @@ import { Menu } from '@/api/upms/entity/menu'
 import { Tenant } from '@/api/upms/entity/tenant'
 import { loginApi, logout, refreshToken } from '@/api/upms/auth'
 import { getUserInfo } from '@/api/upms/user'
-import { store } from '@/store'
 import { getMenu } from '@/api/upms/menu'
 
 export interface UserState {
@@ -44,7 +43,7 @@ export interface UserState {
   roles?: string[];
 }
 
-export const userStore = defineStore('user', {
+export const useUserStore = defineStore('user', {
   state: (): UserState => ({
     authInfo: null,
     tenant: null,
@@ -139,7 +138,3 @@ export const userStore = defineStore('user', {
     }
   }
 })
-
-export function useUserStore () {
-  return userStore(store)
-}

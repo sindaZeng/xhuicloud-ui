@@ -67,17 +67,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ArrowDown } from '@element-plus/icons-vue'
 import { ref, watch } from 'vue'
-import { useAppStore } from '~/store/app'
 import { useRoute, useRouter } from 'vue-router'
-import MenuItem from '@/components/XhSidebar/MenuItem.vue'
 import { TabsPaneContext } from 'element-plus'
+import { ArrowDown } from '@element-plus/icons-vue'
+import MenuItem from '@/components/XhSidebar/MenuItem.vue'
 import { HomeTag } from '~/homeTag'
+import useStore from '@/store'
 
 const activeTag = ref('')
 
-const appStore = useAppStore()
+const { app } = useStore()
 
 const contextmenuTag = ref('')
 
@@ -110,14 +110,14 @@ watch(visible, value => {
 
 const tabClick = (pane: TabsPaneContext) => {
   let tag: HomeTag
-  appStore.getTagViews.forEach(tagView => {
+  app.getTagViews.forEach(tagView => {
     if (tagView.path === pane.props.name) {
       tag = tagView
     }
   })
   router.push({
-    path: tag?.path,
-    query: tag?.query
+    path: tag!.path,
+    query: tag!.query
   })
 }
 
@@ -138,7 +138,7 @@ const closeContextmenu = () => {
  */
 const delTagView = (path: string, action: string) => {
   if (action === 'remove') {
-    appStore.delTagView(path)
+    app.delTagView(path)
     if (isActive(path)) {
       pushLastView()
     }
@@ -150,7 +150,7 @@ const delTagView = (path: string, action: string) => {
  * @param index
  */
 const delOtherTagView = (path: string) => {
-  appStore.delOtherTagView(path)
+  app.delOtherTagView(path)
   pushLastView()
 }
 
@@ -159,7 +159,7 @@ const delOtherTagView = (path: string) => {
  * @param index
  */
 const delAllTagViews = () => {
-  appStore.delAllTagViews()
+  app.delAllTagViews()
   pushLastView()
 }
 
@@ -167,7 +167,7 @@ const delAllTagViews = () => {
  * 去到上一个视图
  */
 const pushLastView = () => {
-  const latestView = appStore.getTagViews.slice(-1)[0]
+  const latestView = app.getTagViews.slice(-1)[0]
   if (latestView) {
     router.push(latestView.path || latestView.fullPath)
   } else {

@@ -44,12 +44,12 @@ import { defineEmits, ref, watch } from 'vue'
 import { loginQrcodeScanSuccess, getLoginQrcode } from '@/api/upms/auth'
 import { openWindows } from '@/utils'
 import { isNullOrUnDef } from '@/utils/is'
-import { useUserStore } from '~/store/user'
+import useStore from '@/store'
 import { ElNotification } from 'element-plus'
 
 const route = useRoute()
 
-const userStore = useUserStore()
+const { user } = useStore()
 
 const router = useRouter()
 
@@ -62,7 +62,7 @@ watch(route, val => {
   // 第三方登录
   if (query) {
     if (!isNullOrUnDef(query.state) && !isNullOrUnDef(query.code)) {
-      userStore.login({
+      user.login({
         authCode: query.code as string,
         type: query.state as string,
         grant_type: 'social'
@@ -80,11 +80,11 @@ const thirdLogin = async (way: string) => {
   let newWindow: Window | null
   let timer: number
   let scanSuccess: boolean
-  if (isNullOrUnDef(userStore.getTenantId)) {
+  if (isNullOrUnDef(user.getTenantId)) {
     emit('tenantWarn', true)
     return
   }
-  const tenant = userStore.getTenant
+  const tenant = user.getTenant
   const socials = tenant.socials
   if (isNullOrUnDef(socials)) {
     error(tenant.name)

@@ -40,11 +40,11 @@
 
 <script lang='ts' setup>
 import i18n from '@/i18n'
-import { useAppStore } from '~/store/app'
+import useStore from '@/store'
 import { defineProps } from 'vue'
 import { ElMessage } from 'element-plus'
 
-const app = useAppStore()
+const { app } = useStore()
 
 defineProps({
   effect: {

@@ -26,8 +26,7 @@ import router from '@/router'
 import setting from '@/config/setting.config'
 import i18n from '@/i18n'
 import { isNullAndUnDef } from '@/utils/is'
-import { useUserStore } from '~/store/user'
-import { useAppStore } from '~/store/app'
+import useStore from '@/store'
 import { toRouteType } from '@/router/types'
 
 const whiteList = ['/login', '/auth-redirect']
@@ -38,14 +37,13 @@ const whiteList = ['/login', '/auth-redirect']
 router.beforeEach(async (to: toRouteType, _from, next) => {
   const meta = to.meta || {}
   document.title = meta.title ? i18n.global.t('menu.' + meta.title) : setting.title
-  const userStore = useUserStore()
-  const appStore = useAppStore()
-  if (userStore.getToken) {
+  const { user, app } = useStore()
+  if (user.getToken) {
     if (to.path === '/login') {
       next('/')
     } else {
-      if (isNullAndUnDef(userStore.getSysUser)) {
-        userStore.getUserInfo()
+      if (isNullAndUnDef(user.getSysUser)) {
+        user.getUserInfo()
       }
       const {
         fullPath,
@@ -54,7 +52,7 @@ router.beforeEach(async (to: toRouteType, _from, next) => {
         params,
         query
       } = to
-      appStore.addTagView({
+      app.addTagView({
         fullPath,
         meta,
         path,

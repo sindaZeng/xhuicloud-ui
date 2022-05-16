@@ -12,8 +12,7 @@ import path, { resolve } from 'path'
 export default defineConfig({
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
-      '~/store': resolve(__dirname, '.', 'src/store/modules')
+      '@': resolve(__dirname, 'src')
     }
   },
   css: {
