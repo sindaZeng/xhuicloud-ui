@@ -42,15 +42,17 @@
 <script lang='ts' setup>
 import SidebarItem from './SidebarItem.vue'
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { RouteRecordRaw, useRoute } from 'vue-router'
 import useStore from '@/store'
 
-const { user, app, theme } = useStore()
-
-const menus = user.getUserMenus
+const { permission, app, theme } = useStore()
 
 const menuBg = computed<string>(() => {
   return theme.getThemeCss.menuBg
+})
+
+const menus = computed<RouteRecordRaw[]>(() => {
+  return permission.getRoutes
 })
 const activeMenu = computed(() => {
   return useRoute().path

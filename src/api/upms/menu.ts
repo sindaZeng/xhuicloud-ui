@@ -23,7 +23,6 @@
  */
 
 import { HttpClient } from '@/utils/http'
-import { Menu } from './entity/menu'
 
 enum Api {
   GetMenu = '/admin/menu',

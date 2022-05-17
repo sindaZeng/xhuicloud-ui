@@ -39,6 +39,4 @@ const i18n = createI18n({
   messages
 })
 
-export const t = (key: string) => key
-
 export default i18n

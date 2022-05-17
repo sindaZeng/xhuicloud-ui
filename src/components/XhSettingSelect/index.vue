@@ -23,7 +23,7 @@
   -->
 
 <template>
-  <el-dialog :title='$t(`msg.settingLayout`)' :model-value='modelValue' @close='closed' width='22%' append-to-body>
+  <el-dialog :title='$t(`msg.settingLayout`)' :model-value="settingsVisible" @close='closed' width='22%' append-to-body>
     <div class='content'>
       <div class='item'>
         <span class='title'>{{ $t('msg.themeColor') }}</span>
@@ -51,8 +51,8 @@ import useStore from '@/store'
 
 const { theme } = useStore()
 
-defineProps({
-  modelValue: {
+const props = defineProps({
+  settingsVisible: {
     type: Boolean,
     required: true
   }
@@ -77,10 +77,10 @@ const cardStyle = computed({
 })
 const themeColor = ref(theme.getThemeColor)
 
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:settingsVisible'])
 
 function closed () {
-  emits('update:modelValue', false)
+  emits('update:settingsVisible', false)
 }
 
 async function confirm () {

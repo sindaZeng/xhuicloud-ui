@@ -27,7 +27,6 @@ import { storageLocal } from '@/utils/storage'
 import { encryption } from '@/utils/encrypt'
 import setting from '@/config/setting.config'
 import { LoginForm, AuthInfo, SysUser, UserInfo } from '@/api/upms/entity/user'
-import { Menu } from '@/api/upms/entity/menu'
 import { Tenant } from '@/api/upms/entity/tenant'
 import { loginApi, logout, refreshToken } from '@/api/upms/auth'
 import { getUserInfo } from '@/api/upms/user'
@@ -37,7 +36,6 @@ export interface UserState {
   tenant: Tenant | null;
   tenantId?: number;
   sysUser: SysUser | null;
-  userMenus: Menu[] | null;
   permissions: any;
   roles?: string[];
 }
@@ -47,7 +45,6 @@ const useUserStore = defineStore('user', {
     authInfo: null,
     tenant: null,
     sysUser: null,
-    userMenus: null,
     permissions: null
   }),
   getters: {
@@ -65,9 +62,6 @@ const useUserStore = defineStore('user', {
     },
     getTenantId (): number {
       return this.tenant?.id || storageLocal.getItem<Tenant>(setting.tenant)?.id
-    },
-    getUserMenus (): Menu[] {
-      return this.userMenus || storageLocal.getItem<Menu[]>(setting.userMenus)
     },
     getPermissions (): any {
       return this.permissions
@@ -94,10 +88,6 @@ const useUserStore = defineStore('user', {
         list[item] = true
       })
       this.permissions = list
-    },
-    setUserMenus (userMenus: Menu[]) {
-      this.userMenus = userMenus
-      storageLocal.setItem(setting.userMenus, userMenus)
     },
     setRoles (roles: string[] = []) {
       this.roles = roles

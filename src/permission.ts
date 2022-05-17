@@ -29,7 +29,6 @@ import { isNullAndUnDef } from '@/utils/is'
 import useStore from '@/store'
 import { toRouteType } from '@/router/types'
 import { getMenu } from '@/api/upms/menu'
-import { RouteRecordRaw } from 'vue-router'
 
 const whiteList = ['/login', '/auth-redirect']
 
@@ -48,8 +47,8 @@ router.beforeEach(async (to: toRouteType, _from, next) => {
         user.getUserInfo()
       } else {
         const res = await getMenu()
-        const userRoutes: any = await permission.initRoutes(res)
-        userRoutes.forEach((route: any) => {
+        const userRoutes = await permission.initRoutes(res)
+        userRoutes.forEach((route) => {
           router.addRoute(route)
         })
         const { fullPath, meta, path, params, query } = to

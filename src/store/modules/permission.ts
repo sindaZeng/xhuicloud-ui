@@ -26,23 +26,29 @@ import { defineStore } from 'pinia'
 import { RouteRecordRaw } from 'vue-router'
 import commonsRoutes from '@/router/commons'
 import layout from '@/layout/index.vue'
+import i18n from '@/i18n'
 
-interface Permission {
-  routes: RouteRecordRaw[];
+interface XhRoute {
+    routes: RouteRecordRaw[];
 }
 
 const modules = import.meta.glob('../../views/**/**.vue')
 
 const usePermissionStore = defineStore('permission', {
 
-  state: (): Permission => ({
+  state: (): XhRoute => ({
     routes: []
   }),
+  getters: {
+    getRoutes (): RouteRecordRaw[] {
+      return this.routes
+    }
+  },
   actions: {
     setRoutes (routes: RouteRecordRaw[]) {
       this.routes = commonsRoutes.concat(routes)
     },
-    async initRoutes (routes: RouteRecordRaw[]) {
+    async initRoutes (routes: RouteRecordRaw[]): Promise<RouteRecordRaw[]> {
       const res: RouteRecordRaw[] = []
       routes.forEach((route) => {
         const tmp = { ...route } as any
@@ -56,12 +62,14 @@ const usePermissionStore = defineStore('permission', {
             tmp.component = modules['../../views/error-page/404.vue']
           }
         }
+        tmp.meta = { title: tmp.title, internationalization: 'menu.' + tmp.internationalization, icon: tmp.icon }
         res.push(tmp)
 
         if (tmp.children) {
           tmp.children = this.initRoutes(tmp.children)
         }
       })
+      this.setRoutes(res)
       return res
     }
   }

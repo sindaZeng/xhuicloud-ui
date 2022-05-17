@@ -48,7 +48,7 @@
         <el-dropdown trigger='click'>
           <el-button
               type='primary'
-              size="mini">
+              size="small">
             更多
             <el-icon style="vertical-align: middle;">
               <ArrowDown/>

@@ -24,9 +24,9 @@
 import rgbHex from 'rgb-hex'
 import axios from 'axios'
 import colorConvert from 'css-color-function'
+import elementPlus from 'element-plus/package.json'
 
-// element-ui version from node_modules
-const version = import('element-plus/package.json').version
+const version = elementPlus.version
 
 const formula = {
   'shade-1': 'color(primary shade(10%))',

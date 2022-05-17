@@ -30,7 +30,7 @@ const commonsRoutes: Array<RouteRecordRaw> = [
     name: 'login',
     component: () => import('@/layout/Login/index.vue'),
     meta: {
-      tagView: false
+      hidden: true
     }
   },
   {
@@ -43,9 +43,8 @@ const commonsRoutes: Array<RouteRecordRaw> = [
         component: () => import('@/views/home/index.vue'),
         name: 'home',
         meta: {
-          internationalization: 'home',
-          title: 'home',
-          icon: 'home'
+          icon: 'home',
+          internationalization: 'home'
         }
       }
     ]

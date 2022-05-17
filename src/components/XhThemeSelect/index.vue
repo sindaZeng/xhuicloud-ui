@@ -34,7 +34,7 @@
     </template>
   </el-dropdown>
   <div>
-    <settingSelect v-model='settingsVisible'></settingSelect>
+    <settingSelect v-model:settingsVisible='settingsVisible'></settingSelect>
   </div>
 </template>
 
