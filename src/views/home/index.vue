@@ -1,11 +1,17 @@
 
 <template>
-  <div class=''><XhIconView></XhIconView></div>
+  <div class=''>
+    {{ page }}
+    <el-button @click='handleSizeChange(1)'>handleSizeChange</el-button>
+    <el-button @click='handleCurrentChange(2)'>handleCurrentChange</el-button>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import XhIconView from '@/components/XhIconView/index.vue'
 
+import { usePagination } from '@/hooks/usePagination'
+
+const { page, handleSizeChange, handleCurrentChange } = usePagination()
 </script>
 
 <style lang='scss' scoped>
