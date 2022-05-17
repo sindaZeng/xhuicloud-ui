@@ -82,10 +82,9 @@ defineProps({
 
 const icons = [] as string[]
 
-const localSvgModules = import.meta.globEager('../../icons/svg/*.svg')
-
+const localSvgModules = import.meta.glob('../../assets/svg/*.svg')
 for (const path in localSvgModules) {
-  const p = path.split('icons/svg/')[1].split('.svg')[0]
+  const p = path.split('assets/svg/')[1].split('.svg')[0]
   icons.push(p)
 }
 
