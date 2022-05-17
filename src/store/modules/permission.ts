@@ -26,9 +26,8 @@ import { defineStore } from 'pinia'
 import { RouteRecordRaw } from 'vue-router'
 import commonsRoutes from '@/router/commons'
 import layout from '@/layout/index.vue'
-import i18n from '@/i18n'
 
-interface XhRoute {
+export interface XhRoute {
     routes: RouteRecordRaw[];
 }
 

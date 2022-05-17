@@ -51,7 +51,7 @@ import useStore from '@/store'
 
 const { theme } = useStore()
 
-const props = defineProps({
+defineProps({
   settingsVisible: {
     type: Boolean,
     required: true
