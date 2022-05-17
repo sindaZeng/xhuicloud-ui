@@ -26,6 +26,9 @@ import { App } from 'vue'
 import xhSvg from '@/components/XhSvg/index.vue'
 import xhLang from '@/components/XhLangSelect/index.vue'
 
+/**
+ * 全局注册组件
+ */
 export default {
   install: (app: App) => {
     app.component('xh-svg', xhSvg)
