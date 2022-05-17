@@ -42,16 +42,13 @@
 <script lang='ts' setup>
 import { defineProps } from 'vue'
 import MenuItem from './MenuItem.vue'
-import { isNullOrUnDef } from '@/utils/is'
 
-const props = defineProps({
+defineProps({
   route: {
     type: Object,
     required: true
   }
 })
-console.log(props.route)
-console.log(!isNullOrUnDef(props.route.meta) && props.route.meta.hidden)
 
 </script>
 
