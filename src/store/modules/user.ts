@@ -121,8 +121,12 @@ const useUserStore = defineStore('user', {
       })
     },
     logout () {
-      this.reset()
+      this.cleanAll()
       return logout()
+    },
+    cleanAll () {
+      this.reset()
+      storageLocal.clear()
     }
   }
 })

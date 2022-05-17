@@ -24,6 +24,7 @@
 
 import { XhAxios } from './xhAxios'
 import useStore from '@/store'
+import { useRouter } from 'vue-router'
 import { AxiosResponse } from 'axios'
 import { XhAxiosHandler } from '@/utils/http/xhAxiosHandler'
 import { Response } from '~/axios'
@@ -51,11 +52,7 @@ const handler: XhAxiosHandler = {
     if (!Reflect.has(res.data, 'code')) {
       return res.data
     }
-    const {
-      code,
-      msg,
-      data
-    } = res.data
+    const { code, msg, data } = res.data
     if (data && code === 0) {
       return data
     }
@@ -71,7 +68,9 @@ const handler: XhAxiosHandler = {
       ElMessage.error('网络开小差啦~')
       return Promise.reject(error)
     } else if (status === 401) {
-      // todo 删除缓存
+      const { user } = useStore()
+      user.cleanAll()
+      window.location.reload()
     }
     return Promise.reject(error)
   }
