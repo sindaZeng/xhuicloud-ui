@@ -254,7 +254,7 @@
     </el-drawer>
     <!--  新增/修改  -->
     <div class='createOrUpdateDialog'>
-      <slot name='createOrUpdateDialog' :row='getFormData' :title='createOrUpdateDialogTitle'
+      <slot name='createOrUpdateDialog' :row='_formData' :title='createOrUpdateDialogTitle'
             :status='getCreateOrUpdateDialog'>
         <el-dialog
           v-model='createOrUpdateDialog'
@@ -326,8 +326,7 @@
               <el-button @click='toClose'>{{ $t(`button.cancel`) }}</el-button>
               <el-button
                 type='primary'
-                @click='createOrUpdateDialogTitle === `edit` ? toUpdate() : toSave()'>{{ $t(`button.confirm`)
-                }}</el-button>
+                @click='createOrUpdateDialogTitle === `edit` ? toUpdate() : toSave()'>{{ $t(`button.confirm`) }}</el-button>
             </span>
           </template>
         </el-dialog>
@@ -435,10 +434,6 @@ const emits = defineEmits(['uploadSuccess', 'beforeUpload', 'getTableData', 'toD
 
 const getCreateOrUpdateDialog = computed(() => {
   return createOrUpdateDialog
-})
-
-const getFormData = computed(() => {
-  return _formData
 })
 
 const tableColumns = computed(() => {
