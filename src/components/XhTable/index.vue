@@ -349,68 +349,9 @@ import {
   View
 } from '@element-plus/icons-vue'
 import setting from '@/config/setting.config'
+import { tableProps } from '@/components/XhTable/table'
 
-const props = defineProps({
-  searchLoading: {
-    type: Boolean,
-    default: false
-  },
-  tableLoading: {
-    type: Boolean,
-    default: false
-  },
-  page: {
-    type: Object,
-    required: false
-  },
-  formData: {
-    type: Object,
-    required: false
-  },
-  pageLayout: {
-    type: String,
-    default: 'total, sizes,  prev, pager, next, jumper'
-  },
-  pageSizes: {
-    type: Array,
-    default: () => {
-      return [10, 20, 30, 50]
-    }
-  },
-  tableData: {
-    type: Array,
-    default: () => {
-      return []
-    }
-  },
-  uploadData: {
-    type: Object,
-    required: false,
-    default: () => {
-      return {
-        headers: {},
-        action: ''
-      }
-    }
-  },
-  tableAttributes: {
-    type: Object,
-    required: true
-  },
-  permission: {
-    type: Object,
-    required: false,
-    default: () => {
-      return {
-        addBtn: false,
-        editBtn: false,
-        delBtn: false,
-        importBtn: false,
-        exportBtn: false
-      }
-    }
-  }
-})
+const props = defineProps(tableProps)
 
 const _tableData = ref([])
 

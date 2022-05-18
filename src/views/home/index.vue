@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 
-import { usePagination } from '@/hooks/usePagination'
+import { usePagination } from '@/components/XhTable/hooks/usePagination'
 
 const { page, handleSizeChange, handleCurrentChange } = usePagination()
 </script>

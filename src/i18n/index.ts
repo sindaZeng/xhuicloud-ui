@@ -27,7 +27,7 @@ import { storageLocal } from '@/utils/storage'
 import messages from '@intlify/vite-plugin-vue-i18n/messages'
 import setting from '@/config/setting.config'
 
-const locale = storageLocal.getItem<string>(setting.languageKey)
+const locale = storageLocal.getItem<string>(setting.languageKey) || setting.language
 
 const i18n = createI18n({
   locale,

@@ -23,8 +23,8 @@
  */
 
 import { ref } from 'vue'
-import { Page } from '~/axios'
 import { isFunction } from '@/utils/is'
+import { Page } from '../types/page'
 
 export function usePagination (getPaginationData?: () => void) {
   const page = ref<Page>({
