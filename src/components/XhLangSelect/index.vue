@@ -31,8 +31,8 @@
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item :disabled='app.getLang === `zhCn`' command='zhCn'>中文</el-dropdown-item>
-        <el-dropdown-item :disabled='app.getLang === `en`' command='en'>English</el-dropdown-item>
+        <el-dropdown-item :disabled='lang === `zhCn`' command='zhCn'>中文</el-dropdown-item>
+        <el-dropdown-item :disabled='lang === `en`' command='en'>English</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
@@ -41,10 +41,11 @@
 <script lang='ts' setup>
 import i18n from '@/i18n'
 import useStore from '@/store'
-import { defineProps } from 'vue'
+import { computed, defineProps } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const { app } = useStore()
+
 defineProps({
   effect: {
     type: String,
@@ -54,6 +55,8 @@ defineProps({
     }
   }
 })
+
+const lang = computed(() => app.getLang)
 
 function handleSetLang (lang: string) {
   i18n.global.locale.value = lang

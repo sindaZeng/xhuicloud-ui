@@ -22,17 +22,14 @@
  * @Email:  xhuicloud@163.com
  */
 
-export * from './XhBreadcrumb'
-export * from './XhCard'
-export * from './XhCharts'
-export * from './XhDraggable'
-export * from './XhHamburger'
-export * from './XhIconView'
-export * from './XhLangSelect'
-export * from './XhMessage'
-export * from './XhScreenfull'
-export * from './XhSettingSelect'
-export * from './XhSidebar'
-export * from './XhSvg'
-export * from './XhTagView'
-export * from './XhThemeSelect'
+import MenuItem from './MenuItem.vue'
+import SidebarItem from './SidebarItem.vue'
+import SidebarMenu from './SidebarMenu.vue'
+
+import { withInstall } from '@/utils/install'
+
+const menuItem = withInstall(MenuItem)
+const sidebarItem = withInstall(SidebarItem)
+const sidebarMenu = withInstall(SidebarMenu)
+
+export default { menuItem, sidebarItem, sidebarMenu }

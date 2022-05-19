@@ -27,7 +27,7 @@
     <div class='message' v-for='item in numMsg' :key='item'>
       <div class='message-body'>
         <div class='message-body-icon'>
-          <xhui-svg icon='message'></xhui-svg>
+          <xh-svg icon='message'></xh-svg>
         </div>
         <div class='message-body-content'>
           <p style='font-size: 18px;font-weight: 600;padding-bottom: 5px'>消费金</p>

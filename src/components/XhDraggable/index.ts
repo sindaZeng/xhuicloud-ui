@@ -22,17 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-export * from './XhBreadcrumb'
-export * from './XhCard'
-export * from './XhCharts'
-export * from './XhDraggable'
-export * from './XhHamburger'
-export * from './XhIconView'
-export * from './XhLangSelect'
-export * from './XhMessage'
-export * from './XhScreenfull'
-export * from './XhSettingSelect'
-export * from './XhSidebar'
-export * from './XhSvg'
-export * from './XhTagView'
-export * from './XhThemeSelect'
+import XhDraggable from './index.vue'
+
+import { withInstall } from '@/utils/install'
+
+const xhDraggable = withInstall(XhDraggable)
+
+export { xhDraggable }
+
+export default xhDraggable

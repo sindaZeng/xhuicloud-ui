@@ -31,6 +31,12 @@
     "types": ["@intlify/vite-plugin-vue-i18n/client"]
   },
   // 读取文件
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "types"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "types",
+    "node_modules/element-plus/global.d.ts"],
   "exclude": ["node_modules"]
 }

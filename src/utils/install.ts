@@ -22,17 +22,13 @@
  * @Email:  xhuicloud@163.com
  */
 
-export * from './XhBreadcrumb'
-export * from './XhCard'
-export * from './XhCharts'
-export * from './XhDraggable'
-export * from './XhHamburger'
-export * from './XhIconView'
-export * from './XhLangSelect'
-export * from './XhMessage'
-export * from './XhScreenfull'
-export * from './XhSettingSelect'
-export * from './XhSidebar'
-export * from './XhSvg'
-export * from './XhTagView'
-export * from './XhThemeSelect'
+import type { App, Plugin } from 'vue'
+
+export type SFCWithInstall<T> = T & Plugin
+
+export const withInstall = <T>(comp: T) => {
+  (comp as SFCWithInstall<T>).install = function (app: App) {
+    app.component((comp as any).name, comp)
+  }
+  return comp as SFCWithInstall<T>
+}

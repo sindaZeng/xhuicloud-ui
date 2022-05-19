@@ -22,17 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-export * from './XhBreadcrumb'
-export * from './XhCard'
-export * from './XhCharts'
-export * from './XhDraggable'
-export * from './XhHamburger'
-export * from './XhIconView'
-export * from './XhLangSelect'
-export * from './XhMessage'
-export * from './XhScreenfull'
-export * from './XhSettingSelect'
-export * from './XhSidebar'
-export * from './XhSvg'
-export * from './XhTagView'
-export * from './XhThemeSelect'
+import XhMessage from './index.vue'
+
+import { withInstall } from '@/utils/install'
+
+const xhMessage = withInstall(XhMessage)
+
+export { xhMessage }
+
+export default xhMessage
