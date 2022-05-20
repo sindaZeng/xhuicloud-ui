@@ -2,12 +2,12 @@
   "compilerOptions": {
     "outDir": "./dist",
     "target": "esnext",
+    "module": "esnext",
     "useDefineForClassFields": true,
     // 生成.d.ts文件
     "declaration": true,
     "allowJs": true,
     "checkJs": false,
-    "module": "esnext",
     "moduleResolution": "node",
     "removeComments": true,
     "strict": true,
@@ -21,22 +21,32 @@
     "isolatedModules": true,
     "noUnusedParameters": false,
     "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "skipLibCheck": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "~/*": ["types/*"]
-    },
-    "types": ["@intlify/vite-plugin-vue-i18n/client"]
+      "@/*": [
+        "src/*"
+      ],
+      "~/*": [
+        "types/*"
+      ]
+    }
   },
   // 读取文件
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
-    "src/**/*.tsx",
     "src/**/*.vue",
     "types",
-    "node_modules/element-plus/global.d.ts"],
-  "exclude": ["node_modules"]
+    "vite.config.ts",
+    "node_modules/element-plus/global.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

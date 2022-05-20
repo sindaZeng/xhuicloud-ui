@@ -24,7 +24,6 @@
 
 import { XhAxios } from './xhAxios'
 import useStore from '@/store'
-import { useRouter } from 'vue-router'
 import { AxiosResponse } from 'axios'
 import { XhAxiosHandler } from '@/utils/http/xhAxiosHandler'
 import { Response } from '~/axios'

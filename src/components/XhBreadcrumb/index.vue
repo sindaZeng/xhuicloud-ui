@@ -28,7 +28,7 @@
       <transition-group name='breadcrumb'>
         <el-breadcrumb-item v-for='(item, index) in breadcrumbData' :key='item.path'>
           <span v-if='index === breadcrumbData.length - 1' class='no-redirect'>{{ $t('menu.' + item.meta.title)
-            }}</span>
+          }}</span>
           <span v-else class='redirect' @click='handleLink(item)'>{{ $t('menu.' + item.meta.title) }}</span>
         </el-breadcrumb-item>
       </transition-group>
@@ -44,13 +44,13 @@ const route = useRoute()
 
 const router = useRouter()
 
-function handleLink (item: RouteLocationMatched) {
+function handleLink(item: RouteLocationMatched) {
   router.push(item.path)
 }
 
 const breadcrumbData = ref<RouteLocationMatched[]>([])
 
-function getBreadcrumbData () {
+function getBreadcrumbData() {
   breadcrumbData.value = route.matched.filter(item => item.meta && item.meta.title)
 }
 

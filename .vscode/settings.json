@@ -1,0 +1,45 @@
+{
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "volar.tsPlugin": true,
+    "volar.tsPluginStatus": false,
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "eslint.probe": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "html",
+        "vue",
+        "markdown",
+        "json",
+        "jsonc"
+    ],
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "html",
+        "vue",
+        "markdown",
+    ],
+    "i18n-ally.localesPaths": "src/i18n/locale",
+    "i18n-ally.sourceLanguage": "zhCn",
+    "i18n-ally.displayLanguage": "zhCn",
+    "i18n-ally.enabledParsers": [
+        "yaml"
+    ],
+    "i18n-ally.enabledFrameworks": [
+        "vue"
+    ],
+    "i18n-ally.keystyle": "nested",
+    "cSpell.words": [
+        "pinia",
+        "vite",
+        "vitejs",
+        "unplugin",
+        "intlify"
+      ]
+}

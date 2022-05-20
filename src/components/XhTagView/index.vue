@@ -26,15 +26,11 @@
   <div class='tag-view-container'>
     <div class="tags-box">
       <div class="tabs">
-        <el-tabs v-model="activeTag"
-                 :closable='app.getTagViews.length > 1'
-                 type="card"
-                 v-on:contextmenu.prevent="openContextmenu($event)"
-                 v-on:tab-click='tabClick'
-                 v-on:edit="delTagView">
+        <el-tabs v-model="activeTag" :closable='app.getTagViews.length > 1' type="card"
+          v-on:contextmenu.prevent="openContextmenu($event)" v-on:tab-click='tabClick' v-on:edit="delTagView">
           <el-tab-pane v-for='item in app.getTagViews' :key='item.name' :name='item.path'>
             <template #label>
-              <menu-item :title='$t(`menu.`+ item.meta.internationalization)' :icon='item.meta.icon'></menu-item>
+              <menu-item :title='$t(`menu.` + item.meta.internationalization)' :icon='item.meta.icon'></menu-item>
             </template>
           </el-tab-pane>
         </el-tabs>
@@ -46,12 +42,10 @@
       </div>
       <div class="tabs-more">
         <el-dropdown trigger='click'>
-          <el-button
-              type='primary'
-              size="small">
+          <el-button type='primary' size="small">
             更多
             <el-icon style="vertical-align: middle;">
-              <ArrowDown/>
+              <ArrowDown />
             </el-icon>
           </el-button>
           <template #dropdown>
@@ -95,9 +89,9 @@ const contextmenuStyle = ref({
 watch(route, (to) => {
   activeTag.value = to.path
 },
-{
-  immediate: true
-})
+  {
+    immediate: true
+  })
 
 watch(visible, value => {
   if (value) {
@@ -107,7 +101,7 @@ watch(visible, value => {
   }
 })
 
-function tabClick (pane: TabsPaneContext) {
+function tabClick(pane: TabsPaneContext) {
   let tag: HomeTag
   app.getTagViews.forEach(tagView => {
     if (tagView.path === pane.props.name) {
@@ -120,7 +114,7 @@ function tabClick (pane: TabsPaneContext) {
   })
 }
 
-function openContextmenu (e: any) {
+function openContextmenu(e: any) {
   const { x, y } = e
   contextmenuStyle.value.left = x + 'px'
   contextmenuStyle.value.top = y + 'px'
@@ -128,14 +122,14 @@ function openContextmenu (e: any) {
   visible.value = !visible.value
 }
 
-function closeContextmenu () {
+function closeContextmenu() {
   visible.value = false
 }
 /**
  * 关闭当前
  * @param index
  */
-function delTagView (path: string, action: string) {
+function delTagView(path: string, action: string) {
   if (action === 'remove') {
     app.delTagView(path)
     if (isActive(path)) {
@@ -148,7 +142,7 @@ function delTagView (path: string, action: string) {
  * 关闭其他
  * @param index
  */
-function delOtherTagView (path: string) {
+function delOtherTagView(path: string) {
   app.delOtherTagView(path)
   pushLastView()
 }
@@ -157,7 +151,7 @@ function delOtherTagView (path: string) {
  * 关闭其他
  * @param index
  */
-function delAllTagViews () {
+function delAllTagViews() {
   app.delAllTagViews()
   pushLastView()
 }
@@ -165,7 +159,7 @@ function delAllTagViews () {
 /**
  * 去到上一个视图
  */
-function pushLastView () {
+function pushLastView() {
   const latestView = app.getTagViews.slice(-1)[0]
   if (latestView) {
     router.push(latestView.path || latestView.fullPath)
@@ -179,7 +173,7 @@ function pushLastView () {
  * @param path
  * @returns {boolean}
  */
-function isActive (path: string) {
+function isActive(path: string) {
   return path === route.path
 }
 </script>
