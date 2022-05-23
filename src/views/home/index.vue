@@ -1,19 +1,17 @@
-
 <template>
-  <div class=''>
+  <div class="">
+    <XhCard></XhCard>
     {{ page }}
-    <el-button @click='handleSizeChange(1)'>handleSizeChange</el-button>
-    <el-button @click='handleCurrentChange(2)'>handleCurrentChange</el-button>
+    <el-button @click="handleSizeChange(1)">handleSizeChange</el-button>
+    <el-button @click="handleCurrentChange(2)">handleCurrentChange</el-button>
   </div>
 </template>
 
 <script lang="ts" setup>
+  import { usePagination } from '@/components/XhTable/hooks/usePagination'
+  import XhCard from '@/components/XhCard/index.vue'
 
-import { usePagination } from '@/components/XhTable/hooks/usePagination'
-
-const { page, handleSizeChange, handleCurrentChange } = usePagination()
+  const { page, handleSizeChange, handleCurrentChange } = usePagination()
 </script>
 
-<style lang='scss' scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -23,51 +23,50 @@
   -->
 
 <template>
-  <div
-    class="card-container">
-    <el-card v-if='theme.getCardStyles' :body-style='bodyStyle' :shadow='shadow'>
-      <template #header v-if="$slots.header">
-        <slot name="header"/>
+  <div class="card-container">
+    <el-card v-if="theme.getCardStyles" :body-style="bodyStyle" :shadow="shadow">
+      <template v-if="$slots.header" #header>
+        <slot name="header" />
       </template>
-      <slot/>
+      <slot />
     </el-card>
-    <slot v-else/>
+    <slot v-else />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue'
-import useStore from '@/store'
+  import { defineProps } from 'vue'
+  import useStore from '@/store'
 
-const { theme } = useStore()
+  const { theme } = useStore()
 
-defineProps({
-  bodyStyle: {
-    type: Object,
-    required: false
-  },
-  shadow: {
-    type: String,
-    required: false
-  }
-})
+  defineProps({
+    bodyStyle: {
+      type: Object,
+      required: false
+    },
+    shadow: {
+      type: String,
+      required: false
+    }
+  })
 </script>
 
-<style lang='scss' scoped>
-.card-container {
-  padding: 8px 10px;
-  border-radius: 10px;
-  box-sizing: border-box;
+<style lang="scss" scoped>
+  .card-container {
+    padding: 8px 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
 
-  .el-card {
-    width: 100%;
-  }
-
-  &--block {
-    height: 100%;
     .el-card {
+      width: 100%;
+    }
+
+    &--block {
       height: 100%;
+      .el-card {
+        height: 100%;
+      }
     }
   }
-}
 </style>

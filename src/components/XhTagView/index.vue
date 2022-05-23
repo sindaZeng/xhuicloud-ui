@@ -23,35 +23,41 @@
   -->
 
 <template>
-  <div class='tag-view-container'>
+  <div class="tag-view-container">
     <div class="tags-box">
       <div class="tabs">
-        <el-tabs v-model="activeTag" :closable='app.getTagViews.length > 1' type="card"
-          v-on:contextmenu.prevent="openContextmenu($event)" v-on:tab-click='tabClick' v-on:edit="delTagView">
-          <el-tab-pane v-for='item in app.getTagViews' :key='item.name' :name='item.path'>
+        <el-tabs
+          v-model="activeTag"
+          :closable="app.getTagViews.length > 1"
+          type="card"
+          @contextmenu.prevent="openContextmenu($event)"
+          @tab-click="tabClick"
+          @edit="delTagView"
+        >
+          <el-tab-pane v-for="item in app.getTagViews" :key="item.name" :name="item.path">
             <template #label>
-              <menu-item :title='$t(`menu.` + item.meta.internationalization)' :icon='item.meta.icon'></menu-item>
+              <menu-item :title="$t(`menu.` + item.meta.internationalization)" :icon="item.meta.icon"></menu-item>
             </template>
           </el-tab-pane>
         </el-tabs>
         <ul v-show="visible" :style="contextmenuStyle" class="contextmenu">
-          <li @click='delTagView(contextmenuTag, `remove`)'>{{ $t(`tags.close`) }}</li>
-          <li @click='delOtherTagView(contextmenuTag)'>{{ $t(`tags.closeOthers`) }}</li>
-          <li @click='delAllTagViews'>{{ $t(`tags.closeAll`) }}</li>
+          <li @click="delTagView(contextmenuTag, `remove`)">{{ $t(`tags.close`) }}</li>
+          <li @click="delOtherTagView(contextmenuTag)">{{ $t(`tags.closeOthers`) }}</li>
+          <li @click="delAllTagViews">{{ $t(`tags.closeAll`) }}</li>
         </ul>
       </div>
       <div class="tabs-more">
-        <el-dropdown trigger='click'>
-          <el-button type='primary' size="small">
+        <el-dropdown trigger="click">
+          <el-button type="primary" size="small">
             更多
-            <el-icon style="vertical-align: middle;">
+            <el-icon style="vertical-align: middle">
               <ArrowDown />
             </el-icon>
           </el-button>
           <template #dropdown>
-            <el-dropdown-menu class='user-dropdown'>
-              <el-dropdown-item @click='delOtherTagView(contextmenuTag)'>{{ $t(`tags.closeOthers`) }}</el-dropdown-item>
-              <el-dropdown-item @click='delAllTagViews'>{{ $t(`tags.closeAll`) }}</el-dropdown-item>
+            <el-dropdown-menu class="user-dropdown">
+              <el-dropdown-item @click="delOtherTagView(contextmenuTag)">{{ $t(`tags.closeOthers`) }}</el-dropdown-item>
+              <el-dropdown-item @click="delAllTagViews">{{ $t(`tags.closeAll`) }}</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -61,122 +67,124 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { TabsPaneContext } from 'element-plus'
-import { ArrowDown } from '@element-plus/icons-vue'
-import MenuItem from '@/components/XhSidebar/MenuItem.vue'
-import { HomeTag } from '~/homeTag'
-import useStore from '@/store'
+  import { ref, watch } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+  import { TabsPaneContext } from 'element-plus'
+  import { ArrowDown } from '@element-plus/icons-vue'
+  import MenuItem from '@/components/XhSidebar/MenuItem.vue'
+  import { HomeTag } from '~/homeTag'
+  import useStore from '@/store'
 
-const { app } = useStore()
+  const { app } = useStore()
 
-const router = useRouter()
+  const router = useRouter()
 
-const route = useRoute()
+  const route = useRoute()
 
-const activeTag = ref('')
+  const activeTag = ref('')
 
-const contextmenuTag = ref('')
+  const contextmenuTag = ref('')
 
-const visible = ref(false)
+  const visible = ref(false)
 
-const contextmenuStyle = ref({
-  left: '0',
-  top: '0'
-})
+  const contextmenuStyle = ref({
+    left: '0',
+    top: '0'
+  })
 
-watch(route, (to) => {
-  activeTag.value = to.path
-},
-{
-  immediate: true
-})
+  watch(
+    route,
+    (to) => {
+      activeTag.value = to.path
+    },
+    {
+      immediate: true
+    }
+  )
 
-watch(visible, value => {
-  if (value) {
-    document.body.addEventListener('click', closeContextmenu)
-  } else {
-    document.body.removeEventListener('click', closeContextmenu)
-  }
-})
-
-function tabClick(pane: TabsPaneContext) {
-  let tag: HomeTag
-  app.getTagViews.forEach(tagView => {
-    if (tagView.path === pane.props.name) {
-      tag = tagView
+  watch(visible, (value) => {
+    if (value) {
+      document.body.addEventListener('click', closeContextmenu)
+    } else {
+      document.body.removeEventListener('click', closeContextmenu)
     }
   })
-  router.push({
-    path: tag!.path,
-    query: tag!.query
-  })
-}
 
-function openContextmenu(e: any) {
-  const { x, y } = e
-  contextmenuStyle.value.left = x + 'px'
-  contextmenuStyle.value.top = y + 'px'
-  contextmenuTag.value = e.target.getAttribute('aria-controls').slice(5)
-  visible.value = !visible.value
-}
+  function tabClick(pane: TabsPaneContext) {
+    let tag: HomeTag
+    app.getTagViews.forEach((tagView) => {
+      if (tagView.path === pane.props.name) {
+        tag = tagView
+      }
+    })
+    router.push({
+      path: tag!.path,
+      query: tag!.query
+    })
+  }
 
-function closeContextmenu() {
-  visible.value = false
-}
-/**
- * 关闭当前
- * @param index
- */
-function delTagView(path: string, action: string) {
-  if (action === 'remove') {
-    app.delTagView(path)
-    if (isActive(path)) {
-      pushLastView()
+  function openContextmenu(e: any) {
+    const { x, y } = e
+    contextmenuStyle.value.left = x + 'px'
+    contextmenuStyle.value.top = y + 'px'
+    contextmenuTag.value = e.target.getAttribute('aria-controls').slice(5)
+    visible.value = !visible.value
+  }
+
+  function closeContextmenu() {
+    visible.value = false
+  }
+  /**
+   * 关闭当前
+   * @param index
+   */
+  function delTagView(path: string, action: string) {
+    if (action === 'remove') {
+      app.delTagView(path)
+      if (isActive(path)) {
+        pushLastView()
+      }
     }
   }
-}
 
-/**
- * 关闭其他
- * @param index
- */
-function delOtherTagView(path: string) {
-  app.delOtherTagView(path)
-  pushLastView()
-}
-
-/**
- * 关闭其他
- * @param index
- */
-function delAllTagViews() {
-  app.delAllTagViews()
-  pushLastView()
-}
-
-/**
- * 去到上一个视图
- */
-function pushLastView() {
-  const latestView = app.getTagViews.slice(-1)[0]
-  if (latestView) {
-    router.push(latestView.path || latestView.fullPath)
-  } else {
-    router.push('/')
+  /**
+   * 关闭其他
+   * @param index
+   */
+  function delOtherTagView(path: string) {
+    app.delOtherTagView(path)
+    pushLastView()
   }
-}
 
-/**
- * 是否当前
- * @param path
- * @returns {boolean}
- */
-function isActive(path: string) {
-  return path === route.path
-}
+  /**
+   * 关闭其他
+   * @param index
+   */
+  function delAllTagViews() {
+    app.delAllTagViews()
+    pushLastView()
+  }
+
+  /**
+   * 去到上一个视图
+   */
+  function pushLastView() {
+    const latestView = app.getTagViews.slice(-1)[0]
+    if (latestView) {
+      router.push(latestView.path || latestView.fullPath)
+    } else {
+      router.push('/')
+    }
+  }
+
+  /**
+   * 是否当前
+   * @param path
+   * @returns {boolean}
+   */
+  function isActive(path: string) {
+    return path === route.path
+  }
 </script>
 
-<style lang='scss'>
-</style>
+<style lang="scss"></style>

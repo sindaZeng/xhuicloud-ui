@@ -23,26 +23,24 @@
   -->
 
 <template>
-  <i v-if='icon.includes(`el-icon`)' class='sub-el-icon' :class='icon'></i>
-  <xh-svg v-else :icon='icon'></xh-svg>
+  <i v-if="icon.includes(`el-icon`)" class="sub-el-icon" :class="icon"></i>
+  <xh-svg v-else :icon="icon"></xh-svg>
   <span>{{ title }}</span>
 </template>
 
-<script lang='ts' setup>
-import { defineProps } from 'vue'
+<script lang="ts" setup>
+  import { defineProps } from 'vue'
 
-defineProps({
-  title: {
-    type: String,
-    required: true
-  },
-  icon: {
-    type: String,
-    required: true
-  }
-})
+  defineProps({
+    title: {
+      type: String,
+      required: true
+    },
+    icon: {
+      type: String,
+      required: true
+    }
+  })
 </script>
 
-<style lang='scss' scoped>
-
-</style>
+<style lang="scss" scoped></style>

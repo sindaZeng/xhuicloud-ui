@@ -24,42 +24,38 @@
 
 <template>
   <div>
-    <el-menu :uniqueOpened='true'
-             :background-color='menuBg'
-             :collapse='!app.getSidebarStatus'
-             :default-active='activeMenu'
-             :text-color='theme.getThemeCss.menuText'
-             :active-text-color='theme.getThemeCss.menuActiveText'
-             router>
-      <sidebar-item v-for='item in menus'
-                    :key='item.path'
-                    :route='item'>
-      </sidebar-item>
+    <el-menu
+      :unique-opened="true"
+      :background-color="menuBg"
+      :collapse="!app.getSidebarStatus"
+      :default-active="activeMenu"
+      :text-color="theme.getThemeCss.menuText"
+      :active-text-color="theme.getThemeCss.menuActiveText"
+      router
+    >
+      <sidebar-item v-for="item in menus" :key="item.path" :route="item"> </sidebar-item>
     </el-menu>
   </div>
 </template>
 
-<script lang='ts' setup>
-import SidebarItem from './SidebarItem.vue'
-import { computed } from 'vue'
-import { RouteRecordRaw, useRoute } from 'vue-router'
-import useStore from '@/store'
+<script lang="ts" setup>
+  import SidebarItem from './SidebarItem.vue'
+  import { computed } from 'vue'
+  import { RouteRecordRaw, useRoute } from 'vue-router'
+  import useStore from '@/store'
 
-const { permission, app, theme } = useStore()
+  const { permission, app, theme } = useStore()
 
-const menuBg = computed<string>(() => {
-  return theme.getThemeCss.menuBg
-})
+  const menuBg = computed<string>(() => {
+    return theme.getThemeCss.menuBg
+  })
 
-const menus = computed<RouteRecordRaw[]>(() => {
-  return permission.getRoutes
-})
-const activeMenu = computed(() => {
-  return useRoute().path
-})
-
+  const menus = computed<RouteRecordRaw[]>(() => {
+    return permission.getRoutes
+  })
+  const activeMenu = computed(() => {
+    return useRoute().path
+  })
 </script>
 
-<style lang='scss' scoped>
-
-</style>
+<style lang="scss" scoped></style>

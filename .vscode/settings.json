@@ -1,50 +1,45 @@
 {
-    "typescript.tsdk": "./node_modules/typescript/lib",
-    // 保存时自动格式化
-    "editor.formatOnSave": true,
-    // 关闭根据文件类型设置缩进
-    "editor.detectIndentation": false,
-    // 统一缩进
-    "editor.tabSize": 2,
-    "eslint.probe": [
-        "javascript",
-        "javascriptreact",
-        "typescript",
-        "typescriptreact",
-        "html",
-        "vue",
-        "markdown",
-        "json",
-        "jsonc"
-    ],
-    "eslint.validate": [
-        "javascript",
-        "javascriptreact",
-        "typescript",
-        "typescriptreact",
-        "html",
-        "vue",
-        "markdown",
-    ],
-    "i18n-ally.localesPaths": "src/i18n/locale",
-    "i18n-ally.sourceLanguage": "zhCn",
-    "i18n-ally.displayLanguage": "zhCn",
-    "i18n-ally.enabledParsers": [
-        "yaml"
-    ],
-    "i18n-ally.enabledFrameworks": [
-        "vue"
-    ],
-    "i18n-ally.keystyle": "nested",
-    "cSpell.words": [
-        "pinia",
-        "vite",
-        "vitejs",
-        "unplugin",
-        "intlify",
-        "xhuicloud",
-        "echarts",
-        "screenfull",
-        "vuedraggable"
-      ]
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "volar.tsPlugin": true,
+  "volar.tsPluginStatus": false,
+  // 关闭代码地图
+  "explorer.openEditors.visible": 0,
+  // 保存时自动格式化
+  "editor.formatOnSave": true,
+  // 关闭根据文件类型设置缩进
+  "editor.detectIndentation": false,
+  // 统一缩进
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // 控制在差异编辑器中是否把前导空格或尾随空格的改动显示为差异
+  "diffEditor.ignoreTrimWhitespace": false,
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "vue",
+    "markdown",
+    "json",
+    "jsonc"
+  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "html", "vue", "markdown"],
+  "i18n-ally.localesPaths": "src/i18n/locale",
+  "i18n-ally.sourceLanguage": "zhCn",
+  "i18n-ally.displayLanguage": "zhCn",
+  "i18n-ally.enabledParsers": ["yaml"],
+  "i18n-ally.enabledFrameworks": ["vue"],
+  "i18n-ally.keystyle": "nested",
+  "cSpell.words": [
+    "pinia",
+    "vite",
+    "vitejs",
+    "unplugin",
+    "intlify",
+    "xhuicloud",
+    "echarts",
+    "screenfull",
+    "vuedraggable"
+  ]
 }

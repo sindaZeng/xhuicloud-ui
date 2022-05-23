@@ -24,6 +24,19 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    'space-before-function-paren': 0
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_'
+      }
+    ],
+    'no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_'
+      }
+    ]
   }
 }
