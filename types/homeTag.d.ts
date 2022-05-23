@@ -23,9 +23,9 @@
  */
 
 export interface HomeTag {
-  fullPath: string,
-  meta: any,
-  params: any,
-  path: string,
+  fullPath: string
+  meta: any
+  params: any
+  path: string
   query: any
 }

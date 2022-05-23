@@ -43,7 +43,7 @@
   defineProps({
     bodyStyle: {
       type: Object,
-      default: {},
+      default: null,
       required: false
     },
     shadow: {

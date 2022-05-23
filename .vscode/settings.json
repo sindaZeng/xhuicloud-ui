@@ -32,6 +32,7 @@
   "i18n-ally.enabledFrameworks": ["vue"],
   "i18n-ally.keystyle": "nested",
   "cSpell.words": [
+    "Sinda",
     "pinia",
     "vite",
     "vitejs",

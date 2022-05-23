@@ -34,7 +34,7 @@
           @tab-click="tabClick"
           @edit="delTagView"
         >
-          <el-tab-pane v-for="item in app.getTagViews" :key="item.name" :name="item.path">
+          <el-tab-pane v-for="item in app.getTagViews" :key="item.path" :name="item.path">
             <template #label>
               <menu-item :title="$t(`menu.` + item.meta.internationalization)" :icon="item.meta.icon"></menu-item>
             </template>
@@ -72,7 +72,6 @@
   import { TabsPaneContext } from 'element-plus'
   import { ArrowDown } from '@element-plus/icons-vue'
   import MenuItem from '@/components/XhSidebar/MenuItem.vue'
-  import { HomeTag } from '~/homeTag'
   import useStore from '@/store'
 
   const { app } = useStore()
@@ -111,15 +110,13 @@
   })
 
   function tabClick(pane: TabsPaneContext) {
-    let tag: HomeTag
     app.getTagViews.forEach((tagView) => {
       if (tagView.path === pane.props.name) {
-        tag = tagView
+        router.push({
+          path: tagView.path,
+          query: tagView.query
+        })
       }
-    })
-    router.push({
-      path: tag!.path,
-      query: tag!.query
     })
   }
 
