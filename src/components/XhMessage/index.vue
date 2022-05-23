@@ -23,52 +23,47 @@
   -->
 
 <template>
-  <div class='message-box' v-infinite-scroll="load" :infinite-scroll-delay='200' :infinite-scroll-distance='50'>
-    <div class='message' v-for='item in numMsg' :key='item'>
-      <div class='message-body'>
-        <div class='message-body-icon'>
-          <xh-svg icon='message'></xh-svg>
+  <div v-infinite-scroll="load" class="message-box" :infinite-scroll-delay="200" :infinite-scroll-distance="50">
+    <div v-for="item in numMsg" :key="item" class="message">
+      <div class="message-body">
+        <div class="message-body-icon">
+          <xh-svg icon="message"></xh-svg>
         </div>
-        <div class='message-body-content'>
-          <p style='font-size: 18px;font-weight: 600;padding-bottom: 5px'>消费金</p>
-          <p style='font-size: 15px;color: #8c939d;padding-bottom: 20px;'>消费金待领取通知</p>
-          <div class='message-body-content-footer'>
-            <p style='font-size: 10px;color: #021c40'>星期一</p>
+        <div class="message-body-content">
+          <p style="font-size: 18px; font-weight: 600; padding-bottom: 5px">消费金</p>
+          <p style="font-size: 15px; color: #8c939d; padding-bottom: 20px">消费金待领取通知</p>
+          <div class="message-body-content-footer">
+            <p style="font-size: 10px; color: #021c40">星期一</p>
             <el-button type="text">查看详情</el-button>
           </div>
         </div>
       </div>
-      <div class='message-delete'>
-        <el-button
-          style='border-color: red'
-          :icon='Close'
-          size='default'
-          circle
-        ></el-button>
+      <div class="message-delete">
+        <el-button style="border-color: red" :icon="Close" size="default" circle></el-button>
       </div>
     </div>
-    <el-divider v-if='loadEnd'>我也是有底线的</el-divider>
+    <el-divider v-if="loadEnd">我也是有底线的</el-divider>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Close } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+  import { Close } from '@element-plus/icons-vue'
+  import { ref } from 'vue'
 
-const numMsg = ref(0)
+  const numMsg = ref(0)
 
-const loadEnd = ref(false)
+  const loadEnd = ref(false)
 
-// TODO 加载
-const load = () => {
-  if (numMsg.value > 10) {
-    loadEnd.value = true
-    return
+  // TODO 加载
+  const load = () => {
+    if (numMsg.value > 10) {
+      loadEnd.value = true
+      return
+    }
+    numMsg.value += 4
   }
-  numMsg.value += 4
-}
 </script>
 
-<style lang='scss' scoped>
-@import "@/styles/message-box.scss";
+<style lang="scss" scoped>
+  @import '@/styles/message-box.scss';
 </style>

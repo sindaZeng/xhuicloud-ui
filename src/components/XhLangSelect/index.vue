@@ -23,49 +23,46 @@
   -->
 
 <template>
-  <el-dropdown class='international' trigger='click' @command='handleSetLang'>
+  <el-dropdown class="international" trigger="click" @command="handleSetLang">
     <div>
-      <el-tooltip :content='$t(`msg.international`)' :effect='effect'>
-        <xh-svg icon='language'></xh-svg>
+      <el-tooltip :content="$t(`msg.international`)" :effect="effect">
+        <xh-svg icon="language"></xh-svg>
       </el-tooltip>
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item :disabled='lang === `zhCn`' command='zhCn'>中文</el-dropdown-item>
-        <el-dropdown-item :disabled='lang === `en`' command='en'>English</el-dropdown-item>
+        <el-dropdown-item :disabled="lang === `zhCn`" command="zhCn">中文</el-dropdown-item>
+        <el-dropdown-item :disabled="lang === `en`" command="en">English</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
 </template>
 
-<script lang='ts' setup>
-import i18n from '@/i18n'
-import useStore from '@/store'
-import { computed, defineProps } from 'vue'
-import { ElMessage } from 'element-plus'
+<script lang="ts" setup>
+  import i18n from '@/i18n'
+  import useStore from '@/store'
+  import { computed, defineProps } from 'vue'
+  import { ElMessage } from 'element-plus'
 
-const { app } = useStore()
+  const { app } = useStore()
 
-defineProps({
-  effect: {
-    type: String,
-    default: 'dark',
-    validator (value: string) {
-      return ['dark', 'light'].indexOf(value) !== -1
+  defineProps({
+    effect: {
+      type: String,
+      default: 'dark',
+      validator(value: string) {
+        return ['dark', 'light'].indexOf(value) !== -1
+      }
     }
+  })
+
+  const lang = computed(() => app.getLang)
+
+  function handleSetLang(lang: string) {
+    i18n.global.locale.value = lang
+    app.setLang(lang)
+    ElMessage.success(i18n.global.t('msg.langSuccess'))
   }
-})
-
-const lang = computed(() => app.getLang)
-
-function handleSetLang (lang: string) {
-  i18n.global.locale.value = lang
-  app.setLang(lang)
-  ElMessage.success(i18n.global.t('msg.langSuccess'))
-}
-
 </script>
 
-<style lang='scss' scoped>
-
-</style>
+<style lang="scss" scoped></style>

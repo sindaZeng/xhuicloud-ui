@@ -33,7 +33,10 @@ const setting = {
   // 单位/毫秒  监听token过期刷新
   expiredPeriod: 6000000,
   // 当有值时候会在登录页展示版权信息
-  copyright: process.env.NODE_ENV === 'production' ? '<a href=\'http://beian.miit.gov.cn\' target="view_window">粤ICP备2022008047号-1</a>' : '版权信息',
+  copyright:
+    process.env.NODE_ENV === 'production'
+      ? '<a href=\'http://beian.miit.gov.cn\' target="view_window">粤ICP备2022008047号-1</a>'
+      : '版权信息',
   ossPath: 'http://127.0.0.1:9000',
   language: 'zhCn',
   languageKey: 'languageKey',

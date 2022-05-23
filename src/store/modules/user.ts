@@ -32,12 +32,12 @@ import { loginApi, logout, refreshToken } from '@/api/upms/auth'
 import { getUserInfo } from '@/api/upms/user'
 
 export interface UserState {
-  authInfo: AuthInfo | null;
-  tenant: Tenant | null;
-  tenantId?: number;
-  sysUser: SysUser | null;
-  permissions: any;
-  roles?: string[];
+  authInfo: AuthInfo | null
+  tenant: Tenant | null
+  tenantId?: number
+  sysUser: SysUser | null
+  permissions: any
+  roles?: string[]
 }
 
 const useUserStore = defineStore('user', {
@@ -48,57 +48,57 @@ const useUserStore = defineStore('user', {
     permissions: null
   }),
   getters: {
-    getSysUser (): SysUser {
+    getSysUser(): SysUser {
       return this.sysUser || {}
     },
-    getToken (): string {
+    getToken(): string {
       return this.authInfo?.access_token || storageLocal.getItem<AuthInfo>(setting.authInfo)?.access_token
     },
-    getRefreshToken (): string {
+    getRefreshToken(): string {
       return this.authInfo?.refresh_token || storageLocal.getItem<AuthInfo>(setting.authInfo)?.refresh_token
     },
-    getTenant (): Tenant {
+    getTenant(): Tenant {
       return this.tenant || storageLocal.getItem<Tenant>(setting.tenant)
     },
-    getTenantId (): number {
+    getTenantId(): number {
       return this.tenant?.id || storageLocal.getItem<Tenant>(setting.tenant)?.id
     },
-    getPermissions (): any {
+    getPermissions(): any {
       return this.permissions
     }
   },
   actions: {
-    async reset () {
+    async reset() {
       this.$reset()
     },
-    setAuthInfo (authInfo: AuthInfo) {
+    setAuthInfo(authInfo: AuthInfo) {
       this.authInfo = authInfo
       storageLocal.setItem(setting.authInfo, authInfo)
     },
-    setTenant (tenant: Tenant) {
+    setTenant(tenant: Tenant) {
       this.tenant = tenant
       storageLocal.setItem(setting.tenant, tenant)
     },
-    setSysUser (sysUser: SysUser) {
+    setSysUser(sysUser: SysUser) {
       this.sysUser = sysUser
     },
-    setPermissions (permissions: string[]) {
+    setPermissions(permissions: string[]) {
       const list: any = {}
-      permissions.forEach(item => {
+      permissions.forEach((item) => {
         list[item] = true
       })
       this.permissions = list
     },
-    setRoles (roles: string[] = []) {
+    setRoles(roles: string[] = []) {
       this.roles = roles
     },
-    setTenantId (tenantId: number) {
+    setTenantId(tenantId: number) {
       if (this.tenant) {
         this.tenant.id = tenantId
       }
       storageLocal.setItem(setting.tenant, this.tenant)
     },
-    async login (loginInfo: LoginForm): Promise<UserInfo | null> {
+    async login(loginInfo: LoginForm): Promise<UserInfo | null> {
       try {
         const data = await loginApi(encryption(loginInfo, setting.aesIv, ['password']))
         this.setAuthInfo(data)
@@ -107,24 +107,27 @@ const useUserStore = defineStore('user', {
         return Promise.reject(error)
       }
     },
-    async getUserInfo (): Promise<UserInfo | null> {
+    async getUserInfo(): Promise<UserInfo | null> {
       const res = await getUserInfo()
       this.setSysUser(res.sysUser)
       this.setPermissions(res.permissions)
       this.setRoles(res.roles)
       return res
     },
-    async refreshToken () {
-      return this.authInfo && refreshToken(this.authInfo.refresh_token).then(response => {
-        this.setAuthInfo(response)
-        return response
-      })
+    async refreshToken() {
+      return (
+        this.authInfo &&
+        refreshToken(this.authInfo.refresh_token).then((response) => {
+          this.setAuthInfo(response)
+          return response
+        })
+      )
     },
-    logout () {
+    logout() {
       this.cleanAll()
       return logout()
     },
-    cleanAll () {
+    cleanAll() {
       this.reset()
       storageLocal.clear()
     }

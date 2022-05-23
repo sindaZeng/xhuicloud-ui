@@ -36,30 +36,30 @@ const useThemeStore = defineStore('theme', {
     themeColor: theme.themeColor
   }),
   getters: {
-    getThemeCss (): any {
+    getThemeCss(): any {
       return { ...this.variables, menuActiveText: this.themeColor }
     },
-    showSidebarLogo (): boolean {
+    showSidebarLogo(): boolean {
       return this.sidebarLogo || storageLocal.getItem<boolean>(theme.sidebarLogo)
     },
-    getCardStyles (): boolean {
+    getCardStyles(): boolean {
       return this.cardStyle || storageLocal.getItem<boolean>(theme.cardStyle)
     },
-    getThemeColor (): string {
+    getThemeColor(): string {
       return this.themeColor || storageLocal.getItem<string>(theme.themeKey)
     }
   },
   actions: {
-    setThemeColor (themeColor: string) {
+    setThemeColor(themeColor: string) {
       storageLocal.setItem(theme.themeKey, themeColor)
       this.themeColor = themeColor
       this.variables.navbarBg = themeColor
     },
-    setSidebarLogo (sidebarLogo = true) {
+    setSidebarLogo(sidebarLogo = true) {
       storageLocal.setItem(theme.sidebarLogo, sidebarLogo)
       this.sidebarLogo = sidebarLogo
     },
-    setCardStyle (cardStyle = true) {
+    setCardStyle(cardStyle = true) {
       storageLocal.setItem(theme.cardStyle, cardStyle)
       this.cardStyle = cardStyle
     }

@@ -30,14 +30,13 @@ export const router: Router = createRouter({
   history: historyMode(),
   routes: commonsRoutes,
   strict: true,
-  scrollBehavior (to, from, savedPosition) {
-    return new Promise(resolve => {
+  scrollBehavior(to, from, savedPosition) {
+    return new Promise((resolve) => {
       if (savedPosition && to.meta.keepAlive) {
         return savedPosition
       } else {
         if (from.meta.saveSrollTop) {
-          const top: number =
-            document.documentElement.scrollTop || document.body.scrollTop
+          const top: number = document.documentElement.scrollTop || document.body.scrollTop
           resolve({ left: 0, top })
         }
       }

@@ -23,17 +23,17 @@
   -->
 
 <template>
-  <div class='app-container' :class='[app.getSidebarStatus ? `openSidebar` : `closeSidebar`]'>
-    <div class='left-body'>
+  <div class="app-container" :class="[app.getSidebarStatus ? `openSidebar` : `closeSidebar`]">
+    <div class="left-body">
       <!-- 左侧菜单 -->
-      <sidebar/>
+      <sidebar />
     </div>
-    <div class='right-body'>
-      <div class='header-container'>
+    <div class="right-body">
+      <div class="header-container">
         <!-- 顶部 navbar -->
         <navbar />
       </div>
-      <div class='main-container'>
+      <div class="main-container">
         <!--  标签      -->
         <tag-view />
         <!-- main -->
@@ -44,69 +44,67 @@
 </template>
 
 <script lang="ts" setup>
-import Navbar from './Navbar/index.vue'
-import Sidebar from './Sidebar/index.vue'
-import TagView from '@/components/XhTagView/index.vue'
-import AppMain from './AppMain/index.vue'
-import { ref, onUnmounted, onMounted } from 'vue'
-import setting from '@/config/setting.config'
-import { checkToken } from '@/api/upms/auth'
-import useStore from '@/store'
+  import Navbar from './Navbar/index.vue'
+  import Sidebar from './Sidebar/index.vue'
+  import TagView from '@/components/XhTagView/index.vue'
+  import AppMain from './AppMain/index.vue'
+  import { ref, onUnmounted, onMounted } from 'vue'
+  import setting from '@/config/setting.config'
+  import { checkToken } from '@/api/upms/auth'
+  import useStore from '@/store'
 
-const { user, app } = useStore()
+  const { user, app } = useStore()
 
-const refreshTime = ref(0)
+  const refreshTime = ref(0)
 
-function onCreate () {
-  refreshTime.value = window.setInterval(() => {
-    if (user.getToken && user.getRefreshToken) {
-      checkToken(user.getToken).then(response => {
-        const exp = response && response.data && response.data.exp
-        if (exp && exp - new Date().getTime() <= setting.expiredPeriod) {
-          user.refreshToken().catch(() => {
-            window.clearInterval(refreshTime.value)
-          })
-        }
-      })
-    }
-  }, setting.expiredPeriod)
-}
+  function onCreate() {
+    refreshTime.value = window.setInterval(() => {
+      if (user.getToken && user.getRefreshToken) {
+        checkToken(user.getToken).then((response) => {
+          const exp = response && response.data && response.data.exp
+          if (exp && exp - new Date().getTime() <= setting.expiredPeriod) {
+            user.refreshToken().catch(() => {
+              window.clearInterval(refreshTime.value)
+            })
+          }
+        })
+      }
+    }, setting.expiredPeriod)
+  }
 
-onMounted(() => onCreate())
+  onMounted(() => onCreate())
 
-onUnmounted(() => window.clearInterval(refreshTime.value))
-
+  onUnmounted(() => window.clearInterval(refreshTime.value))
 </script>
 
-<style lang='scss' scoped>
-//@import "~@/styles/variables.scss";
+<style lang="scss" scoped>
+  //@import "~@/styles/variables.scss";
 
-.app-container {
-  width: 100%;
-  height: 100%;
-  background-size: 100%;
-  background: #f0f2f5 no-repeat;
-
-  .right-body {
-    top: 50px;
-    right: 0;
-    margin-left: $sideBarWidth;
-    z-index: 9;
-    height: 100%;
-    position: fixed;
+  .app-container {
     width: 100%;
+    height: 100%;
+    background-size: 100%;
+    background: #f0f2f5 no-repeat;
 
-    transition: width #{$sidebarTransition};
-
-    .header-container {
-      position: fixed;
-      top: 0;
+    .right-body {
+      top: 50px;
       right: 0;
-      height: 50px;
-      width: calc(100% - #{$sideBarWidth});
+      margin-left: $sideBarWidth;
+      z-index: 9;
+      height: 100%;
+      position: fixed;
+      width: 100%;
+
       transition: width #{$sidebarTransition};
+
+      .header-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 50px;
+        width: calc(100% - #{$sideBarWidth});
+        transition: width #{$sidebarTransition};
+      }
     }
   }
-}
-
 </style>

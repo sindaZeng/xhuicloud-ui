@@ -25,25 +25,23 @@
 <template>
   <div class="app-main">
     <router-view v-slot="{ Component, route }">
-      <keep-alive v-if='!route.keepAlive'>
-        <component :is="Component" :key='route.path'/>
+      <keep-alive v-if="!route.keepAlive">
+        <component :is="Component" :key="route.path" />
       </keep-alive>
-      <component v-else :is="Component" :key='route.path'/>
+      <component :is="Component" v-else :key="route.path" />
     </router-view>
-    <el-backtop :right="50" :bottom="50" target='.app-main'/>
+    <el-backtop :right="50" :bottom="50" target=".app-main" />
   </div>
 </template>
 
-<script lang='ts' setup>
-</script>
+<script lang="ts" setup></script>
 
 <style lang="scss" scoped>
-.app-main {
-  height: calc(100vh - 90px);
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 10px 10px 0;
-}
-
+  .app-main {
+    height: calc(100vh - 90px);
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px 10px 0;
+  }
 </style>

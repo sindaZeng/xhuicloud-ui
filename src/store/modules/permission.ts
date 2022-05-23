@@ -28,26 +28,25 @@ import commonsRoutes from '@/router/commons'
 import layout from '@/layout/index.vue'
 
 export interface XhRoute {
-    routes: RouteRecordRaw[];
+  routes: RouteRecordRaw[]
 }
 
 const modules = import.meta.glob('../../views/**/**.vue')
 
 const usePermissionStore = defineStore('permission', {
-
   state: (): XhRoute => ({
     routes: []
   }),
   getters: {
-    getRoutes (): RouteRecordRaw[] {
+    getRoutes(): RouteRecordRaw[] {
       return this.routes
     }
   },
   actions: {
-    setRoutes (routes: RouteRecordRaw[]) {
+    setRoutes(routes: RouteRecordRaw[]) {
       this.routes = commonsRoutes.concat(routes)
     },
-    async initRoutes (routes: RouteRecordRaw[]): Promise<RouteRecordRaw[]> {
+    async initRoutes(routes: RouteRecordRaw[]): Promise<RouteRecordRaw[]> {
       const res: RouteRecordRaw[] = []
       routes.forEach((route) => {
         const tmp = { ...route } as any

@@ -23,50 +23,48 @@
   -->
 
 <template>
-    <div class='logo-container' v-if='theme.showSidebarLogo' :style='{ background: theme.getThemeCss.navbarBg }'>
-      <img :src="user.getTenant.logo" class="sidebar-logo" >
-      <h1 class='logo-title' style='color: black' v-if='app.getSidebarStatus'>{{ name }}</h1>
-    </div>
-    <el-scrollbar>
-      <sidebar-menu></sidebar-menu>
-    </el-scrollbar>
+  <div v-if="theme.showSidebarLogo" class="logo-container" :style="{ background: theme.getThemeCss.navbarBg }">
+    <img :src="user.getTenant.logo" class="sidebar-logo" />
+    <h1 v-if="app.getSidebarStatus" class="logo-title" style="color: black">{{ name }}</h1>
+  </div>
+  <el-scrollbar>
+    <sidebar-menu></sidebar-menu>
+  </el-scrollbar>
 </template>
 
-<script lang='ts' setup>
-import useStore from '@/store'
-import SidebarMenu from '@/components/XhSidebar/SidebarMenu.vue'
+<script lang="ts" setup>
+  import useStore from '@/store'
+  import SidebarMenu from '@/components/XhSidebar/SidebarMenu.vue'
 
-const { app, user, theme } = useStore()
+  const { app, user, theme } = useStore()
 
-const name = user.getTenant.name
-
+  const name = user.getTenant.name
 </script>
 
 <style lang="scss" scoped>
-.logo-container {
-  position: relative;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  overflow: hidden;
-}
+  .logo-container {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    overflow: hidden;
+  }
 
-.sidebar-logo {
-  width: 32px;
-  height: 32px;
-  vertical-align: middle;
+  .sidebar-logo {
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+  }
 
-}
-
-.logo-title {
-  display: inline-block;
-  color: black;
-  font-weight: 600;
-  line-height: 50px;
-  font-size: 14px;
-  font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
-  vertical-align: middle;
-  margin-left: 12px;
-}
+  .logo-title {
+    display: inline-block;
+    color: black;
+    font-weight: 600;
+    line-height: 50px;
+    font-size: 14px;
+    font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+    vertical-align: middle;
+    margin-left: 12px;
+  }
 </style>

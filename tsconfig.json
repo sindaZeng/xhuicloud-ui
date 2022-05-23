@@ -21,19 +21,13 @@
     "isolatedModules": true,
     "noUnusedParameters": false,
     "esModuleInterop": true,
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "types": ["@intlify/vite-plugin-vue-i18n/client"],
+    "lib": ["esnext", "dom"],
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "~/*": [
-        "types/*"
-      ]
+      "@/*": ["src/*"],
+      "~/*": ["types/*"]
     }
   },
   // 读取文件
@@ -45,8 +39,5 @@
     "vite.config.ts",
     "node_modules/element-plus/global.d.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }

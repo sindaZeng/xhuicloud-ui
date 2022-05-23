@@ -23,34 +23,32 @@
   -->
 
 <template>
-  <div class='' @click='onToggle'>
-    <xh-svg :icon='isScreenfull ? `screenfull-exit` : `screenfull`'></xh-svg>
+  <div class="" @click="onToggle">
+    <xh-svg :icon="isScreenfull ? `screenfull-exit` : `screenfull`"></xh-svg>
   </div>
 </template>
 
-<script lang='ts' setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import screenfull from 'screenfull'
+<script lang="ts" setup>
+  import { ref, onMounted, onUnmounted } from 'vue'
+  import screenfull from 'screenfull'
 
-const isScreenfull = ref(false)
+  const isScreenfull = ref(false)
 
-function change () {
-  isScreenfull.value = screenfull.isFullscreen
-}
+  function change() {
+    isScreenfull.value = screenfull.isFullscreen
+  }
 
-onMounted(() => {
-  screenfull.on('change', change)
-})
+  onMounted(() => {
+    screenfull.on('change', change)
+  })
 
-onUnmounted(() => {
-  screenfull.off('change', change)
-})
+  onUnmounted(() => {
+    screenfull.off('change', change)
+  })
 
-function onToggle () {
-  screenfull.toggle()
-}
+  function onToggle() {
+    screenfull.toggle()
+  }
 </script>
 
-<style lang='scss' scoped>
-
-</style>
+<style lang="scss" scoped></style>

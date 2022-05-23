@@ -23,26 +23,26 @@
   -->
 
 <template>
-  <div class="navbar" :style='{ background: theme.getThemeCss.navbarBg }'>
-    <hamburger class='hamburger-container'/>
-    <breadcrumb class='breadcrumb-container'/>
-    <div class='right-menu'>
-      <screenfull class='right-menu-item hover-effect'/>
-      <themeSelect class='right-menu-item hover-effect'/>
-      <langSelect class='right-menu-item hover-effect'/>
-      <el-dropdown class='avatar-container' trigger='click'>
-        <div class='avatar-wrapper'>
-          <el-avatar shape='square' :size='40' :src='user.getSysUser.avatar'></el-avatar>
+  <div class="navbar" :style="{ background: theme.getThemeCss.navbarBg }">
+    <XhHamburger class="hamburger-container" />
+    <XhBreadcrumb class="breadcrumb-container" />
+    <div class="right-menu">
+      <XhScreenfull class="right-menu-item hover-effect" />
+      <XhThemeSelect class="right-menu-item hover-effect" />
+      <XhLangSelect class="right-menu-item hover-effect" />
+      <el-dropdown class="avatar-container" trigger="click">
+        <div class="avatar-wrapper">
+          <el-avatar shape="square" :size="40" :src="user.getSysUser.avatar"></el-avatar>
         </div>
         <template #dropdown>
-          <el-dropdown-menu class='user-dropdown'>
-            <router-link to='/'>
+          <el-dropdown-menu class="user-dropdown">
+            <router-link to="/">
               <el-dropdown-item>{{ $t('msg.homePage') }}</el-dropdown-item>
             </router-link>
-            <router-link to='/'>
+            <router-link to="/">
               <el-dropdown-item>{{ $t('msg.userInfo') }}</el-dropdown-item>
             </router-link>
-            <el-dropdown-item divided @click='logout'>{{ $t('msg.logout') }}</el-dropdown-item>
+            <el-dropdown-item divided @click="logout">{{ $t('msg.logout') }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -50,78 +50,77 @@
   </div>
 </template>
 
-<script lang='ts' setup>
-import { useRouter } from 'vue-router'
-import useStore from '@/store'
-import Breadcrumb from '@/components/XhBreadcrumb/index.vue'
-import LangSelect from '@/components/XhLangSelect/index.vue'
-import Hamburger from '@/components/XhHamburger/index.vue'
-import Screenfull from '@/components/XhScreenfull/index.vue'
-import ThemeSelect from '@/components/XhThemeSelect/index.vue'
+<script lang="ts" setup>
+  import { useRouter } from 'vue-router'
+  import useStore from '@/store'
+  import XhThemeSelect from '@/components/XhThemeSelect/index.vue'
+  import XhLangSelect from '@/components/XhLangSelect/index.vue'
+  import XhScreenfull from '@/components/XhScreenfull/index.vue'
+  import XhHamburger from '@/components/XhHamburger/index.vue'
+  import XhBreadcrumb from '@/components/XhBreadcrumb/index.vue'
 
-const router = useRouter()
+  const router = useRouter()
 
-const { user, theme } = useStore()
+  const { user, theme } = useStore()
 
-function logout () {
-  user.logout().then(() => {
-    router.push('/login')
-  })
-}
-
+  function logout() {
+    user.logout().then(() => {
+      router.push('/login')
+    })
+  }
 </script>
 
 <style lang="scss" scoped>
-//@import "~@/styles/variables.scss";
+  //@import "~@/styles/variables.scss";
 
-.navbar {
-  width: 100%;
-  height: 50px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+  .navbar {
+    width: 100%;
+    height: 50px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
-  .hamburger-container {
-    line-height: 46px;
-    height: 100%;
-    float: left;
-    cursor: pointer;
-  }
-
-  .breadcrumb-container {
-    float: left;
-  }
-
-  .right-menu {
-    display: flex;
-    align-items: center;
-    float: right;
-    padding-right: 16px;
-
-    ::v-deep(.right-menu-item) {
-      display: inline-block;
-      padding: 5px 10px 0 0;
-      font-size: 20px;
-      color: #fff;
-      vertical-align: text-bottom;
-
-      &.hover-effect {
-        cursor: pointer;
-      }
+    .hamburger-container {
+      line-height: 46px;
+      height: 100%;
+      float: left;
+      cursor: pointer;
     }
 
-    ::v-deep(.avatar-container) {
-      cursor: pointer;
+    .breadcrumb-container {
+      float: left;
+    }
 
-      .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
+    .right-menu {
+      display: flex;
+      align-items: center;
+      float: right;
+      padding-right: 16px;
 
-        .el-avatar {
-          margin-right: 12px;
+      ::v-deep(.right-menu-item) {
+        display: inline-block;
+        padding: 5px 10px 0 0;
+        font-size: 20px;
+        color: #fff;
+        vertical-align: text-bottom;
+
+        &.hover-effect {
+          cursor: pointer;
+        }
+      }
+
+      ::v-deep(.avatar-container) {
+        cursor: pointer;
+
+        .avatar-wrapper {
+          margin-top: 5px;
+          position: relative;
+
+          .el-avatar {
+            margin-right: 12px;
+          }
         }
       }
     }
   }
-}
 </style>

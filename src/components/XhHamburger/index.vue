@@ -23,35 +23,35 @@
   -->
 
 <template>
-  <div class='hamburger-container' @click='sidebarStatus'>
-    <xh-svg class='hamburger' :icon='icon' />
+  <div class="hamburger-container" @click="sidebarStatus">
+    <xh-svg class="hamburger" :icon="icon" />
   </div>
 </template>
 
-<script lang='ts' setup>
-import { computed } from 'vue'
-import useStore from '@/store'
+<script lang="ts" setup>
+  import { computed } from 'vue'
+  import useStore from '@/store'
 
-const { app } = useStore()
+  const { app } = useStore()
 
-function sidebarStatus () {
-  app.changeSidebarStatus()
-}
+  function sidebarStatus() {
+    app.changeSidebarStatus()
+  }
 
-const icon = computed(() => {
-  return app.getSidebarStatus ? 'hamburger-opened' : 'hamburger-closed'
-})
+  const icon = computed(() => {
+    return app.getSidebarStatus ? 'hamburger-opened' : 'hamburger-closed'
+  })
 </script>
 
-<style lang='scss'>
-.hamburger-container {
-  padding: 0 16px;
+<style lang="scss">
+  .hamburger-container {
+    padding: 0 16px;
 
-  .hamburger {
-    display: inline-block;
-    vertical-align: middle;
-    width: 20px;
-    height: 20px;
+    .hamburger {
+      display: inline-block;
+      vertical-align: middle;
+      width: 20px;
+      height: 20px;
+    }
   }
-}
 </style>

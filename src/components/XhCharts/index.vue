@@ -23,55 +23,54 @@
   -->
 
 <template>
-  <div :id='id' :class="className" :style="{ height, width }"/>
+  <div :id="id" :class="className" :style="{ height, width }" />
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, defineProps, ref } from 'vue'
-import { init, EChartsOption } from 'echarts'
+  import { onMounted, onUnmounted, defineProps, ref } from 'vue'
+  import { init, EChartsOption } from 'echarts'
 
-const chart = ref<any>()
-const props = defineProps({
-  id: {
-    type: String,
-    default: 'xhChart'
-  },
-  className: {
-    type: String,
-    default: ''
-  },
-  width: {
-    type: String,
-    default: '100%',
-    required: true
-  },
-  height: {
-    type: String,
-    default: '100%',
-    required: true
-  },
-  option: {
-    type: Object,
-    required: true
-  }
-})
-
-onMounted(() => {
-  const xhChart = init(document.getElementById(props.id) as HTMLDivElement)
-  xhChart.setOption(props.option as EChartsOption)
-  chart.value = xhChart
-  // 自适应
-  window.addEventListener('resize', () => {
-    chart.value.resize()
+  const chart = ref<any>()
+  const props = defineProps({
+    id: {
+      type: String,
+      default: 'xhChart'
+    },
+    className: {
+      type: String,
+      default: ''
+    },
+    width: {
+      type: String,
+      default: '100%',
+      required: true
+    },
+    height: {
+      type: String,
+      default: '100%',
+      required: true
+    },
+    option: {
+      type: Object,
+      required: true
+    }
   })
-})
 
-onUnmounted(() => {
-  window.removeEventListener('resize', () => {
-    chart.value.resize()
+  onMounted(() => {
+    const xhChart = init(document.getElementById(props.id) as HTMLDivElement)
+    xhChart.setOption(props.option as EChartsOption)
+    chart.value = xhChart
+    // 自适应
+    window.addEventListener('resize', () => {
+      chart.value.resize()
+    })
   })
-})
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', () => {
+      chart.value.resize()
+    })
+  })
 </script>
 
-<style lang='scss' scoped>
-</style>
+<style lang="scss" scoped></style>

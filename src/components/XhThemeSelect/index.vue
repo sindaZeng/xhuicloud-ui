@@ -23,33 +23,30 @@
   -->
 
 <template>
-  <el-dropdown v-bind='$attrs' trigger='click' class='theme' @command='handleSelectTheme'>
+  <el-dropdown v-bind="$attrs" trigger="click" class="theme" @command="handleSelectTheme">
     <div>
-        <xh-svg icon='theme'></xh-svg>
+      <xh-svg icon="theme"></xh-svg>
     </div>
     <template #dropdown>
-      <el-dropdown-menu command='themeColor'>
+      <el-dropdown-menu command="themeColor">
         <el-dropdown-item>{{ $t(`msg.settingLayout`) }}</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
   <div>
-    <settingSelect v-model:settingsVisible='settingsVisible'></settingSelect>
+    <XhSettingSelect v-model:settingsVisible="settingsVisible"></XhSettingSelect>
   </div>
 </template>
 
-<script lang='ts' setup>
-import SettingSelect from '@/components/XhSettingSelect/index.vue'
-import { ref } from 'vue'
+<script lang="ts" setup>
+  import { ref } from 'vue'
+  import XhSettingSelect from '../XhSettingSelect/index.vue'
 
-function handleSelectTheme () {
-  settingsVisible.value = true
-}
+  function handleSelectTheme() {
+    settingsVisible.value = true
+  }
 
-const settingsVisible = ref(false)
-
+  const settingsVisible = ref(false)
 </script>
 
-<style lang='scss' scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -37,7 +37,6 @@ const defaultHomeTag: HomeTag = {
 }
 
 const useAppStore = defineStore('app', {
-
   state: () => ({
     tagViews: [defaultHomeTag],
     tagView: '',
@@ -46,29 +45,32 @@ const useAppStore = defineStore('app', {
   }),
 
   getters: {
-    getTagViews (): HomeTag[] {
+    getTagViews(): HomeTag[] {
       return this.tagViews || storageLocal.getItem<HomeTag[]>(setting.tagViewsKey)
     },
-    getTagView (): string {
+    getTagView(): string {
       return this.tagView || storageLocal.getItem<string>(setting.tagViewKey)
     },
     getSidebarStatus: (state) => state.sidebarStatus,
     getLang: (state) => state.lang
   },
   actions: {
-    changeSidebarStatus () {
+    changeSidebarStatus() {
       this.sidebarStatus = !this.sidebarStatus
     },
-    setLang (lang: string) {
+    setLang(lang: string) {
       storageLocal.setItem(setting.languageKey, lang)
       this.lang = lang
     },
-    addTagView (tagView: HomeTag) {
+    addTagView(tagView: HomeTag) {
       this.tagView = tagView.path
       storageLocal.setItem(setting.tagViewKey, this.tagView)
-      if (this.tagViews?.find(item => {
-        return item.path === tagView.path
-      })) return
+      if (
+        this.tagViews?.find((item) => {
+          return item.path === tagView.path
+        })
+      )
+        return
       this.tagViews.push(tagView)
       storageLocal.setItem(setting.tagViewsKey, this.tagViews)
     },
@@ -76,7 +78,7 @@ const useAppStore = defineStore('app', {
      * 根据path删除
      * @param path
      */
-    delTagView (path: string) {
+    delTagView(path: string) {
       this.tagViews.splice(findTagViewsIndex(this.tagViews, path), 1)
       if (this.tagViews.length < 1) {
         this.tagViews.push(defaultHomeTag)
@@ -88,7 +90,7 @@ const useAppStore = defineStore('app', {
      * @param state
      * @param index
      */
-    delOtherTagView (path: string) {
+    delOtherTagView(path: string) {
       const index = findTagViewsIndex(this.tagViews, path)
       // 删除当前右侧
       this.tagViews.splice(index + 1, this.tagViews.length - index + 1)
@@ -100,7 +102,7 @@ const useAppStore = defineStore('app', {
      * 删除所有标签
      * @param state
      */
-    delAllTagViews () {
+    delAllTagViews() {
       this.tagViews = [defaultHomeTag]
       storageLocal.setItem(setting.tagViewsKey, this.tagViews)
     }

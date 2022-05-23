@@ -26,106 +26,95 @@
   <div class="login-container">
     <div class="login-form-container">
       <div class="login-logo-container">
-        <img
-          :src="user.getTenant?.logo || 'https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto'"
-        />
+        <img :src="user.getTenant?.logo || 'https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto'" />
       </div>
-      <langSelect class="login-langSelect hover-effect" />
+      <XhLangSelect class="login-langSelect hover-effect" />
       <h4 class="login-tenantSelect" :style="tenantSelectAnimation">
-        <el-select
-          v-model="active"
-          @change="changeTenant"
-          placeholder="点击请选择租户">
-          <el-option
-            v-for="tenant in tenants"
-            :key="tenant.id"
-            :label="tenant.name"
-            :value="tenant.id">
-          </el-option>
+        <el-select v-model="active" placeholder="点击请选择租户" @change="changeTenant">
+          <el-option v-for="tenant in tenants" :key="tenant.id" :label="tenant.name" :value="tenant.id"> </el-option>
         </el-select>
       </h4>
-      <FormLogin v-if="login.type === 'form'" @tenantWarn="tenantWarn" />
-      <OtherLogin v-if="login.type === 'other'" @tenantWarn="tenantWarn" />
+      <FormLogin v-if="login.type === 'form'" @tenant-warn="tenantWarn" />
+      <OtherLogin v-if="login.type === 'other'" @tenant-warn="tenantWarn" />
       <div class="login-footer-container">
         <el-row>
           <el-col :span="8"
-          ><a href="#">{{ $t('msg.register') }}</a></el-col
+            ><a href="#">{{ $t('msg.register') }}</a></el-col
           >
           <el-col :span="8">
-            <a href="#" @click.stop="selectLoginType">{{
-                $t('msg.' + getLoginType() + 'Login')
-              }}</a>
+            <a href="#" @click.stop="selectLoginType">{{ $t('msg.' + getLoginType() + 'Login') }}</a>
           </el-col>
           <el-col :span="8"
-          ><a href="#">{{ $t('msg.forgetPassword') }}</a></el-col
+            ><a href="#">{{ $t('msg.forgetPassword') }}</a></el-col
           >
         </el-row>
       </div>
     </div>
   </div>
-  <div class="copyright" v-html="setting.copyright"></div>
+  <div class="copyright">
+    <a href="http://beian.miit.gov.cn" target="view_window">粤ICP备2022008047号-1</a>
+  </div>
 </template>
 
-<script lang='ts' setup>
-import { onMounted, ref } from 'vue'
-import { ElNotification } from 'element-plus'
-import FormLogin from './formLogin.vue'
-import OtherLogin from './otherLogin.vue'
-import LangSelect from '@/components/XhLangSelect/index.vue'
-import setting from '@/config/setting.config'
-import useStore from '@/store'
-import { tenantList } from '@/api/upms/tenant'
-import { Tenant } from '@/api/upms/entity/tenant'
+<script lang="ts" setup>
+  import { onMounted, ref } from 'vue'
+  import { ElNotification } from 'element-plus'
+  import FormLogin from './formLogin.vue'
+  import OtherLogin from './otherLogin.vue'
+  import useStore from '@/store'
+  import { tenantList } from '@/api/upms/tenant'
+  import { Tenant } from '@/api/upms/entity/tenant'
+  import XhLangSelect from '@/components/XhLangSelect/index.vue'
 
-const { user } = useStore()
+  const { user } = useStore()
 
-const login = ref({
-  type: 'form'
-})
+  const login = ref({
+    type: 'form'
+  })
 
-const active = ref(user.getTenantId)
+  const active = ref(user.getTenantId)
 
-const tenants = ref<Tenant[]>()
+  const tenants = ref<Tenant[]>()
 
-const tenantSelectAnimation = ref('')
+  const tenantSelectAnimation = ref('')
 
-function selectLoginType () {
-  if (login.value.type === 'other') {
-    login.value.type = 'form'
-  } else {
-    login.value.type = 'other'
+  function selectLoginType() {
+    if (login.value.type === 'other') {
+      login.value.type = 'form'
+    } else {
+      login.value.type = 'other'
+    }
   }
-}
 
-function getLoginType () {
-  if (login.value.type === 'other') {
-    return 'form'
-  } else {
-    return 'other'
+  function getLoginType() {
+    if (login.value.type === 'other') {
+      return 'form'
+    } else {
+      return 'other'
+    }
   }
-}
 
-function changeTenant (val: number) {
-  user.setTenant(tenants.value?.find((item) => item.id === val) as Tenant)
-}
-
-onMounted(async () => {
-  const res = await tenantList()
-  tenants.value = res
-})
-
-function tenantWarn (val: boolean) {
-  if (val) {
-    ElNotification({
-      title: 'Warning',
-      message: '请选择一个租户!',
-      type: 'warning'
-    })
-    tenantSelectAnimation.value = '-webkit-animation: tenantWarn 0.5s linear 2 both;'
+  function changeTenant(val: number) {
+    user.setTenant(tenants.value?.find((item) => item.id === val) as Tenant)
   }
-}
+
+  onMounted(async () => {
+    const res = await tenantList()
+    tenants.value = res
+  })
+
+  function tenantWarn(val: boolean) {
+    if (val) {
+      ElNotification({
+        title: 'Warning',
+        message: '请选择一个租户!',
+        type: 'warning'
+      })
+      tenantSelectAnimation.value = '-webkit-animation: tenantWarn 0.5s linear 2 both;'
+    }
+  }
 </script>
 
 <style lang="scss">
-@import '@/styles/login.scss';
+  @import '@/styles/login.scss';
 </style>

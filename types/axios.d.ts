@@ -23,14 +23,14 @@
  */
 
 export interface Response<T = any> {
-  code: number;
-  msg: string;
-  data: T;
+  code: number
+  msg: string
+  data: T
 }
 
 export interface UploadFile {
-  name?: string;
-  file: File | Blob;
-  filename?: string;
-  [key: string]: any;
+  name?: string
+  file: File | Blob
+  filename?: string
+  [key: string]: any
 }
