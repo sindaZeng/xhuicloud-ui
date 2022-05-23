@@ -43,15 +43,16 @@
   defineProps({
     bodyStyle: {
       type: Object,
+      default: {},
       required: false
     },
     shadow: {
       type: String,
+      default: '',
       required: false
     }
   })
 </script>
-
 <style lang="scss" scoped>
   .card-container {
     padding: 8px 10px;
