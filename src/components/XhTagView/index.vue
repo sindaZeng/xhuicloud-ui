@@ -89,9 +89,9 @@ const contextmenuStyle = ref({
 watch(route, (to) => {
   activeTag.value = to.path
 },
-  {
-    immediate: true
-  })
+{
+  immediate: true
+})
 
 watch(visible, value => {
   if (value) {

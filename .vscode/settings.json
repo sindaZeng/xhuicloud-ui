@@ -1,10 +1,11 @@
 {
     "typescript.tsdk": "./node_modules/typescript/lib",
-    "volar.tsPlugin": true,
-    "volar.tsPluginStatus": false,
+    // 保存时自动格式化
     "editor.formatOnSave": true,
+    // 关闭根据文件类型设置缩进
+    "editor.detectIndentation": false,
+    // 统一缩进
     "editor.tabSize": 2,
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "eslint.probe": [
         "javascript",
         "javascriptreact",
@@ -40,6 +41,10 @@
         "vite",
         "vitejs",
         "unplugin",
-        "intlify"
+        "intlify",
+        "xhuicloud",
+        "echarts",
+        "screenfull",
+        "vuedraggable"
       ]
 }
