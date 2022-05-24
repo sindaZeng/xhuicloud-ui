@@ -33,6 +33,30 @@ export interface XhRoute {
 
 const modules = import.meta.glob('../../views/**/**.vue')
 
+const generator = (routes: RouteRecordRaw[]) => {
+  const res: RouteRecordRaw[] = []
+  routes.forEach((route) => {
+    const tmp = { ...route } as any
+    if (tmp.path === 'Layout' || tmp.path === 'layout') {
+      tmp.component = layout
+    } else {
+      const component = modules[`../../views/${tmp.path}.vue`] as any
+      if (component) {
+        tmp.component = modules[`../../views/${tmp.path}.vue`]
+      } else {
+        tmp.component = modules['../../views/error-page/404.vue']
+      }
+    }
+    tmp.meta = { title: tmp.title, internationalization: 'menu.' + tmp.internationalization, icon: tmp.icon }
+    res.push(tmp)
+
+    if (tmp.children) {
+      tmp.children = generator(tmp.children)
+    }
+  })
+  return res
+}
+
 const usePermissionStore = defineStore('permission', {
   state: (): XhRoute => ({
     routes: []
@@ -47,26 +71,7 @@ const usePermissionStore = defineStore('permission', {
       this.routes = commonsRoutes.concat(routes)
     },
     async initRoutes(routes: RouteRecordRaw[]): Promise<RouteRecordRaw[]> {
-      const res: RouteRecordRaw[] = []
-      routes.forEach((route) => {
-        const tmp = { ...route } as any
-        if (tmp.path === 'Layout' || tmp.path === 'layout') {
-          tmp.component = layout
-        } else {
-          const component = modules[`../../views/${tmp.path}.vue`] as any
-          if (component) {
-            tmp.component = modules[`../../views/${tmp.path}.vue`]
-          } else {
-            tmp.component = modules['../../views/error-page/404.vue']
-          }
-        }
-        tmp.meta = { title: tmp.title, internationalization: 'menu.' + tmp.internationalization, icon: tmp.icon }
-        res.push(tmp)
-
-        if (tmp.children) {
-          tmp.children = this.initRoutes(tmp.children)
-        }
-      })
+      const res = generator(routes)
       this.setRoutes(res)
       return res
     }
