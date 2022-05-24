@@ -32,12 +32,11 @@ import { ElMessage } from 'element-plus'
 const handler: XhAxiosHandler = {
   requestInterceptors: (config) => {
     const { user } = useStore()
-    if ((config as Recordable)?.requestOptions?.withToken !== false &&
-      user.getToken) {
-      (config as Recordable).headers.Authorization = `Bearer ${user.getToken}`
+    if ((config as Recordable)?.requestOptions?.withToken !== false && user.getToken) {
+      ;(config as Recordable).headers.Authorization = `Bearer ${user.getToken}`
     }
     if (user.getTenantId) {
-      (config as Recordable).headers.tenant_id = user.getTenantId
+      ;(config as Recordable).headers.tenant_id = user.getTenantId
     }
     return config
   },
@@ -75,7 +74,7 @@ const handler: XhAxiosHandler = {
   }
 }
 
-function createAxios () {
+function createAxios() {
   return new XhAxios({
     baseURL: import.meta.env.VITE_BASE_API,
     timeout: 5000,

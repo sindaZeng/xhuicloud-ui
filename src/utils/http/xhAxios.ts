@@ -46,7 +46,7 @@ class AxiosCanceler {
   /**
    * TODO 切换路由取消请求
    */
-  removeAllPending () {
+  removeAllPending() {
     pendingMap.forEach((cancel) => {
       cancel && isFunction(cancel) && cancel()
     })
@@ -67,23 +67,18 @@ export class XhAxios {
   private axiosInstance: AxiosInstance
   private readonly config: XhAxiosRequestConfig
 
-  constructor (config: XhAxiosRequestConfig) {
+  constructor(config: XhAxiosRequestConfig) {
     this.config = config
     this.axiosInstance = axios.create(config)
     this.setupInterceptors()
   }
 
-  private setupInterceptors () {
+  private setupInterceptors() {
     const { handler } = this.config
     if (!handler) {
       return
     }
-    const {
-      requestInterceptors,
-      requestCatchHook,
-      responseInterceptors,
-      responseCatchHook
-    } = handler
+    const { requestInterceptors, requestCatchHook, responseInterceptors, responseCatchHook } = handler
 
     const axiosCanceler = new AxiosCanceler()
 
@@ -96,8 +91,8 @@ export class XhAxios {
     }, undefined)
 
     requestCatchHook &&
-    isFunction(requestCatchHook) &&
-    this.axiosInstance.interceptors.request.use(undefined, requestCatchHook)
+      isFunction(requestCatchHook) &&
+      this.axiosInstance.interceptors.request.use(undefined, requestCatchHook)
 
     this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
       res && axiosCanceler.removePending(res.config)
@@ -108,26 +103,23 @@ export class XhAxios {
     }, undefined)
 
     responseCatchHook &&
-    isFunction(responseCatchHook) &&
-    this.axiosInstance.interceptors.response.use(undefined, responseCatchHook)
+      isFunction(responseCatchHook) &&
+      this.axiosInstance.interceptors.response.use(undefined, responseCatchHook)
   }
 
-  getAxios (): AxiosInstance {
+  getAxios(): AxiosInstance {
     return this.axiosInstance
   }
 
-  setHeader (headers: any): void {
+  setHeader(headers: any): void {
     if (!this.axiosInstance) {
       return
     }
     Object.assign(this.axiosInstance.defaults.headers, headers)
   }
 
-  request<T = any> (config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
-    const {
-      requestResultHook,
-      requestCatchHook
-    } = this.config?.handler || {}
+  request<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+    const { requestResultHook, requestCatchHook } = this.config?.handler || {}
     const conf: XhAxiosRequestConfig = cloneDeep(config)
     const { requestOptions } = this.config
     const opt: RequestOptions = Object.assign({}, requestOptions, options)
@@ -160,31 +152,43 @@ export class XhAxios {
     })
   }
 
-  delete<T = any> (config?: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
-    return this.request({
-      ...config,
-      method: 'DELETE'
-    }, options)
+  delete<T = any>(config?: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+    return this.request(
+      {
+        ...config,
+        method: 'DELETE'
+      },
+      options
+    )
   }
 
-  get<T = any> (config?: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
-    return this.request({
-      ...config,
-      method: 'GET'
-    }, options)
+  get<T = any>(config?: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+    return this.request(
+      {
+        ...config,
+        method: 'GET'
+      },
+      options
+    )
   }
 
-  post<T = any> (config?: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
-    return this.request({
-      ...config,
-      method: 'POST'
-    }, options)
+  post<T = any>(config?: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+    return this.request(
+      {
+        ...config,
+        method: 'POST'
+      },
+      options
+    )
   }
 
-  put<T = any> (config?: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
-    return this.request({
-      ...config,
-      method: 'PUT'
-    }, options)
+  put<T = any>(config?: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+    return this.request(
+      {
+        ...config,
+        method: 'PUT'
+      },
+      options
+    )
   }
 }

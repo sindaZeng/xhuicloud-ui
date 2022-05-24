@@ -26,9 +26,9 @@ import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { Response } from '~/axios'
 
 export interface XhAxiosRequestConfig extends AxiosRequestConfig {
-  authenticationScheme?: string;
-  handler?: XhAxiosHandler;
-  requestOptions?: RequestOptions;
+  authenticationScheme?: string
+  handler?: XhAxiosHandler
+  requestOptions?: RequestOptions
 }
 
 interface RequestOptions {
@@ -42,9 +42,7 @@ export abstract class XhAxiosHandler {
   /**
    * 请求拦截
    */
-  requestInterceptors?: (
-    config: AxiosRequestConfig
-  ) => AxiosRequestConfig
+  requestInterceptors?: (config: AxiosRequestConfig) => AxiosRequestConfig
 
   /**
    * 响应拦截
