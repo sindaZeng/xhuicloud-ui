@@ -19,10 +19,19 @@
   import { defineProps } from 'vue'
   import tableProps from './default'
   import { useTableState } from './hooks/useTable'
+  import { useTableMethods } from './hooks/useTableMethods'
 
   const props = defineProps(tableProps)
 
-  const { table, tableData, tableColumn } = useTableState(props)
+  const state = useTableState(props)
+
+  const { table, tableData, tableColumn } = state
+
+  const methods = useTableMethods({ state, props })
+
+  const { onload } = methods
+
+  onload()
 </script>
 <style lang="scss" scoped>
   .image-slot {

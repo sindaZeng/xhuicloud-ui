@@ -25,7 +25,7 @@ const tableProps = {
     required: true
   },
   onload: {
-    type: Function as PropType<() => Promise<any>>
+    type: Function as PropType<() => any>
   }
 }
 

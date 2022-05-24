@@ -1,5 +1,5 @@
 <template>
-  <Crud :table-column="tableColumn" :table="{ data: tableData }"></Crud>
+  <Crud :table-column="tableColumn" :onload="onload"></Crud>
 </template>
 
 <script lang="ts" setup>
@@ -53,6 +53,10 @@
       label: 'Zip'
     }
   ]
+
+  const onload = () => {
+    return tableData
+  }
   const tableData = [
     {
       date: '2016-05-03',
