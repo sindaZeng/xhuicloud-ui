@@ -1,26 +1,34 @@
-import type { ExtractPropTypes, PropType } from 'vue'
-import { TableAttributes } from './types/table'
-import XhTable from './index.vue'
+import { ExtractPropTypes, PropType } from 'vue'
 
-export const tableProps = {
-  tableLoading: {
-    type: Boolean as PropType<boolean>,
-    default: false
-  },
-  tableData: {
-    type: Array as PropType<any[]>,
-    default: () => {
-      return []
-    }
-  },
-  tableAttributes: {
-    type: Object as PropType<TableAttributes>,
+export interface Table<T = any> {
+  enableSearch?: boolean
+  data?: T[] | null
+  [key: string]: any
+}
+
+export interface TableColumn {
+  label: string
+  prop: string
+  hidden?: boolean
+  // 图像
+  image?: Recordable
+  [key: string]: any
+}
+
+const tableProps = {
+  table: {
+    type: Object as PropType<Table<any>>,
     required: true
+  },
+  tableColumn: {
+    type: Array as PropType<TableColumn[]>,
+    required: true
+  },
+  onload: {
+    type: Function as PropType<() => Promise<any>>
   }
 }
 
-export type XhTableInstance = InstanceType<typeof XhTable>
-
 export type TableProps = ExtractPropTypes<typeof tableProps>
 
-export const emitOptions = ['uploadSuccess', 'beforeUpload', 'getTableData', 'toDelRow', 'toSaveRow', 'toUpdateRow', 'openBefore', 'closeBefore', 'update:page', 'update:formData']
+export default tableProps
