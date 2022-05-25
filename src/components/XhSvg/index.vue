@@ -43,6 +43,14 @@
     className: {
       type: String,
       default: ''
+    },
+    width: {
+      type: String,
+      default: '1em'
+    },
+    height: {
+      type: String,
+      default: '1em'
     }
   })
 
@@ -64,8 +72,8 @@
 
 <style lang="scss" scoped>
   .svg-icon {
-    width: 1em;
-    height: 1em;
+    width: v-bind(width);
+    height: v-bind(height);
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
