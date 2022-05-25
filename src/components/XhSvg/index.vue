@@ -37,7 +37,7 @@
     // icon图标
     icon: {
       type: String,
-      required: true
+      default: 'loadFailed'
     },
     // 图标类名
     className: {
