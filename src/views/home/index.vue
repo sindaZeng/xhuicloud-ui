@@ -1,5 +1,5 @@
 <template>
-  <Crud :table-column="tableColumn" :onload="onload"></Crud>
+  <Crud :table-column="tableColumn" :onload="onload"> </Crud>
 </template>
 
 <script lang="ts" setup>
@@ -26,7 +26,17 @@
     },
     {
       prop: 'name',
-      label: 'Name'
+      label: 'Name',
+      tag: true
+    },
+    {
+      prop: 'icon',
+      label: 'Icon',
+      icon: {
+        className: 'myIcon',
+        width: '2em',
+        height: '2em'
+      }
     },
     {
       prop: 'image',
@@ -38,7 +48,10 @@
     },
     {
       prop: 'state',
-      label: 'State'
+      label: 'State',
+      tag: {
+        type: 'success'
+      }
     },
     {
       prop: 'city',
@@ -61,6 +74,7 @@
     {
       date: '2016-05-03',
       name: 'Tom',
+      icon: 'permission',
       image: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
       state: 'California',
       city: 'Los Angeles',
@@ -70,7 +84,7 @@
     },
     {
       date: '2016-05-02',
-      name: 'Tom',
+      name: 'Tom3',
       image: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
       state: 'California',
       city: 'Los Angeles',
@@ -80,7 +94,7 @@
     },
     {
       date: '2016-05-04',
-      name: 'Tom',
+      name: 'Tom4',
       image: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
       state: 'California',
       city: 'Los Angeles',
@@ -360,3 +374,4 @@
     }
   ]
 </script>
+<style lang="scss" scoped></style>

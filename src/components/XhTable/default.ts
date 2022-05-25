@@ -11,7 +11,11 @@ export interface TableColumn {
   prop: string
   hidden?: boolean
   // 图像
-  image?: Recordable
+  image?: Recordable | boolean
+  // tag
+  tag?: Recordable | boolean
+  // icon 使用的是xhuicloud-ui icon 组件
+  icon?: Recordable | boolean
   [key: string]: any
 }
 

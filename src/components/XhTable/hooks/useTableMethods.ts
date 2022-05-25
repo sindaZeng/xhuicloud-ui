@@ -11,7 +11,6 @@ export const useTableMethods = ({ state, props }: UseTableMethods) => {
 
   const onload = async () => {
     tableData.value = await props?.onload?.()
-    console.log(tableData.value)
   }
 
   return {
