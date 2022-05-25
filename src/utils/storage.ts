@@ -23,32 +23,32 @@
  */
 
 interface BaseStorage {
-  getItem(key: string): any;
-  setItem(Key: string, value: string): void;
-  removeItem(key: string): void;
-  clear(): void;
+  getItem(key: string): any
+  setItem(Key: string, value: string): void
+  removeItem(key: string): void
+  clear(): void
 }
 
 class CommonStorage implements BaseStorage {
-  protected storage: BaseStorage;
+  protected storage: BaseStorage
 
-  constructor (storage: BaseStorage) {
+  constructor(storage: BaseStorage) {
     this.storage = storage
   }
 
-  public setItem (key: string, value: any): void {
+  public setItem(key: string, value: any): void {
     this.storage.setItem(key, JSON.stringify(value))
   }
 
-  public getItem<T> (key: string): T {
+  public getItem<T>(key: string): T {
     return JSON.parse(this.storage.getItem(key))
   }
 
-  public removeItem (key: string): void {
+  public removeItem(key: string): void {
     this.storage.removeItem(key)
   }
 
-  public clear (): void {
+  public clear(): void {
     this.storage.clear()
   }
 }

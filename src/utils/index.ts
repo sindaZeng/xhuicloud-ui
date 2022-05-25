@@ -24,7 +24,7 @@
 
 import { HomeTag } from '~/homeTag'
 
-export function scssExportToJson (scssExportJson: any) {
+export function scssExportToJson(scssExportJson: any) {
   const jsonString = scssExportJson.replace(/:export\s*/, '').replace(/[\s+\r\n]/g, '')
   const scssJson: any = {}
   jsonString
@@ -37,7 +37,7 @@ export function scssExportToJson (scssExportJson: any) {
   return scssJson
 }
 
-export function findTagViewsIndex (tagViews: HomeTag[], path: string): number {
+export function findTagViewsIndex(tagViews: HomeTag[], path: string): number {
   let key = 0
   tagViews.forEach((item, index) => {
     if (item.path === path) {
@@ -47,7 +47,7 @@ export function findTagViewsIndex (tagViews: HomeTag[], path: string): number {
   return key
 }
 
-export function checkData (val: any, defaultVal: any) {
+export function checkData(val: any, defaultVal: any) {
   if (val) {
     return true
   }
@@ -77,16 +77,33 @@ export const getQueryString = (url: string, paraName: string) => {
   }
 }
 
-export function openWindows (url: string, title: string, w: number, h: number): Window | null {
-  const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width
-  const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height
+export function openWindows(url: string, title: string, w: number, h: number): Window | null {
+  const width = window.innerWidth
+    ? window.innerWidth
+    : document.documentElement.clientWidth
+    ? document.documentElement.clientWidth
+    : screen.width
+  const height = window.innerHeight
+    ? window.innerHeight
+    : document.documentElement.clientHeight
+    ? document.documentElement.clientHeight
+    : screen.height
 
-  const left = ((width / 2) - (w / 2)) + window.screenLeft
-  const top = ((height / 2) - (h / 2)) + window.screenTop
-  const newWindow: Window | null = window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left)
+  const left = width / 2 - w / 2 + window.screenLeft
+  const top = height / 2 - h / 2 + window.screenTop
+  const newWindow: Window | null = window.open(
+    url,
+    title,
+    'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=' +
+      w +
+      ', height=' +
+      h +
+      ', top=' +
+      top +
+      ', left=' +
+      left
+  )
 
-  if ((window.focus)) {
-    newWindow?.focus()
-  }
+  newWindow?.focus()
   return newWindow
 }

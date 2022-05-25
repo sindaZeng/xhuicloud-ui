@@ -27,10 +27,10 @@ import { parse } from 'crypto-js/enc-utf8'
 import CFB from 'crypto-js/mode-cfb'
 import NoPadding from 'crypto-js/pad-nopadding'
 
-export function encryption (data: any, iv: string, encryptParams: string[]): any {
+export function encryption(data: any, iv: string, encryptParams: string[]): any {
   const result = JSON.parse(JSON.stringify(data))
   const _iv = parse(iv)
-  encryptParams.forEach(ele => {
+  encryptParams.forEach((ele) => {
     result[ele] = encrypt(result[ele], _iv, {
       iv: _iv,
       mode: CFB,

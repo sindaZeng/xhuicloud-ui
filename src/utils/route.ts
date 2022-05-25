@@ -24,7 +24,7 @@
 
 import { createWebHashHistory, createWebHistory, RouterHistory } from 'vue-router'
 
-export function historyMode (): RouterHistory {
+export function historyMode(): RouterHistory {
   const routerHistory: string = import.meta.env.VITE_ROUTER_HISTORY
   // len为1 代表只有历史模式 为2 代表历史模式中存在base参数
   const historyMode = routerHistory.split(',')
