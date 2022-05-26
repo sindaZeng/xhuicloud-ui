@@ -7,7 +7,8 @@
     "build": "vue-tsc --noEmit && vite build",
     "preview": "npm run build && vite preview",
     "prepare": "husky install",
-    "lint:lint-staged": "lint-staged"
+    "lint:lint-staged": "lint-staged",
+    "clean:modules": "npx rimraf node_modules"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
@@ -35,6 +36,7 @@
     "@vitejs/plugin-vue": "^2.3.1",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^9.0.1",
     "husky": "^8.0.1",
