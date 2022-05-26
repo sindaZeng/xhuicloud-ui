@@ -1,5 +1,5 @@
 <template>
-  <el-table style="width: 100%" v-bind="table" :data="tableData">
+  <el-table v-loading="table?.loading" style="width: 100%" v-bind="table" :data="tableData">
     <el-table-column v-for="(item, index) in tableColumn" :key="index" v-bind="item" align="center">
       <template #default="scope">
         <template v-if="$slots[item.prop]">

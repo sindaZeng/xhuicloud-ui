@@ -2,6 +2,7 @@ import { ExtractPropTypes, PropType } from 'vue'
 
 export interface Table<T = any> {
   enableSearch?: boolean
+  loading?: boolean
   data?: T[] | null
   [key: string]: any
 }
