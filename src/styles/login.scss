@@ -32,10 +32,12 @@
 .login-form-container {
   position: relative;
   width: 520px;
+  background-color: white;
   box-sizing: border-box;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  box-shadow: 3px 10px 25px rgba(0, 0, 0, 0.08);
   padding: 80px 35px 50px;
-  margin: 200px 100px auto auto;
+  margin: 10% 100px auto auto;
 
   .login-logo-container {
     position: relative;
