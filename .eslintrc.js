@@ -12,6 +12,7 @@ module.exports = {
     'prettier',
     'plugin:prettier/recommended'
   ],
+  plugins: ['@typescript-eslint', 'prettier', 'import'],
   parserOptions: {
     parser: '@typescript-eslint/parser',
     ecmaVersion: 2020,
@@ -22,6 +23,7 @@ module.exports = {
     'no-debugger': 'off',
     'no-use-before-define': 'off',
     'vue/multi-word-component-names': 'off',
+    'vue/no-v-html': 'off',
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unused-vars': [
