@@ -24,7 +24,7 @@
 
 <template>
   <div class="login-container">
-    <div class="login-form-container">
+    <div class="login-form-container animate__animated animate__bounceInRight">
       <div class="login-logo-container">
         <img :src="user.getTenant?.logo || 'https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto'" />
       </div>

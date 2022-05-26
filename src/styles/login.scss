@@ -21,73 +21,73 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-
 .login-container {
   height: 100vh;
   background: url('@/assets/login/background.jpg') center center fixed no-repeat;
   background-size: cover;
   overflow: hidden;
+  animation: animate-cloud 20s linear infinite;
+}
 
-  .login-form-container {
+.login-form-container {
+  position: relative;
+  width: 520px;
+  box-sizing: border-box;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  padding: 80px 35px 50px;
+  margin: 200px 100px auto auto;
+
+  .login-logo-container {
     position: relative;
-    width: 520px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    padding: 80px 35px 50px;
-    margin: 200px 100px auto auto;
+    width: 120px;
+    height: 120px;
+    margin: -50px auto 20px auto;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 4px 40px rgba(0, 0, 0, 0.07);
+    box-shadow: 0 4px 40px rgba(0, 0, 0, 0.07);
+    padding: 10px;
+    background-color: #fff;
+    z-index: 1;
+    box-sizing: border-box;
     overflow: hidden;
 
-    .login-logo-container {
-      position:relative;
-      width: 120px;
-      height: 120px;
-      margin: -50px auto 20px auto;
-      border-radius: 50%;
-      -webkit-box-shadow: 0 4px 40px rgba(0, 0, 0, 0.07);
-      box-shadow: 0 4px 40px rgba(0, 0, 0, 0.07);
-      padding: 10px;
-      background-color: #fff;
-      z-index: 1;
-      box-sizing: border-box;
-      overflow: hidden;
-
-      img {
-        width: 100%;
-      }
-    }
-
-    .login-tenantSelect {
-      color: black;
-      margin-bottom: 30px;
-      font-size: 25px;
-      text-align: center;
-
-      .el-input__inner {
-        text-align: center;
-        border: transparent;
-      }
-    }
-
-    .login-langSelect {
-      position: absolute;
-      top: 5px;
-      right:5px;
-      font-size: 25px;
-      padding: 5px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .login-footer-container {
-      margin-top: 10px;
+    img {
       width: 100%;
-      text-align: center;
+    }
+  }
 
-      a {
-        color: #409eff;
-        font-weight: 700;
-        font-size: 12px;
-        margin: 0px 8px;
-      }
+  .login-tenantSelect {
+    color: black;
+    margin-bottom: 30px;
+    font-size: 25px;
+    text-align: center;
+
+    .el-input__inner {
+      text-align: center;
+      border: transparent;
+    }
+  }
+
+  .login-langSelect {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 25px;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .login-footer-container {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+
+    a {
+      color: #409eff;
+      font-weight: 700;
+      font-size: 12px;
+      margin: 0px 8px;
     }
   }
 }

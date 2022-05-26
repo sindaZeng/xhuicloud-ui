@@ -21,11 +21,16 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-@import "./variables.scss";
+@import './variables.scss';
 
 @media screen and (max-width: 990px) {
-
+  // 登录页适应
+  .login-form-container {
+    margin: 0 auto;
+    width: 96% !important;
+  }
   .openSidebar {
+    // layout 布局适应
     .left-body {
       left: -$sideBarWidth !important;
     }
@@ -39,5 +44,4 @@
       left: 0;
     }
   }
-
 }
