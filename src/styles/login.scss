@@ -23,7 +23,7 @@
  */
 .login-container {
   height: 100vh;
-  background: url('@/assets/login/background.jpg') center center fixed no-repeat;
+  background: url('@/assets/login/loginbg.png') center center fixed no-repeat;
   background-size: cover;
   overflow: hidden;
   animation: animate-cloud 20s linear infinite;
@@ -31,13 +31,13 @@
 
 .login-form-container {
   position: relative;
-  width: 520px;
+  width: 30%;
   background-color: white;
   box-sizing: border-box;
   border-radius: 5px;
   box-shadow: 3px 10px 25px rgba(0, 0, 0, 0.08);
-  padding: 80px 35px 50px;
-  margin: 10% 100px auto auto;
+  padding: 80px 30px 50px;
+  margin: 10% auto;
 
   .login-logo-container {
     position: relative;

@@ -23,6 +23,12 @@
  */
 @import './variables.scss';
 
+@media screen and (max-height: 700px) {
+  .login-form-container {
+    margin: auto !important;
+  }
+}
+
 @media screen and (max-width: 990px) {
   // 登录页适应
   .login-form-container {
