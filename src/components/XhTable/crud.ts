@@ -4,6 +4,7 @@ export interface Table<T = any> {
   enableSearch?: boolean
   loading?: boolean
   data?: T[] | null
+  page?: boolean
   [key: string]: any
 }
 

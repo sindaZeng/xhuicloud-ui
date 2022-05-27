@@ -24,7 +24,7 @@
 <script lang="ts" setup>
   import { Picture as IconPicture } from '@element-plus/icons-vue'
   import { defineProps } from 'vue'
-  import tableProps from './default'
+  import tableProps from './crud'
   import { useTableState } from './hooks/useTable'
   import { useTableMethods } from './hooks/useTableMethods'
 

@@ -1,4 +1,4 @@
-import { TableProps } from '../default'
+import { TableProps } from '../crud'
 import { TableState } from './useTable'
 
 export type UseTableMethods = {

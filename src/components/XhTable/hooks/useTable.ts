@@ -1,6 +1,6 @@
 import { isNullOrUnDef } from '@/utils/is'
 import { computed, ref, watchEffect } from 'vue'
-import { TableProps } from '../default'
+import { TableProps } from '../crud'
 
 export type TableState = ReturnType<typeof useTableState>
 
