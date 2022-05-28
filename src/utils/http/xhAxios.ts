@@ -23,7 +23,6 @@
  */
 
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Canceler } from 'axios'
-import { Response } from '~/axios'
 import { cloneDeep } from 'lodash-es'
 import { RequestOptions, XhAxiosRequestConfig } from '@/utils/http/xhAxiosHandler'
 import { isFunction } from '@/utils/is'
@@ -126,8 +125,8 @@ export class XhAxios {
     conf.requestOptions = opt
     return new Promise((resolve, reject) => {
       this.axiosInstance
-        .request<any, AxiosResponse<Response>>(conf)
-        .then((res: AxiosResponse<Response>) => {
+        .request<any, AxiosResponse<API.Response>>(conf)
+        .then((res: AxiosResponse<API.Response>) => {
           if (requestResultHook && isFunction(requestResultHook)) {
             try {
               const ret = requestResultHook(res)

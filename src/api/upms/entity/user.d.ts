@@ -23,44 +23,38 @@
  */
 
 export interface LoginForm {
-  authCode?: string,
-  type?: string,
-  username?: string,
-  password?: string,
-  // eslint-disable-next-line camelcase
+  authCode?: string
+  type?: string
+  username?: string
+  password?: string
   grant_type: string
 }
 
 export interface AuthInfo {
-  // eslint-disable-next-line camelcase
-  access_token: string,
-  // eslint-disable-next-line camelcase
-  token_type: string,
-  // eslint-disable-next-line camelcase
+  access_token: string
+  token_type: string
   refresh_token: string
-  // eslint-disable-next-line camelcase
-  expires_in: number,
-  scope: string,
-  // eslint-disable-next-line camelcase
-  tenant_id: number,
-  id: number,
-  tenantName: string,
+  expires_in: number
+  scope: string
+  tenant_id: number
+  id: number
+  tenantName: string
   phone: string
 }
 
 export interface SysUser {
-  userId?: number,
-  username?: string,
-  avatar?: string,
-  phone?: string,
-  email?: string,
-  sex?: number,
+  userId?: number
+  username?: string
+  avatar?: string
+  phone?: string
+  email?: string
+  sex?: number
   tenantId?: number
 }
 
 export interface UserInfo {
-  sysUser: SysUser,
-  permissions: string[],
-  roles?: [],
+  sysUser: SysUser
+  permissions: string[]
+  roles?: []
   tenantName?: string
 }

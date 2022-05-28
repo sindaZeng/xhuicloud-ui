@@ -26,10 +26,10 @@ import { HttpClient } from '@/utils/http'
 import { UserInfo } from '@/api/upms/entity/user'
 
 enum Api {
-  GetUserInfo = '/admin/user/info',
+  GetUserInfo = '/admin/user/info'
 }
 
-export function getUserInfo () {
+export function getUserInfo() {
   return HttpClient.get<UserInfo>({
     url: Api.GetUserInfo
   })

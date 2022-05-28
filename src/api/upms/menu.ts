@@ -25,9 +25,9 @@
 import { HttpClient } from '@/utils/http'
 
 enum Api {
-  GetMenu = '/admin/menu',
+  GetMenu = '/admin/menu'
 }
 
-export function getMenu () {
+export function getMenu() {
   return HttpClient.get<any>({ url: Api.GetMenu })
 }

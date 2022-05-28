@@ -23,24 +23,26 @@
  */
 import { BaseSocial } from './social'
 
+export type Socials = Record<string, BaseSocial>
+
 export interface Tenant {
   /**
-  * 租户id
-  */
-  id: number;
+   * 租户id
+   */
+  id: number
 
   /**
    * 租户名称
    */
-  name: string;
+  name: string
 
   /**
    * logo地址
    */
-  logo: string;
+  logo: string
 
   /**
    * 社交登录配置
    */
-  socials: {[key: string], BaseSocial};
+  socials: Socials
 }

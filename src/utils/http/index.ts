@@ -26,7 +26,6 @@ import { XhAxios } from './xhAxios'
 import useStore from '@/store'
 import { AxiosResponse } from 'axios'
 import { XhAxiosHandler } from '@/utils/http/xhAxiosHandler'
-import { Response } from '~/axios'
 import { ElMessage } from 'element-plus'
 
 const handler: XhAxiosHandler = {
@@ -43,7 +42,7 @@ const handler: XhAxiosHandler = {
   responseInterceptors: (res: AxiosResponse<any>) => {
     return res
   },
-  requestResultHook: (res: AxiosResponse<Response>) => {
+  requestResultHook: (res: AxiosResponse<API.Response>) => {
     /**
      * 返回原载荷
      */

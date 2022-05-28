@@ -24,91 +24,105 @@
 
 import { HttpClient } from '@/utils/http'
 import { LoginForm, AuthInfo } from '@/api/upms/entity/user'
-import { Response } from '~/axios'
 import { RequestOptions } from '@/utils/http/xhAxiosHandler'
 
 const basicHeader = 'dGVzdDp0ZXN0'
 const options: RequestOptions = { withToken: false }
 
 enum Api {
-    Token = '/auth/oauth/token',
-    CheckToken = '/auth/oauth/check_token',
-    RefreshToken = '/auth/oauth/token',
-    GetLoginQrcode = '/admin/wechat-mp/login-qrcode',
-    LoginQrcodeScanSuccess = '/admin/wechat-mp/scan-success',
-    Logout = '/auth/oauth2/logout',
+  Token = '/auth/oauth/token',
+  CheckToken = '/auth/oauth/check_token',
+  RefreshToken = '/auth/oauth/token',
+  GetLoginQrcode = '/admin/wechat-mp/login-qrcode',
+  LoginQrcodeScanSuccess = '/admin/wechat-mp/scan-success',
+  Logout = '/auth/oauth2/logout'
 }
 
 /**
  * 登录
  * @param params
  */
-export function loginApi (params: LoginForm) {
-  return HttpClient.post<AuthInfo>({
-    url: Api.Token,
-    headers: {
-      Authorization: 'Basic ' + basicHeader
+export function loginApi(params: LoginForm) {
+  return HttpClient.post<AuthInfo>(
+    {
+      url: Api.Token,
+      headers: {
+        Authorization: 'Basic ' + basicHeader
+      },
+      params
     },
-    params
-  }, options)
+    options
+  )
 }
 
 /**
  * 校验登录态
  * @param params
  */
-export function checkToken (token: string) {
-  return HttpClient.get<any>({
-    url: Api.CheckToken,
-    headers: {
-      Authorization: 'Basic ' + basicHeader
+export function checkToken(token: string) {
+  return HttpClient.get<any>(
+    {
+      url: Api.CheckToken,
+      headers: {
+        Authorization: 'Basic ' + basicHeader
+      },
+      params: { token }
     },
-    params: { token }
-  }, options)
+    options
+  )
 }
 
 /**
  * 刷新token
  * @param refreshToken
  */
-export function refreshToken (refreshToken: string) {
+export function refreshToken(refreshToken: string) {
   const params = {
     refresh_token: refreshToken,
     grant_type: 'refresh_token',
     scope: 'server'
   }
-  return HttpClient.post<AuthInfo>({
-    url: Api.RefreshToken,
-    headers: {
-      Authorization: 'Basic ' + basicHeader
+  return HttpClient.post<AuthInfo>(
+    {
+      url: Api.RefreshToken,
+      headers: {
+        Authorization: 'Basic ' + basicHeader
+      },
+      params
     },
-    params
-  }, options)
+    options
+  )
 }
 
 /**
  * 获取微信公众号登录二维码
  */
-export function getLoginQrcode (appId: string) {
-  return HttpClient.get<Response<string>>({
-    url: Api.GetLoginQrcode + appId
-  }, options)
+export function getLoginQrcode(appId: string) {
+  return HttpClient.get<API.Response<string>>(
+    {
+      url: Api.GetLoginQrcode + appId
+    },
+    options
+  )
 }
 
 /**
  * 用户是否扫码成功
  */
-export function loginQrcodeScanSuccess (appId: string, ticket: string) {
-  return HttpClient.get<Response<boolean>>({
-    url: Api.LoginQrcodeScanSuccess,
-    params: { ticket }
-  }, options)
+export function loginQrcodeScanSuccess(appId: string, ticket: string) {
+  return HttpClient.get<API.Response<boolean>>(
+    {
+      url: Api.LoginQrcodeScanSuccess,
+      params: { ticket }
+    },
+    options
+  )
 }
 
 /**
  * 登出
  */
-export function logout () {
+export function logout() {
   return HttpClient.post({
     url: Api.Logout
   })

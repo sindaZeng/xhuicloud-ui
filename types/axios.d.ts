@@ -21,16 +21,24 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
+declare namespace API {
+  type Response<T = any> = {
+    code: number
+    msg: string
+    data: T
+  }
 
-export interface Response<T = any> {
-  code: number
-  msg: string
-  data: T
-}
+  type IPage<T = any> = {
+    total: number
+    size: number
+    current: number
+    records: T[]
+  }
 
-export interface UploadFile {
-  name?: string
-  file: File | Blob
-  filename?: string
-  [key: string]: any
+  type UploadFile = {
+    name?: string
+    file: File | Blob
+    filename?: string
+    [key: string]: any
+  }
 }

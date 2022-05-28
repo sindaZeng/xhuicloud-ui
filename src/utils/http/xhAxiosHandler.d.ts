@@ -23,7 +23,6 @@
  */
 
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { Response } from '~/axios'
 
 export interface XhAxiosRequestConfig extends AxiosRequestConfig {
   authenticationScheme?: string
@@ -52,7 +51,7 @@ export abstract class XhAxiosHandler {
   /**
    * 响应数据处理
    */
-  requestResultHook?: (res: AxiosResponse<Response>) => any
+  requestResultHook?: (res: AxiosResponse<API.Response>) => any
 
   /**
    * 请求失败处理

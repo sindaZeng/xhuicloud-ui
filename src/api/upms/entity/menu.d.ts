@@ -22,15 +22,15 @@
  * @Email:  xhuicloud@163.com
  */
 export interface Menu {
-    label: string,
-    value: number,
-    parentId: number,
-    children: Menu,
-    icon: string,
-    name: string,
-    internationalization: string,
-    permission: string,
-    path: string,
-    type: number,
-    sort: number
+  label: string
+  value: number
+  parentId: number
+  children: Menu
+  icon: string
+  name: string
+  internationalization: string
+  permission: string
+  path: string
+  type: number
+  sort: number
 }

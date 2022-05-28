@@ -23,6 +23,6 @@
  */
 
 export interface BaseSocial {
-  appId: string;
-  redirectUrl: string;
+  appId: string
+  redirectUrl: string
 }
