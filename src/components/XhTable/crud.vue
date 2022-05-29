@@ -1,5 +1,5 @@
 <template>
-  <el-table v-loading="table?.loading" style="width: 100%" v-bind="table" :data="tableData">
+  <el-table v-loading="loading" v-bind="table" :data="tableData" style="width: 100%">
     <el-table-column v-for="(item, index) in tableColumn" :key="index" v-bind="item" align="center">
       <template #default="scope">
         <template v-if="$slots[item.prop]">
@@ -19,12 +19,16 @@
       </template>
     </el-table-column>
   </el-table>
+
+  <template v-for="(comp, index) in components" :key="index">
+    <component :is="comp" />
+  </template>
 </template>
 
 <script lang="ts" setup>
   import { Picture as IconPicture } from '@element-plus/icons-vue'
   import { defineProps } from 'vue'
-  import tableProps from './crud'
+  import { tableProps } from './crud'
   import { useTableState } from './hooks/useTable'
   import { useTableMethods } from './hooks/useTableMethods'
 
@@ -32,7 +36,7 @@
 
   const state = useTableState(props)
 
-  const { table, tableData, tableColumn } = state
+  const { table, tableData, tableColumn, components } = state
 
   const methods = useTableMethods({ state, props })
 
