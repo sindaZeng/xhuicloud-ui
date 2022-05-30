@@ -9,6 +9,8 @@ export type UseTableMethods = {
   emit: TableEmitsFn
 }
 
+export type TableMethods = ReturnType<typeof useTableMethods>
+
 export const useTableMethods = ({ state, props, emit }: UseTableMethods) => {
   const { tableData, paginationRef } = state
 

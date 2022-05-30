@@ -1,5 +1,5 @@
 <template>
-  <Crud v-model:page="page" :table-column="tableColumn" :onload="onload"> </Crud>
+  <Crud v-model:page="page" :permission="{ addBtn: true }" :table-column="tableColumn" :onload="onload"> </Crud>
 </template>
 
 <script lang="ts" setup>

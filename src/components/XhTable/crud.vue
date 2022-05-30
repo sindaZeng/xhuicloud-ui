@@ -1,32 +1,36 @@
 <template>
   <div class="table">
     <xh-card>
-      <el-table v-loading="loading" v-bind="table" :data="tableData" style="width: 100%">
-        <el-table-column v-for="(item, index) in tableColumn" :key="index" v-bind="item" align="center">
-          <template #default="scope">
-            <template v-if="$slots[item.prop]">
-              <slot :name="item.prop" :data="scope.row[item.prop]" />
-            </template>
-            <el-image
-              v-if="item.image"
-              style="width: 100px; height: 100px"
-              :src="scope.row[item.prop]"
-              v-bind="item.image"
-            >
-              <template #error>
-                <div class="image-slot">
-                  <el-icon><icon-picture /></el-icon>
-                </div>
+      <div class="table-head">
+        <crud-operation />
+      </div>
+      <div class="table-main">
+        <el-table v-loading="loading" v-bind="table" :data="tableData" style="width: 100%">
+          <el-table-column v-for="(item, index) in tableColumn" :key="index" v-bind="item" align="center">
+            <template #default="scope">
+              <template v-if="$slots[item.prop]">
+                <slot :name="item.prop" :data="scope.row[item.prop]" />
               </template>
-            </el-image>
-            <el-tag v-if="item.tag" v-bind="item.tag">
-              {{ typeof item.valueFormat === 'function' ? item.valueFormat(scope.row) : scope.row[item.prop] }}
-            </el-tag>
-            <xh-svg v-if="item.icon" :icon="scope.row[item.prop]" v-bind="item.icon" />
-          </template>
-        </el-table-column>
-      </el-table>
-
+              <el-image
+                v-if="item.image"
+                style="width: 100px; height: 100px"
+                :src="scope.row[item.prop]"
+                v-bind="item.image"
+              >
+                <template #error>
+                  <div class="image-slot">
+                    <el-icon><icon-picture /></el-icon>
+                  </div>
+                </template>
+              </el-image>
+              <el-tag v-if="item.tag" v-bind="item.tag">
+                {{ typeof item.valueFormat === 'function' ? item.valueFormat(scope.row) : scope.row[item.prop] }}
+              </el-tag>
+              <xh-svg v-if="item.icon" :icon="scope.row[item.prop]" v-bind="item.icon" />
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
       <!-- 表格底部分页     -->
       <div class="table-foot">
         <el-pagination
@@ -46,8 +50,8 @@
 <script lang="ts" setup>
   import { Picture as IconPicture } from '@element-plus/icons-vue'
   import tableProps, { tableEmits } from './crud'
-  import { useTableState } from './hooks/useTable'
-  import { useTableMethods } from './hooks/useTableMethods'
+  import crudOperation from './crud-operation.vue'
+  import { useTableMethods, useTableState, createTableContext } from './hooks'
   import XhCard from '../XhCard/index.vue'
 
   const props = defineProps(tableProps)
@@ -61,6 +65,14 @@
   const methods = useTableMethods({ state, props, emit })
 
   const { onload, handleSizeChange, handleCurrentChange } = methods
+
+  const instance = {
+    ...props,
+    ...state,
+    ...methods
+  }
+
+  createTableContext(instance)
 
   onload()
 </script>
@@ -80,6 +92,10 @@
   }
 
   .table {
+    .table-head {
+      height: 50px;
+      width: 100%;
+    }
     .table-foot {
       position: relative;
       padding: 20px 0;

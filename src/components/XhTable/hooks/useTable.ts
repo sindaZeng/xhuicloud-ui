@@ -9,6 +9,7 @@ export const useTableState = (props: TableProps) => {
   const tableData = ref<any[]>([])
   const table = computed(() => props.table)
   const tableColumn = computed(() => props.tableColumn)
+  const permissionsBtn = computed(() => props.permission)
   const paginationRef = ref<PaginationType>(false)
 
   if (!isNullOrUnDef(props.page) && !Object.is(props.page, false)) {
@@ -31,6 +32,7 @@ export const useTableState = (props: TableProps) => {
     table,
     tableData,
     tableColumn,
-    paginationRef
+    paginationRef,
+    permissionsBtn
   }
 }

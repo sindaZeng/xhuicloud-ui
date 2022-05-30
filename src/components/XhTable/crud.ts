@@ -19,6 +19,15 @@ export interface TableColumn {
   [key: string]: any
 }
 
+export interface PermissionsBtn {
+  addBtn?: boolean
+  editBtn?: boolean
+  delBtn?: boolean
+  importBtn?: boolean
+  exportBtn?: boolean
+  [key: string]: any
+}
+
 const tableProps = {
   enableSearch: {
     type: Boolean as PropType<boolean>,
@@ -41,6 +50,18 @@ const tableProps = {
   },
   page: {
     type: Object as PropType<PaginationType>
+  },
+  permission: {
+    type: Object as PropType<PermissionsBtn>,
+    default: () => {
+      return {
+        addBtn: false,
+        editBtn: false,
+        delBtn: false,
+        importBtn: false,
+        exportBtn: false
+      }
+    }
   }
 }
 
