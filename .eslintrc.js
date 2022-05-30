@@ -24,6 +24,7 @@ module.exports = {
     'no-use-before-define': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/no-v-html': 'off',
+    'vue/v-on-event-hyphenation': 'off',
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unused-vars': [
