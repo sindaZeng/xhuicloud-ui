@@ -1,3 +1,4 @@
+import { TableProps } from '../crud'
 import { TableState } from './useTable'
 import { TableMethods } from './useTableMethods'
 
