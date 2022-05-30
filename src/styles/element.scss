@@ -31,13 +31,17 @@
   color: black;
 }
 .el-date-editor {
-  --el-date-editor-width: 230px!important;
+  --el-date-editor-width: 230px !important;
 }
 .el-table__header {
   --el-table-header-bg-color: #fafafa;
 }
+.el-select-dropdown {
+  min-width: 230px !important;
+}
 @media screen and (max-width: 992px) {
-  .el-dialog, .el-message-box {
-    width: 98%!important;
+  .el-dialog,
+  .el-message-box {
+    width: 98% !important;
   }
 }

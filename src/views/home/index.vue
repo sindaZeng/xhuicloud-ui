@@ -1,10 +1,14 @@
 <template>
-  <Crud :table-column="tableColumn" :onload="onload"> </Crud>
+  <Crud v-model:page="page" :table-column="tableColumn" :onload="onload"> </Crud>
 </template>
 
 <script lang="ts" setup>
   import Crud from '@/components/XhTable/crud.vue'
-  import { TableColumn } from '@/components/XhTable/default'
+  import { TableColumn } from '@/components/XhTable/crud'
+  import { ref, watch } from 'vue'
+  import { Pagination } from '@/components/XhTable/pagination'
+
+  const page = ref<Pagination>({ current: 1, size: 10, total: 33 })
 
   const srcList = [
     'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
@@ -15,6 +19,17 @@
     'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
     'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg'
   ]
+
+  watch(
+    page,
+    (val) => {
+      console.log(val)
+    },
+    {
+      immediate: true,
+      deep: true
+    }
+  )
 
   const tableColumn: TableColumn[] = [
     {

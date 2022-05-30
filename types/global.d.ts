@@ -21,5 +21,10 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
+import type { SetupContext, EmitsOptions } from 'vue'
 
-declare type Recordable<T = any> = Record<string, T>
+declare global {
+  declare type Recordable<T = any> = Record<string, T>
+
+  declare type EmitFn<E = EmitsOptions> = SetupContext<E>['emit']
+}

@@ -1,6 +1,10 @@
-import _default, { TableProps as elTableProps } from 'element-plus/es/components/table/src/table/defaults'
 import { ExtractPropTypes, PropType } from 'vue'
-import { Page } from './pagination'
+import { PaginationType } from './pagination'
+
+export interface Table<T = any> {
+  data?: T[]
+  [key: string]: any
+}
 
 export interface TableColumn {
   label: string
@@ -14,35 +18,40 @@ export interface TableColumn {
   icon?: Recordable | boolean
   [key: string]: any
 }
-export const tableProps = {
-  // 是否开启搜索
+
+const tableProps = {
   enableSearch: {
-    type: Boolean,
+    type: Boolean as PropType<boolean>,
     default: false
   },
-  // 是否显示loading
   loading: {
-    type: Boolean,
+    type: Boolean as PropType<boolean>,
     default: false
   },
   table: {
-    type: Object as PropType<elTableProps<any>>
+    type: Object as PropType<Table<any>>,
+    default: {}
   },
-  // 行属性
   tableColumn: {
     type: Array as PropType<TableColumn[]>,
     required: true
   },
-  // 加载方法
   onload: {
     type: Function as PropType<(params: any) => any>
   },
-  // 分页
   page: {
-    type: Object as PropType<PageRecord>
+    type: Object as PropType<PaginationType>
   }
-} as const
+}
 
-export type PageRecord = false | Page
+export const tableEmits = {
+  'update:page': (page: PaginationType) => !Object.is(page, false)
+}
+
+export type TableEmits = typeof tableEmits
+
+export type TableEmitsFn = EmitFn<TableEmits>
 
 export type TableProps = ExtractPropTypes<typeof tableProps>
+
+export default tableProps
