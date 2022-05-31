@@ -9,10 +9,8 @@ export type UseTableMethods = {
   emit: TableEmitsFn
 }
 
-export type TableMethods = ReturnType<typeof useTableMethods>
-
 export const useTableMethods = ({ state, props, emit }: UseTableMethods) => {
-  const { tableData, paginationRef } = state
+  const { tableData, paginationRef, tableDrawer } = state
 
   const onload = async (params = {}) => {
     const queryParams = {
@@ -65,9 +63,17 @@ export const useTableMethods = ({ state, props, emit }: UseTableMethods) => {
     onload()
     emit('update:page', unref(paginationRef))
   }
+
+  const changeTableDrawer = async () => {
+    tableDrawer.value = !tableDrawer.value
+  }
   return {
     onload,
+    onChange,
     handleSizeChange,
-    handleCurrentChange
+    handleCurrentChange,
+    changeTableDrawer
   }
 }
+
+export type TableMethods = ReturnType<typeof useTableMethods>

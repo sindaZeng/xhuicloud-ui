@@ -5,30 +5,32 @@
         <crud-operation />
       </div>
       <div class="table-main">
-        <el-table v-loading="loading" v-bind="table" :data="tableData" style="width: 100%">
-          <el-table-column v-for="(item, index) in tableColumn" :key="index" v-bind="item" align="center">
-            <template #default="scope">
-              <template v-if="$slots[item.prop]">
-                <slot :name="item.prop" :data="scope.row[item.prop]" />
-              </template>
-              <el-image
-                v-if="item.image"
-                style="width: 100px; height: 100px"
-                :src="scope.row[item.prop]"
-                v-bind="item.image"
-              >
-                <template #error>
-                  <div class="image-slot">
-                    <el-icon><icon-picture /></el-icon>
-                  </div>
+        <el-table v-loading="loading" v-bind="getProps.table" :data="tableData" style="width: 100%">
+          <template v-for="(item, index) in getProps.tableColumn" :key="index">
+            <el-table-column v-if="!item.hidden" v-bind="item" align="center">
+              <template #default="scope">
+                <template v-if="$slots[item.prop]">
+                  <slot :name="item.prop" :data="scope.row[item.prop]" />
                 </template>
-              </el-image>
-              <el-tag v-if="item.tag" v-bind="item.tag">
-                {{ typeof item.valueFormat === 'function' ? item.valueFormat(scope.row) : scope.row[item.prop] }}
-              </el-tag>
-              <xh-svg v-if="item.icon" :icon="scope.row[item.prop]" v-bind="item.icon" />
-            </template>
-          </el-table-column>
+                <el-image
+                  v-if="item.image"
+                  style="width: 100px; height: 100px"
+                  :src="scope.row[item.prop]"
+                  v-bind="item.image"
+                >
+                  <template #error>
+                    <div class="image-slot">
+                      <el-icon><icon-picture /></el-icon>
+                    </div>
+                  </template>
+                </el-image>
+                <el-tag v-if="item.tag" v-bind="item.tag">
+                  {{ typeof item.valueFormat === 'function' ? item.valueFormat(scope.row) : scope.row[item.prop] }}
+                </el-tag>
+                <xh-svg v-if="item.icon" :icon="scope.row[item.prop]" v-bind="item.icon" />
+              </template>
+            </el-table-column>
+          </template>
         </el-table>
       </div>
       <!-- 表格底部分页     -->
@@ -37,8 +39,6 @@
           v-if="paginationRef"
           class="table-foot-pagination"
           v-bind="paginationRef"
-          background
-          layout="total, sizes,  prev, pager, next, jumper"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
@@ -60,7 +60,7 @@
 
   const state = useTableState(props)
 
-  const { table, tableData, tableColumn, paginationRef } = state
+  const { tableData, paginationRef, getProps } = state
 
   const methods = useTableMethods({ state, props, emit })
 

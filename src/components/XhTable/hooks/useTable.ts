@@ -1,5 +1,5 @@
 import { isNullOrUnDef } from '@/utils/is'
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref, unref, watchEffect } from 'vue'
 import { TableProps } from '../crud'
 import { PaginationType } from '../pagination'
 
@@ -7,10 +7,9 @@ export type TableState = ReturnType<typeof useTableState>
 
 export const useTableState = (props: TableProps) => {
   const tableData = ref<any[]>([])
-  const table = computed(() => props.table)
-  const tableColumn = computed(() => props.tableColumn)
-  const permissionsBtn = computed(() => props.permission)
   const paginationRef = ref<PaginationType>(false)
+  const tableDrawer = ref(false)
+  const innerPropsRef = ref<Partial<TableProps>>()
 
   if (!isNullOrUnDef(props.page) && !Object.is(props.page, false)) {
     // 开启分页
@@ -19,20 +18,30 @@ export const useTableState = (props: TableProps) => {
       size: 10,
       total: 0,
       pageSizes: [10, 20, 30, 40],
+      layout: 'total, sizes,  prev, pager, next, jumper',
+      background: true,
       ...props.page
     }
   }
   watchEffect(() => {
-    if (!isNullOrUnDef(table.value.data)) {
-      tableData.value = table.value.data
+    if (!isNullOrUnDef(props.table.data)) {
+      tableData.value = props.table.data
     }
   })
 
+  const setProps = (props: Partial<TableProps>) => {
+    innerPropsRef.value = { ...unref(innerPropsRef), ...props }
+  }
+
+  const getProps = computed(() => {
+    return { ...props, ...unref(innerPropsRef) }
+  })
+
   return {
-    table,
+    setProps,
+    getProps,
     tableData,
-    tableColumn,
     paginationRef,
-    permissionsBtn
+    tableDrawer
   }
 }

@@ -13,6 +13,12 @@ const paginationProps = {
     type: Number,
     default: 1
   },
+  layout: {
+    type: String
+  },
+  background: {
+    type: Boolean as PropType<boolean>
+  },
   pageSizes: {
     type: Array as PropType<number[]>
   },

@@ -42,6 +42,7 @@
     {
       prop: 'name',
       label: 'Name',
+      hidden: true,
       tag: true
     },
     {

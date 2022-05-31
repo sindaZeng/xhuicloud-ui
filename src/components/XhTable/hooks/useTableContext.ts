@@ -1,5 +1,5 @@
 import { provide, inject } from 'vue'
-import { XhTableType } from '.'
+import type { XhTableType } from '.'
 
 const key = Symbol('xh-table')
 

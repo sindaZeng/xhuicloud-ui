@@ -13,14 +13,15 @@
     circle
     @click="table.onload"
   ></el-button>
-  <el-button :icon="View" style="float: right" size="default" circle></el-button>
+  <el-button :icon="View" style="float: right" size="default" circle @click="table.changeTableDrawer"></el-button>
+  <crud-style></crud-style>
 </template>
 
 <script lang="ts" setup>
   import { Plus, Download, Upload, Refresh, View } from '@element-plus/icons-vue'
   import { computed } from 'vue'
   import { useTableContext } from './hooks'
-
+  import crudStyle from './crud-style.vue'
   const table = useTableContext()
   const permission = computed(() => table.permission)
 </script>

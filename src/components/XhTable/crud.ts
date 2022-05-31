@@ -28,7 +28,7 @@ export interface PermissionsBtn {
   [key: string]: any
 }
 
-const tableProps = {
+export const tableProps = {
   enableSearch: {
     type: Boolean as PropType<boolean>,
     default: false
@@ -63,7 +63,9 @@ const tableProps = {
       }
     }
   }
-}
+} as const
+
+export type TableProps = ExtractPropTypes<typeof tableProps>
 
 export const tableEmits = {
   'update:page': (page: PaginationType) => !Object.is(page, false)
@@ -72,7 +74,5 @@ export const tableEmits = {
 export type TableEmits = typeof tableEmits
 
 export type TableEmitsFn = EmitFn<TableEmits>
-
-export type TableProps = ExtractPropTypes<typeof tableProps>
 
 export default tableProps
