@@ -11,10 +11,16 @@
     style="float: right; margin-left: 12px"
     size="default"
     circle
-    @click="table.onload"
+    @click="tableContext.onload"
   ></el-button>
-  <el-button :icon="View" style="float: right" size="default" circle @click="table.changeTableDrawer"></el-button>
-  <crud-style></crud-style>
+  <el-button
+    :icon="View"
+    style="float: right"
+    size="default"
+    circle
+    @click="tableContext.changeTableDrawer"
+  ></el-button>
+  <crud-style v-if="tableContext.tableDrawer.value"></crud-style>
 </template>
 
 <script lang="ts" setup>
@@ -22,7 +28,7 @@
   import { computed } from 'vue'
   import { useTableContext } from './hooks'
   import crudStyle from './crud-style.vue'
-  const table = useTableContext()
-  const permission = computed(() => table.permission)
+  const tableContext = useTableContext()
+  const permission = computed(() => tableContext.permission)
 </script>
 <style lang="scss" scoped></style>

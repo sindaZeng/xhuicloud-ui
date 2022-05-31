@@ -144,7 +144,6 @@ export class XhAxios {
             return
           }
           if (axios.isAxiosError(e)) {
-            console.log(e)
           }
           reject(e)
         })

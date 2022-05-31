@@ -10,7 +10,6 @@ export const useTableState = (props: TableProps) => {
   const paginationRef = ref<PaginationType>(false)
   const tableDrawer = ref(false)
   const innerPropsRef = ref<Partial<TableProps>>()
-
   if (!isNullOrUnDef(props.page) && !Object.is(props.page, false)) {
     // 开启分页
     paginationRef.value = {
@@ -33,6 +32,9 @@ export const useTableState = (props: TableProps) => {
     innerPropsRef.value = { ...unref(innerPropsRef), ...props }
   }
 
+  /**
+   * 维护一个可修改的props
+   */
   const getProps = computed(() => {
     return { ...props, ...unref(innerPropsRef) }
   })

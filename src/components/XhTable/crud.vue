@@ -5,7 +5,14 @@
         <crud-operation />
       </div>
       <div class="table-main">
-        <el-table v-loading="loading" v-bind="getProps.table" :data="tableData" style="width: 100%">
+        <el-table
+          v-loading="loading"
+          v-bind="getProps.table"
+          :data="tableData"
+          style="width: 100%"
+          @selection-change="getProps.table.handleSelectionChange"
+        >
+          <el-table-column v-if="getProps.table.selection" type="selection" width="55" align="center" />
           <template v-for="(item, index) in getProps.tableColumn" :key="index">
             <el-table-column v-if="!item.hidden" v-bind="item" align="center">
               <template #default="scope">
@@ -53,6 +60,7 @@
   import crudOperation from './crud-operation.vue'
   import { useTableMethods, useTableState, createTableContext } from './hooks'
   import XhCard from '../XhCard/index.vue'
+  import { watch } from 'vue'
 
   const props = defineProps(tableProps)
 
@@ -73,7 +81,16 @@
   }
 
   createTableContext(instance)
-
+  watch(
+    () => getProps.value.tableColumn,
+    (val) => {
+      console.log(val)
+    },
+    {
+      immediate: true,
+      deep: true
+    }
+  )
   onload()
 </script>
 <style lang="scss" scoped>

@@ -150,13 +150,11 @@
 
   const pushAll = () => {
     _list1.value = _list1.value.concat(_list2.value)
-    console.log(_list1.value)
     _list2.value = []
   }
 
   const deleteAll = () => {
     _list2.value = _list2.value.concat(_list1.value)
-    console.log(_list2.value)
     _list1.value = []
   }
 </script>
