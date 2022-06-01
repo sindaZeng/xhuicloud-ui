@@ -16,6 +16,7 @@ export interface TableColumn {
   tag?: Recordable | boolean
   // icon 使用的是xhuicloud-ui icon 组件
   icon?: Recordable | boolean
+  search?: boolean
   [key: string]: any
 }
 

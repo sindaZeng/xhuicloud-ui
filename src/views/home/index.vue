@@ -1,5 +1,12 @@
 <template>
-  <Crud v-model:page="page" :permission="{ addBtn: true }" :table-column="tableColumn" :onload="onload"> </Crud>
+  <Crud
+    v-model:page="page"
+    :enable-search="true"
+    :permission="{ addBtn: true }"
+    :table-column="tableColumn"
+    :onload="onload"
+  >
+  </Crud>
 </template>
 
 <script lang="ts" setup>
@@ -35,6 +42,8 @@
     {
       prop: 'date',
       label: 'Date',
+      search: true,
+
       formatter: (_row: any, _column: any, cellValue: any, _index: any) => {
         return cellValue
       }
@@ -42,12 +51,14 @@
     {
       prop: 'name',
       label: 'Name',
-      hidden: true,
+      search: true,
       tag: true
     },
     {
       prop: 'icon',
       label: 'Icon',
+      search: true,
+
       icon: {
         className: 'myIcon',
         width: '2em',
@@ -57,6 +68,8 @@
     {
       prop: 'image',
       label: 'Image',
+      search: true,
+
       image: {
         previewTeleported: true,
         previewSrcList: srcList
@@ -65,20 +78,28 @@
     {
       prop: 'state',
       label: 'State',
+      search: true,
+
       tag: {
         type: 'success'
       }
     },
     {
       prop: 'city',
+      search: true,
+
       label: 'City'
     },
     {
       prop: 'address',
+      search: true,
+
       label: 'Address'
     },
     {
       prop: 'zip',
+      search: true,
+
       label: 'Zip'
     }
   ]

@@ -1,5 +1,8 @@
 <template>
   <div class="table">
+    <xh-card v-if="getProps.enableSearch">
+      <div class="table-search"></div>
+    </xh-card>
     <xh-card>
       <div class="table-head">
         <crud-operation />
@@ -55,18 +58,22 @@
 </template>
 
 <script lang="ts" setup>
+  import { useSlots } from 'vue'
   import { Picture as IconPicture } from '@element-plus/icons-vue'
   import tableProps, { tableEmits } from './crud'
   import crudOperation from './crud-operation.vue'
-  import { useTableMethods, useTableState, createTableContext } from './hooks'
+  import { useTableForm, useTableMethods, createTableContext, useTableState } from './hooks'
   import XhCard from '../XhCard/index.vue'
-  import { watch } from 'vue'
+
+  const slots = useSlots()
 
   const props = defineProps(tableProps)
 
   const emit = defineEmits(tableEmits)
 
   const state = useTableState(props)
+
+  useTableForm(state, slots)
 
   const { tableData, paginationRef, getProps } = state
 
@@ -81,16 +88,6 @@
   }
 
   createTableContext(instance)
-  watch(
-    () => getProps.value.tableColumn,
-    (val) => {
-      console.log(val)
-    },
-    {
-      immediate: true,
-      deep: true
-    }
-  )
   onload()
 </script>
 <style lang="scss" scoped>
@@ -109,6 +106,16 @@
   }
 
   .table {
+    .table-search {
+      display: inline-flex;
+      .el-input__inner {
+        height: 30px !important;
+        width: 250px !important;
+      }
+      .el-input {
+        margin-right: 20px;
+      }
+    }
     .table-head {
       height: 50px;
       width: 100%;

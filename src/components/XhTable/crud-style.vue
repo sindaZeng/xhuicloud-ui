@@ -30,6 +30,10 @@
         <el-switch v-model="table.border" />
       </div>
       <div class="table-style-switch">
+        搜索栏:
+        <el-switch v-model="enableSearch" />
+      </div>
+      <div class="table-style-switch">
         斑马纹:
         <el-switch v-model="table.stripe" />
       </div>
@@ -65,6 +69,8 @@
 
   const table = ref<Table<any>>(tableContext.getProps.value.table)
 
+  const enableSearch = ref<boolean>(tableContext.getProps.value.enableSearch)
+
   watch(
     () => table,
     () => {
@@ -74,6 +80,10 @@
       deep: true
     }
   )
+
+  watch(enableSearch, () => {
+    tableContext.setProps({ enableSearch: enableSearch.value })
+  })
 
   watch(
     () => tableColumn,
@@ -88,8 +98,8 @@
   watch(height, (val) => {
     if (val) {
       table.value.height = document.getElementsByClassName('app-main')[0].clientHeight - 200
+      tableContext.setProps({ table: table.value })
     }
-    tableContext.setProps({ table: table.value })
   })
 </script>
 <style lang="scss" scoped>

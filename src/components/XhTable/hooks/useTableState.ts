@@ -10,8 +10,9 @@ export const useTableState = (props: TableProps) => {
   const paginationRef = ref<PaginationType>(false)
   const tableDrawer = ref(false)
   const innerPropsRef = ref<Partial<TableProps>>()
+
+  // 开启分页
   if (!isNullOrUnDef(props.page) && !Object.is(props.page, false)) {
-    // 开启分页
     paginationRef.value = {
       current: 1,
       size: 10,
@@ -22,6 +23,7 @@ export const useTableState = (props: TableProps) => {
       ...props.page
     }
   }
+
   watchEffect(() => {
     if (!isNullOrUnDef(props.table.data)) {
       tableData.value = props.table.data
@@ -43,7 +45,7 @@ export const useTableState = (props: TableProps) => {
     setProps,
     getProps,
     tableData,
-    paginationRef,
-    tableDrawer
+    tableDrawer,
+    paginationRef
   }
 }
