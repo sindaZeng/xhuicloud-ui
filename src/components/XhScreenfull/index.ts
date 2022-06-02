@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XhScreenfull from './index.vue'
+import xhScreenfull from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const xhScreenfull = withInstall(XhScreenfull)
+const XhScreenfull = withInstall(xhScreenfull)
 
 export { xhScreenfull }
 
-export default xhScreenfull
+export default XhScreenfull

@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XhIconView from './index.vue'
+import xhIconView from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const xhIconView = withInstall(XhIconView)
+const XhIconView = withInstall(xhIconView)
 
 export { xhIconView }
 
-export default xhIconView
+export default XhIconView

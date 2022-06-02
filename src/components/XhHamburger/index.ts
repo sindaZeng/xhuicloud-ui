@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XhHamburger from './index.vue'
+import xhHamburger from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const xhHamburger = withInstall(XhHamburger)
+const XhHamburger = withInstall(xhHamburger)
 
 export { xhHamburger }
 
-export default xhHamburger
+export default XhHamburger

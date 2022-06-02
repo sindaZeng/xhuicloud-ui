@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XhThemeSelect from './index.vue'
+import xhThemeSelect from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const xhThemeSelect = withInstall(XhThemeSelect)
+const XhThemeSelect = withInstall(xhThemeSelect)
 
 export { xhThemeSelect }
 
-export default xhThemeSelect
+export default XhThemeSelect

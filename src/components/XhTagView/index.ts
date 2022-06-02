@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XhTagView from './index.vue'
+import xhTagView from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const xhTagView = withInstall(XhTagView)
+const XhTagView = withInstall(xhTagView)
 
 export { xhTagView }
 
-export default xhTagView
+export default XhTagView

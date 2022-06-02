@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XhMessage from './index.vue'
+import xhMessage from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const xhMessage = withInstall(XhMessage)
+const XhMessage = withInstall(xhMessage)
 
 export { xhMessage }
 
-export default xhMessage
+export default XhMessage

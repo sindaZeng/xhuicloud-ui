@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XhLangSelect from './index.vue'
+import xhLangSelect from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const xhLangSelect = withInstall(XhLangSelect)
+const XhLangSelect = withInstall(xhLangSelect)
 
 export { xhLangSelect }
 
-export default xhLangSelect
+export default XhLangSelect

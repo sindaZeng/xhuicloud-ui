@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XhDraggable from './index.vue'
+import xhDraggable from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const xhDraggable = withInstall(XhDraggable)
+const XhDraggable = withInstall(xhDraggable)
 
 export { xhDraggable }
 
-export default xhDraggable
+export default XhDraggable

@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XhCharts from './index.vue'
+import xhCharts from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const xhCharts = withInstall(XhCharts)
+const XhCharts = withInstall(xhCharts)
 
 export { xhCharts }
 
-export default xhCharts
+export default XhCharts

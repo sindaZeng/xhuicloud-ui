@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XhBreadcrumb from './index.vue'
+import xhBreadcrumb from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const xhBreadcrumb = withInstall(XhBreadcrumb)
+const XhBreadcrumb = withInstall(xhBreadcrumb)
 
 export { xhBreadcrumb }
 
-export default xhBreadcrumb
+export default XhBreadcrumb

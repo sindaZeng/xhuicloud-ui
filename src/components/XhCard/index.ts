@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XhCard from './index.vue'
+import xhCard from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const xhCard = withInstall(XhCard)
+const XhCard = withInstall(xhCard)
 
 export { xhCard }
 
-export default xhCard
+export default XhCard

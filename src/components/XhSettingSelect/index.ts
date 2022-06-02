@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import XhSettingSelect from './index.vue'
+import xhSettingSelect from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const xhSettingSelect = withInstall(XhSettingSelect)
+const XhSettingSelect = withInstall(xhSettingSelect)
 
 export { xhSettingSelect }
 
-export default xhSettingSelect
+export default XhSettingSelect

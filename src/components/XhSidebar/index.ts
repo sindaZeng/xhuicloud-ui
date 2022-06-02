@@ -22,14 +22,14 @@
  * @Email:  xhuicloud@163.com
  */
 
-import MenuItem from './MenuItem.vue'
-import SidebarItem from './SidebarItem.vue'
-import SidebarMenu from './SidebarMenu.vue'
+import menuItem from './MenuItem.vue'
+import sidebarItem from './SidebarItem.vue'
+import sidebarMenu from './SidebarMenu.vue'
 
 import { withInstall } from '@/utils/install'
 
-const menuItem = withInstall(MenuItem)
-const sidebarItem = withInstall(SidebarItem)
-const sidebarMenu = withInstall(SidebarMenu)
+const MenuItem = withInstall(menuItem)
+const SidebarItem = withInstall(sidebarItem)
+const SidebarMenu = withInstall(sidebarMenu)
 
-export default { menuItem, sidebarItem, sidebarMenu }
+export default { MenuItem, SidebarItem, SidebarMenu }
