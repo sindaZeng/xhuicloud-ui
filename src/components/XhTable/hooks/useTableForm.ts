@@ -1,12 +1,13 @@
 import { FormProps, FormItem } from '@/components/XhForm/form'
-import { computed, ComputedRef, Slots, unref } from 'vue'
+import { computed, Slots, unref } from 'vue'
 import { TableColumn } from '../crud'
-import { TableState } from './useTable'
+import { TableState } from './useTableState'
 
 export const useTableForm = (state: TableState, slots: Slots) => {
-  const getFormSlotKeys: ComputedRef<string[]> = computed((slotPrefix: string) => {
+  const getFormSlotKeys = computed(() => {
     const keys = Object.keys(slots)
-    return keys.map((item) => (item.startsWith(slotPrefix) ? item : null)).filter((item) => !!item) as string[]
+    console.log(keys)
+    return keys.map((item) => (item.startsWith('form') ? item : null)).filter((item) => !!item) as string[]
   })
 
   // 开启搜索

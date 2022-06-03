@@ -26,7 +26,7 @@ import xhHamburger from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const XhHamburger = withInstall(xhHamburger)
+export const XhHamburger = withInstall(xhHamburger)
 
 export { xhHamburger }
 

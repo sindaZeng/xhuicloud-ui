@@ -1,7 +1,9 @@
 <template>
   <div class="table">
     <xh-card v-if="getProps.enableSearch">
-      <div class="table-search"></div>
+      <div class="table-search">
+        <xh-form v-bind="getTableSearchForm"></xh-form>
+      </div>
     </xh-card>
     <xh-card>
       <div class="table-head">
@@ -73,7 +75,7 @@
 
   const state = useTableState(props)
 
-  useTableForm(state, slots)
+  const { getTableSearchForm } = useTableForm(state, slots)
 
   const { tableData, paginationRef, getProps } = state
 

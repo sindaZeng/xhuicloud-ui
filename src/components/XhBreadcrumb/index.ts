@@ -26,7 +26,7 @@ import xhBreadcrumb from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const XhBreadcrumb = withInstall(xhBreadcrumb)
+export const XhBreadcrumb = withInstall(xhBreadcrumb)
 
 export { xhBreadcrumb }
 

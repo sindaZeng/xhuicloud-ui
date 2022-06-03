@@ -26,7 +26,7 @@ import xhSettingSelect from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const XhSettingSelect = withInstall(xhSettingSelect)
+export const XhSettingSelect = withInstall(xhSettingSelect)
 
 export { xhSettingSelect }
 

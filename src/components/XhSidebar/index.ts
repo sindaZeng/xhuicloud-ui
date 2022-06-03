@@ -28,8 +28,8 @@ import sidebarMenu from './SidebarMenu.vue'
 
 import { withInstall } from '@/utils/install'
 
-const MenuItem = withInstall(menuItem)
-const SidebarItem = withInstall(sidebarItem)
-const SidebarMenu = withInstall(sidebarMenu)
+export const MenuItem = withInstall(menuItem)
+export const SidebarItem = withInstall(sidebarItem)
+export const SidebarMenu = withInstall(sidebarMenu)
 
 export default { MenuItem, SidebarItem, SidebarMenu }

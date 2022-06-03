@@ -21,18 +21,9 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
+import { makeInstaller } from '@/utils/install'
+import Components from './default'
+const installer = makeInstaller(Components)
 
-export * from './XhBreadcrumb'
-export * from './XhCard'
-export * from './XhCharts'
-export * from './XhDraggable'
-export * from './XhHamburger'
-export * from './XhIconView'
-export * from './XhLangSelect'
-export * from './XhMessage'
-export * from './XhScreenfull'
-export * from './XhSettingSelect'
-export * from './XhSidebar'
-export * from './XhSvg'
-export * from './XhTagView'
-export * from './XhThemeSelect'
+export const install = installer.install
+export default installer

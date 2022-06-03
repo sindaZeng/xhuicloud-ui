@@ -26,7 +26,7 @@ import xhLangSelect from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const XhLangSelect = withInstall(xhLangSelect)
+export const XhLangSelect = withInstall(xhLangSelect)
 
 export { xhLangSelect }
 

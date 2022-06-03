@@ -26,7 +26,7 @@ import xhMessage from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const XhMessage = withInstall(xhMessage)
+export const XhMessage = withInstall(xhMessage)
 
 export { xhMessage }
 

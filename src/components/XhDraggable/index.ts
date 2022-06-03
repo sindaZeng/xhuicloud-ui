@@ -26,7 +26,7 @@ import xhDraggable from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const XhDraggable = withInstall(xhDraggable)
+export const XhDraggable = withInstall(xhDraggable)
 
 export { xhDraggable }
 

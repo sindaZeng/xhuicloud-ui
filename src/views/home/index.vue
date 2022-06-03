@@ -6,6 +6,7 @@
     :table-column="tableColumn"
     :onload="onload"
   >
+    <template #form-button> <el-button type="primary">表格自带导出</el-button> </template>
   </Crud>
 </template>
 

@@ -22,12 +22,12 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhIconView from './index.vue'
+import xhForm from './form.vue'
 
 import { withInstall } from '@/utils/install'
 
-export const XhIconView = withInstall(xhIconView)
+export const XhForm = withInstall(xhForm)
 
-export { xhIconView }
+export { xhForm }
 
-export default XhIconView
+export default XhForm

@@ -27,8 +27,21 @@ import type { App, Plugin } from 'vue'
 export type SFCWithInstall<T> = T & Plugin
 
 export const withInstall = <T>(comp: T) => {
-  ;(comp as SFCWithInstall<T>).install = function (app: App) {
+  ;(comp as SFCWithInstall<T>).install = (app: App): void => {
+    console.log(app)
+
     app.component((comp as any).name, comp)
   }
   return comp as SFCWithInstall<T>
+}
+
+export const makeInstaller = (components: Plugin[] = []) => {
+  console.log(components)
+
+  const install = (app: App) => {
+    components.forEach((c) => app.use(c))
+  }
+  return {
+    install
+  }
 }

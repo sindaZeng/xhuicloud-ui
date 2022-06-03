@@ -1,7 +1,7 @@
 import { isObject } from 'lodash-es'
 import { unref } from 'vue'
 import { TableEmitsFn, TableProps } from '../crud'
-import { TableState } from './useTable'
+import { TableState } from './useTableState'
 
 export type UseTableMethods = {
   state: TableState

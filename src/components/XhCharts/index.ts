@@ -26,7 +26,7 @@ import xhCharts from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const XhCharts = withInstall(xhCharts)
+export const XhCharts = withInstall(xhCharts)
 
 export { xhCharts }
 

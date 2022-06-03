@@ -23,8 +23,19 @@
  */
 declare module 'vue' {
   export interface GlobalComponents {
-    XhSvg: typeof import('@/components')['xhSvg']
+    XhBreadcrumb: typeof import('@/components/default')['XhBreadcrumb']
+    XhCard: typeof import('@/components/default')['XhCard']
+    XhCharts: typeof import('@/components/default')['XhCharts']
+    XhDraggable: typeof import('@/components/default')['XhDraggable']
+    XhForm: typeof import('@/components/default')['XhForm']
+    XhIconView: typeof import('@/components/default')['XhIconView']
+    XhLangSelect: typeof import('@/components/default')['XhLangSelect']
+    XhMessage: typeof import('@/components/default')['XhMessage']
+    XhScreenfull: typeof import('@/components/default')['XhScreenfull']
+    XhSettingSelect: typeof import('@/components/default')['XhSettingSelect']
+    XhSvg: typeof import('@/components/default')['XhSvg']
+    XhTagView: typeof import('@/components/default')['XhTagView']
+    XhThemeSelect: typeof import('@/components/default')['XhThemeSelect']
   }
 }
-
 export {}

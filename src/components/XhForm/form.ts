@@ -1,5 +1,4 @@
-import { componentSizes, FormItemProps, FormRules } from 'element-plus'
-import { definePropType } from 'element-plus/lib/utils'
+import { componentSizes, FormItemProps, FormProps as ElFormProps } from 'element-plus'
 import { ExtractPropTypes, PropType } from 'vue'
 
 export interface FormItem extends FormItemProps {
@@ -8,8 +7,9 @@ export interface FormItem extends FormItemProps {
 
 export const formProps = {
   model: Object,
+  className: String,
   rules: {
-    type: definePropType<FormRules>(Object)
+    type: Object as PropType<ElFormProps['rules']>
   },
   labelPosition: String,
   labelWidth: {

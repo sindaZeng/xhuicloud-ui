@@ -26,7 +26,7 @@ import xhSvg from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-const XhSvg = withInstall(xhSvg)
+export const XhSvg = withInstall(xhSvg)
 
 export { xhSvg }
 
