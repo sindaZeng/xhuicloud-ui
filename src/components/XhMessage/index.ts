@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhMessage from './index.vue'
+import xhMessage from './message.vue'
 
 import { withInstall } from '@/utils/install'
 

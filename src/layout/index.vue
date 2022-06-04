@@ -46,7 +46,6 @@
 <script lang="ts" setup>
   import Navbar from './Navbar/index.vue'
   import Sidebar from './Sidebar/index.vue'
-  import TagView from '@/components/XhTagView/index.vue'
   import AppMain from './AppMain/index.vue'
   import { ref, onUnmounted, onMounted } from 'vue'
   import setting from '@/config/setting.config'

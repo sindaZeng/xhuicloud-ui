@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhSvg from './index.vue'
+import xhSvg from './svg.vue'
 
 import { withInstall } from '@/utils/install'
 

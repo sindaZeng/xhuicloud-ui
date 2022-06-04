@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhCard from './index.vue'
+import xhCard from './card.vue'
 
 import { withInstall } from '@/utils/install'
 

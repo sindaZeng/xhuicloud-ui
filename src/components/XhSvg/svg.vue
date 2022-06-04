@@ -23,8 +23,8 @@
   -->
 
 <template>
-  <div v-if="externalIcon" :style="externalIconStyle" class="svg-external-icon svg-icon" :class="className"></div>
-  <svg v-else class="svg-icon" :class="className" aria-hidden="true">
+  <div v-if="externalIcon" :style="externalIconStyle" :class="['svg-icon', 'svg-external-icon', className]"></div>
+  <svg v-else :class="['svg-icon', className]" aria-hidden="true">
     <use :xlink:href="innerIcon" />
   </svg>
 </template>

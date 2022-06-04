@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhThemeSelect from './index.vue'
+import xhThemeSelect from './themeSelect.vue'
 
 import { withInstall } from '@/utils/install'
 

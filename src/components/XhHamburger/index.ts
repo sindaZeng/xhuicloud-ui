@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhHamburger from './index.vue'
+import xhHamburger from './hamburger.vue'
 
 import { withInstall } from '@/utils/install'
 

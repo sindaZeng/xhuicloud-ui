@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhLangSelect from './index.vue'
+import xhLangSelect from './langSelect.vue'
 
 import { withInstall } from '@/utils/install'
 

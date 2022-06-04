@@ -69,10 +69,10 @@
 <script lang="ts" setup>
   import { ref, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
-  import { TabsPaneContext } from 'element-plus'
+  import { TabPanelName, TabsPaneContext } from 'element-plus'
   import { ArrowDown } from '@element-plus/icons-vue'
   import MenuItem from '@/components/XhSidebar/MenuItem.vue'
-  import useStore from '@/store'
+  import useStore from '../../store'
 
   const { app } = useStore()
 
@@ -135,10 +135,10 @@
    * 关闭当前
    * @param index
    */
-  function delTagView(path: string, action: string) {
+  function delTagView(path: TabPanelName, action: string) {
     if (action === 'remove') {
       app.delTagView(path)
-      if (isActive(path)) {
+      if (isActive(path as string)) {
         pushLastView()
       }
     }

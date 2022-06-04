@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhBreadcrumb from './index.vue'
+import xhBreadcrumb from './breadcrumb.vue'
 
 import { withInstall } from '@/utils/install'
 

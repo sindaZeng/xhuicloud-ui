@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhSettingSelect from './index.vue'
+import xhSettingSelect from './settingSelect.vue'
 
 import { withInstall } from '@/utils/install'
 

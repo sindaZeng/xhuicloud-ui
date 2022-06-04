@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhIconView from './index.vue'
+import xhIconView from './iconView.vue'
 
 import { withInstall } from '@/utils/install'
 

@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhTagView from './index.vue'
+import xhTagView from './tagView.vue'
 
 import { withInstall } from '@/utils/install'
 

@@ -40,7 +40,6 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue'
-  import XhSettingSelect from '../XhSettingSelect/index.vue'
 
   function handleSelectTheme() {
     settingsVisible.value = true

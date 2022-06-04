@@ -64,7 +64,6 @@
   import useStore from '@/store'
   import { tenantList } from '@/api/upms/tenant'
   import { Tenant } from '@/api/upms/entity/tenant'
-  import XhLangSelect from '@/components/XhLangSelect/index.vue'
 
   const { user } = useStore()
 

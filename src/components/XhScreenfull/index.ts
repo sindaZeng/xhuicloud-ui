@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhScreenfull from './index.vue'
+import xhScreenfull from './screenfull.vue'
 
 import { withInstall } from '@/utils/install'
 

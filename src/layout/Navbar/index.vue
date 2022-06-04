@@ -53,11 +53,6 @@
 <script lang="ts" setup>
   import { useRouter } from 'vue-router'
   import useStore from '@/store'
-  import XhThemeSelect from '@/components/XhThemeSelect/index.vue'
-  import XhLangSelect from '@/components/XhLangSelect/index.vue'
-  import XhScreenfull from '@/components/XhScreenfull/index.vue'
-  import XhHamburger from '@/components/XhHamburger/index.vue'
-  import XhBreadcrumb from '@/components/XhBreadcrumb/index.vue'
 
   const router = useRouter()
 

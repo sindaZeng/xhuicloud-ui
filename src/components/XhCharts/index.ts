@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhCharts from './index.vue'
+import xhCharts from './charts.vue'
 
 import { withInstall } from '@/utils/install'
 

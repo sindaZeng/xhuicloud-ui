@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhDraggable from './index.vue'
+import xhDraggable from './draggable.vue'
 
 import { withInstall } from '@/utils/install'
 
