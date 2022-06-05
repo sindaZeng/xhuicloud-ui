@@ -107,3 +107,13 @@ export function openWindows(url: string, title: string, w: number, h: number): W
   newWindow?.focus()
   return newWindow
 }
+
+/**
+ * 首字母大写
+ * @param str
+ * @returns
+ */
+export function ucfirst(str: string) {
+  const firstLetter = str.substring(0, 1)
+  return firstLetter.toUpperCase() + str.substring(1)
+}

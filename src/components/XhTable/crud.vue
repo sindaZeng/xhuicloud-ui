@@ -65,7 +65,6 @@
   import tableProps, { tableEmits } from './crud'
   import crudOperation from './crud-operation.vue'
   import { useTableForm, useTableMethods, createTableContext, useTableState } from './hooks'
-  import XhCard from '../XhCard/index.vue'
 
   const slots = useSlots()
 

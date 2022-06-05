@@ -23,21 +23,18 @@
  */
 
 import type { App, Plugin } from 'vue'
+import { ucfirst } from '.'
 
 export type SFCWithInstall<T> = T & Plugin
 
-export const withInstall = <T>(comp: T) => {
+export const withInstall = <T>(comp: T, name?: string) => {
   ;(comp as SFCWithInstall<T>).install = (app: App): void => {
-    console.log(app)
-
-    app.component((comp as any).name, comp)
+    app.component(name || 'Xh' + ucfirst((comp as any).name), comp)
   }
   return comp as SFCWithInstall<T>
 }
 
 export const makeInstaller = (components: Plugin[] = []) => {
-  console.log(components)
-
   const install = (app: App) => {
     components.forEach((c) => app.use(c))
   }

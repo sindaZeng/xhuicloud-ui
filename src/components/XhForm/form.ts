@@ -3,6 +3,7 @@ import { ExtractPropTypes, PropType } from 'vue'
 
 export interface FormItem extends FormItemProps {
   placeholder?: string
+  prop: string
 }
 
 export const formProps = {

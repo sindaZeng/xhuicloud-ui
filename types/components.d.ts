@@ -23,19 +23,19 @@
  */
 declare module 'vue' {
   export interface GlobalComponents {
-    XhBreadcrumb: typeof import('@/components/default')['XhBreadcrumb']
-    XhCard: typeof import('@/components/default')['XhCard']
-    XhCharts: typeof import('@/components/default')['XhCharts']
-    XhDraggable: typeof import('@/components/default')['XhDraggable']
-    XhForm: typeof import('@/components/default')['XhForm']
-    XhIconView: typeof import('@/components/default')['XhIconView']
-    XhLangSelect: typeof import('@/components/default')['XhLangSelect']
-    XhMessage: typeof import('@/components/default')['XhMessage']
-    XhScreenfull: typeof import('@/components/default')['XhScreenfull']
-    XhSettingSelect: typeof import('@/components/default')['XhSettingSelect']
-    XhSvg: typeof import('@/components/default')['XhSvg']
-    XhTagView: typeof import('@/components/default')['XhTagView']
-    XhThemeSelect: typeof import('@/components/default')['XhThemeSelect']
+    XhBreadcrumb: typeof import('@/components/component')['XhBreadcrumb']
+    XhCard: typeof import('@/components/component')['XhCard']
+    XhCharts: typeof import('@/components/component')['XhCharts']
+    XhDraggable: typeof import('@/components/component')['XhDraggable']
+    XhForm: typeof import('@/components/component')['XhForm']
+    XhIconView: typeof import('@/components/component')['XhIconView']
+    XhLangSelect: typeof import('@/components/component')['XhLangSelect']
+    XhMessage: typeof import('@/components/component')['XhMessage']
+    XhScreenfull: typeof import('@/components/component')['XhScreenfull']
+    XhSettingSelect: typeof import('@/components/component')['XhSettingSelect']
+    XhSvg: typeof import('@/components/component')['XhSvg']
+    XhTagView: typeof import('@/components/component')['XhTagView']
+    XhThemeSelect: typeof import('@/components/component')['XhThemeSelect']
   }
 }
 export {}

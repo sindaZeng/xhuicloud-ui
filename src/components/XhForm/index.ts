@@ -22,11 +22,11 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhForm from './form.vue'
+import xhForm from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-export const XhForm = withInstall(xhForm)
+export const XhForm = withInstall(xhForm, 'XhForm')
 
 export { xhForm }
 

@@ -22,11 +22,11 @@
  * @Email:  xhuicloud@163.com
  */
 
-import xhSvg from './svg.vue'
+import xhSvg from './index.vue'
 
 import { withInstall } from '@/utils/install'
 
-export const XhSvg = withInstall(xhSvg)
+export const XhSvg = withInstall(xhSvg, 'XhSvg')
 
 export { xhSvg }
 
