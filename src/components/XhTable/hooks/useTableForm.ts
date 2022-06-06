@@ -13,8 +13,10 @@ export const useTableForm = (state: TableState, slots: Slots) => {
   // 开启搜索
   const getTableSearchForm = computed<FormProps>(() => {
     const tableForm: FormProps = {
+      model: {},
       schemas: [],
-      labelWidth: '50',
+      labelPosition: 'right',
+      labelWidth: '210',
       labelSuffix: '',
       inline: true,
       inlineMessage: false,

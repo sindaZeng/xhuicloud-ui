@@ -1,22 +1,29 @@
 <template>
-  <el-form class="table-form" v-bind="formPropsRef" :model="formData" :class="className">
+  <el-form class="table-form" v-bind="getBindValue">
     <el-row>
-      <el-col v-for="(item, index) in formPropsRef.schemas" :key="index" :xl="4" :lg="8" :md="10" :sm="10" :xs="16">
+      <el-col v-for="(item, index) in getBindValue.schemas" :key="index" :xl="4" :lg="8" :md="10" :sm="10" :xs="16">
         <el-form-item v-bind="item">
-          <el-input v-model="formData[item.prop]" :placeholder="item.placeholder" />
+          <el-input v-model="modelRef[item.prop]" :placeholder="item.placeholder" />
         </el-form-item>
       </el-col>
+      <el-button type="primary">Primary</el-button>
+      <el-button type="primary" link
+        >收起<el-icon class="el-icon--right"><ArrowUp /></el-icon
+      ></el-button>
     </el-row>
   </el-form>
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue'
+  import { ArrowUp } from '@element-plus/icons-vue'
+  import { useAttrs } from 'vue'
   import { formProps } from './form'
   import { useFormState } from './hooks/useFormState'
 
+  const attrs = useAttrs()
+
   const props = defineProps(formProps)
-  const { formPropsRef } = useFormState({ props })
-  const formData = ref<any>({})
+
+  const { modelRef, getBindValue } = useFormState({ props, attrs })
 </script>
 <style lang="scss" scoped></style>

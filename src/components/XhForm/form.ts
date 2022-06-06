@@ -8,7 +8,6 @@ export interface FormItem extends FormItemProps {
 
 export const formProps = {
   model: Object,
-  className: String,
   rules: {
     type: Object as PropType<ElFormProps['rules']>
   },

@@ -26,5 +26,7 @@ import type { SetupContext, EmitsOptions } from 'vue'
 declare global {
   declare type Recordable<T = any> = Record<string, T>
 
+  declare type Data = Record<string, unknown>
+
   declare type EmitFn<E = EmitsOptions> = SetupContext<E>['emit']
 }
