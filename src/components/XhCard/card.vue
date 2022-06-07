@@ -48,7 +48,7 @@
     },
     shadow: {
       type: String,
-      default: '',
+      default: 'always',
       required: false
     }
   })

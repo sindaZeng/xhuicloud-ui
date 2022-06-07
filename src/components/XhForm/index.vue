@@ -1,12 +1,11 @@
 <template>
   <el-form class="table-form" v-bind="getBindValue">
     <el-row>
-      <el-col v-for="(item, index) in getBindValue.schemas" :key="index" :xl="4" :lg="8" :md="10" :sm="10" :xs="16">
-        <el-form-item v-bind="item">
-          <el-input v-model="modelRef[item.prop]" :placeholder="item.placeholder" />
-        </el-form-item>
-      </el-col>
-      <el-button type="primary">Primary</el-button>
+      <template v-for="(item, index) in formSchemasRef" :key="index">
+        <FormItem :form-model="formModelRef" :schemas="item"
+      /></template>
+      <el-button type="primary" @click="log">搜索</el-button>
+      <el-button type="primary">重置</el-button>
       <el-button type="primary" link
         >收起<el-icon class="el-icon--right"><ArrowUp /></el-icon
       ></el-button>
@@ -19,11 +18,16 @@
   import { useAttrs } from 'vue'
   import { formProps } from './form'
   import { useFormState } from './hooks/useFormState'
+  import FormItem from './form-item.vue'
 
   const attrs = useAttrs()
 
   const props = defineProps(formProps)
 
-  const { modelRef, getBindValue } = useFormState({ props, attrs })
+  const { formModelRef, getBindValue, formSchemasRef } = useFormState({ props, attrs })
+
+  const log = () => {
+    console.log(formModelRef)
+  }
 </script>
 <style lang="scss" scoped></style>

@@ -1,8 +1,10 @@
-import { componentSizes, FormItemProps, FormProps as ElFormProps } from 'element-plus'
+import { componentSizes, FormItemProps, FormProps as ElFormProps, ColProps } from 'element-plus'
 import { ExtractPropTypes, PropType } from 'vue'
+import { ComponentMapType } from './hooks/useComponentMap'
 
 export interface FormItem extends FormItemProps {
-  placeholder?: string
+  component?: ComponentMapType
+  col?: ColProps
   prop: string
 }
 
@@ -47,6 +49,9 @@ export const formProps = {
   }
 }
 
-export type FormProps = ExtractPropTypes<typeof formProps>
-
+export type FormProps = Partial<
+  ExtractPropTypes<typeof formProps> & {
+    schemas: FormItem[]
+  }
+>
 export default FormProps

@@ -10,17 +10,16 @@ export type UseFormContext = {
 export type FormState = ReturnType<typeof useFormState>
 
 export const useFormState = ({ props, attrs }: UseFormContext) => {
-  const innerPropsRef = ref<Partial<FormProps>>(props)
+  const innerFormPropsRef = ref<FormProps>(cloneDeep(props))
 
-  const modelRef = ref<any>(cloneDeep(props.model))
+  // 表单数据
+  const formModelRef = ref<any>({ ...props.model })
 
-  const getProps = computed((): FormProps => {
-    return { ...props, ...unref(innerPropsRef) } as FormProps
-  })
+  const getBindValue = computed(() => ({ ...attrs, ...props } as FormProps))
 
-  const schemasRef = ref<FormProps>(cloneDeep(props))
-
-  const getBindValue = computed(() => ({ ...attrs, ...props, ...unref(getProps) } as Recordable))
-
-  return { getProps, getBindValue, schemasRef, modelRef }
+  return {
+    getBindValue,
+    formModelRef,
+    formSchemasRef: computed(() => unref(innerFormPropsRef).schemas || [])
+  }
 }
