@@ -42,6 +42,7 @@
     "xhuicloud",
     "echarts",
     "screenfull",
-    "vuedraggable"
+    "vuedraggable",
+    "vueuse"
   ]
 }
