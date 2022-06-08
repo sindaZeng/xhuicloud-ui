@@ -26,7 +26,7 @@ import xhTagView from './tagView.vue'
 
 import { withInstall } from '@/utils/install'
 
-export const XhTagView = withInstall(xhTagView)
+export const XhTagView = withInstall(xhTagView, 'XhTagView')
 
 export { xhTagView }
 

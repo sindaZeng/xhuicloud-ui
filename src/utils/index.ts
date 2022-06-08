@@ -113,7 +113,7 @@ export function openWindows(url: string, title: string, w: number, h: number): W
  * @param str
  * @returns
  */
-export function ucfirst(str: string) {
+export function ucFirst(str: string) {
   const firstLetter = str.substring(0, 1)
   return firstLetter.toUpperCase() + str.substring(1)
 }

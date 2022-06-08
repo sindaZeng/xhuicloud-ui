@@ -26,7 +26,7 @@ import xhThemeSelect from './themeSelect.vue'
 
 import { withInstall } from '@/utils/install'
 
-export const XhThemeSelect = withInstall(xhThemeSelect)
+export const XhThemeSelect = withInstall(xhThemeSelect, 'XhThemeSelect')
 
 export { xhThemeSelect }
 

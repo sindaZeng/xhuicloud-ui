@@ -26,7 +26,7 @@ import xhIconView from './iconView.vue'
 
 import { withInstall } from '@/utils/install'
 
-export const XhIconView = withInstall(xhIconView)
+export const XhIconView = withInstall(xhIconView, 'XhIconView')
 
 export { xhIconView }
 

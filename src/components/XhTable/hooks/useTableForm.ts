@@ -1,4 +1,5 @@
-import { FormProps, FormItem } from '@/components/XhForm/form'
+import { FormProps } from '@/components/XhForm/form'
+import { FormItem } from '@/components/XhForm/form-item'
 import { computed, Slots, unref } from 'vue'
 import { TableColumn } from '../crud'
 import { TableState } from './useTableState'
@@ -31,17 +32,16 @@ export const useTableForm = (state: TableState, slots: Slots) => {
       return tableForm
     }
     const tableColumns: TableColumn[] = unref(state.getProps).tableColumn
-    const tableSearchsFormItem: FormItem[] = []
+    const tableSearchFormItem: FormItem[] = []
     for (const tableColumn of tableColumns) {
-      tableSearchsFormItem.push({
+      tableSearchFormItem.push({
         label: tableColumn.label,
         prop: tableColumn.prop,
-        component: 'Input',
-        componentProps: {},
+        component: 'ElInput',
         col: { xl: 4, lg: 8, md: 10, sm: 10, xs: 16 }
       } as FormItem)
     }
-    tableForm.schemas = tableSearchsFormItem
+    tableForm.schemas = tableSearchFormItem
     return tableForm
   })
 

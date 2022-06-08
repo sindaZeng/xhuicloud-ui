@@ -26,7 +26,7 @@ import xhScreenfull from './screenfull.vue'
 
 import { withInstall } from '@/utils/install'
 
-export const XhScreenfull = withInstall(xhScreenfull)
+export const XhScreenfull = withInstall(xhScreenfull, 'XhScreenfull')
 
 export { xhScreenfull }
 

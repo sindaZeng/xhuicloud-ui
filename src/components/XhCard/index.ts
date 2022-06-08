@@ -26,7 +26,7 @@ import xhCard from './card.vue'
 
 import { withInstall } from '@/utils/install'
 
-export const XhCard = withInstall(xhCard)
+export const XhCard = withInstall(xhCard, 'XhCard')
 
 export { xhCard }
 
