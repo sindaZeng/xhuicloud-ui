@@ -4,8 +4,6 @@
     "target": "esnext",
     "module": "esnext",
     "useDefineForClassFields": true,
-    // 生成.d.ts文件
-    "declaration": true,
     "allowJs": true,
     "checkJs": false,
     "moduleResolution": "node",
