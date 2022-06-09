@@ -43,8 +43,6 @@
     {
       prop: 'date',
       label: 'Date',
-      search: true,
-
       formatter: (_row: any, _column: any, cellValue: any, _index: any) => {
         return cellValue
       }
@@ -52,13 +50,12 @@
     {
       prop: 'name',
       label: 'Name',
-      search: true,
+      search: { component: 'ElSelect' },
       tag: true
     },
     {
       prop: 'icon',
       label: 'Icon',
-      search: true,
 
       icon: {
         className: 'myIcon',
@@ -69,7 +66,6 @@
     {
       prop: 'image',
       label: 'Image',
-      search: true,
 
       image: {
         previewTeleported: true,
@@ -79,28 +75,20 @@
     {
       prop: 'state',
       label: 'State',
-      search: true,
-
       tag: {
         type: 'success'
       }
     },
     {
       prop: 'city',
-      search: true,
-
       label: 'City'
     },
     {
       prop: 'address',
-      search: true,
-
       label: 'Address'
     },
     {
       prop: 'zip',
-      search: true,
-
       label: 'Zip'
     }
   ]

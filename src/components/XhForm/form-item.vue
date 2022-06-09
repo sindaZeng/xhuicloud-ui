@@ -1,7 +1,10 @@
 <template>
   <el-col v-bind="schemas.col">
     <el-form-item v-bind="schemas">
-      <component :is="getComponent" v-bind="getComponentProps" v-model="modelValue[schemas.prop]"></component>
+      <component :is="getComponent" v-bind="getComponentProps" v-model="modelValue[schemas.prop]">
+        <template v-for="(slotFn, slotName) in getComponentSlots" :key="slotName">
+          <component :is="slotFn"></component> </template
+      ></component>
     </el-form-item>
   </el-col>
 </template>
@@ -19,17 +22,32 @@
     schemas: { type: Object as PropType<FormItemType>, default: () => ({}) }
   })
 
+  const emit = defineEmits(['update:formModel'])
+
+  const modelValue = useVModel(props, 'formModel', emit)
+
+  /**
+   * 获取表单组件
+   */
   const getComponent = computed(() => {
     const comp = props.schemas.component
     return isString(comp) ? componentMap[comp] : componentMap['ElInput']
   })
+
+  /**
+   * 获取表单组件属性
+   */
   const getComponentProps = computed(() => {
     const { componentProps = {} } = props.schemas
     return componentProps
   })
 
-  const emit = defineEmits(['update:formModel'])
-
-  const modelValue = useVModel(props, 'formModel', emit)
+  /**
+   * 获取表单组件插槽
+   */
+  const getComponentSlots = computed(() => {
+    const componentSlots = props.schemas.componentSlots ?? {}
+    return componentSlots
+  })
 </script>
 <style lang="scss" scoped></style>

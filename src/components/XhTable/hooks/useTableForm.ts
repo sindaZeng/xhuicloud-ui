@@ -34,12 +34,14 @@ export const useTableForm = (state: TableState, slots: Slots) => {
     const tableColumns: TableColumn[] = unref(state.getProps).tableColumn
     const tableSearchFormItem: FormItem[] = []
     for (const tableColumn of tableColumns) {
-      tableSearchFormItem.push({
-        label: tableColumn.label,
-        prop: tableColumn.prop,
-        component: 'ElInput',
-        col: { xl: 4, lg: 8, md: 10, sm: 10, xs: 16 }
-      } as FormItem)
+      !tableColumn.search ||
+        tableSearchFormItem.push({
+          component: 'ElInput',
+          col: { xl: 4, lg: 8, md: 10, sm: 10, xs: 16 },
+          ...(tableColumn.search as FormItem),
+          label: tableColumn.label,
+          prop: tableColumn.prop
+        } as FormItem)
     }
     tableForm.schemas = tableSearchFormItem
     return tableForm
