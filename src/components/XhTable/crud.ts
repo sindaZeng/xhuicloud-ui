@@ -1,4 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue'
+import type { FormItem } from '../XhForm/form-item'
 import { PaginationType } from './pagination'
 
 export interface Table<T = any> {
@@ -16,7 +17,7 @@ export interface TableColumn {
   tag?: Recordable | boolean
   // icon 使用的是xhuicloud-ui icon 组件
   icon?: Recordable | boolean
-  search?: boolean
+  search?: Partial<FormItem>
   [key: string]: any
 }
 

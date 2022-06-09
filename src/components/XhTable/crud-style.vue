@@ -1,12 +1,12 @@
 <template>
   <!--  右侧表格属性  -->
-  <el-drawer v-model="tableContext.tableDrawer.value" size="40%">
+  <el-drawer v-model="tableDrawer" size="40%">
     <template #title>
       <h4>{{ $t(`table.attributes`) }}</h4>
     </template>
     <template #default>
       <el-divider content-position="left">字段属性</el-divider>
-      <el-table ref="xhuiDrawerTableRef" :data="tableColumn" style="width: 100%">
+      <el-table ref="xhDrawerTableRef" :data="tableColumn" style="width: 100%">
         <el-table-column prop="label" :label="$t(`table.label`)" width="180" />
         <el-table-column prop="hidden" :label="$t(`table.hidden`)" width="180">
           <template #default="scope">
@@ -57,24 +57,38 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, watch } from 'vue'
+  import { cloneDeep } from 'lodash'
+  import { ref, watch, watchEffect } from 'vue'
   import { Table, TableColumn } from './crud'
   import { useTableContext } from './hooks'
 
   const height = ref<boolean>(false)
 
-  const tableContext = useTableContext()
+  const { getProps, setProps, tableDrawer } = useTableContext()
 
-  const tableColumn = ref<TableColumn[]>(tableContext.getProps.value.tableColumn)
+  /** 目的是解决：类型实例化过深，且可能无限 */
+  type TableColumnType = TableColumn & {
+    search?: any
+  }
 
-  const table = ref<Table<any>>(tableContext.getProps.value.table)
+  const defaultTableColumn = cloneDeep<TableColumnType[]>(getProps.value.tableColumn)
 
-  const enableSearch = ref<boolean>(tableContext.getProps.value.enableSearch)
+  const tableColumn = ref<TableColumnType[]>([])
+
+  const table = ref<Table<any>>(getProps.value.table)
+
+  const enableSearch = ref<boolean>(getProps.value.enableSearch)
+
+  const init = () => {
+    tableColumn.value = defaultTableColumn
+  }
+
+  init()
 
   watch(
     () => table,
     () => {
-      tableContext.setProps({ table: table.value })
+      setProps({ table: table.value })
     },
     {
       deep: true
@@ -82,23 +96,17 @@
   )
 
   watch(enableSearch, () => {
-    tableContext.setProps({ enableSearch: enableSearch.value })
+    setProps({ enableSearch: enableSearch.value })
   })
 
-  watch(
-    () => tableColumn,
-    (val) => {
-      tableContext.setProps({ tableColumn: val.value })
-    },
-    {
-      deep: true
-    }
-  )
+  watchEffect(() => {
+    setProps({ tableColumn: tableColumn.value })
+  })
 
   watch(height, (val) => {
     if (val) {
       table.value.height = document.getElementsByClassName('app-main')[0].clientHeight - 200
-      tableContext.setProps({ table: table.value })
+      setProps({ table: table.value })
     }
   })
 </script>

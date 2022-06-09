@@ -30,10 +30,6 @@ export const useTableState = (props: TableProps) => {
     }
   })
 
-  const setProps = (props: Partial<TableProps>) => {
-    innerPropsRef.value = { ...unref(innerPropsRef), ...props }
-  }
-
   /**
    * 维护一个可修改的props
    */
@@ -42,10 +38,10 @@ export const useTableState = (props: TableProps) => {
   })
 
   return {
-    setProps,
     getProps,
     tableData,
     tableDrawer,
-    paginationRef
+    paginationRef,
+    innerPropsRef
   }
 }

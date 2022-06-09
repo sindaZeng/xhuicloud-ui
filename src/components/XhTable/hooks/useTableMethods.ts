@@ -10,7 +10,11 @@ export type UseTableMethods = {
 }
 
 export const useTableMethods = ({ state, props, emit }: UseTableMethods) => {
-  const { tableData, paginationRef, tableDrawer } = state
+  const { tableData, paginationRef, tableDrawer, innerPropsRef } = state
+
+  const setProps = (props: Partial<TableProps>) => {
+    innerPropsRef.value = { ...unref(innerPropsRef), ...props }
+  }
 
   const onload = async (params = {}) => {
     const queryParams = {
@@ -68,6 +72,7 @@ export const useTableMethods = ({ state, props, emit }: UseTableMethods) => {
     tableDrawer.value = !tableDrawer.value
   }
   return {
+    setProps,
     onload,
     onChange,
     handleSizeChange,
