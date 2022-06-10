@@ -38,15 +38,14 @@
    * 获取表单组件属性
    */
   const getComponentProps = computed(() => {
-    const { componentProps = {} } = props.schemas
-    return componentProps
+    return props.schemas.componentProps
   })
 
   /**
    * 获取表单组件插槽
    */
   const getComponentSlots = computed(() => {
-    const componentSlots = props.schemas.componentSlots ?? {}
+    const componentSlots = props.schemas.componentSlots
     return componentSlots
   })
 </script>

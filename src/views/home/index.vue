@@ -50,7 +50,7 @@
     {
       prop: 'name',
       label: 'Name',
-      search: { component: 'ElSelect' },
+      search: {},
       tag: true
     },
     {
