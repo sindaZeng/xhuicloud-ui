@@ -1,10 +1,7 @@
 <template>
   <el-col v-bind="schemas.col">
     <el-form-item v-bind="schemas">
-      <component :is="getComponent" v-bind="getComponentProps" v-model="modelValue[schemas.prop]">
-        <template v-for="(slotFn, slotName) in getComponentSlots" :key="slotName">
-          <component :is="slotFn"></component> </template
-      ></component>
+      <component :is="getComponent" v-bind="getComponentProps" v-model="modelValue[schemas.prop]" />
     </el-form-item>
   </el-col>
 </template>
@@ -14,12 +11,9 @@
   import { computed, defineProps, PropType } from 'vue'
   import { componentMap, FormItem } from './form-item'
 
-  /** 目的是解决：类型实例化过深，且可能无限 */
-  type FormItemType = FormItem
-
   const props = defineProps({
     formModel: { type: Object as PropType<Record<string, any>>, default: () => ({}) },
-    schemas: { type: Object as PropType<FormItemType>, default: () => ({}) }
+    schemas: { type: Object as PropType<FormItem>, default: () => ({}) }
   })
 
   const emit = defineEmits(['update:formModel'])
@@ -39,14 +33,6 @@
    */
   const getComponentProps = computed(() => {
     return props.schemas.componentProps
-  })
-
-  /**
-   * 获取表单组件插槽
-   */
-  const getComponentSlots = computed(() => {
-    const componentSlots = props.schemas.componentSlots
-    return componentSlots
   })
 </script>
 <style lang="scss" scoped></style>
