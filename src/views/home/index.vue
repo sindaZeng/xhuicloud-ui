@@ -50,7 +50,16 @@
     {
       prop: 'name',
       label: 'Name',
-      search: {},
+      search: {
+        // componentSlots: () => h('ElIcon', {}, {}),
+        componentProps: {
+          placeholder: '请输入名称',
+          formatter: function (val: string) {
+            console.log(val)
+            return '1'
+          }
+        }
+      },
       tag: true
     },
     {

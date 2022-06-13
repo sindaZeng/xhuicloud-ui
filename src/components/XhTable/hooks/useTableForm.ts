@@ -37,7 +37,7 @@ export const useTableForm = (state: TableState, slots: Slots) => {
       !tableColumn.search ||
         tableSearchFormItem.push({
           component: 'ElInput',
-          col: { xl: 4, lg: 8, md: 10, sm: 10, xs: 16 },
+          col: { sm: 10, xs: 16 },
           ...(tableColumn.search as FormItem),
           label: tableColumn.label,
           prop: tableColumn.prop
