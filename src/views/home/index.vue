@@ -10,7 +10,7 @@
   </Crud>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="tsx">
   import Crud from '@/components/XhTable/crud.vue'
   import { TableColumn } from '@/components/XhTable/crud'
   import { ref, watch } from 'vue'
@@ -51,7 +51,24 @@
       prop: 'name',
       label: 'Name',
       search: {
-        // componentSlots: () => h('ElIcon', {}, {}),
+        componentSlots: () => {
+          return {
+            suffix: () => {
+              return (
+                <el-icon>
+                  <calendar />
+                </el-icon>
+              )
+            },
+            prefix: () => {
+              return (
+                <el-icon>
+                  <search />
+                </el-icon>
+              )
+            }
+          }
+        },
         componentProps: {
           placeholder: '请输入名称',
           formatter: function (val: string) {

@@ -1,5 +1,5 @@
 import { ColProps, FormItemProps, ElInput, ElSelect } from 'element-plus'
-import { VNode } from 'vue'
+import { Component, VNode } from 'vue'
 import { InputViewProps } from './src/input/inputProps'
 
 export interface RenderParams {
@@ -7,7 +7,7 @@ export interface RenderParams {
   slotData?: Recordable
 }
 
-export type CustomRender = (renderParams: RenderParams) => VNode | VNode[] | string
+export type CustomRender = (renderParams: RenderParams) => string | VNode | VNode[]
 
 export const componentMap = {
   ElInput,
@@ -18,9 +18,17 @@ export type ComponentType = keyof typeof componentMap
 
 export type ComponentPropsType = InputViewProps
 
+export type ComponentSlotsType =
+  | ComponentType
+  | CustomRender
+  | Recordable<CustomRender>
+  | ReturnType<CustomRender>
+  | ((opt: CustomRender) => Component)
+  | ((renderParams: RenderParams) => Recordable<CustomRender>)
+
 export interface FormItem extends FormItemProps {
   /** 组件类型 **/
-  component?: ComponentType
+  component?: ComponentType | CustomRender | ((opt: CustomRender) => Component)
   componentProps?: ComponentPropsType
   componentSlots?:
     | ((renderParams: RenderParams) => Recordable<CustomRender>)

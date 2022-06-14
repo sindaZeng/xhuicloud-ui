@@ -11,7 +11,14 @@ import 'element-plus/theme-chalk/src/index.scss'
 import '@/styles/index.scss' // global css
 
 import '@/permission'
+import * as ElIcons from '@element-plus/icons-vue'
+
 const app = createApp(App)
+
+// 全局注册el-icon
+Object.keys(ElIcons).forEach((key) => {
+  app.component(key, (ElIcons as any)[key])
+})
 
 app.use(createPinia())
 app.use(XhComponents)

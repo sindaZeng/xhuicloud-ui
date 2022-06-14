@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -23,6 +24,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    vueJsx(),
     vueI18n({
       include: [resolve('src/i18n/locale/**')]
     }),
