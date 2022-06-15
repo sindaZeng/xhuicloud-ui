@@ -36,7 +36,7 @@
         >
           <el-tab-pane v-for="item in app.getTagViews" :key="item.path" :name="item.path">
             <template #label>
-              <menu-item :title="$t(`menu.` + item.meta.internationalization)" :icon="item.meta.icon"></menu-item>
+              <menu-item :title="$t(item.meta.internationalization)" :icon="item.meta.icon"></menu-item>
             </template>
           </el-tab-pane>
         </el-tabs>
@@ -137,7 +137,7 @@
    */
   function delTagView(path: TabPanelName, action: string) {
     if (action === 'remove') {
-      app.delTagView(path)
+      app.delTagView(path as string)
       if (isActive(path as string)) {
         pushLastView()
       }
