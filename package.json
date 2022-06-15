@@ -21,7 +21,7 @@
     "pinia": "^2.0.14",
     "rgb-hex": "^4.0.0",
     "screenfull": "^5.1.0",
-    "vue": "^3.2.36",
+    "vue": "^3.2.31",
     "vue-i18n": "^9.1.10",
     "vue-router": "^4.0.13",
     "vuedraggable": "^2.24.3"
