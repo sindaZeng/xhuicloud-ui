@@ -23,17 +23,17 @@
  */
 
 export interface GlobalScss {
-  menuText: string;
-  menuActiveText: string;
-  subMenuActiveText: string;
-  menuBg: string;
-  menuHover: string;
-  subMenuBg: string;
-  subMenuHover: string;
-  sideBarWidth: string;
-  closeSidebarWidth: string;
-  navbarBg: string;
-  sidebarTransition: string;
+  menuText: string
+  menuActiveText: string
+  subMenuActiveText: string
+  menuBg: string
+  menuHover: string
+  subMenuBg: string
+  subMenuHover: string
+  sideBarWidth: string
+  closeSidebarWidth: string
+  navbarBg: string
+  sidebarTransition: string
 }
 export const styles: GlobalScss
 
