@@ -1,5 +1,5 @@
 <template>
-  <div>首页</div>
+  <div>动态表单演示</div>
 </template>
 <script lang="ts" setup>
   import {} from 'vue'

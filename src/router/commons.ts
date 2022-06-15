@@ -44,8 +44,37 @@ const commonsRoutes: Array<RouteRecordRaw> = [
         name: 'home',
         meta: {
           icon: 'home',
-          internationalization: 'home'
+          internationalization: 'menu.home'
         }
+      }
+    ]
+  },
+  {
+    path: '/component',
+    name: '公共组件',
+    component: layout,
+    meta: {
+      internationalization: 'menu.CommonComponent',
+      icon: 'Component'
+    },
+    children: [
+      {
+        path: '/component/table',
+        name: `表格演示`,
+        meta: {
+          internationalization: 'menu.Table',
+          icon: 'table'
+        },
+        component: () => import('@/views/component/table/index.vue')
+      },
+      {
+        path: '/component/form',
+        name: `表单演示`,
+        meta: {
+          internationalization: 'menu.Form',
+          icon: 'form'
+        },
+        component: () => import('@/views/component/form/index.vue')
       }
     ]
   }
