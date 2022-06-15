@@ -116,3 +116,6 @@ menu:
   LoginLog: 'Login Log'
   Logs: 'Logs'
   AuthClient: 'Auth Client'
+  CommonComponent: 'Component'
+  Table: 'table'
+  Form: 'Form'

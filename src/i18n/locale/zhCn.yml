@@ -119,3 +119,6 @@ menu:
   LoginLog: '登录记录'
   Logs: '操作日志'
   AuthClient: '授权管理'
+  CommonComponent: '公共组件'
+  Table: '表格演示'
+  Form: '表单演示'
