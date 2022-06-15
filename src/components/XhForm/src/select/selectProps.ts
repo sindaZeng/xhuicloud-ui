@@ -1,14 +1,41 @@
+import { ComponentSize } from 'element-plus'
+import { isValidComponentSize } from 'element-plus/es/utils'
 import { ExtractPropTypes, PropType } from 'vue'
+
+export type OptionCommon = {
+  label: string
+}
+
+export type Option<T = any> = OptionCommon & {
+  value: T
+  [prop: string]: any
+}
+
+export type OptionGroup<T = any> = OptionCommon & {
+  options: Array<T>
+  [prop: string]: any
+}
+
+export type OptionType<T = any> = Option<T> | OptionGroup<T>
 
 /** 选择框 **/
 export const selectViewProps = {
   modelValue: {
-    type: [Number, String] as PropType<number | string>,
+    type: [Array, String, Number, Boolean, Object],
     default: ''
   },
   placeholder: {
     type: String,
     default: ''
+  },
+  size: {
+    type: String as PropType<ComponentSize>,
+    validator: isValidComponentSize
+  },
+  disabled: Boolean,
+  options: {
+    type: Array as PropType<OptionType[]>,
+    required: true
   }
 }
 

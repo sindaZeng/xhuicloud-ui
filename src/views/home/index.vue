@@ -13,8 +13,9 @@
 <script setup lang="tsx">
   import Crud from '@/components/XhTable/crud.vue'
   import { TableColumn } from '@/components/XhTable/crud'
-  import { ref, watch } from 'vue'
+  import { ref, watch, shallowRef } from 'vue'
   import { Pagination } from '@/components/XhTable/pagination'
+  import { Search } from '@element-plus/icons-vue'
 
   const page = ref<Pagination>({ current: 1, size: 10, total: 33 })
 
@@ -38,6 +39,29 @@
       deep: true
     }
   )
+
+  const options = [
+    {
+      value: 'Option1',
+      label: 'Option1'
+    },
+    {
+      value: 'Option2',
+      label: 'Option2'
+    },
+    {
+      value: 'Option3',
+      label: 'Option3'
+    },
+    {
+      value: 'Option4',
+      label: 'Option4'
+    },
+    {
+      value: 'Option5',
+      label: 'Option5'
+    }
+  ]
 
   const tableColumn: TableColumn[] = [
     {
@@ -107,7 +131,12 @@
     },
     {
       prop: 'city',
-      label: 'City'
+      label: 'City',
+      search: {
+        componentProps: {
+          suffixIcon: shallowRef(Search)
+        }
+      }
     },
     {
       prop: 'address',
@@ -115,7 +144,11 @@
     },
     {
       prop: 'zip',
-      label: 'Zip'
+      label: 'Zip',
+      search: {
+        component: 'ElSelectV2',
+        componentProps: { options }
+      }
     }
   ]
 

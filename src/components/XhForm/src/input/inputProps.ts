@@ -1,4 +1,4 @@
-import { ExtractPropTypes, PropType } from 'vue'
+import { Component, ExtractPropTypes, PropType } from 'vue'
 
 /** 输入框 **/
 export const inputViewProps = {
@@ -10,23 +10,20 @@ export const inputViewProps = {
     type: String,
     default: ''
   },
-  disabled: {
-    type: Boolean as PropType<boolean>,
-    default: false
-  },
+  disabled: Boolean,
   autosize: {
     type: Boolean as PropType<boolean>
   },
   clearable: {
-    type: Boolean as PropType<boolean>,
+    type: Boolean,
     default: false
   },
   showPassword: {
-    type: Boolean as PropType<boolean>,
+    type: Boolean,
     default: false
   },
   suffixIcon: {
-    type: String as PropType<string>,
+    type: Object as PropType<string | Component>,
     default: ''
   },
   prefixIcon: {

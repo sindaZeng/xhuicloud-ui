@@ -35,8 +35,12 @@
    * 获取表单组件属性
    */
   const getComponentProps = computed(() => {
-    return props.schemas.componentProps as Recordable
+    const { schemas } = props
+    let { componentProps = {} } = schemas
+    return componentProps as Recordable
   })
+
+  console.log(getComponentProps.value.options)
 
   const getValues = computed<RenderParams>(() => {
     return {}
@@ -49,8 +53,6 @@
     const componentSlots = props.schemas.componentSlots ?? {}
     return createVnode(componentSlots)
   })
-
-  console.log(getComponentSlots)
 
   const createVnode = (component: ComponentSlotsType, renderParams: RenderParams = unref(getValues)): any => {
     if (isString(component)) {

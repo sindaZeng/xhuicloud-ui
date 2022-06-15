@@ -1,6 +1,7 @@
-import { ColProps, FormItemProps, ElInput, ElSelect } from 'element-plus'
+import { ColProps, FormItemProps, ElInput, ElSelectV2, ElOption, ElOptionGroup } from 'element-plus'
 import { Component, VNode } from 'vue'
 import { InputViewProps } from './src/input/inputProps'
+import { SelectViewProps } from './src/select/selectProps'
 
 export interface RenderParams {
   /** 作用域插槽数据 */
@@ -11,12 +12,15 @@ export type CustomRender = (renderParams: RenderParams) => string | VNode | VNod
 
 export const componentMap = {
   ElInput,
-  ElSelect
+  ElSelectV2,
+  ElSelect: ElSelectV2,
+  ElOption,
+  ElOptionGroup
 }
 
 export type ComponentType = keyof typeof componentMap
 
-export type ComponentPropsType = InputViewProps
+export type ComponentPropsType = InputViewProps | SelectViewProps
 
 export type ComponentSlotsType =
   | ComponentType

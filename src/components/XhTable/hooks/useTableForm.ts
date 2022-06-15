@@ -13,11 +13,12 @@ export const useTableForm = (state: TableState, slots: Slots) => {
 
   // 开启搜索
   const getTableSearchForm = computed<FormProps>(() => {
+    // 表单属性
     const tableForm: FormProps = {
       model: {},
       schemas: [],
       labelPosition: 'right',
-      labelWidth: '210',
+      labelWidth: '60px',
       labelSuffix: '',
       inline: true,
       inlineMessage: false,
@@ -33,11 +34,11 @@ export const useTableForm = (state: TableState, slots: Slots) => {
     }
     const tableColumns: TableColumn[] = unref(state.getProps).tableColumn
     const tableSearchFormItem: FormItem[] = []
+    // 表单项属性
     for (const tableColumn of tableColumns) {
       !tableColumn.search ||
         tableSearchFormItem.push({
           component: 'ElInput',
-          col: { sm: 10, xs: 16 },
           ...(tableColumn.search as FormItem),
           label: tableColumn.label,
           prop: tableColumn.prop
