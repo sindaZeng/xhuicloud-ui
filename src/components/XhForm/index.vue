@@ -1,6 +1,6 @@
 <template>
-  <el-form class="table-form" v-bind="getBindValue">
-    <el-row>
+  <el-form :class="['table-form', formClassName]" v-bind="getBindValue">
+    <el-row :gutter="4">
       <template v-for="(item, index) in formSchemasRef" :key="index">
         <FormItem :form-model="formModelRef" :schemas="item"
       /></template>

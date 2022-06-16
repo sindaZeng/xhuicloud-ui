@@ -1,5 +1,6 @@
-import { ColProps, FormItemProps, ElInput, ElSelectV2, ElOption, ElOptionGroup } from 'element-plus'
+import { ColProps, FormItemProps, ElInput, ElSelectV2, ElOption, ElOptionGroup, ElDatePicker } from 'element-plus'
 import { Component, VNode } from 'vue'
+import { DatePickViewProps } from './src/datePicker/datePickerProps'
 import { InputViewProps } from './src/input/inputProps'
 import { SelectViewProps } from './src/select/selectProps'
 
@@ -15,12 +16,13 @@ export const componentMap = {
   ElSelectV2,
   ElSelect: ElSelectV2,
   ElOption,
-  ElOptionGroup
+  ElOptionGroup,
+  ElDatePicker
 }
 
 export type ComponentType = keyof typeof componentMap
 
-export type ComponentPropsType = InputViewProps | SelectViewProps
+export type ComponentPropsType = InputViewProps | SelectViewProps | DatePickViewProps
 
 export type ComponentSlotsType =
   | ComponentType

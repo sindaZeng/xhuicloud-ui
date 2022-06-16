@@ -4,10 +4,16 @@ import { computed, Slots, unref } from 'vue'
 import { TableColumn } from '../crud'
 import { TableState } from './useTableState'
 
-export const useTableForm = (state: TableState, slots: Slots) => {
+/**
+ * 搜索表单
+ *
+ * @param state
+ * @param slots
+ * @returns
+ */
+export const useTableSearchForm = (state: TableState, slots: Slots) => {
   const getFormSlotKeys = computed(() => {
     const keys = Object.keys(slots)
-    console.log(keys)
     return keys.map((item) => (item.startsWith('form') ? item : null)).filter((item) => !!item) as string[]
   })
 
@@ -15,11 +21,11 @@ export const useTableForm = (state: TableState, slots: Slots) => {
   const getTableSearchForm = computed<FormProps>(() => {
     // 表单属性
     const tableForm: FormProps = {
+      formClassName: 'searchFormClass',
       model: {},
       schemas: [],
       labelPosition: 'right',
       labelWidth: '60px',
-      labelSuffix: '',
       inline: true,
       inlineMessage: false,
       statusIcon: false,
@@ -39,6 +45,7 @@ export const useTableForm = (state: TableState, slots: Slots) => {
       !tableColumn.search ||
         tableSearchFormItem.push({
           component: 'ElInput',
+          col: { xl: 6, lg: 8, md: 12, sm: 12, xs: 24 },
           ...(tableColumn.search as FormItem),
           label: tableColumn.label,
           prop: tableColumn.prop

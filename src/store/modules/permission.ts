@@ -31,7 +31,7 @@ export interface XhRoute {
   routes: RouteRecordRaw[]
 }
 
-const modules = import.meta.glob('../../views/**/**.vue')
+const modules = import.meta.glob('@/views/**/**.vue')
 
 const generator = (routes: RouteRecordRaw[]) => {
   const res: RouteRecordRaw[] = []
@@ -40,11 +40,11 @@ const generator = (routes: RouteRecordRaw[]) => {
     if (tmp.path === 'Layout' || tmp.path === 'layout') {
       tmp.component = layout
     } else {
-      const component = modules[`../../views/${tmp.path}.vue`] as any
+      const component = modules[`@/views/${tmp.path}.vue`] as any
       if (component) {
-        tmp.component = modules[`../../views/${tmp.path}.vue`]
+        tmp.component = modules[`@/views/${tmp.path}.vue`]
       } else {
-        tmp.component = modules['../../views/error-page/404.vue']
+        tmp.component = modules['@/views/error-page/404.vue']
       }
     }
     tmp.meta = { title: tmp.title, internationalization: 'menu.' + tmp.internationalization, icon: tmp.icon }

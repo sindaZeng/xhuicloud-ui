@@ -7,13 +7,10 @@ export const formProps = {
   rules: {
     type: Object as PropType<ElFormProps['rules']>
   },
+  formClassName: String,
   labelPosition: String,
   labelWidth: {
     type: [String, Number],
-    default: ''
-  },
-  labelSuffix: {
-    type: String,
     default: ''
   },
   inline: Boolean,

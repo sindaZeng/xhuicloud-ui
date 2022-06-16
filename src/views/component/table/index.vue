@@ -67,6 +67,14 @@
     {
       prop: 'date',
       label: 'Date',
+      search: {
+        component: 'ElDatePicker',
+        componentProps: {
+          type: 'daterange',
+          startPlaceholder: '请选择开始日期',
+          endPlaceholder: '请选择结束日期'
+        }
+      },
       formatter: (_row: any, _column: any, cellValue: any, _index: any) => {
         return cellValue
       }
@@ -106,7 +114,7 @@
     {
       prop: 'icon',
       label: 'Icon',
-
+      search: {},
       icon: {
         className: 'myIcon',
         width: '2em',
@@ -116,7 +124,7 @@
     {
       prop: 'image',
       label: 'Image',
-
+      search: {},
       image: {
         previewTeleported: true,
         previewSrcList: srcList
@@ -125,6 +133,7 @@
     {
       prop: 'state',
       label: 'State',
+      search: {},
       tag: {
         type: 'success'
       }
@@ -140,7 +149,8 @@
     },
     {
       prop: 'address',
-      label: 'Address'
+      label: 'Address',
+      search: {}
     },
     {
       prop: 'zip',

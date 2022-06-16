@@ -64,7 +64,7 @@
   import { Picture as IconPicture } from '@element-plus/icons-vue'
   import tableProps, { tableEmits } from './crud'
   import crudOperation from './crud-operation.vue'
-  import { useTableForm, useTableMethods, createTableContext, useTableState } from './hooks'
+  import { useTableSearchForm, useTableMethods, createTableContext, useTableState } from './hooks'
 
   const slots = useSlots()
 
@@ -74,7 +74,7 @@
 
   const state = useTableState(props)
 
-  const { getTableSearchForm } = useTableForm(state, slots)
+  const { getTableSearchForm } = useTableSearchForm(state, slots)
 
   const { tableData, paginationRef, getProps } = state
 
@@ -135,6 +135,17 @@
 
     .el-button--small {
       --el-button-size: 30px !important;
+    }
+  }
+  .searchFormClass {
+    ::v-deep(.el-input__wrapper) {
+      width: 263px;
+    }
+    ::v-deep(.el-select-v2) {
+      width: 263px;
+    }
+    ::v-deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
+      width: 263px;
     }
   }
 </style>

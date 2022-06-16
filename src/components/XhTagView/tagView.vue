@@ -133,7 +133,6 @@
   }
   /**
    * 关闭当前
-   * @param index
    */
   function delTagView(path: TabPanelName, action: string) {
     if (action === 'remove') {
@@ -146,7 +145,6 @@
 
   /**
    * 关闭其他
-   * @param index
    */
   function delOtherTagView(path: string) {
     app.delOtherTagView(path)
@@ -155,7 +153,6 @@
 
   /**
    * 关闭其他
-   * @param index
    */
   function delAllTagViews() {
     app.delAllTagViews()
@@ -179,7 +176,7 @@
    * @param path
    * @returns {boolean}
    */
-  function isActive(path: string) {
+  function isActive(path: string): boolean {
     return path === route.path
   }
 </script>

@@ -30,7 +30,7 @@ import { HomeTag } from '~/homeTag'
 
 const defaultHomeTag: HomeTag = {
   fullPath: '/home',
-  meta: { title: 'home', icon: 'home', internationalization: 'home' },
+  meta: { title: 'home', icon: 'home', internationalization: 'menu.home' },
   params: {},
   path: '/home',
   query: {}

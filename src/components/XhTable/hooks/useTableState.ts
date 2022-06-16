@@ -4,7 +4,12 @@ import { TableProps } from '../crud'
 import { PaginationType } from '../pagination'
 
 export type TableState = ReturnType<typeof useTableState>
-
+/**
+ * 表格状态
+ *
+ * @param props
+ * @returns
+ */
 export const useTableState = (props: TableProps) => {
   const tableData = ref<any[]>([])
   const paginationRef = ref<PaginationType>(false)
