@@ -32,8 +32,7 @@ export const useTableSearchForm = (state: TableState, slots: Slots) => {
       showMessage: false,
       disabled: false,
       validateOnRuleChange: false,
-      hideRequiredAsterisk: false,
-      scrollToError: false
+      hideRequiredAsterisk: false
     }
     if (!unref(state.getProps).enableSearch) {
       return tableForm
@@ -45,7 +44,6 @@ export const useTableSearchForm = (state: TableState, slots: Slots) => {
       !tableColumn.search ||
         tableSearchFormItem.push({
           component: 'ElInput',
-          col: { xl: 6, lg: 8, md: 12, sm: 12, xs: 24 },
           ...(tableColumn.search as FormItem),
           label: tableColumn.label,
           prop: tableColumn.prop

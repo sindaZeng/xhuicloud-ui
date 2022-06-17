@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash-es'
-import { ref, unref, computed } from 'vue'
+import { ref, computed } from 'vue'
 import FormProps from '../form'
 
 export type UseFormContext = {
@@ -20,6 +20,6 @@ export const useFormState = ({ props, attrs }: UseFormContext) => {
   return {
     getBindValue,
     formModelRef,
-    formSchemasRef: computed(() => unref(innerFormPropsRef).schemas || [])
+    innerFormPropsRef
   }
 }

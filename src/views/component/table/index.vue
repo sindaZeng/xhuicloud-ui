@@ -67,14 +67,14 @@
     {
       prop: 'date',
       label: 'Date',
-      search: {
-        component: 'ElDatePicker',
-        componentProps: {
-          type: 'daterange',
-          startPlaceholder: '请选择开始日期',
-          endPlaceholder: '请选择结束日期'
-        }
-      },
+      // search: {
+      //   component: 'ElDatePicker',
+      //   componentProps: {
+      //     type: 'daterange',
+      //     startPlaceholder: '请选择开始日期',
+      //     endPlaceholder: '请选择结束日期'
+      //   }
+      // },
       formatter: (_row: any, _column: any, cellValue: any, _index: any) => {
         return cellValue
       }
@@ -82,39 +82,39 @@
     {
       prop: 'name',
       label: 'Name',
-      search: {
-        componentSlots: () => {
-          return {
-            suffix: () => {
-              return (
-                <el-icon>
-                  <calendar />
-                </el-icon>
-              )
-            },
-            prefix: () => {
-              return (
-                <el-icon>
-                  <search />
-                </el-icon>
-              )
-            }
-          }
-        },
-        componentProps: {
-          placeholder: '请输入名称',
-          formatter: function (val: string) {
-            console.log(val)
-            return '1'
-          }
-        }
-      },
+      // search: {
+      //   componentSlots: () => {
+      //     return {
+      //       suffix: () => {
+      //         return (
+      //           <el-icon>
+      //             <calendar />
+      //           </el-icon>
+      //         )
+      //       },
+      //       prefix: () => {
+      //         return (
+      //           <el-icon>
+      //             <search />
+      //           </el-icon>
+      //         )
+      //       }
+      //     }
+      //   },
+      //   componentProps: {
+      //     placeholder: '请输入名称',
+      //     formatter: function (val: string) {
+      //       console.log(val)
+      //       return '1'
+      //     }
+      //   }
+      // },
       tag: true
     },
     {
       prop: 'icon',
       label: 'Icon',
-      search: {},
+      // search: {},
       icon: {
         className: 'myIcon',
         width: '2em',

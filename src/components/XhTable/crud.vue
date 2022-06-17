@@ -137,15 +137,16 @@
       --el-button-size: 30px !important;
     }
   }
+
   .searchFormClass {
     ::v-deep(.el-input__wrapper) {
-      width: 263px;
+      width: 333px;
     }
     ::v-deep(.el-select-v2) {
-      width: 263px;
+      width: 333px;
     }
     ::v-deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
-      width: 263px;
+      width: 333px;
     }
   }
 </style>

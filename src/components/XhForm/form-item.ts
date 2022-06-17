@@ -35,11 +35,15 @@ export type ComponentSlotsType =
 export interface FormItem extends FormItemProps {
   /** 组件类型 **/
   component?: ComponentType | CustomRender | ((opt: CustomRender) => Component)
+  /** 组件数据 **/
   componentProps?: ComponentPropsType
+  /** 组件插槽 **/
   componentSlots?:
     | ((renderParams: RenderParams) => Recordable<CustomRender>)
     | Recordable<CustomRender>
     | ReturnType<CustomRender>
-  col?: ColProps
+  /** 表单项layout布局 **/
+  col?: Partial<ColProps>
+  /** 表单项prop **/
   prop: string
 }

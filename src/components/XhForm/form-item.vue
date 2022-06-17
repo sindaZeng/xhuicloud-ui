@@ -1,7 +1,7 @@
 <template>
-  <el-col v-bind="schemas.col">
-    <el-form-item v-bind="schemas">
-      <component :is="getComponent" v-bind="getComponentProps" v-model="modelValue[schemas.prop]">
+  <el-col v-bind="schema.col">
+    <el-form-item v-bind="schema">
+      <component :is="getComponent" v-bind="getComponentProps" v-model="modelValue[schema.prop]">
         <template v-for="(slotFn, slotName) in getComponentSlots" #[slotName]="slotData" :key="slotName">
           <component :is="slotFn?.(slotData) ?? slotFn" :key="slotName"></component>
         </template>
@@ -14,9 +14,10 @@
   import { useVModel } from '@vueuse/core'
   import { computed, defineProps, isVNode, PropType, unref } from 'vue'
   import { componentMap, ComponentSlotsType, CustomRender, FormItem, RenderParams } from './form-item'
+
   const props = defineProps({
     formModel: { type: Object as PropType<Record<string, any>>, default: () => ({}) },
-    schemas: { type: Object as PropType<FormItem>, default: () => ({}) }
+    schema: { type: Object as PropType<FormItem>, default: () => ({}) }
   })
 
   const emit = defineEmits(['update:formModel'])
@@ -27,7 +28,7 @@
    * 获取表单组件
    */
   const getComponent = computed(() => {
-    const comp = props.schemas.component
+    const comp = props.schema.component
     return isString(comp) ? componentMap[comp] : componentMap['ElInput']
   })
 
@@ -35,12 +36,10 @@
    * 获取表单组件属性
    */
   const getComponentProps = computed(() => {
-    const { schemas } = props
-    let { componentProps = {} } = schemas
+    const { schema } = props
+    let { componentProps = {} } = schema
     return componentProps as Recordable
   })
-
-  console.log(getComponentProps.value.options)
 
   const getValues = computed<RenderParams>(() => {
     return {}
@@ -50,7 +49,7 @@
    * 获取表单组件插槽
    */
   const getComponentSlots = computed<Recordable<CustomRender>>(() => {
-    const componentSlots = props.schemas.componentSlots ?? {}
+    const componentSlots = props.schema.componentSlots ?? {}
     return createVnode(componentSlots)
   })
 
