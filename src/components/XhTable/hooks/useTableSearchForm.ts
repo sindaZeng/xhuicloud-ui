@@ -22,6 +22,7 @@ export const useTableSearchForm = (state: TableState, slots: Slots) => {
     // 表单属性
     const tableForm: FormProps = {
       formClassName: 'searchFormClass',
+      // row: { gutter: 30 },
       model: {},
       schemas: [],
       labelPosition: 'right',
@@ -44,6 +45,8 @@ export const useTableSearchForm = (state: TableState, slots: Slots) => {
       !tableColumn.search ||
         tableSearchFormItem.push({
           component: 'ElInput',
+          // col: { xl: 6, lg: 9, md: 12, sm: 12, xs: 24 },
+          col: { xl: 6 },
           ...(tableColumn.search as FormItem),
           label: tableColumn.label,
           prop: tableColumn.prop

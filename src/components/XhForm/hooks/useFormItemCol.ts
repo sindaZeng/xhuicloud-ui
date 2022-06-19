@@ -8,9 +8,10 @@ import FormProps from '../form'
  * @returns
  */
 export const useFormItemCol = (props: FormProps) => {
+  // const realWidthRef = ref(window.innerWidth)
   return computed(() => {
     const schemas = props.schemas
-    schemas?.forEach((x) => (x.col = { ...x.col, xl: 6 }))
+    // schemas?.forEach((x) => (x.col = { ...x.col, xl: 6 }))
     return schemas
   })
 }
