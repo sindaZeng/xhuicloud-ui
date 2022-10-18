@@ -26,7 +26,6 @@ import { defineStore } from 'pinia'
 import { RouteRecordRaw } from 'vue-router'
 import layout from '@/layout/index.vue'
 import { isNull } from '@/utils/is'
-import { Menu } from '@/api/upms/entity/menu'
 import { menu } from '@/api/upms/menu'
 import commonsRoutes from '@/router/commons'
 
