@@ -24,6 +24,23 @@
 import layout from '@/layout/index.vue'
 import { RouteRecordRaw } from 'vue-router'
 
+// 404 on a page
+export const page404: RouteRecordRaw = {
+  path: '/:path(.*)*',
+  name: '404',
+  component: layout,
+  meta: {
+    hidden: true
+  },
+  children: [
+    {
+      path: '/:path(.*)*',
+      name: '404',
+      component: () => import('@/views/error/404.vue')
+    }
+  ]
+}
+
 const commonsRoutes: Array<RouteRecordRaw> = [
   {
     path: '/login',
@@ -45,6 +62,22 @@ const commonsRoutes: Array<RouteRecordRaw> = [
         meta: {
           icon: 'home',
           internationalization: 'menu.home'
+        }
+      }
+    ]
+  },
+  {
+    path: '/user',
+    name: '用户',
+    component: layout,
+    children: [
+      {
+        path: '/user/info',
+        component: () => import('@/views/admin/user/info.vue'),
+        name: '用户信息',
+        meta: {
+          internationalization: 'menu.UserInfo',
+          icon: 'userInfo'
         }
       }
     ]

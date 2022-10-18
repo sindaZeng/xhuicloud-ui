@@ -1,7 +1,7 @@
 <template>
   <Crud
     v-model:page="page"
-    :enable-search="true"
+    :enable-search="search"
     :permission="{ addBtn: true }"
     :table-column="tableColumn"
     :onload="onload"
@@ -13,11 +13,13 @@
 <script setup lang="tsx">
   import Crud from '@/components/XhTable/crud.vue'
   import { TableColumn } from '@/components/XhTable/crud'
-  import { ref, watch, shallowRef } from 'vue'
+  import { ref, shallowRef } from 'vue'
   import { Pagination } from '@/components/XhTable/pagination'
   import { Search } from '@element-plus/icons-vue'
+  import { FormActionButtonGroupProps } from '@/components/XhForm/form-action'
+  import { OptionsItem } from '@/components/XhForm/src/radioGroup'
 
-  const page = ref<Pagination>({ current: 1, size: 10, total: 33 })
+  const page = ref<Pagination>({ current: 1, size: 10 })
 
   const srcList = [
     'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
@@ -29,16 +31,12 @@
     'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg'
   ]
 
-  watch(
-    page,
-    (val) => {
-      console.log(val)
-    },
-    {
-      immediate: true,
-      deep: true
-    }
-  )
+  const search: FormActionButtonGroupProps = {
+    show: true,
+    showSearchButton: true,
+    showResetButton: true,
+    showShowUpButton: true
+  }
 
   const options = [
     {
@@ -61,7 +59,7 @@
       value: 'Option5',
       label: 'Option5'
     }
-  ]
+  ] as OptionsItem[]
 
   const tableColumn: TableColumn[] = [
     {
@@ -124,7 +122,7 @@
     {
       prop: 'image',
       label: 'Image',
-      search: {},
+      searchForm: {},
       image: {
         previewTeleported: true,
         previewSrcList: srcList
@@ -133,7 +131,7 @@
     {
       prop: 'state',
       label: 'State',
-      search: {},
+      searchForm: {},
       tag: {
         type: 'success'
       }
@@ -141,7 +139,7 @@
     {
       prop: 'city',
       label: 'City',
-      search: {
+      searchForm: {
         componentProps: {
           suffixIcon: shallowRef(Search)
         }
@@ -150,19 +148,20 @@
     {
       prop: 'address',
       label: 'Address',
-      search: {}
+      searchForm: {}
     },
     {
       prop: 'zip',
       label: 'Zip',
-      search: {
+      searchForm: {
         component: 'ElSelectV2',
         componentProps: { options }
       }
     }
   ]
 
-  const onload = () => {
+  const onload = (searchForm: any) => {
+    console.log(searchForm)
     return tableData
   }
   const tableData = [

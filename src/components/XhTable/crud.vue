@@ -1,13 +1,13 @@
 <template>
   <div class="table">
-    <xh-card v-if="getProps.enableSearch">
+    <xh-card v-if="getProps.enableSearch.show">
       <div class="table-search">
-        <xh-form v-bind="getTableSearchForm"></xh-form>
+        <xh-form v-bind="getTableSearchForm" v-model:model="model" @search="onload"></xh-form>
       </div>
     </xh-card>
     <xh-card>
       <div class="table-head">
-        <crud-operation />
+        <crud-head-operation />
       </div>
       <div class="table-main">
         <el-table
@@ -19,14 +19,19 @@
         >
           <el-table-column v-if="getProps.table.selection" type="selection" width="55" align="center" />
           <template v-for="(item, index) in getProps.tableColumn" :key="index">
-            <el-table-column v-if="!item.hidden" v-bind="item" align="center">
+            <el-table-column
+              v-if="!item.hidden && !item.isFormItem"
+              v-bind="item"
+              :show-overflow-tooltip="true"
+              align="center"
+            >
               <template #default="scope">
                 <template v-if="$slots[item.prop]">
                   <slot :name="item.prop" :data="scope.row[item.prop]" />
                 </template>
                 <el-image
                   v-if="item.image"
-                  style="width: 100px; height: 100px"
+                  style="width: 60px; height: 60px"
                   :src="scope.row[item.prop]"
                   v-bind="item.image"
                 >
@@ -42,29 +47,42 @@
                 <xh-svg v-if="item.icon" :icon="scope.row[item.prop]" v-bind="item.icon" />
               </template>
             </el-table-column>
+            <!-- 行操作栏 -->
+            <crud-row-operation v-if="getProps.enableOperations && getProps.tableColumn.length - 1 === index">
+              <template v-for="name in getRowOperationSlotKeys" #[name]="data">
+                <slot :name="name" v-bind="data || {}"></slot>
+              </template>
+            </crud-row-operation>
           </template>
         </el-table>
       </div>
       <!-- 表格底部分页     -->
       <div class="table-foot">
         <el-pagination
-          v-if="paginationRef"
+          v-if="enablePagination"
           class="table-foot-pagination"
           v-bind="paginationRef"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
       </div>
+      <crud-form>
+        <template v-for="item in getFormSlotKeys" #[item]="data">
+          <slot :name="item" v-bind="data || {}"></slot>
+        </template>
+      </crud-form>
     </xh-card>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { useSlots } from 'vue'
   import { Picture as IconPicture } from '@element-plus/icons-vue'
+  import crudHeadOperation from './crud-head-operation.vue'
+  import crudRowOperation from './crud-row-operation.vue'
+  import CrudForm from './crud-form.vue'
+  import { useSlots } from 'vue'
   import tableProps, { tableEmits } from './crud'
-  import crudOperation from './crud-operation.vue'
-  import { useTableSearchForm, useTableMethods, createTableContext, useTableState } from './hooks'
+  import { useTableForm, useTableMethods, createTableContext, useTableState } from './hooks'
 
   const slots = useSlots()
 
@@ -74,21 +92,25 @@
 
   const state = useTableState(props)
 
-  const { getTableSearchForm } = useTableSearchForm(state, slots)
+  const tableForm = useTableForm(state, slots)
 
-  const { tableData, paginationRef, getProps } = state
+  const { getTableSearchForm, model, getFormSlotKeys, getRowOperationSlotKeys } = tableForm
 
-  const methods = useTableMethods({ state, props, emit })
+  const { tableData, paginationRef, getProps, enablePagination } = state
+
+  const methods = useTableMethods({ state, props, emit, tableForm })
 
   const { onload, handleSizeChange, handleCurrentChange } = methods
 
   const instance = {
     ...props,
     ...state,
-    ...methods
+    ...methods,
+    ...tableForm
   }
 
   createTableContext(instance)
+
   onload()
 </script>
 <style lang="scss" scoped>
@@ -108,7 +130,6 @@
 
   .table {
     .table-search {
-      display: inline-flex;
       .el-input__inner {
         height: 30px !important;
         width: 250px !important;
@@ -135,18 +156,6 @@
 
     .el-button--small {
       --el-button-size: 30px !important;
-    }
-  }
-
-  .searchFormClass {
-    ::v-deep(.el-input__wrapper) {
-      width: 333px;
-    }
-    ::v-deep(.el-select-v2) {
-      width: 333px;
-    }
-    ::v-deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
-      width: 333px;
     }
   }
 </style>

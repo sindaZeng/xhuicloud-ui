@@ -26,10 +26,9 @@ import { defineStore } from 'pinia'
 import { storageLocal } from '@/utils/storage'
 import { encryption } from '@/utils/encrypt'
 import setting from '@/config/setting.config'
-import { LoginForm, AuthInfo, SysUser, UserInfo } from '@/api/upms/entity/user'
 import { Tenant } from '@/api/upms/entity/tenant'
 import { loginApi, logout, refreshToken } from '@/api/upms/auth'
-import { getUserInfo } from '@/api/upms/user'
+import { userInfo } from '@/api/upms/user'
 
 export interface UserState {
   authInfo: AuthInfo | null
@@ -39,17 +38,17 @@ export interface UserState {
   permissions: any
   roles?: string[]
 }
-
+const defaultUserState = {
+  authInfo: null,
+  tenant: null,
+  sysUser: null,
+  permissions: null
+} as UserState
 const useUserStore = defineStore('user', {
-  state: (): UserState => ({
-    authInfo: null,
-    tenant: null,
-    sysUser: null,
-    permissions: null
-  }),
+  state: (): UserState => defaultUserState,
   getters: {
     getSysUser(): SysUser {
-      return this.sysUser || {}
+      return this.sysUser || storageLocal.getItem<SysUser>(setting.user)
     },
     getToken(): string {
       return this.authInfo?.access_token || storageLocal.getItem<AuthInfo>(setting.authInfo)?.access_token
@@ -69,7 +68,7 @@ const useUserStore = defineStore('user', {
   },
   actions: {
     async reset() {
-      this.$reset()
+      this.$state = defaultUserState
     },
     setAuthInfo(authInfo: AuthInfo) {
       this.authInfo = authInfo
@@ -81,6 +80,7 @@ const useUserStore = defineStore('user', {
     },
     setSysUser(sysUser: SysUser) {
       this.sysUser = sysUser
+      storageLocal.setItem(setting.user, sysUser)
     },
     setPermissions(permissions: string[]) {
       const list: any = {}
@@ -107,8 +107,8 @@ const useUserStore = defineStore('user', {
         return Promise.reject(error)
       }
     },
-    async getUserInfo(): Promise<UserInfo | null> {
-      const res = await getUserInfo()
+    async getUserInfo(): Promise<UserInfo> {
+      const res = await userInfo()
       this.setSysUser(res.sysUser)
       this.setPermissions(res.permissions)
       this.setRoles(res.roles)
@@ -124,12 +124,20 @@ const useUserStore = defineStore('user', {
       )
     },
     logout() {
-      this.cleanAll()
-      return logout()
+      return new Promise((resolve, reject) => {
+        logout()
+          .then((response) => {
+            this.cleanAll()
+            resolve(response)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
     },
     cleanAll() {
-      this.reset()
       storageLocal.clear()
+      this.reset()
     }
   }
 })

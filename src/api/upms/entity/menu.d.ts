@@ -21,11 +21,12 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-export interface Menu {
+interface Menu {
+  id: number
   label: string
   value: number
   parentId: number
-  children: Menu
+  children: Menu[]
   icon: string
   name: string
   internationalization: string

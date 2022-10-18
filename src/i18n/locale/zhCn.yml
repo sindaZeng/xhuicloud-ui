@@ -90,6 +90,7 @@ menu:
   MenusDelete: '删除菜单'
   System: '系统管理'
   Users: '用户管理'
+  UserInfo: '用户信息'
   UsersAdd: '新增用户'
   UsersUpdate: '编辑用户'
   UsersDelete: '删除用户'
@@ -122,3 +123,9 @@ menu:
   CommonComponent: '公共组件'
   Table: '表格演示'
   Form: '表单演示'
+  Search: '搜索'
+  Reset: '重置'
+  Fold: '折叠'
+  Show: '展示'
+placeholder:
+  deptName: '请输入部门名称'

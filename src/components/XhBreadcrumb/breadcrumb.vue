@@ -27,9 +27,9 @@
     <el-breadcrumb class="breadcrumb">
       <transition-group name="breadcrumb">
         <el-breadcrumb-item v-for="(item, index) in breadcrumbData" :key="item.path">
-          <span v-if="index === breadcrumbData.length - 1" class="no-redirect">{{
-            $t('menu.' + item.meta.title)
-          }}</span>
+          <span v-if="index === breadcrumbData.length - 1" class="no-redirect">
+            {{ $t('menu.' + item.meta.title) }}
+          </span>
           <span v-else class="redirect" @click="handleLink(item)">{{ $t('menu.' + item.meta.title) }}</span>
         </el-breadcrumb-item>
       </transition-group>

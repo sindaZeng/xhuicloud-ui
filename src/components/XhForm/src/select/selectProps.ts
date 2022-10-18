@@ -1,6 +1,6 @@
 import { ComponentSize } from 'element-plus'
-import { isValidComponentSize } from 'element-plus/es/utils'
 import { ExtractPropTypes, PropType } from 'vue'
+import { OptionsItem } from '../radioGroup'
 
 export type OptionCommon = {
   label: string
@@ -29,12 +29,10 @@ export const selectViewProps = {
     default: ''
   },
   size: {
-    type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize
+    type: String as PropType<ComponentSize>
   },
-  disabled: Boolean,
   options: {
-    type: Array as PropType<OptionType[]>,
+    type: Array as PropType<OptionsItem[]>,
     required: true
   }
 }

@@ -1,29 +1,33 @@
 <template>
   <!-- 表单操作栏组 -->
-  <el-button type="primary" @click="log">搜索</el-button>
-  <el-button type="primary">重置</el-button>
-  <el-button v-if="showUpButton" type="primary" link @click="showUpButtonClick">
-    收起
+  <el-button v-if="formActionButtonGroup?.showSearchButton" class="formActionBt" type="primary" @click="toSearch">{{
+    $t('menu.Search')
+  }}</el-button>
+  <el-button v-if="formActionButtonGroup?.showResetButton" class="formActionBt" type="primary" @click="toReset">{{
+    $t('menu.Reset')
+  }}</el-button>
+  <el-button
+    v-if="formActionButtonGroup?.showShowUpButton && getSchemas.length > 3"
+    class="formActionBt"
+    type="primary"
+    link
+    @click="toShowUp"
+  >
+    {{ showUpRef ? $t('menu.Show') : $t('menu.Fold') }}
     <el-icon class="el-icon--right">
-      <ArrowUp />
+      <ArrowUp v-if="showUpRef" />
+      <ArrowDown v-else />
     </el-icon>
   </el-button>
 </template>
 <script lang="ts" setup>
-  import {} from 'vue'
-  import { ArrowUp } from '@element-plus/icons-vue'
-  import { formActionButtonGroupProps } from './form-action'
+  import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+  import { useFormContext } from './hooks/useFormContext'
 
-  const props = defineProps(formActionButtonGroupProps)
-
-  const log = () => {
-    console.log()
-  }
-
-  const showUpButtonClick = () => {
-    if (typeof props.showUpButton !== 'boolean') {
-      props.showUpButton?.btFunc()
-    }
-  }
+  const { showUpRef, toSearch, toReset, toShowUp, formActionButtonGroup, getSchemas } = useFormContext()
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .formActionBt {
+    margin-left: 20px;
+  }
+</style>

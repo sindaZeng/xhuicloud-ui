@@ -31,10 +31,14 @@ export interface XhAxiosRequestConfig extends AxiosRequestConfig {
 }
 
 interface RequestOptions {
-  /**
-   * 这个配置不带上token
-   */
+  /** 不需要token **/
   withToken?: boolean
+  /** 提示信息标题 */
+  titleMsg?: string
+  /** 请求成功是提示信息 */
+  successMsg?: string
+  /** 请求失败是提示信息 */
+  errorMsg?: string
 }
 
 export abstract class XhAxiosHandler {

@@ -46,3 +46,17 @@ export interface Tenant {
    */
   socials: Socials
 }
+
+export interface SysTenant {
+  id: number
+  name: string
+  state: number
+  expirationTime: string
+  logo: string
+  remark?: any
+  createTime: string
+  createId: number
+  updateId?: any
+  updateTime: string
+  isDel: number
+}

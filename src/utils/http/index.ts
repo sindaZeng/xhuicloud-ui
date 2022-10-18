@@ -39,23 +39,32 @@ const handler: XhAxiosHandler = {
     }
     return config
   },
-  responseInterceptors: (res: AxiosResponse<any>) => {
-    return res
-  },
-  requestResultHook: (res: AxiosResponse<API.Response>) => {
+  responseInterceptors: (response: AxiosResponse<any>) => {
     /**
      * 返回原载荷
      */
-    if (!Reflect.has(res.data, 'code')) {
-      return res.data
+    if (!Reflect.has(response.data, 'code')) {
+      return response.data
     }
-    const { code, msg, data } = res.data
-    if (data && code === 0) {
+    // const { code, data } = res.data
+    // if (data || code === 0) {
+    //   return data
+    // } else if (code !== 0) {
+    // }
+    // throw new Error(res.data)
+    const status = Number(response.status)
+    const { code, data, msg } = response.data
+    if (status === 200 && code === 0) {
       return data
+    } else {
+      return Promise.reject(new Error(msg || 'Error'))
     }
-    throw new Error(msg || 'Error')
+  },
+  requestResultHook: (res: AxiosResponse<API.Response>) => {
+    return res
   },
   responseCatchHook: (error: any) => {
+    debugger
     const { response } = error || {}
     const { status } = response
     if (status === 423) {

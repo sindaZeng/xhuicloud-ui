@@ -24,10 +24,66 @@
 
 import { HttpClient } from '@/utils/http'
 
-enum Api {
-  GetMenu = '/admin/menu'
+enum MenuApi {
+  Menu = '/admin/menu',
+  MenuTree = '/admin/menu/tree',
+  MenuTreeByRole = '/admin/menu/tree/',
+  CreateMenu = '/admin/menu',
+  UpdateMenu = '/admin/menu',
+  DeleteMenu = '/admin/menu/'
 }
 
-export function getMenu() {
-  return HttpClient.get<any>({ url: Api.GetMenu })
+export function menu() {
+  return HttpClient.get<Menu[]>({ url: MenuApi.Menu })
+}
+
+/**
+ * 菜单树
+ * @param disabled
+ * @returns {*}
+ */
+export function menuTree(disabled: boolean) {
+  return HttpClient.get<Menu[]>({ url: MenuApi.MenuTree, params: { disabled } })
+}
+
+export function menuTreeByRole(roleId: number) {
+  return HttpClient.get<number[]>({ url: MenuApi.MenuTreeByRole + roleId })
+}
+
+export function createMenu(data: Menu) {
+  return HttpClient.post<number>(
+    {
+      url: MenuApi.CreateMenu,
+      data
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '菜单添加成功'
+    }
+  )
+}
+
+export function updateMenu(data: Menu) {
+  return HttpClient.put<boolean>(
+    {
+      url: MenuApi.UpdateMenu,
+      data
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '菜单修改成功'
+    }
+  )
+}
+
+export function deleteMenu(id: number) {
+  return HttpClient.delete<boolean>(
+    {
+      url: MenuApi.DeleteMenu + id
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '菜单删除成功'
+    }
+  )
 }

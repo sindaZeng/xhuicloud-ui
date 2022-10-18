@@ -26,12 +26,20 @@
   --el-avatar-background-color: none;
 }
 
+.el-input {
+  --el-input-height: 30px !important;
+}
+.el-input__wrapper {
+  --el-input-inner-height: 30px !important;
+}
+
 .el-table th {
   word-break: break-word;
   color: black;
 }
 .el-date-editor {
   --el-date-editor-width: 230px !important;
+  height: 32px !important;
 }
 .el-table__header {
   --el-table-header-bg-color: #fafafa;

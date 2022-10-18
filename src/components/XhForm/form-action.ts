@@ -1,21 +1,24 @@
 import { ColProps } from 'element-plus'
 import { ExtractPropTypes, PropType } from 'vue'
 
-export interface ActionButtonOption {
-  // 按钮自定义函数
-  btFunc: () => Promise<void>
-}
 export const formActionButtonGroupProps = {
   col: {
     type: Object as PropType<ColProps>
   },
-  // 收起展开按钮属性
-  showUpButton: {
-    type: Object as PropType<ActionButtonOption | boolean>
+  show: {
+    type: Boolean as PropType<boolean>
+  },
+  // 搜索按钮
+  showSearchButton: {
+    type: Boolean as PropType<boolean>
+  },
+  // 收起展开按钮
+  showShowUpButton: {
+    type: Boolean as PropType<boolean>
   },
   // 重置按钮属性
-  resetButton: {
-    type: Object as PropType<ActionButtonOption | boolean>
+  showResetButton: {
+    type: Boolean as PropType<boolean>
   }
 }
 

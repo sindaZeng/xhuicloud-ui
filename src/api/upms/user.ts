@@ -23,14 +23,86 @@
  */
 
 import { HttpClient } from '@/utils/http'
-import { UserInfo } from '@/api/upms/entity/user'
+import { Page } from '../base'
 
-enum Api {
-  GetUserInfo = '/admin/user/info'
+enum UserApi {
+  UserInfo = '/admin/user/info',
+  UserPage = '/admin/user/page',
+  CreateUser = '/admin/user',
+  UpdateUser = '/admin/user',
+  UpdateUserMotto = '/admin/user/motto',
+  UpdateUserAvatar = '/admin/user/avatar',
+  UpdateUserPhone = '/admin/user/phone/',
+  DeleteUser = '/admin/user/'
 }
 
-export function getUserInfo() {
+export function userInfo() {
   return HttpClient.get<UserInfo>({
-    url: Api.GetUserInfo
+    url: UserApi.UserInfo
   })
+}
+
+export function userPage(params: any) {
+  return HttpClient.get<Page<UserVo>>({
+    url: UserApi.UserPage,
+    params
+  })
+}
+
+export function createUser(data: SysUser) {
+  return HttpClient.post<number>(
+    {
+      url: UserApi.CreateUser,
+      data
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '用户添加成功'
+    }
+  )
+}
+
+export function updateUser(data: SysUser) {
+  return HttpClient.put<boolean>(
+    {
+      url: UserApi.UpdateUser,
+      data
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '用户修改成功'
+    }
+  )
+}
+
+export function updateUserMotto(data: SysUser) {
+  return HttpClient.put<boolean>({
+    url: UserApi.UpdateUserMotto,
+    data
+  })
+}
+
+export function updateUserAvatar(data: SysUser) {
+  return HttpClient.put<boolean>({
+    url: UserApi.UpdateUserAvatar,
+    data
+  })
+}
+
+export function updateUserPhone(phone: string) {
+  return HttpClient.put<boolean>({
+    url: UserApi.UpdateUserPhone + phone
+  })
+}
+
+export function deleteUser(userId: number) {
+  return HttpClient.delete<boolean>(
+    {
+      url: UserApi.DeleteUser + userId
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '用户删除成功'
+    }
+  )
 }

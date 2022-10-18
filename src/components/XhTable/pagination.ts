@@ -2,19 +2,19 @@ import { ExtractPropTypes, PropType } from 'vue'
 
 const paginationProps = {
   current: {
-    type: Number,
+    type: Number as PropType<number>,
     default: 1
   },
   size: {
-    type: Number,
+    type: Number as PropType<number>,
     default: 10
   },
   total: {
-    type: Number,
-    default: 1
+    type: Number as PropType<number>,
+    default: 0
   },
   layout: {
-    type: String
+    type: String as PropType<string>
   },
   background: {
     type: Boolean as PropType<boolean>
@@ -29,8 +29,6 @@ const paginationProps = {
     type: Function as PropType<(val: number) => void>
   }
 }
-export type Pagination = ExtractPropTypes<typeof paginationProps>
-
-export type PaginationType = false | Pagination
+export type Pagination = Partial<ExtractPropTypes<typeof paginationProps>>
 
 export default paginationProps

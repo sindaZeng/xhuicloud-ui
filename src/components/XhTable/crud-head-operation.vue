@@ -1,5 +1,12 @@
 <template>
-  <el-button v-if="permission.addBtn" type="primary" size="small" :icon="Plus">{{ $t(`button.create`) }} </el-button>
+  <el-button
+    v-if="permission.addBtn"
+    type="primary"
+    size="small"
+    :icon="Plus"
+    @click="tableContext.openDialog('create', null)"
+    >{{ $t(`button.create`) }}
+  </el-button>
   <el-button v-if="permission.exportBtn" type="primary" size="small" :icon="Download"
     >{{ $t(`button.download`) }}
   </el-button>
@@ -28,7 +35,9 @@
   import { computed } from 'vue'
   import { useTableContext } from './hooks'
   import crudStyle from './crud-style.vue'
+
   const tableContext = useTableContext()
+
   const permission = computed(() => tableContext.permission)
 </script>
 <style lang="scss" scoped></style>

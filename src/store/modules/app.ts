@@ -38,7 +38,7 @@ const defaultHomeTag: HomeTag = {
 
 const useAppStore = defineStore('app', {
   state: () => ({
-    tagViews: [defaultHomeTag],
+    tagViews: storageLocal.getItem<HomeTag[]>(setting.tagViewsKey) || [defaultHomeTag],
     tagView: '',
     sidebarStatus: true,
     lang: setting.language || storageLocal.getItem(setting.languageKey)
@@ -46,7 +46,7 @@ const useAppStore = defineStore('app', {
 
   getters: {
     getTagViews(): HomeTag[] {
-      return this.tagViews || storageLocal.getItem<HomeTag[]>(setting.tagViewsKey)
+      return this.tagViews
     },
     getTagView(): string {
       return this.tagView || storageLocal.getItem<string>(setting.tagViewKey)
@@ -66,13 +66,13 @@ const useAppStore = defineStore('app', {
       this.tagView = tagView.path
       storageLocal.setItem(setting.tagViewKey, this.tagView)
       if (
-        this.tagViews?.find((item) => {
+        !this.tagViews.find((item) => {
           return item.path === tagView.path
         })
-      )
-        return
-      this.tagViews.push(tagView)
-      storageLocal.setItem(setting.tagViewsKey, this.tagViews)
+      ) {
+        this.tagViews.push(tagView)
+        storageLocal.setItem(setting.tagViewsKey, this.tagViews)
+      }
     },
     /**
      * 根据path删除
@@ -103,7 +103,7 @@ const useAppStore = defineStore('app', {
      * @param state
      */
     delAllTagViews() {
-      this.tagViews = [defaultHomeTag]
+      this.tagViews = []
       storageLocal.setItem(setting.tagViewsKey, this.tagViews)
     }
   }

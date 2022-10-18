@@ -39,7 +39,7 @@
             <router-link to="/">
               <el-dropdown-item>{{ $t('msg.homePage') }}</el-dropdown-item>
             </router-link>
-            <router-link to="/">
+            <router-link to="/user/info">
               <el-dropdown-item>{{ $t('msg.userInfo') }}</el-dropdown-item>
             </router-link>
             <el-dropdown-item divided @click="logout">{{ $t('msg.logout') }}</el-dropdown-item>
@@ -66,8 +66,6 @@
 </script>
 
 <style lang="scss" scoped>
-  //@import "~@/styles/variables.scss";
-
   .navbar {
     width: 100%;
     height: 50px;

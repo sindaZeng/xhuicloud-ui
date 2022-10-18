@@ -1,3 +1,4 @@
+import { isObject } from '@/utils/is'
 import { componentSizes, FormProps as ElFormProps, RowProps } from 'element-plus'
 import { ExtractPropTypes, PropType } from 'vue'
 import { FormActionButtonGroupProps } from './form-action'
@@ -17,7 +18,7 @@ export const formProps = {
   // 标签的长度，例如 '50px'。 作为 Form 直接子元素的 form-item 会继承该值。 可以使用 auto
   labelWidth: {
     type: [String, Number],
-    default: ''
+    default: 'auto'
   },
   // 行内表单模式
   inline: Boolean,
@@ -49,7 +50,7 @@ export const formProps = {
   },
   // 表单项配置规则
   schemas: {
-    type: [Array] as PropType<FormItem[]>,
+    type: Array as PropType<FormItem[]>,
     default: () => []
   },
   // 表单row配置
@@ -58,11 +59,20 @@ export const formProps = {
     default: () => ({})
   },
   // 是否展示表单按钮组
-  showFormActionButtonGroup: {
+  formActionButtonGroup: {
     type: Object as PropType<FormActionButtonGroupProps>,
     default: () => ({})
   }
 }
+
+export const formEmits = {
+  'update:model': (formModel: Recordable<any>) => isObject(formModel),
+  search: (formModel: Recordable<any>) => isObject(formModel)
+}
+
+export type FormEmits = typeof formEmits
+
+export type FormEmitsFn = EmitFn<FormEmits>
 
 export type FormProps = Partial<
   ExtractPropTypes<typeof formProps> & {

@@ -23,12 +23,62 @@
  */
 
 import { HttpClient } from '@/utils/http'
-import { Tenant } from './entity/tenant'
+import { SysTenant, Tenant } from './entity/tenant'
+import { Page } from '../base'
 
-enum Api {
-  TenantList = '/admin/tenant/list'
+enum TenantApi {
+  TenantList = '/admin/tenant/list',
+  TenantPage = '/admin/tenant/page',
+  CreateTenant = '/admin/tenant',
+  UpdateTenant = '/admin/tenant',
+  DeleteTenant = '/admin/tenant/'
 }
 
 export function tenantList() {
-  return HttpClient.get<Tenant[]>({ url: Api.TenantList })
+  return HttpClient.get<Tenant[]>({ url: TenantApi.TenantList })
+}
+
+export function tenantPage(params: any) {
+  return HttpClient.get<Page<SysTenant>>({
+    url: TenantApi.TenantPage,
+    params
+  })
+}
+
+export function createTenant(data: SysTenant) {
+  return HttpClient.post<number>(
+    {
+      url: TenantApi.CreateTenant,
+      data
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '租户添加成功'
+    }
+  )
+}
+
+export function updateTenant(data: SysTenant) {
+  return HttpClient.put<boolean>(
+    {
+      url: TenantApi.UpdateTenant,
+      data
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '租户修改成功'
+    }
+  )
+}
+
+export function deleteTenant(TenantId: number) {
+  return HttpClient.delete<boolean>(
+    {
+      url: TenantApi.DeleteTenant + TenantId
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '租户删除成功'
+    }
+  )
 }

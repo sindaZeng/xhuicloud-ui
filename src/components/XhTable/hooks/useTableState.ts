@@ -1,7 +1,7 @@
-import { isNullOrUnDef } from '@/utils/is'
+import { isNullOrUnDef, isEmptyObject } from '@/utils/is'
 import { computed, ref, unref, watchEffect } from 'vue'
 import { TableProps } from '../crud'
-import { PaginationType } from '../pagination'
+import { Pagination } from '../pagination'
 
 export type TableState = ReturnType<typeof useTableState>
 /**
@@ -12,26 +12,26 @@ export type TableState = ReturnType<typeof useTableState>
  */
 export const useTableState = (props: TableProps) => {
   const tableData = ref<any[]>([])
-  const paginationRef = ref<PaginationType>(false)
+  const paginationRef = ref<Pagination>(props.page)
   const tableDrawer = ref(false)
   const innerPropsRef = ref<Partial<TableProps>>()
-
-  // 开启分页
-  if (!isNullOrUnDef(props.page) && !Object.is(props.page, false)) {
-    paginationRef.value = {
-      current: 1,
-      size: 10,
-      total: 0,
-      pageSizes: [10, 20, 30, 40],
-      layout: 'total, sizes,  prev, pager, next, jumper',
-      background: true,
-      ...props.page
-    }
-  }
+  const dialogVisible = ref<boolean>(false)
+  const dialogTitle = ref<string>('create')
 
   watchEffect(() => {
-    if (!isNullOrUnDef(props.table.data)) {
-      tableData.value = props.table.data
+    // 传入了data
+    if (!isNullOrUnDef(props.data)) {
+      tableData.value = props.data
+    }
+    // 开启分页
+    if (!isNullOrUnDef(props.page) && !isEmptyObject(unref(paginationRef))) {
+      paginationRef.value = {
+        total: tableData.value.length,
+        pageSizes: [10, 20, 30, 40],
+        layout: 'total, sizes,  prev, pager, next, jumper',
+        background: true,
+        ...props.page
+      }
     }
   })
 
@@ -47,6 +47,10 @@ export const useTableState = (props: TableProps) => {
     tableData,
     tableDrawer,
     paginationRef,
-    innerPropsRef
+    // 是否分页
+    enablePagination: !isNullOrUnDef(paginationRef.value.pageSizes),
+    innerPropsRef,
+    dialogVisible,
+    dialogTitle
   }
 }

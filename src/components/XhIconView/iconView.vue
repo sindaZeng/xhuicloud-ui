@@ -132,7 +132,7 @@
       width: 100%;
       float: left;
       font-size: 30px;
-      color: #24292e;
+      // color: #24292e;
       cursor: pointer;
       @include prefixed(transform, perspective(1px) translateZ(0));
 

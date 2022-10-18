@@ -73,7 +73,6 @@
   import { useRouter } from 'vue-router'
   import { validatePassword } from '@/utils/rules'
   import { isNullOrUnDef } from '@/utils/is'
-  import { LoginForm } from '@/api/upms/entity/user'
   import type { FormInstance } from 'element-plus'
   import i18n from '@/i18n'
   import useStore from '@/store'
@@ -87,7 +86,8 @@
   const loginInfo = ref<LoginForm>({
     username: 'admin',
     password: '123456',
-    grant_type: 'password'
+    grant_type: 'password',
+    scope: 'server'
   })
 
   const loginRules = ref({

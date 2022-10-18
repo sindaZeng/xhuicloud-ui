@@ -25,7 +25,7 @@
 <template>
   <i v-if="icon.includes(`el-icon`)" class="sub-el-icon" :class="icon"></i>
   <xh-svg v-else :icon="icon"></xh-svg>
-  <span>{{ title }}</span>
+  <span :id="path">{{ title }}</span>
 </template>
 
 <script lang="ts" setup>
@@ -35,6 +35,10 @@
     title: {
       type: String,
       required: true
+    },
+    path: {
+      type: String,
+      default: ''
     },
     icon: {
       type: String,

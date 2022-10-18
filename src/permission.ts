@@ -28,7 +28,8 @@ import i18n from '@/i18n'
 import { isNullAndUnDef } from '@/utils/is'
 import useStore from '@/store'
 import { toRouteType } from '@/router/types'
-import { getMenu } from '@/api/upms/menu'
+import { RouteRecordRaw } from 'vue-router'
+import { page404 } from './router/commons'
 
 const whiteList = ['/login', '/auth-redirect']
 
@@ -38,29 +39,42 @@ const whiteList = ['/login', '/auth-redirect']
 router.beforeEach(async (to: toRouteType, _from, next) => {
   const meta = to.meta || {}
   document.title = meta.title ? i18n.global.t('menu.' + meta.title) : setting.title
-  const { user, app, permission } = useStore()
+  const { user, permission } = useStore()
   if (user.getToken) {
     if (to.path === '/login') {
       next('/')
     } else {
       if (isNullAndUnDef(user.getSysUser)) {
         user.getUserInfo()
-      } else {
-        const res = await getMenu()
-        const userRoutes = await permission.initRoutes(res)
-        userRoutes.forEach((route) => {
+      }
+      if (permission.routes.length == 0 && !permission.getIsDynamicAddedRoute) {
+        const routes = await permission.initRoutes()
+
+        routes.forEach((route: RouteRecordRaw) => {
           router.addRoute(route)
         })
-        const { fullPath, meta, path, params, query } = to
-        app.addTagView({ fullPath, meta, path, params, query })
+
+        router.addRoute(page404 as RouteRecordRaw)
+
+        permission.setDynamicAddedRoute(true)
+
+        if (to.name === page404.name) {
+          next({ path: to.fullPath, replace: true, query: to.query })
+        } else {
+          const redirectPath = (_from.query.redirect || to.path) as string
+          const redirect = decodeURIComponent(redirectPath)
+          const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect }
+          next(nextData)
+        }
+      } else {
+        next()
       }
-      next()
     }
   } else {
-    if (whiteList.indexOf(to.path) > -1) {
+    if (whiteList.some((n) => n === to.path)) {
       next()
     } else {
-      next(`/login?redirect=${to.path}`)
+      next('/login')
     }
   }
 })

@@ -63,3 +63,7 @@ export function isUnDef<T = unknown>(val?: T): val is T {
 export function isDef<T = unknown>(val?: T): val is T {
   return typeof val !== 'undefined'
 }
+
+export function isEmptyObject(val: any): val is Record<any, any> {
+  return JSON.stringify(val) === '{}'
+}

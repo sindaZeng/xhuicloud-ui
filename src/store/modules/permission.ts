@@ -24,32 +24,36 @@
 
 import { defineStore } from 'pinia'
 import { RouteRecordRaw } from 'vue-router'
-import commonsRoutes from '@/router/commons'
 import layout from '@/layout/index.vue'
+import { isNull } from '@/utils/is'
+import { Menu } from '@/api/upms/entity/menu'
+import { menu } from '@/api/upms/menu'
+import commonsRoutes from '@/router/commons'
 
 export interface XhRoute {
   routes: RouteRecordRaw[]
+  /** 是否已经执行动态路由添加 **/
+  isDynamicAddedRoute: boolean
 }
 
-const modules = import.meta.glob('@/views/**/**.vue')
+const modules = import.meta.glob('@/views/**/*.vue')
 
-const generator = (routes: RouteRecordRaw[]) => {
+const generator = (routes: Menu[]) => {
   const res: RouteRecordRaw[] = []
   routes.forEach((route) => {
     const tmp = { ...route } as any
-    if (tmp.path === 'Layout' || tmp.path === 'layout') {
+    if (!isNull(tmp.children)) {
       tmp.component = layout
     } else {
-      const component = modules[`@/views/${tmp.path}.vue`] as any
+      const component = modules[`../../views${tmp.path}.vue`] as any
       if (component) {
-        tmp.component = modules[`@/views/${tmp.path}.vue`]
+        tmp.component = component
       } else {
-        tmp.component = modules['@/views/error-page/404.vue']
+        tmp.component = modules['@/views/error/404.vue']
       }
     }
     tmp.meta = { title: tmp.title, internationalization: 'menu.' + tmp.internationalization, icon: tmp.icon }
     res.push(tmp)
-
     if (tmp.children) {
       tmp.children = generator(tmp.children)
     }
@@ -59,23 +63,27 @@ const generator = (routes: RouteRecordRaw[]) => {
 
 const usePermissionStore = defineStore('permission', {
   state: (): XhRoute => ({
-    routes: []
+    routes: [],
+    isDynamicAddedRoute: false
   }),
   getters: {
     getRoutes(): RouteRecordRaw[] {
       return this.routes
+    },
+    getIsDynamicAddedRoute(): boolean {
+      return this.isDynamicAddedRoute
     }
   },
   actions: {
-    setRoutes(routes: RouteRecordRaw[]) {
-      this.routes = commonsRoutes.concat(routes)
+    setDynamicAddedRoute(added: boolean) {
+      this.isDynamicAddedRoute = added
     },
-    async initRoutes(routes: RouteRecordRaw[]): Promise<RouteRecordRaw[]> {
-      const res = generator(routes)
-      this.setRoutes(res)
+    async initRoutes(): Promise<RouteRecordRaw[]> {
+      const menus = await menu()
+      const res = generator(menus)
+      this.routes = res.concat(commonsRoutes)
       return res
     }
   }
 })
-
 export default usePermissionStore

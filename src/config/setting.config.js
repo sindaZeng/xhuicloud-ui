@@ -28,6 +28,8 @@ const setting = {
   devPort: '80',
   // 商户字段
   tenant: 'tenant',
+  // 存储的SysUser
+  user: 'user',
   // 存储的AuthInfo
   authInfo: 'authInfo',
   // 单位/毫秒  监听token过期刷新

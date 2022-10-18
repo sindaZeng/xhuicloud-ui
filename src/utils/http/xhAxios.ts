@@ -25,7 +25,9 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Canceler } from 'axios'
 import { cloneDeep } from 'lodash-es'
 import { RequestOptions, XhAxiosRequestConfig } from '@/utils/http/xhAxiosHandler'
-import { isFunction } from '@/utils/is'
+import { isFunction, isNullOrUnDef } from '@/utils/is'
+import { ElMessage, ElNotification as $notification } from 'element-plus'
+import useStore from '@/store'
 
 const pendingMap = new Map<string, Canceler>()
 
@@ -35,7 +37,7 @@ class AxiosCanceler {
   addPending = (config: AxiosRequestConfig) => {
     this.removePending(config)
     const url = getPendingUrl(config)
-    config.cancelToken = new axios.CancelToken((cancel) => {
+    config.cancelToken = new axios.CancelToken((cancel: any) => {
       if (!pendingMap.has(url)) {
         pendingMap.set(url, cancel)
       }
@@ -77,7 +79,7 @@ export class XhAxios {
     if (!handler) {
       return
     }
-    const { requestInterceptors, requestCatchHook, responseInterceptors, responseCatchHook } = handler
+    const { requestInterceptors, requestCatchHook } = handler
 
     const axiosCanceler = new AxiosCanceler()
 
@@ -93,17 +95,40 @@ export class XhAxios {
       isFunction(requestCatchHook) &&
       this.axiosInstance.interceptors.request.use(undefined, requestCatchHook)
 
-    this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
-      res && axiosCanceler.removePending(res.config)
-      if (responseInterceptors && isFunction(responseInterceptors)) {
-        res = responseInterceptors(res)
+    this.axiosInstance.interceptors.response.use(
+      (response: AxiosResponse<any>) => {
+        response && axiosCanceler.removePending(response.config)
+        /**
+         * 返回原载荷
+         */
+        if (!Reflect.has(response.data, 'code')) {
+          return response.data
+        }
+        const status = Number(response.status)
+        const { code, data, msg } = response.data
+        if (status === 200 && code === 0) {
+          return data
+        } else {
+          throw new Error(msg)
+        }
+      },
+      (error) => {
+        const { response } = error || {}
+        const { status } = response
+        if (status === 423) {
+          ElMessage.error('演示环境不允许操作哦~')
+          return Promise.reject(error)
+        } else if (status === 503) {
+          ElMessage.error('网络开小差啦~')
+          return Promise.reject(error)
+        } else if (status === 401) {
+          const { user } = useStore()
+          user.cleanAll()
+          window.location.reload()
+        }
+        return Promise.reject(error)
       }
-      return res
-    }, undefined)
-
-    responseCatchHook &&
-      isFunction(responseCatchHook) &&
-      this.axiosInstance.interceptors.response.use(undefined, responseCatchHook)
+    )
   }
 
   getAxios(): AxiosInstance {
@@ -129,9 +154,23 @@ export class XhAxios {
         .then((res: AxiosResponse<API.Response>) => {
           if (requestResultHook && isFunction(requestResultHook)) {
             try {
+              const { successMsg, titleMsg } = opt
               const ret = requestResultHook(res)
+              successMsg &&
+                $notification({
+                  title: isNullOrUnDef(titleMsg) ? 'Success' : titleMsg,
+                  message: successMsg,
+                  type: 'success'
+                })
               resolve(ret)
             } catch (err) {
+              const { errorMsg, titleMsg } = opt
+              errorMsg &&
+                $notification({
+                  title: isNullOrUnDef(errorMsg) ? 'Error' : titleMsg,
+                  message: errorMsg,
+                  type: 'error'
+                })
               reject(err || new Error('request error!'))
             }
             return

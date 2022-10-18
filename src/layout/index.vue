@@ -51,6 +51,7 @@
   import setting from '@/config/setting.config'
   import { checkToken } from '@/api/upms/auth'
   import useStore from '@/store'
+  import { createBreakpointListen } from '@/hooks/useBreakpoint'
 
   const { user, app } = useStore()
 
@@ -74,11 +75,12 @@
   onMounted(() => onCreate())
 
   onUnmounted(() => window.clearInterval(refreshTime.value))
+
+  /** 监控窗口大小 **/
+  createBreakpointListen()
 </script>
 
 <style lang="scss" scoped>
-  //@import "~@/styles/variables.scss";
-
   .app-container {
     width: 100%;
     height: 100%;

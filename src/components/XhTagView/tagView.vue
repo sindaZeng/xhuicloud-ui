@@ -28,13 +28,13 @@
       <div class="tabs">
         <el-tabs
           v-model="activeTag"
-          :closable="app.getTagViews.length > 1"
+          :closable="tabsList.length > 1"
           type="card"
           @contextmenu.prevent="openContextmenu($event)"
           @tab-click="tabClick"
           @edit="delTagView"
         >
-          <el-tab-pane v-for="item in app.getTagViews" :key="item.path" :name="item.path">
+          <el-tab-pane v-for="item in tabsList" :key="item.path" :name="item.path">
             <template #label>
               <menu-item :title="$t(item.meta.internationalization)" :icon="item.meta.icon"></menu-item>
             </template>
@@ -67,12 +67,13 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, watch } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { TabPanelName, TabsPaneContext } from 'element-plus'
   import { ArrowDown } from '@element-plus/icons-vue'
   import MenuItem from '@/components/XhSidebar/MenuItem.vue'
   import useStore from '../../store'
+  import { isNullOrUnDef } from '@/utils/is'
 
   const { app } = useStore()
 
@@ -80,11 +81,13 @@
 
   const route = useRoute()
 
-  const activeTag = ref('')
+  const activeTag = ref<string>(route.fullPath)
 
   const contextmenuTag = ref('')
 
   const visible = ref(false)
+
+  const tabsList = computed(() => app.getTagViews)
 
   const contextmenuStyle = ref({
     left: '0',
@@ -92,12 +95,15 @@
   })
 
   watch(
-    route,
-    (to) => {
-      activeTag.value = to.path
-    },
-    {
-      immediate: true
+    () => route.fullPath,
+    () => {
+      console.log(route.fullPath)
+
+      if (!isNullOrUnDef(route.meta) && !route.meta.hidden) {
+        activeTag.value = route.fullPath
+        const { fullPath, meta, path, params, query } = route
+        app.addTagView({ fullPath, meta, path, params, query })
+      }
     }
   )
 
@@ -121,11 +127,23 @@
   }
 
   function openContextmenu(e: any) {
-    const { x, y } = e
-    contextmenuStyle.value.left = x + 'px'
-    contextmenuStyle.value.top = y + 'px'
-    contextmenuTag.value = e.target.getAttribute('aria-controls').slice(5)
-    visible.value = !visible.value
+    let selectTags
+    /** 让其始终选取到‘el-tabs__item’ 节点 **/
+    if (e.srcElement.id) {
+      selectTags = e.srcElement.id
+    } else if (e.target.parentNode.id) {
+      selectTags = e.target.parentNode.id
+    } else if (e.target.parentNode.id) {
+      selectTags = e.target.parentNode.parentNode.id
+    }
+
+    if (selectTags) {
+      const { x, y } = e
+      contextmenuStyle.value.left = x + 'px'
+      contextmenuStyle.value.top = y + 'px'
+      contextmenuTag.value = selectTags.replace('tab-', '')
+      visible.value = true
+    }
   }
 
   function closeContextmenu() {
@@ -147,16 +165,17 @@
    * 关闭其他
    */
   function delOtherTagView(path: string) {
+    console.log(path)
     app.delOtherTagView(path)
     pushLastView()
   }
 
   /**
-   * 关闭其他
+   * 关闭全部
    */
   function delAllTagViews() {
     app.delAllTagViews()
-    pushLastView()
+    router.push('/home')
   }
 
   /**

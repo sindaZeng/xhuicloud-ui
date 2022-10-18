@@ -48,7 +48,7 @@
         </div>
         <div class="table-style-switch">
           搜索栏:
-          <el-switch v-model="enableSearch" />
+          <el-switch v-model="showSearch" />
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -58,6 +58,7 @@
 <script lang="ts" setup>
   import { cloneDeep } from 'lodash'
   import { ref, watch, watchEffect } from 'vue'
+  import { FormActionButtonGroupProps } from '../XhForm/form-action'
   import { Table, TableColumn } from './crud'
   import { useTableContext } from './hooks'
 
@@ -76,12 +77,14 @@
 
   const tableColumn = ref<TableColumnType[]>([])
 
-  const table = ref<Table<any>>(getProps.value.table)
+  const table = ref<Table>(getProps.value.table)
 
-  const enableSearch = ref<boolean>(getProps.value.enableSearch)
+  const enableSearch = ref<FormActionButtonGroupProps>(getProps.value.enableSearch)
+
+  const showSearch = ref<boolean>(enableSearch.value.show!)
 
   const init = () => {
-    tableColumn.value = defaultTableColumn
+    tableColumn.value = defaultTableColumn.filter((x) => !x.isFormItem)
   }
 
   init()
@@ -96,8 +99,8 @@
     }
   )
 
-  watch(enableSearch, () => {
-    setProps({ enableSearch: enableSearch.value })
+  watch(showSearch, () => {
+    setProps({ enableSearch: { ...enableSearch.value, show: showSearch.value } })
   })
 
   watchEffect(() => {

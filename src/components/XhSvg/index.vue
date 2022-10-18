@@ -60,8 +60,8 @@
    * 外部图标样式
    */
   const externalIconStyle = computed(() => ({
-    mask: `url(${props.icon}) no-repeat 50% 50%`,
-    '-webkit-mask': `url(${props.icon}) no-repeat 50% 50%`
+    mask: `url(${props.icon}#star) 50% 50%`,
+    '-webkit-mask': `url(${props.icon}#star) 50% 50%`
   }))
 
   /**
@@ -70,7 +70,7 @@
   const innerIcon = computed(() => `#icon-${props.icon}`)
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
   .svg-icon {
     width: v-bind(width);
     height: v-bind(height);
@@ -82,6 +82,9 @@
   .svg-external-icon {
     background-color: currentColor;
     mask-size: cover !important;
+    -webkit-mask-size: cover !important;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
     display: inline-block;
   }
 </style>

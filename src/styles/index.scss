@@ -1,9 +1,9 @@
-@import "./mixin.scss";
-@import "./sidebar.scss";
-@import "./tag.scss";
-@import "./element.scss";
-@import "./transition.scss";
-@import "./media.scss";
+@import './mixin.scss';
+@import './sidebar.scss';
+@import './tag.scss';
+@import './element.scss';
+@import './transition.scss';
+@import './media.scss';
 
 html {
   height: 100%;
@@ -60,7 +60,7 @@ div:focus {
     visibility: hidden;
     display: block;
     font-size: 0;
-    content: " ";
+    content: ' ';
     clear: both;
     height: 0;
   }

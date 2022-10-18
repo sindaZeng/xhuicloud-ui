@@ -22,15 +22,14 @@
  * @Email:  xhuicloud@163.com
  */
 
-export interface LoginForm {
-  authCode?: string
-  type?: string
+interface LoginForm {
   username?: string
   password?: string
   grant_type: string
+  scope: string
 }
 
-export interface AuthInfo {
+interface AuthInfo {
   access_token: string
   token_type: string
   refresh_token: string
@@ -42,19 +41,66 @@ export interface AuthInfo {
   phone: string
 }
 
-export interface SysUser {
+interface SysUser {
   userId?: number
   username?: string
   avatar?: string
   phone?: string
+  motto?: string
   email?: string
   sex?: number
   tenantId?: number
 }
 
-export interface UserInfo {
+interface UserInfo {
   sysUser: SysUser
   permissions: string[]
   roles?: []
   tenantName?: string
+}
+
+interface UserInfoReqDto {
+  motto?: string
+  avatar?: string
+}
+
+interface UserVo {
+  userId: number
+  username: string
+  avatar?: string
+  phone: string
+  email?: string
+  sex: number
+  createTime: string
+  updateTime: string
+  lockFlag: number
+  isDel: number
+  roleVos: RoleVo[]
+  deptVos: DeptVo[]
+}
+
+interface DeptVo {
+  deptId: number
+  deptName: string
+}
+
+interface RoleVo {
+  roleId: number
+  roleName: string
+}
+
+interface SysUser {
+  avatar?: string
+  deptIds?: number[]
+  email?: string
+  isDel?: number
+  lockFlag?: number
+  password?: string
+  phone?: string
+  roleIds?: number[]
+  sex?: number
+  tenantId?: number
+  updateTime?: string
+  userId?: number
+  username?: string
 }

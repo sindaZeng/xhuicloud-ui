@@ -21,14 +21,31 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-import i18n from '@/i18n'
 
-export const validatePassword = () => {
-  return (rule, value, callback) => {
-    if (value.length === '' || value.length == null || value.length === undefined || value.length < 6) {
-      callback(new Error(i18n.global.t('msg.passwordNotNull')))
-    } else {
-      callback()
+import { HttpClient } from '@/utils/http'
+import { Page } from '../base'
+
+export enum FileApi {
+  FileUpload = '/admin/file/upload',
+  FilePage = '/admin/file/page',
+  DeleteFile = '/admin/file/'
+}
+
+export function filePage(params: any) {
+  return HttpClient.get<Page<SysFile>>({
+    url: FileApi.FilePage,
+    params
+  })
+}
+
+export function deleteFile(id: number) {
+  return HttpClient.delete<boolean>(
+    {
+      url: FileApi.DeleteFile + id
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '文件删除成功'
     }
-  }
+  )
 }

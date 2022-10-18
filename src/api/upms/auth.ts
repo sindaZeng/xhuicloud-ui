@@ -23,19 +23,18 @@
  */
 
 import { HttpClient } from '@/utils/http'
-import { LoginForm, AuthInfo } from '@/api/upms/entity/user'
 import { RequestOptions } from '@/utils/http/xhAxiosHandler'
 
 const basicHeader = 'dGVzdDp0ZXN0'
 const options: RequestOptions = { withToken: false }
 
-enum Api {
-  Token = '/auth/oauth/token',
+enum AuthApi {
+  Token = '/auth/oauth2/token',
   CheckToken = '/auth/oauth/check_token',
   RefreshToken = '/auth/oauth/token',
   GetLoginQrcode = '/admin/wechat-mp/login-qrcode',
   LoginQrcodeScanSuccess = '/admin/wechat-mp/scan-success',
-  Logout = '/auth/oauth2/logout'
+  Logout = '/auth/authorize/logout'
 }
 
 /**
@@ -45,7 +44,7 @@ enum Api {
 export function loginApi(params: LoginForm) {
   return HttpClient.post<AuthInfo>(
     {
-      url: Api.Token,
+      url: AuthApi.Token,
       headers: {
         Authorization: 'Basic ' + basicHeader
       },
@@ -62,7 +61,7 @@ export function loginApi(params: LoginForm) {
 export function checkToken(token: string) {
   return HttpClient.get<any>(
     {
-      url: Api.CheckToken,
+      url: AuthApi.CheckToken,
       headers: {
         Authorization: 'Basic ' + basicHeader
       },
@@ -84,7 +83,7 @@ export function refreshToken(refreshToken: string) {
   }
   return HttpClient.post<AuthInfo>(
     {
-      url: Api.RefreshToken,
+      url: AuthApi.RefreshToken,
       headers: {
         Authorization: 'Basic ' + basicHeader
       },
@@ -100,7 +99,7 @@ export function refreshToken(refreshToken: string) {
 export function getLoginQrcode(appId: string) {
   return HttpClient.get<API.Response<string>>(
     {
-      url: Api.GetLoginQrcode + appId
+      url: AuthApi.GetLoginQrcode + appId
     },
     options
   )
@@ -112,7 +111,7 @@ export function getLoginQrcode(appId: string) {
 export function loginQrcodeScanSuccess(appId: string, ticket: string) {
   return HttpClient.get<API.Response<boolean>>(
     {
-      url: Api.LoginQrcodeScanSuccess,
+      url: AuthApi.LoginQrcodeScanSuccess,
       params: { ticket }
     },
     options
@@ -124,6 +123,6 @@ export function loginQrcodeScanSuccess(appId: string, ticket: string) {
  */
 export function logout() {
   return HttpClient.post({
-    url: Api.Logout
+    url: AuthApi.Logout
   })
 }
