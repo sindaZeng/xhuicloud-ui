@@ -25,6 +25,8 @@
 interface LoginForm {
   username?: string
   password?: string
+  code?: string
+  platform?: string
   grant_type: string
   scope: string
 }

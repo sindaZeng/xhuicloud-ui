@@ -66,9 +66,10 @@
         if (!isNullOrUnDef(query.state) && !isNullOrUnDef(query.code)) {
           user
             .login({
-              authCode: query.code as string,
-              type: query.state as string,
-              grant_type: 'social'
+              code: query.code as string,
+              platform: query.state as string,
+              grant_type: 'social',
+              scope: 'server'
             })
             .then(() => {
               router.push((query.redirect || '/') as string)
