@@ -26,7 +26,7 @@
   <div class="login-container">
     <div class="login-form-container animate__animated animate__bounceInRight">
       <div class="login-logo-container">
-        <img :src="user.getTenant?.logo || 'https://img1.baidu.com/it/u=4233922998,2061984360&fm=26&fmt=auto'" />
+        <img :src="user.getTenant?.logo || 'https://xhuicloud.oss-cn-shenzhen.aliyuncs.com/xhuicloud-logo.png'" />
       </div>
       <XhLangSelect class="login-langSelect hover-effect" />
       <h4 class="login-tenantSelect" :style="tenantSelectAnimation">

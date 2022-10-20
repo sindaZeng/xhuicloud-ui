@@ -24,7 +24,7 @@
 
 <template>
   <div v-if="theme.showSidebarLogo" class="logo-container" :style="{ background: theme.getThemeCss.navbarBg }">
-    <img :src="user.getTenant.logo" class="sidebar-logo" />
+    <img :src="user.getTenant?.logo" class="sidebar-logo" />
     <h1 v-if="app.getSidebarStatus" class="logo-title" style="color: black">{{ name }}</h1>
   </div>
   <el-scrollbar>

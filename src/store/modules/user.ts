@@ -29,6 +29,7 @@ import setting from '@/config/setting.config'
 import { Tenant } from '@/api/upms/entity/tenant'
 import { loginApi, logout, refreshToken } from '@/api/upms/auth'
 import { userInfo } from '@/api/upms/user'
+import { cloneDeep } from 'lodash-es'
 
 export interface UserState {
   authInfo: AuthInfo | null
@@ -45,12 +46,12 @@ const defaultUserState = {
   permissions: null
 } as UserState
 const useUserStore = defineStore('user', {
-  state: (): UserState => defaultUserState,
+  state: (): UserState => cloneDeep(defaultUserState),
   getters: {
     getSysUser(): SysUser {
       return this.sysUser || storageLocal.getItem<SysUser>(setting.user)
     },
-    getToken(): string {
+    getToken(): string | undefined {
       return this.authInfo?.access_token || storageLocal.getItem<AuthInfo>(setting.authInfo)?.access_token
     },
     getRefreshToken(): string {
@@ -68,7 +69,7 @@ const useUserStore = defineStore('user', {
   },
   actions: {
     async reset() {
-      this.$state = defaultUserState
+      this.$patch(cloneDeep(defaultUserState))
     },
     setAuthInfo(authInfo: AuthInfo) {
       this.authInfo = authInfo
@@ -123,17 +124,9 @@ const useUserStore = defineStore('user', {
         })
       )
     },
-    logout() {
-      return new Promise((resolve, reject) => {
-        logout()
-          .then((response) => {
-            this.cleanAll()
-            resolve(response)
-          })
-          .catch((error) => {
-            reject(error)
-          })
-      })
+    async logout() {
+      await logout()
+      await this.cleanAll()
     },
     cleanAll() {
       storageLocal.clear()

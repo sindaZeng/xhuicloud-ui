@@ -32,7 +32,7 @@
       <XhLangSelect class="right-menu-item hover-effect" />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <el-avatar shape="square" :size="40" :src="user.getSysUser.avatar"></el-avatar>
+          <el-avatar shape="square" :size="40" :src="user.getSysUser?.avatar"></el-avatar>
         </div>
         <template #dropdown>
           <el-dropdown-menu class="user-dropdown">
