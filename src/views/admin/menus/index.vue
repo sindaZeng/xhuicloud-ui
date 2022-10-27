@@ -12,7 +12,7 @@
     @toUpdateRow="toUpdateRow"
   >
     <!-- 表单插槽 -->
-    <template #parentIdForm="{ formModel, field }">
+    <template #parentIdFormItem="{ formModel, field }">
       <el-cascader
         v-model="formModel[field]"
         :options="menuOptions"

@@ -28,7 +28,6 @@ export const useFormItem = (state: UseFormState, xhuiFormDivRef: Ref<HTMLElement
     }
     /** 重置为表单组件width **/
     xhuiFormWidth.value = xhuiFormDivRef.value!.scrollWidth
-    console.log('表单宽度:' + xhuiFormWidth.value)
     let factor = 4
     if (unref(xhuiFormWidth) >= screenEnum.XL) {
       // ≥1920px
@@ -61,7 +60,8 @@ export const useFormItem = (state: UseFormState, xhuiFormDivRef: Ref<HTMLElement
   return {
     col,
     getSchemas,
-    itemWidth
+    itemWidth,
+    xhuiFormWidth
   }
 }
 

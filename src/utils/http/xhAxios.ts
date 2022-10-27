@@ -26,8 +26,7 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Ca
 import { cloneDeep } from 'lodash-es'
 import { RequestOptions, XhAxiosRequestConfig } from '@/utils/http/xhAxiosHandler'
 import { isFunction, isNullOrUnDef } from '@/utils/is'
-import { ElMessage, ElNotification as $notification } from 'element-plus'
-import useStore from '@/store'
+import { ElNotification as $notification } from 'element-plus'
 
 const pendingMap = new Map<string, Canceler>()
 
@@ -79,7 +78,7 @@ export class XhAxios {
     if (!handler) {
       return
     }
-    const { requestInterceptors, requestCatchHook } = handler
+    const { requestInterceptors, requestCatchHook, responseCatchHook } = handler
 
     const axiosCanceler = new AxiosCanceler()
 
@@ -95,40 +94,22 @@ export class XhAxios {
       isFunction(requestCatchHook) &&
       this.axiosInstance.interceptors.request.use(undefined, requestCatchHook)
 
-    this.axiosInstance.interceptors.response.use(
-      (response: AxiosResponse<any>) => {
-        response && axiosCanceler.removePending(response.config)
-        /**
-         * 返回原载荷
-         */
-        if (!Reflect.has(response.data, 'code')) {
-          return response.data
-        }
-        const status = Number(response.status)
-        const { code, data, msg } = response.data
-        if (status === 200 && code === 0) {
-          return data
-        } else {
-          throw new Error(msg)
-        }
-      },
-      (error) => {
-        const { response } = error || {}
-        const { status } = response
-        if (status === 423) {
-          ElMessage.error('演示环境不允许操作哦~')
-          return Promise.reject(error)
-        } else if (status === 503) {
-          ElMessage.error('网络开小差啦~')
-          return Promise.reject(error)
-        } else if (status === 401) {
-          const { user } = useStore()
-          user.cleanAll()
-          window.location.reload()
-        }
-        return Promise.reject(error)
+    this.axiosInstance.interceptors.response.use((response: AxiosResponse<any>) => {
+      response && axiosCanceler.removePending(response.config)
+      /**
+       * 返回原载荷
+       */
+      if (!Reflect.has(response.data, 'code')) {
+        return response.data
       }
-    )
+      const status = Number(response.status)
+      const { code, data, msg } = response.data
+      if (status === 200 && code === 0) {
+        return data
+      } else {
+        throw new Error(msg)
+      }
+    }, responseCatchHook)
   }
 
   getAxios(): AxiosInstance {

@@ -97,8 +97,6 @@
   watch(
     () => route.fullPath,
     () => {
-      console.log(route.fullPath)
-
       if (!isNullOrUnDef(route.meta) && !route.meta.hidden) {
         activeTag.value = route.fullPath
         const { fullPath, meta, path, params, query } = route
@@ -165,7 +163,6 @@
    * 关闭其他
    */
   function delOtherTagView(path: string) {
-    console.log(path)
     app.delOtherTagView(path)
     pushLastView()
   }

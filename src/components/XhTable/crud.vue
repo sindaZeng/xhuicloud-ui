@@ -67,6 +67,9 @@
         />
       </div>
       <crud-form>
+        <template v-for="item in getFormItemSlotKeys" #[item]="data">
+          <slot :name="item" v-bind="data || {}"></slot>
+        </template>
         <template v-for="item in getFormSlotKeys" #[item]="data">
           <slot :name="item" v-bind="data || {}"></slot>
         </template>
@@ -94,7 +97,7 @@
 
   const tableForm = useTableForm(state, slots)
 
-  const { getTableSearchForm, model, getFormSlotKeys, getRowOperationSlotKeys } = tableForm
+  const { getTableSearchForm, model, getFormSlotKeys, getFormItemSlotKeys, getRowOperationSlotKeys } = tableForm
 
   const { tableData, paginationRef, getProps, enablePagination } = state
 

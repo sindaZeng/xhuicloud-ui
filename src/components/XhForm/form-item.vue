@@ -1,7 +1,7 @@
 <template>
   <el-col v-bind="getCol">
     <el-form-item v-bind="schema">
-      <slot :name="schema.prop + 'Form'" :form-model="formModel" :field="schema.prop">
+      <slot :name="schema.prop + 'FormItem'" :form-model="formModel" :field="schema.prop">
         <component :is="getComponent" v-bind="getComponentProps" v-model="modelValue[schema.prop]">
           <template v-for="(slotFn, slotName) in getComponentSlots" #[slotName]="slotData" :key="slotName">
             <component :is="slotFn?.(slotData) ?? slotFn" :key="slotName"></component>
@@ -17,12 +17,15 @@
   import { ColProps } from 'element-plus'
   import { computed, defineProps, isVNode, PropType, unref } from 'vue'
   import { componentMap, ComponentSlotsType, CustomRender, FormItem, RenderParams } from './form-item'
+  import { useFormContext } from './hooks/useFormContext'
 
   const props = defineProps({
     formModel: { type: Object as PropType<Record<string, any>>, default: () => ({}) },
     schema: { type: Object as PropType<FormItem>, default: () => ({}) },
     col: { type: Object as PropType<Partial<ColProps>>, default: () => ({}) }
   })
+
+  const { itemWidth } = useFormContext()
   const emit = defineEmits(['update:formModel'])
 
   const modelValue = useVModel(props, 'formModel', emit)
@@ -51,6 +54,12 @@
     return componentProps as Recordable
   })
 
+  const currentWidth = computed(() => {
+    if (isNullOrUnDef(props.schema.width)) {
+      return itemWidth
+    }
+    return props.schema.width
+  })
   /**
    * 属性
    */
@@ -84,4 +93,14 @@
     return component
   }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  ::v-deep(.el-input__wrapper) {
+    width: v-bind(currentWidth);
+  }
+  ::v-deep(.el-select-v2) {
+    width: v-bind(currentWidth);
+  }
+  ::v-deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
+    width: v-bind(currentWidth);
+  }
+</style>

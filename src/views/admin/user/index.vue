@@ -54,7 +54,7 @@
           @closeBefore="closeBefore"
         >
           <!-- 表单插槽 -->
-          <template #deptIdsForm="{ formModel, field }">
+          <template #deptIdsFormItem="{ formModel, field }">
             <el-cascader
               v-model="formModel[field]"
               :options="deptTreeData"
@@ -63,7 +63,7 @@
               clearable
             ></el-cascader>
           </template>
-          <template #roleIdsForm="{ formModel, field }">
+          <template #roleIdsFormItem="{ formModel, field }">
             <el-select v-model="formModel[field]" multiple placeholder="请选择角色" style="width: 240px">
               <el-option v-for="item in roleDtos" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>

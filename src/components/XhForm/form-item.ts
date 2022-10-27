@@ -11,7 +11,9 @@ import {
   RadioProps,
   ElCascader,
   ElUpload,
-  UploadProps
+  UploadProps,
+  ElCheckboxGroup,
+  ElCheckbox
 } from 'element-plus'
 import { Component, VNode } from 'vue'
 import { DatePickViewProps } from './src/datePicker/datePickerProps'
@@ -19,6 +21,8 @@ import { InputViewProps } from './src/input/inputProps'
 import { SelectViewProps } from './src/select/selectProps'
 import { CustomCascaderProps } from './src/cascader'
 import { InputNumberProps } from './src/input/inputNumberProps'
+import { CheckboxGroupProps } from './src/checkBoxGroup'
+import CheckBoxGroup from './src/checkBoxGroup/CheckBoxGroup.vue'
 import RadioButtonGroup from './src/radioGroup/RadioButtonGroup.vue'
 import ImgUpload from './src/upload/imgUpload/index.vue'
 
@@ -45,7 +49,10 @@ export const componentMap = {
   RadioButtonGroup,
   ElCascader,
   ElUpload,
-  ImgUpload
+  ImgUpload,
+  ElCheckboxGroup,
+  ElCheckbox,
+  CheckBoxGroup
 }
 
 export type ComponentType = keyof typeof componentMap
@@ -58,6 +65,7 @@ export type ComponentPropsType =
   | CustomCascaderProps
   | UploadProps
   | InputNumberProps
+  | CheckboxGroupProps
 
 export type ComponentSlotsType =
   | ComponentType
@@ -79,6 +87,7 @@ export interface FormItem extends FormItemProps {
     | ReturnType<CustomRender>
   /** 表单项layout布局 **/
   col?: Partial<ColProps>
+  width?: string
   /** 表单项prop **/
   prop: string
   /** 展示/折叠 **/

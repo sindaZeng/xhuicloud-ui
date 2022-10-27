@@ -46,12 +46,6 @@ const handler: XhAxiosHandler = {
     if (!Reflect.has(response.data, 'code')) {
       return response.data
     }
-    // const { code, data } = res.data
-    // if (data || code === 0) {
-    //   return data
-    // } else if (code !== 0) {
-    // }
-    // throw new Error(res.data)
     const status = Number(response.status)
     const { code, data, msg } = response.data
     if (status === 200 && code === 0) {
@@ -64,9 +58,8 @@ const handler: XhAxiosHandler = {
     return res
   },
   responseCatchHook: (error: any) => {
-    debugger
     const { response } = error || {}
-    const { status } = response
+    const { status, data } = response
     if (status === 423) {
       ElMessage.error('演示环境不允许操作哦~')
       return Promise.reject(error)
@@ -77,6 +70,8 @@ const handler: XhAxiosHandler = {
       const { user } = useStore()
       user.cleanAll()
       window.location.reload()
+    } else {
+      ElMessage.error(data.msg)
     }
     return Promise.reject(error)
   }

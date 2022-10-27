@@ -8,10 +8,13 @@
     :before-close="closeDialog"
   >
     <xh-form v-bind="getTableOperationForm" ref="createOrUpdateFormRef" v-model:model="model">
-      <template v-for="item in getFormSlotKeys" #[item]="data">
+      <template v-for="item in getFormItemSlotKeys" #[item]="data">
         <slot :name="item" v-bind="data || {}"></slot>
       </template>
     </xh-form>
+    <template v-for="item in getFormSlotKeys">
+      <slot :name="item" />
+    </template>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="closeDialog">Cancel</el-button>
@@ -27,8 +30,16 @@
 
   const createOrUpdateFormRef = ref<XhFormInstance>()
 
-  const { model, dialogVisible, dialogTitle, closeDialog, getTableOperationForm, emit, getFormSlotKeys } =
-    useTableContext()
+  const {
+    model,
+    dialogVisible,
+    dialogTitle,
+    closeDialog,
+    getTableOperationForm,
+    emit,
+    getFormItemSlotKeys,
+    getFormSlotKeys
+  } = useTableContext()
 
   const toSubmit = () => {
     createOrUpdateFormRef.value?.validate?.((valid) => {

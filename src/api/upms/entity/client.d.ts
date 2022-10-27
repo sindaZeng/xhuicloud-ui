@@ -22,31 +22,21 @@
  * @Email:  xhuicloud@163.com
  */
 
-const setting = {
-  title: '星辉云',
-  // 端口号
-  devPort: '80',
-  // 商户字段
-  tenant: 'tenant',
-  // 存储的SysUser
-  user: 'user',
-  // 存储的AuthInfo
-  authInfo: 'authInfo',
-  // 单位/毫秒  监听token过期刷新
-  expiredPeriod: 6000000,
-  // 当有值时候会在登录页展示版权信息
-  copyright:
-    process.env.NODE_ENV === 'production'
-      ? '<a href=\'http://beian.miit.gov.cn\' target="view_window">粤ICP备2022008047号-1</a>'
-      : '版权信息',
-  ossPath: 'http://127.0.0.1:9000',
-  language: 'zhCn',
-  languageKey: 'languageKey',
-  tagViewsKey: 'tagViewsKey',
-  tagViewKey: 'tagViewKey',
-  aesIv: 'xhuicloud0000000',
-  // 开启登录验证码
-  captchaEnable: true
+interface SysClient {
+  id: number
+  name: string
+  clientId: string
+  resourceIds?: string
+  clientSecret: string
+  scope: string
+  authorizedGrantTypes: string
+  webServerRedirectUri: string
+  authorities?: string
+  accessTokenValidity?: number
+  refreshTokenValidity?: number
+  captchaEnable?: number
+  multiLogin?: number
+  autoApprove: string
+  isDel: number
+  tenantId: number
 }
-
-export default setting

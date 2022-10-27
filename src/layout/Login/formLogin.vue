@@ -41,6 +41,7 @@
         :placeholder="$t(`msg.inputPassword`)"
         name="password"
         :type="passwordType"
+        show-password
       >
         <template #prefix>
           <el-icon class="el-input__icon">
@@ -49,14 +50,23 @@
             </span>
           </el-icon>
         </template>
-        <template #suffix>
+        <!-- <template #suffix>
           <el-icon class="el-input__icon">
             <span class="show-pwd" @click="onchangePasswordType()">
               <xh-svg :icon="passwordType === 'password' ? 'eye' : 'eye-open'" />
             </span>
           </el-icon>
-        </template>
+        </template> -->
       </el-input>
+    </el-form-item>
+    <el-form-item prop="code">
+      <Verify
+        ref="verify"
+        mode="pop"
+        captcha-type="blockPuzzle"
+        :img-size="{ width: '330px', height: '155px' }"
+        @success="verifySuccess"
+      />
     </el-form-item>
     <el-button
       type="primary"
@@ -70,6 +80,7 @@
 
 <script lang="ts" setup>
   import { ref, defineEmits } from 'vue'
+  import setting from '@/config/setting.config'
   import { useRouter } from 'vue-router'
   import { validatePassword } from '@/utils/rules'
   import { isNullOrUnDef } from '@/utils/is'
@@ -110,18 +121,22 @@
   const passwordType = ref('password')
 
   const loading = ref(false)
+  const verify = ref()
 
   const loginFormRef = ref<FormInstance>()
 
-  function onchangePasswordType() {
-    if (passwordType.value === 'password') {
-      passwordType.value = 'text'
-    } else {
-      passwordType.value = 'password'
-    }
+  const verifySuccess = (params: any) => {
+    loginInfo.value.code = params.captchaVerification
+    loginByUsername()
   }
 
-  function handleLogin(form: FormInstance | undefined) {
+  const loginByUsername = () => {
+    user.login(loginInfo.value).then(() => {
+      router.push('/')
+    })
+  }
+
+  const handleLogin = (form: FormInstance | undefined) => {
     if (!form) return
     loading.value = true
     form.validate((valid) => {
@@ -130,9 +145,12 @@
         valid = false
       }
       if (valid) {
-        user.login(loginInfo.value).then(() => {
-          router.push('/')
-        })
+        if (setting.captchaEnable) {
+          // 开启验证码的话 先展示验证码,校验成功回调处作登录操作
+          verify.value.show()
+        } else {
+          loginByUsername()
+        }
       }
     })
     loading.value = false

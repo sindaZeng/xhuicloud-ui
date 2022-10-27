@@ -3,8 +3,8 @@
     <el-form ref="xhuiFormRef" v-bind="getBindValue" :model="formModelRef">
       <el-row v-bind="row">
         <template v-for="(item, index) in getSchemas" :key="index">
-          <FormItem v-if="!item.show" :form-model="formModelRef" :schema="item" :col="col"
-            ><template #[getSlotName(item)]="data">
+          <FormItem v-if="!item.show" :form-model="formModelRef" :schema="item" :col="col">
+            <template #[getSlotName(item)]="data">
               <slot v-if="hasSlot(item)" :name="getSlotName(item)" v-bind="data || {}"></slot>
             </template>
           </FormItem>
@@ -47,7 +47,7 @@
 
   const formItem = useFormItem(state, xhuiFormDivRef)
 
-  const { itemWidth, getSchemas, col } = formItem
+  const { getSchemas, col } = formItem
 
   const methods = useFormMethods({ state, emit })
 
@@ -65,7 +65,8 @@
    * @param item 插槽名称
    */
   const getSlotName = (item: any) => {
-    return item.prop + 'Form'
+    const name = item.prop + 'FormItem'
+    return name
   }
 
   /**
@@ -74,7 +75,8 @@
    */
   const hasSlot = (item: any): boolean => {
     const name = getSlotName(item)
-    return Object.keys(slots).some((x) => x === name)
+    const hasKeys = Object.keys(slots).some((x) => x === name)
+    return hasKeys
   }
 
   watch(
@@ -95,16 +97,4 @@
 
   defineExpose({ validate })
 </script>
-<style lang="scss" scoped>
-  .table-form {
-    ::v-deep(.el-input__wrapper) {
-      width: v-bind(itemWidth);
-    }
-    ::v-deep(.el-select-v2) {
-      width: v-bind(itemWidth);
-    }
-    ::v-deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
-      width: v-bind(itemWidth);
-    }
-  }
-</style>
+<style lang="scss" scoped></style>

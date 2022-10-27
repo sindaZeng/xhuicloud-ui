@@ -45,6 +45,15 @@ export const useTableForm = (state: TableState, slots: Slots) => {
   }
 
   /**
+   * 获取表单项插槽
+   */
+  const getFormItemSlotKeys: ComputedRef<string[]> = computed(() => {
+    const keys = Object.keys(slots)
+    const slotKeys = keys.map((item) => (item.endsWith('FormItem') ? item : null)).filter((item) => !!item) as string[]
+    return slotKeys
+  })
+
+  /**
    * 获取表单插槽
    */
   const getFormSlotKeys: ComputedRef<string[]> = computed(() => {
@@ -96,8 +105,6 @@ export const useTableForm = (state: TableState, slots: Slots) => {
       } else if (isSearchForm && tableColumn.searchForm) {
         tableOperationFormItem.push(formItem)
       }
-
-      // ;(isSearchForm && !tableColumn.searchForm) ||
     }
     return tableOperationFormItem
   }
@@ -133,6 +140,7 @@ export const useTableForm = (state: TableState, slots: Slots) => {
     setModel,
     slots,
     getFormSlotKeys,
+    getFormItemSlotKeys,
     getRowOperationSlotKeys,
     getTableSearchForm,
     getTableOperationForm
