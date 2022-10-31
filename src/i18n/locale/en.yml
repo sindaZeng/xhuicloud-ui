@@ -124,5 +124,6 @@ menu:
   Reset: 'Reset'
   Fold: 'Fold'
   Show: 'Show'
+  ApplicationRouter: 'ApplicationRouter'
 placeholder:
   deptName: 'Please enter the dept name'

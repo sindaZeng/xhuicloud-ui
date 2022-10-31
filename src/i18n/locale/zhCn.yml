@@ -127,5 +127,6 @@ menu:
   Reset: '重置'
   Fold: '折叠'
   Show: '展示'
+  ApplicationRouter: '应用路由'
 placeholder:
   deptName: '请输入部门名称'

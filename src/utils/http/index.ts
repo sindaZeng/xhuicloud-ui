@@ -68,7 +68,7 @@ const handler: XhAxiosHandler = {
       return Promise.reject(error)
     } else if (status === 401) {
       const { user } = useStore()
-      user.cleanAll()
+      user.$reset()
       window.location.reload()
     } else {
       ElMessage.error(data.msg)

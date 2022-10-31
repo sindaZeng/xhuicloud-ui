@@ -51,17 +51,12 @@
 </template>
 
 <script lang="ts" setup>
-  import { useRouter } from 'vue-router'
   import useStore from '@/store'
-
-  const router = useRouter()
 
   const { user, theme } = useStore()
 
   function logout() {
-    user.logout().then(() => {
-      router.push('/login')
-    })
+    user.logout()
   }
 </script>
 

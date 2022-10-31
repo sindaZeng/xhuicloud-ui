@@ -68,9 +68,6 @@ const useUserStore = defineStore('user', {
     }
   },
   actions: {
-    async reset() {
-      this.$patch(cloneDeep(defaultUserState))
-    },
     setAuthInfo(authInfo: AuthInfo) {
       this.authInfo = authInfo
       storageLocal.setItem(setting.authInfo, authInfo)
@@ -126,11 +123,8 @@ const useUserStore = defineStore('user', {
     },
     async logout() {
       await logout()
-      await this.cleanAll()
-    },
-    cleanAll() {
-      storageLocal.clear()
-      this.reset()
+      await storageLocal.clear()
+      await this.$reset()
     }
   }
 })
