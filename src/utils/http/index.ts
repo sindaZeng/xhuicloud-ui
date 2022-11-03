@@ -71,7 +71,7 @@ const handler: XhAxiosHandler = {
       user.$reset()
       window.location.reload()
     } else {
-      ElMessage.error(data.msg)
+      ElMessage.error(data.msg || '服务器可能开小差啦~稍后再试试')
     }
     return Promise.reject(error)
   }

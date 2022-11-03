@@ -3,7 +3,7 @@
     <Crud
       v-model:page="page"
       :enable-operations="true"
-      :permission="{ addBtn: true, editBtn: true, delBtn: true }"
+      :permission="permission"
       :table-column="dictDataTableColumn"
       :operation-width="260"
       :onload="onload"
@@ -18,9 +18,17 @@
   import { createDictData, deleteDictData, dictDataPage, updateDictData } from '@/api/upms/dictData'
   import { Pagination } from '@/components/XhTable/pagination'
   import { ElMessageBox } from 'element-plus'
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import { dictDataTableColumn } from '.'
+  import { checkPermission } from '@/utils'
 
+  const permission = computed(() => {
+    return {
+      addBtn: checkPermission('sys_add_dictData', false),
+      editBtn: checkPermission('sys_editor_dictData', false),
+      delBtn: checkPermission('sys_delete_dictData', false)
+    }
+  })
   const dictDataDialogVisible = ref<boolean>(false)
   const dictDataData = ref<SysDictData[]>()
   const page = ref<Pagination>({ current: 1, size: 10 })

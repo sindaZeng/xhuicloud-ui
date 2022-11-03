@@ -3,7 +3,7 @@
     v-model:page="page"
     :enable-search="search"
     :enable-operations="true"
-    :permission="{ addBtn: true, editBtn: true, delBtn: true }"
+    :permission="permission"
     :table-column="tableColumn"
     :onload="onload"
     :data="paramData"
@@ -17,8 +17,17 @@
   import { FormActionButtonGroupProps } from '@/components/XhForm/form-action'
   import { Pagination } from '@/components/XhTable/pagination'
   import { ElMessageBox } from 'element-plus'
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import { tableColumn } from '.'
+  import { checkPermission } from '@/utils'
+
+  const permission = computed(() => {
+    return {
+      addBtn: checkPermission('sys_add_param', false),
+      editBtn: checkPermission('sys_editor_param', false),
+      delBtn: checkPermission('sys_delete_param', false)
+    }
+  })
 
   const paramData = ref<SysParam[]>()
   const page = ref<Pagination>({ current: 1, size: 10 })

@@ -25,61 +25,91 @@
 import { HttpClient } from '@/utils/http'
 import { Page } from '../base'
 
-enum routeConfApi {
-  routeConfPage = '/admin/route/page',
-  CreateRouteConf = '/admin/route',
-  UpdateRouteConf = '/admin/route',
-  DeleteRouteConf = '/admin/route/',
-  GetPredicatesAndFiltersById = '/admin/route/getPredicatesAndFiltersById/'
+enum DsApi {
+  DsPage = '/gen/ds/page',
+  DsTest = '/gen/ds/test/',
+  DbInfo = '/gen/ds/info/',
+  Generator = '/gen/generator',
+  CreateDs = '/gen/ds',
+  UpdateDs = '/gen/ds',
+  DeleteDs = '/gen/ds/'
 }
 
-export function routeConfsPage(params: any) {
-  return HttpClient.get<Page<SysRouteConf>>({
-    url: routeConfApi.routeConfPage,
+export function dsPage(params: any) {
+  return HttpClient.get<Page<GenDsInfo>>({
+    url: DsApi.DsPage,
     params
   })
 }
-
-export function createRouteConf(data: SysRouteConf) {
-  return HttpClient.post<boolean>(
-    {
-      url: routeConfApi.CreateRouteConf,
-      data
-    },
-    {
-      titleMsg: '操作成功',
-      successMsg: '添加成功'
-    }
-  )
-}
-
-export function updateRouteConf(data: any) {
+export function dsTest(dsId: number) {
   return HttpClient.put<boolean>(
     {
-      url: routeConfApi.UpdateRouteConf,
+      url: DsApi.DsTest + dsId
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '数据源可用'
+    }
+  )
+}
+export function dbInfo(dsId: number) {
+  return HttpClient.get<Array<TableInfo>>({
+    url: DsApi.DbInfo + dsId
+  })
+}
+
+export function createDs(data: GenDsInfo) {
+  return HttpClient.post<number>(
+    {
+      url: DsApi.CreateDs,
       data
     },
     {
       titleMsg: '操作成功',
-      successMsg: '修改成功'
+      successMsg: '数据源添加成功'
     }
   )
 }
 
-export function deleteRouteConf(routeConfId: number) {
-  return HttpClient.delete<boolean>(
+export function updateDs(data: GenDsInfo) {
+  return HttpClient.put<boolean>(
     {
-      url: routeConfApi.DeleteRouteConf + routeConfId
+      url: DsApi.UpdateDs,
+      data
     },
     {
       titleMsg: '操作成功',
-      successMsg: '删除成功'
+      successMsg: '数据源修改成功'
     }
   )
 }
 
-export function getPredicatesAndFiltersById(routeConfId: number) {
-  return HttpClient.get<PredicateAndFilterVo>({
-    url: routeConfApi.GetPredicatesAndFiltersById + routeConfId
-  })
+export function deleteDs(dsId: number) {
+  return HttpClient.delete<boolean>(
+    {
+      url: DsApi.DeleteDs + dsId
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '数据源删除成功'
+    }
+  )
+}
+
+export function downloadFile(data: GenCode) {
+  return HttpClient.downloadFile(
+    data.moduleName || 'XhuiCloud',
+    'zip',
+    {
+      url: DsApi.Generator,
+      method: 'post',
+      headers: { 'Content-Type': 'application/json; application/octet-stream' },
+      responseType: 'arraybuffer',
+      data
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '即将下载'
+    }
+  )
 }

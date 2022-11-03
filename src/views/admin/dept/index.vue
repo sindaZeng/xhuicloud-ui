@@ -2,7 +2,7 @@
   <Crud
     :table="{ rowKey: 'id', defaultExpandAll: true, border: true }"
     :enable-operations="true"
-    :permission="{ addBtn: true, editBtn: true, delBtn: true }"
+    :permission="permission"
     :table-column="tableColumn"
     :onload="onload"
     :data="deptData"
@@ -24,11 +24,21 @@
 </template>
 <script lang="ts" setup>
   import { createDept, deleteDept, deptTree, updateDept } from '@/api/upms/dept'
+  import { checkPermission } from '@/utils'
   import { ElMessageBox } from 'element-plus'
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import { tableColumn } from '.'
   const deptData = ref<Dept[]>()
   const deptTreeData = ref<Dept[]>([])
+
+  const permission = computed(() => {
+    return {
+      addBtn: checkPermission('sys_add_dept', false),
+      editBtn: checkPermission('sys_editor_dept', false),
+      delBtn: checkPermission('sys_delete_dept', false)
+    }
+  })
+
   /**
    * 获取租户列表
    */

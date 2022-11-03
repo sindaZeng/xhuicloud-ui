@@ -64,7 +64,7 @@ const useUserStore = defineStore('user', {
       return this.tenant?.id || storageLocal.getItem<Tenant>(setting.tenant)?.id
     },
     getPermissions(): any {
-      return this.permissions
+      return this.permissions || storageLocal.getItem<any>(setting.permission)
     }
   },
   actions: {
@@ -85,6 +85,7 @@ const useUserStore = defineStore('user', {
       permissions.forEach((item) => {
         list[item] = true
       })
+      storageLocal.setItem(setting.permission, list)
       this.permissions = list
     },
     setRoles(roles: string[] = []) {

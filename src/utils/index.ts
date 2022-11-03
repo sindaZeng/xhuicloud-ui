@@ -23,6 +23,7 @@
  */
 
 import { HomeTag } from '~/homeTag'
+import useStore from '@/store'
 
 export function scssExportToJson(scssExportJson: any) {
   const jsonString = scssExportJson.replace(/:export\s*/, '').replace(/[\s+\r\n]/g, '')
@@ -47,8 +48,10 @@ export function findTagViewsIndex(tagViews: HomeTag[], path: string): number {
   return key
 }
 
-export function checkData(val: any, defaultVal: any) {
-  if (val) {
+export function checkPermission(val: any, defaultVal: any) {
+  const { user } = useStore()
+
+  if (user.getPermissions[val]) {
     return true
   }
   return defaultVal

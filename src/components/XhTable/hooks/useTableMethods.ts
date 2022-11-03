@@ -13,7 +13,7 @@ export type UseTableMethods = {
 
 export const useTableMethods = ({ state, props, emit, tableForm }: UseTableMethods) => {
   const { tableData, paginationRef, enablePagination, tableDrawer, innerPropsRef, dialogVisible, dialogTitle } = state
-  const { setModel } = tableForm
+  const { setModel, model } = tableForm
 
   /**
    * 设置 TableProps
@@ -38,7 +38,7 @@ export const useTableMethods = ({ state, props, emit, tableForm }: UseTableMetho
    * 关闭表单
    */
   const closeDialog = () => {
-    emit('closeBefore')
+    emit('closeBefore', model.value)
     dialogVisible.value = false
     setModel({})
   }

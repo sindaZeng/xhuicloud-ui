@@ -2,7 +2,7 @@
   <Crud
     v-model:page="page"
     :enable-operations="true"
-    :permission="{ delBtn: true }"
+    :permission="{ delBtn: checkPermission('sys_delete_file', false) }"
     :enable-search="search"
     :table-column="fileTableColumn"
     :onload="onload"
@@ -17,6 +17,7 @@
   import { ElMessageBox } from 'element-plus'
   import { ref } from 'vue'
   import { fileTableColumn } from '.'
+  import { checkPermission } from '@/utils'
 
   const fileData = ref<SysFile[]>()
   const page = ref<Pagination>({ current: 1, size: 10 })

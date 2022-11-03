@@ -32,6 +32,8 @@ const setting = {
   user: 'user',
   // 存储的AuthInfo
   authInfo: 'authInfo',
+  // 存储的Permission
+  permission: 'permission',
   // 单位/毫秒  监听token过期刷新
   expiredPeriod: 6000000,
   // 当有值时候会在登录页展示版权信息

@@ -2,7 +2,7 @@
   <Crud
     v-model:page="page"
     :enable-operations="true"
-    :permission="{ addBtn: true, editBtn: true, delBtn: true }"
+    :permission="permission"
     :enable-search="search"
     :table-column="clientTableColumn"
     :onload="onload"
@@ -45,10 +45,19 @@
   import { baseBoolean } from '@/api/base/baseEntity'
   import { FormActionButtonGroupProps } from '@/components/XhForm/form-action'
   import { Pagination } from '@/components/XhTable/pagination'
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import { clientTableColumn } from '.'
   import { isNullOrUnDef } from '@/utils/is'
   import { ElMessageBox } from 'element-plus'
+  import { checkPermission } from '@/utils'
+
+  const permission = computed(() => {
+    return {
+      addBtn: checkPermission('sys_add_client', false),
+      editBtn: checkPermission('sys_editor_client', false),
+      delBtn: checkPermission('sys_delete_client', false)
+    }
+  })
 
   const clientData = ref<SysClient[]>()
   const clientSecret = ref<string>('')

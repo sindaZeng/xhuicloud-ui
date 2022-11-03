@@ -35,6 +35,8 @@ tags:
   close: 'Close'
   closeOthers: 'Close Others'
   closeAll: 'Close All'
+  more: 'More'
+
 button:
   operations: 'Operations'
   search: 'Search'
@@ -45,6 +47,8 @@ button:
   create: 'Create'
   cancel: 'Cancel'
   confirm: 'Confirm'
+  nextStep: 'Next'
+  returnStep: 'Return'
 
 msg:
   hello: 'hello world'
@@ -63,6 +67,7 @@ msg:
   moduleNameNotNull: 'module name can not be null'
   authorNotNull: 'author can not be null'
   packagePath: 'package path can not be null'
+  contextPathNotNull: 'context-path can not be null'
   homePage: 'home'
   userInfo: 'user info'
   logout: 'logout'
@@ -125,5 +130,55 @@ menu:
   Fold: 'Fold'
   Show: 'Show'
   ApplicationRouter: 'ApplicationRouter'
+
 placeholder:
   deptName: 'Please enter the dept name'
+  enter: 'Please enter'
+
+status:
+  warn: 'warn'
+  yes: 'Yes'
+  no: 'No'
+
+gen:
+  TestConnect: 'Test Connect'
+  DbInfo: 'Db Info'
+  GenAll: 'Gen All'
+  Id: 'Id'
+  Name: 'DB Name'
+  Username: 'Username'
+  Password: 'Password'
+  Host: 'Host'
+  Port: 'Port'
+  Type: 'DB Type'
+  CreateTime: 'CreateTime'
+
+dbInfoVue:
+  GenAllMsg: 'If you do not select it, the code will be generated for all tables in the currently selected database'
+  GenJsWeb: 'The JavaScript version of the branch has been suspended for maintenance,Select it carefully'
+  DbInfo: 'Database Info'
+  ModuleInfo: 'Module Info'
+  CheckDb: 'Check Db'
+  DbId: 'DbId'
+  ModuleName: 'ModuleName'
+  ContextPath: 'ContextPath'
+  PackagePath: 'PackagePath'
+  Author: 'Author'
+  TablePrefix: 'TablePrefix'
+  toReplace: 'Replace TablePrefix'
+  genWeb: 'Generate View'
+  WebLang: 'Web Language'
+  JS: 'JavaScript'
+  TS: 'TypeScript'
+  enterTableName: 'Enter TableName'
+  serverCode: 'Server Code'
+  webCode: 'Web Code'
+
+applicationVue:
+  Id: 'Id'
+  RouteName: 'RouteName'
+  RouteId: 'RouteId'
+  Uri: 'lb/ Uri'
+  Description: 'Non-developers are not allowed to modify, the same name will be merged!'
+  Predicate: 'Predicate'
+  Filter: 'Filter'

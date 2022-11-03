@@ -37,6 +37,7 @@ tags:
   close: '关闭'
   closeOthers: '关闭其他'
   closeAll: '关闭全部'
+  more: '更多'
 
 button:
   operations: '操作'
@@ -48,6 +49,8 @@ button:
   create: '新增'
   cancel: '取消'
   confirm: '确认'
+  nextStep: '下一步'
+  returnStep: '上一步'
 
 msg:
   hello: '你好世界'
@@ -64,6 +67,7 @@ msg:
   usernameNotNull: '用户名不能为空'
   passwordNotNull: '密码必须大于6位'
   moduleNameNotNull: '模块名称不能为空'
+  contextPathNotNull: '上下文路径不能为空'
   authorNotNull: '作者名称不能为空'
   packagePath: '包名路径不能为空'
   homePage: '系统主页'
@@ -128,5 +132,55 @@ menu:
   Fold: '折叠'
   Show: '展示'
   ApplicationRouter: '应用路由'
+
 placeholder:
   deptName: '请输入部门名称'
+  enter: '请输入'
+
+status:
+  warn: '警告'
+  yes: '是'
+  no: '否'
+
+gen:
+  TestConnect: '测试连接'
+  DbInfo: '库表信息'
+  GenAll: '一键生成'
+  Id: '编号'
+  Name: '数据库名'
+  Username: '登录名称'
+  Password: '登录密码'
+  Host: '地址'
+  Port: '端口'
+  Type: '数据库类型'
+  CreateTime: '创建时间'
+
+dbInfoVue:
+  GenAllMsg: '如果不选择，将生成当前选择数据库中所有表的代码哦'
+  GenJsWeb: 'JavaScript版本的分支已暂停维护, 请谨慎选择'
+  DbInfo: '库表信息'
+  ModuleInfo: '模块信息'
+  CheckDb: '选择库表'
+  DbId: '数据库ID'
+  ModuleName: '模块名称'
+  ContextPath: '上下文路径'
+  PackagePath: '包名路径'
+  Author: '作者名称'
+  TablePrefix: '表名前缀'
+  toReplace: '去表前缀'
+  genWeb: '前端代码'
+  WebLang: '前端语言'
+  JS: 'JavaScript'
+  TS: 'TypeScript'
+  enterTableName: '输入表名'
+  serverCode: '服务端代码'
+  webCode: '前端代码'
+
+applicationVue:
+  Id: '编号'
+  RouteName: '服务名称'
+  RouteId: '服务编号'
+  Uri: 'lb/轮询地址'
+  Description: '非开发人员请勿随意修改,相同《name》将被合并!'
+  Predicate: '谓词'
+  Filter: '过滤器'

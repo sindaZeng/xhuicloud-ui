@@ -41,7 +41,7 @@ const useAppStore = defineStore('app', {
     tagViews: storageLocal.getItem<HomeTag[]>(setting.tagViewsKey) || [defaultHomeTag],
     tagView: '',
     sidebarStatus: true,
-    lang: setting.language || storageLocal.getItem(setting.languageKey)
+    lang: storageLocal.getItem(setting.languageKey) || setting.language
   }),
 
   getters: {

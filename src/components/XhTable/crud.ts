@@ -106,7 +106,7 @@ export const tableEmits = {
   toSaveRow: (formModel: Recordable<any>) => isObject(formModel),
   toDelRow: (formModel: Recordable<any>) => isObject(formModel),
   openBefore: (formModel: Recordable<any> | undefined) => isObject(formModel) || isNullOrUnDef(formModel),
-  closeBefore: () => true
+  closeBefore: (formModel: Recordable<any> | undefined) => isObject(formModel) || isNullOrUnDef(formModel)
 }
 
 export type TableEmits = typeof tableEmits

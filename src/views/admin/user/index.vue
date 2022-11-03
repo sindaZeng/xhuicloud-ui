@@ -43,7 +43,7 @@
           v-model:page="page"
           :enable-search="search"
           :enable-operations="true"
-          :permission="{ addBtn: true, editBtn: true, delBtn: true }"
+          :permission="permission"
           :table-column="tableColumn"
           :onload="onload"
           :data="Roledata"
@@ -87,7 +87,7 @@
 <script lang="ts" setup>
   import { deptTree } from '@/api/upms/dept'
   import { FilterValue, TreeNodeData } from 'element-plus/es/components/tree/src/tree.type'
-  import { ref, shallowRef, unref, watchPostEffect } from 'vue'
+  import { computed, ref, shallowRef, unref, watchPostEffect } from 'vue'
   import { Pagination } from '@/components/XhTable/pagination'
   import { FormActionButtonGroupProps } from '@/components/XhForm/form-action'
   import { createUser, deleteUser, updateUser, userPage } from '@/api/upms/user'
@@ -96,6 +96,16 @@
   import { rolesList } from '@/api/upms/roles'
   import { isNullOrUnDef } from '@/utils/is'
   import { ElMessageBox } from 'element-plus'
+  import { checkPermission } from '@/utils'
+
+  const permission = computed(() => {
+    return {
+      addBtn: checkPermission('sys_add_user', false),
+      editBtn: checkPermission('sys_editor_user', false),
+      delBtn: checkPermission('sys_delete_user', false),
+      importBtn: checkPermission('sys_import_user', false)
+    }
+  })
 
   /** 组件实例 **/
   const deptTreeRef = ref()

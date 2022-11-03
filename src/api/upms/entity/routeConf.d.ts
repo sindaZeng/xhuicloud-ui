@@ -21,7 +21,12 @@ interface Args {
   [key: string]: string
 }
 
-interface PredicateVo {
+interface PredicateAndFilterVo {
+  predicateVos: CommonVo[]
+  filterVos: CommonVo[]
+}
+
+interface CommonVo {
   value: string
   name: string
   nameEdit?: boolean

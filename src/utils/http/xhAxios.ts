@@ -209,4 +209,33 @@ export class XhAxios {
       options
     )
   }
+
+  downloadFile(fileName: string, fileType: string, config?: AxiosRequestConfig, options?: RequestOptions) {
+    return this.request(
+      {
+        ...config
+      },
+      options
+    ).then((response) => {
+      const blob = new Blob([response], { type: 'application/zip' })
+
+      fileName = fileName + '.' + fileType
+      const isChrome = window.navigator.userAgent.toLowerCase().indexOf('chrome') > -1
+      const isSafari = window.navigator.userAgent.toLowerCase().indexOf('safari') > -1
+
+      if (/(iP)/g.test(window.navigator.userAgent)) {
+        console.error('Your browser does not support download!')
+        return
+      }
+      if (isChrome || isSafari) {
+        const link = document.createElement('a')
+        link.download = fileName
+        link.href = URL.createObjectURL(blob)
+        document.body.appendChild(link)
+        link.click()
+        URL.revokeObjectURL(link.href)
+        document.body.removeChild(link)
+      }
+    })
+  }
 }

@@ -2,7 +2,7 @@
   <Crud
     :table="{ rowKey: 'id' }"
     :enable-operations="true"
-    :permission="{ addBtn: true, editBtn: true, delBtn: true }"
+    :permission="permission"
     :table-column="tableColumn"
     :onload="onload"
     :data="menuData"
@@ -25,9 +25,18 @@
 </template>
 <script lang="ts" setup>
   import { createMenu, deleteMenu, menuTree, updateMenu } from '@/api/upms/menu'
+  import { checkPermission } from '@/utils'
   import { ElMessageBox } from 'element-plus'
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import { tableColumn } from '.'
+
+  const permission = computed(() => {
+    return {
+      addBtn: checkPermission('sys_add_menu', false),
+      editBtn: checkPermission('sys_editor_menu', false),
+      delBtn: checkPermission('sys_delete_menu', false)
+    }
+  })
 
   const menuData = ref<Menu[]>([])
 

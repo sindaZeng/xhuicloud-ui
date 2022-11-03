@@ -49,7 +49,7 @@
       <div class="tabs-more">
         <el-dropdown trigger="click">
           <el-button type="primary" size="small">
-            更多
+            {{ $t(`tags.more`) }}
             <el-icon style="vertical-align: middle">
               <ArrowDown />
             </el-icon>
