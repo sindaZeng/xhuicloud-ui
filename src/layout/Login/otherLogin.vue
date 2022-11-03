@@ -107,25 +107,25 @@
         error(tenant.name)
       }
     } else if (way === 'WXMP') {
-      const WXMP = socials.WXMP
+      const WXMP = socials.wechat_mp
       if (isNullOrUnDef(WXMP)) {
         error(tenant.name)
       }
       let qrCode = await getLoginQrcode(WXMP?.appId as string)
-      const prefix = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='
-      url.value = prefix + qrCode.data
+      const prefix = `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${qrCode}`
+      url.value = prefix
       let seconds = 0
       timer = window.setInterval(async () => {
-        const response = await loginQrcodeScanSuccess(WXMP?.appId as string, qrCode.data)
-        scanSuccess = response.data
+        const response = await loginQrcodeScanSuccess(WXMP?.appId as string, qrCode)
+        scanSuccess = response
         if (scanSuccess) {
-          await router.push(`/login?state=WXMP&code=${qrCode.data}&time=` + new Date().getTime())
+          await router.push(`/login?state=WXMP&code=${qrCode}&time=` + new Date().getTime())
           timer && window.clearInterval(timer)
         } else {
           seconds = seconds + 1
           if (seconds === 25) {
             qrCode = await getLoginQrcode(WXMP?.appId as string)
-            url.value = prefix + qrCode.data
+            url.value = prefix + qrCode
             newWindow = openWindows(url.value, way, 540, 540)
           }
         }

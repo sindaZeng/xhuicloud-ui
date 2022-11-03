@@ -32,8 +32,8 @@ enum AuthApi {
   Token = '/auth/oauth2/token',
   CheckToken = '/auth/oauth/check_token',
   RefreshToken = '/auth/oauth/token',
-  GetLoginQrcode = '/admin/wechat-mp/login-qrcode',
-  LoginQrcodeScanSuccess = '/admin/wechat-mp/scan-success',
+  GetLoginQrcode = '/admin/wechat-mp/',
+  LoginQrcodeScanSuccess = '/admin/wechat-mp/',
   Logout = '/auth/authorize/logout'
 }
 
@@ -97,9 +97,9 @@ export function refreshToken(refreshToken: string) {
  * 获取微信公众号登录二维码
  */
 export function getLoginQrcode(appId: string) {
-  return HttpClient.get<API.Response<string>>(
+  return HttpClient.get<string>(
     {
-      url: AuthApi.GetLoginQrcode + appId
+      url: AuthApi.GetLoginQrcode + appId + '/login-qrcode'
     },
     options
   )
@@ -109,9 +109,9 @@ export function getLoginQrcode(appId: string) {
  * 用户是否扫码成功
  */
 export function loginQrcodeScanSuccess(appId: string, ticket: string) {
-  return HttpClient.get<API.Response<boolean>>(
+  return HttpClient.get<boolean>(
     {
-      url: AuthApi.LoginQrcodeScanSuccess,
+      url: AuthApi.LoginQrcodeScanSuccess + appId + '/scan-success',
       params: { ticket }
     },
     options
