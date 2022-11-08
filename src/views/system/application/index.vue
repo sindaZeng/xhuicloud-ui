@@ -226,7 +226,11 @@
   }
 
   const toUpdateRow = () => {
-    updateRouteConf({ ...sysRouteConfData.value, predicateVos: predicateDatas.value }).then(() => {
+    updateRouteConf({
+      ...sysRouteConfData.value,
+      predicateVos: predicateDatas.value,
+      filterDatas: filterDatas.value
+    }).then(() => {
       predicateDatas.value = []
       filterDatas.value = []
       dialogVisible.value = false

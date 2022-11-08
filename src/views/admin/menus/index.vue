@@ -12,6 +12,12 @@
     @toUpdateRow="toUpdateRow"
   >
     <!-- 表单插槽 -->
+    <template #pathFormItem="{ formModel, field }">
+      <el-input v-model="formModel[field]" :disabled="formModel['type'] == 1"></el-input>
+    </template>
+    <template #permissionFormItem="{ formModel, field }">
+      <el-input v-model="formModel[field]" :disabled="formModel['type'] == 0"></el-input>
+    </template>
     <template #parentIdFormItem="{ formModel, field }">
       <el-cascader
         v-model="formModel[field]"

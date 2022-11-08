@@ -132,9 +132,12 @@ menu:
   Fold: '折叠'
   Show: '展示'
   ApplicationRouter: '应用路由'
-
+  WechatOperating: '微信运营'
+  WechatMenus: '底部菜单'
+  WechatAccount: '账户管理'
 placeholder:
   deptName: '请输入部门名称'
+  wechatMpName: '请输入微信公众号名称'
   enter: '请输入'
 
 status:

@@ -129,10 +129,13 @@ menu:
   Reset: 'Reset'
   Fold: 'Fold'
   Show: 'Show'
-  ApplicationRouter: 'ApplicationRouter'
-
+  ApplicationRouter: 'App Router'
+  WechatOperating: 'Wechat Operat'
+  WechatMenus: 'Wechat Menus'
+  WechatAccount: 'Wechat Account'
 placeholder:
   deptName: 'Please enter the dept name'
+  wechatMpName: 'Please enter the wechat mp name'
   enter: 'Please enter'
 
 status:

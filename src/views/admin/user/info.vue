@@ -62,7 +62,10 @@
             <p class="safe-item-msg-title">我的邮箱</p>
             <p class="safe-item-msg-desc">绑定邮箱后即可使用邮箱登录</p>
             <span v-if="userInfo.email" class="safe-item-msg-nobtn">已绑定</span>
-            <span class="safe-item-msg-a">更改邮箱&gt;</span>
+            <span v-else class="safe-item-msg-nobtn" @click="handleUpdateEmail(2)">去绑定</span>
+            <span v-if="!isEmpty(userInfo.email)" class="safe-item-msg-a" @click="handleUpdateEmail(1)"
+              >更改邮箱&gt;</span
+            >
           </div>
         </div>
         <div class="safe-item">
@@ -134,8 +137,8 @@
   }
 
   const userBindProps = reactive<UserBindProps>({
-    updateModel: user.getSysUser.phone!,
-    updateProp: '手机号',
+    updateModel: '',
+    updateProp: '',
     active: 1,
     validate: validatePhone
   })
@@ -210,9 +213,24 @@
 
   const handleUpdatePhone = (active: number) => {
     userBindProps.active = active
-    dialogVisible.value = true
+    userBindProps.updateProp = '手机'
     dialogTitle.value = '更换手机'
+    userBindProps.updateModel = user.getSysUser.phone!
     dialogComponent.value = 1
+    dialogVisible.value = true
+  }
+
+  /**
+   * todo 邮箱验证码尚未实现
+   * @param active
+   */
+  const handleUpdateEmail = (active: number) => {
+    userBindProps.active = active
+    userBindProps.updateProp = '邮箱'
+    userBindProps.updateModel = user.getSysUser.email!
+    dialogTitle.value = '更换邮箱'
+    dialogComponent.value = 1
+    dialogVisible.value = true
   }
 
   const handleToDpdateUserMotto = () => {
@@ -226,6 +244,7 @@
 
   const closeDialog = () => {
     dialogVisible.value = false
+    dialogComponent.value = 2
     user.getUserInfo()
   }
 

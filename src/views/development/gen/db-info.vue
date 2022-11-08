@@ -159,6 +159,7 @@
   const getDbInfo = (dbId: number) => {
     dbInfo(dbId).then((response) => {
       response.forEach((item) => {
+        console.log(item)
         dbData.value.push({
           key: item.tableName,
           label: item.tableName
@@ -183,7 +184,7 @@
       dbFormRef.value?.validate((valid) => {
         if (valid) {
           downloadFile(form.value).then(() => {
-            // cancel()
+            cancel()
           })
         }
       })
@@ -192,7 +193,7 @@
         return item
       })
       downloadFile(form.value).then(() => {
-        // cancel()
+        cancel()
       })
     }
   }
