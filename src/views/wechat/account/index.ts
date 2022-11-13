@@ -22,7 +22,6 @@ export const tableColumn: TableColumn[] = [
   {
     label: 'app-secret',
     prop: 'appSecret',
-    editDisplay: true,
     operationForm: {}
   },
   {

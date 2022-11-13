@@ -3,7 +3,7 @@
     <el-col :xs="24" :sm="24" :md="5">
       <xh-card :body-style="bodyStyle">
         <el-select
-          v-model="wechatMpId"
+          v-model="wechatMpAppId"
           filterable
           remote
           reserve-keyword
@@ -11,96 +11,239 @@
           :remote-method="onload"
           :loading="loading"
         >
-          <el-option v-for="item in accountDatas" :key="item.id" :label="item.name" :value="item.id" />
+          <el-option v-for="item in accountDatas" :key="item.appId" :label="item.name" :value="item.appId" />
         </el-select>
-        <el-descriptions title="详情" :column="1" style="margin-top: 30px">
-          <el-descriptions-item label="名称:">kooriookami</el-descriptions-item>
-          <el-descriptions-item label="appid:">18100000000</el-descriptions-item>
+        <el-descriptions :title="$t('WeChatMenu.detail')" :column="1" style="margin-top: 30px">
+          <el-descriptions-item :label="$t('WeChatMenu.name') + ':'">{{ wechatSummary.name }}</el-descriptions-item>
+          <el-descriptions-item :label="$t('WeChatMenu.appid') + ':'">{{ wechatSummary.appId }}</el-descriptions-item>
         </el-descriptions>
-        <el-descriptions title="七天数据分析" :column="1" style="margin-top: 30px">
-          <el-descriptions-item label="新增的用户数量:">10</el-descriptions-item>
-          <el-descriptions-item label="取关的用户数量:">1</el-descriptions-item>
-          <el-descriptions-item label="净增的用户数量:">9</el-descriptions-item>
-          <el-descriptions-item label="总合计用户数量:">100</el-descriptions-item>
+        <el-descriptions :title="$t('WeChatMenu.dataOf7day')" :column="1" style="margin-top: 30px">
+          <el-descriptions-item :label="$t('WeChatMenu.newUser') + ':'">
+            {{ wechatSummary.newUser }}
+          </el-descriptions-item>
+          <el-descriptions-item :label="$t('WeChatMenu.cancelUser') + ':'">
+            {{ wechatSummary.cancelUser }}
+          </el-descriptions-item>
+          <el-descriptions-item :label="$t('WeChatMenu.AddUser') + ':'">
+            {{ wechatSummary.newUser - wechatSummary.cancelUser }}
+          </el-descriptions-item>
+          <el-descriptions-item :label="$t('WeChatMenu.totalUser') + ':'">
+            {{ wechatSummary.totalUser }}
+          </el-descriptions-item>
         </el-descriptions>
       </xh-card>
     </el-col>
     <el-col :xs="24" :sm="24" :md="19">
       <xh-card :body-style="bodyStyle">
-        <div class="preview_area">
-          <div class="mobile_wechat_preview">
-            <div class="mobile_wechat_preview_title">星辉云</div>
-            <div class="mobile_wechat_preview_bd">
-              <ul class="bd_list">
-                <li v-for="(item, index) in weChatMpMenus" :key="index" class="menu_item">
-                  <el-dropdown class="menu_addBt" trigger="click" placement="top-start" :hide-on-click="false">
-                    <a href="javascript:void(0);" draggable="false">
-                      <i class="menu_icon_dot"></i>
-                      <span class="menu_tips_add">{{ item.name }}</span>
-                    </a>
-                    <template #dropdown>
-                      <el-dropdown-menu>
-                        <template v-for="(subItem, subIndex) in item.subButtonList" :key="subIndex">
-                          <el-dropdown-item> {{ subItem.name }} </el-dropdown-item>
+        <el-row :span="24">
+          <el-col :xs="24" :sm="24" :md="7" :lg="7" :xl="7">
+            <div class="preview_area">
+              <div class="mobile_wechat_preview">
+                <div class="mobile_wechat_preview_title">
+                  {{ wechatSummary.name }}
+                </div>
+                <div class="mobile_wechat_preview_bd">
+                  <ul class="bd_list">
+                    <li
+                      v-for="(item, index) in weChatMpMenus"
+                      :key="index"
+                      class="menu_item"
+                      :style="selectedStyle(index)"
+                      @click="editMenu(index, undefined)"
+                    >
+                      <el-dropdown
+                        class="menu_addBt"
+                        trigger="contextmenu"
+                        placement="top-start"
+                        :hide-on-click="false"
+                      >
+                        <a href="javascript:void(0);" draggable="false">
+                          <i class="menu_icon_dot"></i>
+                          <span class="menu_tips_add">{{ item.name }}</span>
+                        </a>
+                        <template #dropdown>
+                          <el-dropdown-menu>
+                            <el-dropdown-item
+                              v-for="(subItem, subIndex) in item.subButtonList"
+                              :key="subIndex"
+                              @click="editMenu(index, subIndex)"
+                            >
+                              {{ subItem.name }}
+                            </el-dropdown-item>
+                            <el-dropdown-item @click="addsubButtonList(item)">
+                              {{ $t('WeChatMenu.addsubButton') }}
+                            </el-dropdown-item>
+                          </el-dropdown-menu>
                         </template>
-                        <el-dropdown-item @click="addsubButtonList(item)"> 添加子菜单 </el-dropdown-item>
-                      </el-dropdown-menu>
-                    </template>
-                  </el-dropdown>
-                </li>
-                <li v-if="weChatMpMenus.length < 3" class="menu_item" @click="addAct">
-                  <a href="javascript:void(0);" class="menu_addBt" draggable="false">
-                    <i class="menu_icon_add"></i>
-                    <span class="menu_tips_add">添加菜单</span>
-                  </a>
-                </li>
-              </ul>
+                      </el-dropdown>
+                    </li>
+                    <li v-if="weChatMpMenus.length < 3" class="menu_item" @click="addAct">
+                      <a href="javascript:void(0);" class="menu_addBt" draggable="false">
+                        <i class="menu_icon_add"></i>
+                        <span class="menu_tips_add">
+                          {{ $t('WeChatMenu.addButton') }}
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </el-col>
+          <el-col :xs="24" :sm="24" :md="17" :lg="17" :xl="17">
+            <el-tabs>
+              <el-tab-pane :label="$t('WeChatMenu.defaultMenus')">
+                <edit-form
+                  v-if="weChatMpMenu != null"
+                  :model-value="weChatMpMenu"
+                  @delete-menu="deleteMenu"
+                  @delete-current-menu="deleteCurrentMenu"
+                  @create-menu="createMenu"
+                ></edit-form>
+                <el-empty v-else :image-size="200" :description="$t('WeChatMenu.empty')" />
+              </el-tab-pane>
+              <el-tab-pane :label="$t('WeChatMenu.customMenus')">
+                <el-empty :image-size="200" :description="$t('WeChatMenu.empty')" />
+              </el-tab-pane>
+            </el-tabs>
+          </el-col>
+        </el-row>
       </xh-card>
     </el-col>
   </el-row>
 </template>
 <script lang="ts" setup>
-  import { ref, computed, unref } from 'vue'
+  import { ref, computed, unref, watch } from 'vue'
   import { accountList } from '@/api/wechat/account'
+  import { ElMessage } from 'element-plus'
+  import { getUserSummary } from '@/api/wechat/user'
+  import editForm from './editForm.vue'
+  import { createAndReleaseMpMenu, getReleaseMpMenu } from '@/api/wechat/menu'
+  import { isNullOrUnDef } from '@/utils/is'
+  import i18n from '@/i18n'
+
   const bodyStyle = { height: '85vh' }
 
-  const wechatMpId = ref<number>()
+  /** 0:底部菜单 1:子菜单 **/
+  const menuType = ref<number>(0)
+  /** 当前选择的底部菜单下标 **/
+  const selected = ref<number>(0)
+  /** 当前选择的公众号appid **/
+  const wechatMpAppId = ref<string>('')
+  /** 可选择的公众号列表 **/
   const accountDatas = ref<Account[]>()
+  /** 底部菜单列表 **/
   const weChatMpMenus = ref<WeChatMpMenu[]>([])
+  /** 当前选中的底部菜单 **/
+  const weChatMpMenu = ref<WeChatMpMenu>()
+  /** 公众号下拉选择框加载 **/
   const loading = ref(false)
+  /** 被选中的公众号7天用户数据 **/
+  const wechatSummary = ref<WeChatSummary>({
+    name: i18n.global.t('WeChatMenu.selectEmpty'),
+    appId: '',
+    newUser: 0,
+    cancelUser: 0,
+    totalUser: 0
+  })
+  /**
+   * 展示当前选中公众号7天用户数据
+   */
+  watch(
+    () => unref(wechatMpAppId),
+    async () => {
+      if (unref(wechatMpAppId) !== '') {
+        wechatSummary.value = await getUserSummary(unref(wechatMpAppId))
+        const res = await getReleaseMpMenu(unref(wechatMpAppId))
+        if (!isNullOrUnDef(res)) {
+          weChatMpMenus.value = JSON.parse(res).buttons
+        }
+        if (weChatMpMenu.value === undefined && weChatMpMenus.value.length > 0) {
+          weChatMpMenu.value = weChatMpMenus.value[0]
+        }
+      }
+    },
+    {
+      deep: true,
+      immediate: true
+    }
+  )
 
+  /**
+   * 被选中的底部菜单边框
+   * @param index
+   */
+  const selectedStyle = (index: number) => {
+    if (selected.value === index) {
+      return 'border: 1px solid #07c160;'
+    }
+    return ''
+  }
+
+  /**
+   * 加载下拉选择框
+   * @param name
+   */
   const onload = async (name?: string) => {
     loading.value = true
     accountDatas.value = await accountList(name)
+    if (accountDatas.value != undefined && accountDatas.value.length > 0) {
+      wechatMpAppId.value = accountDatas.value[0].appId
+    }
     loading.value = false
   }
 
   onload()
 
+  const editMenu = (index: number, subIndex?: number) => {
+    menuType.value = 0
+    selected.value = index
+    if (subIndex === undefined) {
+      weChatMpMenu.value = weChatMpMenus.value[index]
+    } else {
+      weChatMpMenu.value = weChatMpMenus.value[index].subButtonList[subIndex]
+    }
+  }
+  /**
+   * 添加底部菜单
+   */
   const addAct = () => {
     if (weChatMpMenus.value.length >= 3) {
       return
     }
     const menu: WeChatMpMenu = {
-      name: '测试1',
-      type: 1,
-      actList: [{ type: 2, value: '100000003' } as Act],
-      subButtonList: [
-        // { name: '子菜单1', type: 1, actList: [{ type: 2, value: '100000003' } as Act] },
-        // { name: '子菜单2', type: 1, actList: [{ type: 2, value: '100000003' } as Act] }
-      ]
+      name: i18n.global.t('WeChatMenu.menuName'),
+      type: 'click',
+      key: new Date().getTime() + '',
+      subButtonList: []
     }
+    // 作为当前回显菜单
+    weChatMpMenu.value = menu
+    // 当前回显菜单下标
+    selected.value = weChatMpMenus.value.length
     weChatMpMenus.value.push(menu)
   }
 
+  /**
+   * 添加底部菜单的子菜单
+   */
   const addsubButtonList = (item: WeChatMpMenu) => {
-    item.subButtonList.push({ name: '子菜单1', type: 1, actList: [{ type: 2, value: '100000003' } as Act] })
-    console.log(item)
+    if (item.subButtonList.length >= 5) {
+      ElMessage.error(i18n.global.t('WeChatMenu.submenuMoreThan5'))
+      return
+    }
+    item.type = undefined
+    item.subButtonList.push({
+      name: i18n.global.t('WeChatMenu.submenuName'),
+      key: new Date().getTime() + '',
+      type: 'click',
+      subButtonList: []
+    })
   }
 
+  /**
+   * 计算底部菜单宽度
+   */
   const menuSize = computed(() => {
     let size = '100%'
     if (unref(weChatMpMenus).length === 1) {
@@ -111,8 +254,36 @@
     }
     return size
   })
+
+  /**
+   * 删除当前菜单
+   * @param menu
+   */
+  const deleteCurrentMenu = (menu: WeChatMpMenu) => {
+    weChatMpMenus.value = weChatMpMenus.value.filter((item) => {
+      item.subButtonList = item.subButtonList.filter((subItem) => subItem.key != menu.key)
+      return item.key != menu.key
+    })
+  }
+
+  /**
+   * 删除菜单
+   * @param menu
+   */
+  const deleteMenu = (menu: WeChatMpMenu) => {
+    weChatMpMenus.value = weChatMpMenus.value.filter((item) => {
+      item.subButtonList = item.subButtonList.filter((subItem) => subItem.key != menu.key)
+      return item.key != menu.key
+    })
+  }
+  /**
+   * 创建菜单
+   */
+  const createMenu = () => {
+    createAndReleaseMpMenu(wechatMpAppId.value, { buttons: weChatMpMenus.value })
+  }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
   .preview_area {
     display: inline-block;
     width: 350px;

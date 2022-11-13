@@ -21,33 +21,11 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-import i18n from '@/i18n'
 
-export const validatePassword = () => {
-  return (rule: any, value: any, callback: any) => {
-    if (value.length === '' || value.length == null || value.length === undefined || value.length < 6) {
-      callback(new Error(i18n.global.t('msg.passwordNotNull')))
-    } else {
-      callback()
-    }
-  }
-}
+import { HttpClient } from '@/utils/http'
 
-export const checkStringLengthOf8 = () => {
-  return (rule: any, value: any, callback: any) => {
-    let len = 0
-    for (let i = 0; i < value.length; i++) {
-      const c = value.charCodeAt(i)
-      if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
-        len++
-      } else {
-        len += 2
-      }
-    }
-    if (len > 8) {
-      callback(new Error(i18n.global.t('WeChatMenu.nameLength.alert1')))
-    } else {
-      callback()
-    }
-  }
+export function getUserSummary(appId: string) {
+  return HttpClient.get<WeChatSummary>({
+    url: `/wechat/user/${appId}/getUserSummary`
+  })
 }

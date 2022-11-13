@@ -31,6 +31,7 @@
     :table-column="tableColumn"
     :onload="onload"
     :data="data"
+    @open-before="openBefore"
     @toDelRow="toDelRow"
     @toSaveRow="toSaveRow"
     @toUpdateRow="toUpdateRow"
@@ -60,6 +61,14 @@
     showSearchButton: true,
     showResetButton: true,
     showShowUpButton: true
+  }
+
+  /**
+   *
+   * @param formModel 重置appSecret 防止全是***
+   */
+  const openBefore = (formModel: Account) => {
+    formModel.appSecret = ''
   }
 
   /**
