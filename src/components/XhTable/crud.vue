@@ -17,6 +17,11 @@
           style="width: 100%"
           @selection-change="getProps.table.handleSelectionChange"
         >
+          <el-table-column v-if="$slots['expand']" type="expand">
+            <template v-if="$slots['expand']" #default="{ row }">
+              <slot name="expand" :data="row" />
+            </template>
+          </el-table-column>
           <el-table-column v-if="getProps.table.selection" type="selection" width="55" align="center" />
           <template v-for="(item, index) in getProps.tableColumn" :key="index">
             <el-table-column

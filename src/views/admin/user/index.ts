@@ -59,6 +59,7 @@ export const tableColumn: TableColumn[] = [
     prop: 'avatar',
     image: true,
     operationForm: {
+      // 上传组件
       component: 'ImgUpload',
       componentProps: {
         headers: headers,

@@ -40,6 +40,31 @@ export function accountPage(params: any) {
   })
 }
 
+export function accessToken(appId: string) {
+  return HttpClient.get<string>({
+    url: `/wechat/account/${appId}/access_token`
+  })
+}
+
+export function clearQuota(appId: string) {
+  return HttpClient.delete<string>(
+    {
+      url: `/wechat/account/${appId}/clear_quota`
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '微信接口调用次数已清空'
+    }
+  )
+}
+
+export function qrCode(appId: string, sceneStr: string) {
+  return HttpClient.get<string>({
+    url: `/wechat/account/${appId}/qrCode`,
+    params: { sceneStr }
+  })
+}
+
 export function accountList(name?: string) {
   return HttpClient.get<Array<Account>>({
     url: AccountApi.AccountList,

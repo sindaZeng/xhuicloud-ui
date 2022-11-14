@@ -1,4 +1,16 @@
+import { OptionsItem } from '@/components/XhForm/src/checkBoxGroup'
 import { TableColumn } from '@/components/XhTable/crud'
+
+const options = [
+  {
+    value: '订阅号',
+    label: 0
+  },
+  {
+    value: '服务号',
+    label: 1
+  }
+] as OptionsItem[]
 
 export const tableColumn: TableColumn[] = [
   {
@@ -15,13 +27,24 @@ export const tableColumn: TableColumn[] = [
     searchForm: {}
   },
   {
-    label: 'app-id',
+    label: 'appid',
     prop: 'appId',
+    hidden: true,
     operationForm: {}
   },
   {
-    label: 'app-secret',
+    label: 'secret',
     prop: 'appSecret',
+    hidden: true,
+    operationForm: {}
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    tag: true,
+    valueFormat: (row: Menu) => {
+      return options.find((x) => x.label === row.type)?.value
+    },
     operationForm: {}
   },
   {
@@ -39,6 +62,7 @@ export const tableColumn: TableColumn[] = [
   {
     label: '重定向url',
     prop: 'redirectUrl',
+    hidden: true,
     operationForm: {}
   },
   {

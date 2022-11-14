@@ -27,7 +27,7 @@ interface Account {
   name: string
   appId: string
   appSecret: string
-  appAccessToken: string
+  type: number
   appAuthToken: string
   appDecrypt: string
   redirectUrl: string

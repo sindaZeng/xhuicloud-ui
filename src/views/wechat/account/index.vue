@@ -35,16 +35,73 @@
     @toDelRow="toDelRow"
     @toSaveRow="toSaveRow"
     @toUpdateRow="toUpdateRow"
-  ></Crud>
+  >
+    <!-- 展开行使用示例 -->
+    <template #expand="row">
+      <el-row>
+        <el-col :span="6">
+          <div class="image__error">
+            <div class="block">
+              <el-image />
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="18">
+          <el-row class="expandRow first">
+            <el-col :span="4">AppId:</el-col>
+            <el-col :span="8">{{ row.data.appId }}</el-col>
+            <el-col :span="4">
+              <el-button :icon="Search" type="success" @click="openToken(row.data.appId)">查看Token</el-button>
+            </el-col>
+            <el-col :span="4">
+              <el-button :icon="More" type="primary" @click="genQrCode(row.data.appId)">场景二维码</el-button>
+            </el-col>
+            <el-col :span="4">
+              <el-button :icon="Refresh" type="warning" @click="toClearQuota(row.data.appId)"> 接口次数清空 </el-button>
+            </el-col>
+          </el-row>
+          <el-row class="expandRow">
+            <el-col :span="4">AppSecret:</el-col>
+            <el-col :span="20">{{ row.data.appSecret }}</el-col>
+          </el-row>
+          <el-row class="expandRow">
+            <el-col :span="4">AppAuthToken:</el-col>
+            <el-col :span="20">{{ row.data.appAuthToken }}</el-col>
+          </el-row>
+          <el-row class="expandRow">
+            <el-col :span="4">AppDecrypt:</el-col>
+            <el-col :span="20">{{ row.data.appDecrypt }}</el-col>
+          </el-row>
+          <el-row class="expandRow">
+            <el-col :span="4">RedirectUrl:</el-col>
+            <el-col :span="20">{{ row.data.redirectUrl }}</el-col>
+          </el-row>
+        </el-col>
+      </el-row>
+    </template>
+  </Crud>
+  <el-dialog v-model="qrCodedialogVisible" :title="'场景值:' + sceneStr" width="30%" :before-close="handleClose" center>
+    <el-image style="margin-left: 50px; width: 400px; height: 400px" :src="sceneCodeUrl" />
+  </el-dialog>
 </template>
-<script lang="ts" setup>
-  import { accountPage, createAccount, deleteAccount, updateAccount } from '@/api/wechat/account'
+<script lang="tsx" setup>
+  import {
+    accessToken,
+    accountPage,
+    createAccount,
+    deleteAccount,
+    updateAccount,
+    clearQuota,
+    qrCode
+  } from '@/api/wechat/account'
   import { FormActionButtonGroupProps } from '@/components/XhForm/form-action'
   import { Pagination } from '@/components/XhTable/pagination'
   import { ElMessageBox } from 'element-plus'
   import { ref, computed } from 'vue'
   import { checkPermission } from '@/utils'
   import { tableColumn } from '.'
+  import { Refresh, More, Search } from '@element-plus/icons-vue'
+  import { isEmpty, isNullOrUnDef } from '@/utils/is'
 
   const permission = computed(() => {
     return {
@@ -53,7 +110,9 @@
       delBtn: checkPermission('sys_delete_account', false)
     }
   })
-
+  const qrCodedialogVisible = ref(false)
+  const sceneStr = ref<string>('')
+  const sceneCodeUrl = ref<string>('')
   const data = ref<Account[]>()
   const page = ref<Pagination>({ current: 1, size: 10 })
   const search: FormActionButtonGroupProps = {
@@ -100,5 +159,70 @@
       })
     })
   }
+
+  const openToken = (appid: string) => {
+    accessToken(appid).then((response) => {
+      ElMessageBox.alert(
+        () => <el-input v-model={response} autosize="{ minRows: 2, maxRows: 4 }" type="textarea" disabled />,
+        'Access_token',
+        {
+          dangerouslyUseHTMLString: true
+        }
+      )
+    })
+  }
+
+  const toClearQuota = (appid: string) => {
+    ElMessageBox.confirm('是否要清空微信接口调用次数?', '警告', {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+      clearQuota(appid)
+    })
+  }
+
+  const genQrCode = (appid: string) => {
+    ElMessageBox.prompt('请输入场景值', '场景二维码', {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      inputValidator: (value: string) => !isEmpty(value) && !isNullOrUnDef(value),
+      inputErrorMessage: '请输入场景值!'
+    }).then(({ value }) => {
+      sceneStr.value = value
+      qrCode(appid, value).then((response) => {
+        sceneCodeUrl.value = response
+        qrCodedialogVisible.value = true
+      })
+    })
+  }
+  const handleClose = () => {
+    sceneStr.value = ''
+    sceneCodeUrl.value = ''
+    qrCodedialogVisible.value = false
+  }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .expandRow {
+    margin-bottom: 30px;
+  }
+  .first {
+    margin-top: 30px;
+  }
+  .image__error .block {
+    padding: 30px 0;
+    text-align: center;
+    display: inline-block;
+    width: 49%;
+    box-sizing: border-box;
+    vertical-align: top;
+  }
+
+  .image__error .el-image {
+    padding: 0 5px;
+    max-width: 300px;
+    max-height: 200px;
+    width: 100%;
+    height: 200px;
+  }
+</style>
