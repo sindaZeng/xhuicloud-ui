@@ -27,6 +27,7 @@ import { cloneDeep } from 'lodash-es'
 import { RequestOptions, XhAxiosRequestConfig } from '@/utils/http/xhAxiosHandler'
 import { isFunction, isNullOrUnDef } from '@/utils/is'
 import { ElNotification as $notification } from 'element-plus'
+import { UploadFileParams } from '@/api/base'
 
 const pendingMap = new Map<string, Canceler>()
 
@@ -235,6 +236,40 @@ export class XhAxios {
         link.click()
         URL.revokeObjectURL(link.href)
         document.body.removeChild(link)
+      }
+    })
+  }
+
+  uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFileParams) {
+    const formData = new window.FormData()
+    const customFilename = params.name || 'file'
+
+    if (params.filename) {
+      formData.append(customFilename, params.file, params.filename)
+    } else {
+      formData.append(customFilename, params.file)
+    }
+
+    if (params.data) {
+      Object.keys(params.data).forEach((key) => {
+        const value = params.data![key]
+        if (Array.isArray(value)) {
+          value.forEach((item) => {
+            formData.append(`${key}[]`, item)
+          })
+          return
+        }
+
+        formData.append(key, params.data![key])
+      })
+    }
+
+    return this.axiosInstance.request<T>({
+      ...config,
+      method: 'POST',
+      data: formData,
+      headers: {
+        'Content-type': 'multipart/form-data;charset=UTF-8'
       }
     })
   }
