@@ -33,7 +33,7 @@
   import { deleteFile, filePage } from '@/api/upms/file'
   import { ElMessageBox } from 'element-plus'
 
-  const { headers, action, beforeUpload, pathPrefix } = useUploadFiles({ fileType: 'image/svg+xml' })
+  const { headers, action, beforeUpload, pathPrefix } = useUploadFiles({ fileType: ['image/svg+xml'] })
   const imageUrl = ref<string>('')
   const customLabs = ref<string[]>(['云端icon'])
   const loading = ref<boolean>(false)

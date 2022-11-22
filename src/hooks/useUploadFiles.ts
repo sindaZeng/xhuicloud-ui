@@ -6,22 +6,26 @@ const { user } = useStore()
 
 const headers = { Authorization: 'Bearer ' + user.getToken }
 
-const action = import.meta.env.VITE_BASE_API + FileApi.FileUpload
-
 export interface UseUploadFilesParams {
-  fileType?: string
+  fileType?: string[]
   fileSize?: number // 文件大小 默认不能超过2M
+  actionUrl?: string // 请求地址
 }
-export function useUploadFiles({ fileType = 'image/png', fileSize = 2 }: UseUploadFilesParams) {
+export function useUploadFiles({
+  fileType = ['image/png'],
+  fileSize = 2,
+  actionUrl = FileApi.FileUpload
+}: UseUploadFilesParams) {
   const beforeUpload = (rawFile: UploadRawFile) => {
     return checkFileType(rawFile) && checkFileSize(rawFile)
   }
 
   const checkFileType = (rawFile: UploadRawFile) => {
-    const isFileType = rawFile.type === fileType
+    const type: string[] = rawFile.name.split('.')
+    const isFileType = fileType.indexOf(rawFile.type) >= 0 || fileType.indexOf(type[type.length - 1]) >= 0
     if (!isFileType) {
       ElMessage({
-        message: `上传的文件类型只能是${fileType}格式!`,
+        message: `上传的文件类型只能是${fileType.join(',')}格式!`,
         type: 'warning'
       })
     }
@@ -38,5 +42,10 @@ export function useUploadFiles({ fileType = 'image/png', fileSize = 2 }: UseUplo
     }
     return isLt
   }
-  return { headers, action, beforeUpload, pathPrefix: import.meta.env.VITE_OSS_DOMAIN }
+  return {
+    headers,
+    action: import.meta.env.VITE_BASE_API + actionUrl,
+    beforeUpload,
+    pathPrefix: import.meta.env.VITE_OSS_DOMAIN
+  }
 }
