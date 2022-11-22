@@ -1,37 +1,7 @@
 <template>
   <el-row :span="24">
     <el-col :xs="24" :sm="24" :md="5">
-      <xh-card :body-style="bodyStyle">
-        <el-select
-          v-model="wechatMpAppId"
-          filterable
-          remote
-          reserve-keyword
-          :placeholder="$t('placeholder.wechatMpName')"
-          :remote-method="onload"
-          :loading="loading"
-        >
-          <el-option v-for="item in accountDatas" :key="item.appId" :label="item.name" :value="item.appId" />
-        </el-select>
-        <el-descriptions :title="$t('WeChatMenu.detail')" :column="1" style="margin-top: 30px">
-          <el-descriptions-item :label="$t('WeChatMenu.name') + ':'">{{ wechatSummary.name }}</el-descriptions-item>
-          <el-descriptions-item :label="$t('WeChatMenu.appid') + ':'">{{ wechatSummary.appId }}</el-descriptions-item>
-        </el-descriptions>
-        <el-descriptions :title="$t('WeChatMenu.dataOf7day')" :column="1" style="margin-top: 30px">
-          <el-descriptions-item :label="$t('WeChatMenu.newUser') + ':'">
-            {{ wechatSummary.newUser }}
-          </el-descriptions-item>
-          <el-descriptions-item :label="$t('WeChatMenu.cancelUser') + ':'">
-            {{ wechatSummary.cancelUser }}
-          </el-descriptions-item>
-          <el-descriptions-item :label="$t('WeChatMenu.AddUser') + ':'">
-            {{ wechatSummary.newUser - wechatSummary.cancelUser }}
-          </el-descriptions-item>
-          <el-descriptions-item :label="$t('WeChatMenu.totalUser') + ':'">
-            {{ wechatSummary.totalUser }}
-          </el-descriptions-item>
-        </el-descriptions>
-      </xh-card>
+      <select-wechat-vue @after-select="getMenus"></select-wechat-vue>
     </el-col>
     <el-col :xs="24" :sm="24" :md="19">
       <xh-card :body-style="bodyStyle">
@@ -39,9 +9,7 @@
           <el-col :xs="24" :sm="24" :md="7" :lg="7" :xl="7">
             <div class="preview_area">
               <div class="mobile_wechat_preview">
-                <div class="mobile_wechat_preview_title">
-                  {{ wechatSummary.name }}
-                </div>
+                <div class="mobile_wechat_preview_title">{{}}</div>
                 <div class="mobile_wechat_preview_bd">
                   <ul class="bd_list">
                     <li
@@ -113,10 +81,9 @@
   </el-row>
 </template>
 <script lang="ts" setup>
-  import { ref, computed, unref, watch } from 'vue'
-  import { accountList } from '@/api/wechat/account'
+  import { ref, computed, unref } from 'vue'
+  import selectWechatVue from '../components/selectWechat.vue'
   import { ElMessage } from 'element-plus'
-  import { getUserSummary } from '@/api/wechat/user'
   import editForm from './editForm.vue'
   import { createAndReleaseMpMenu, getReleaseMpMenu } from '@/api/wechat/menu'
   import { isNullOrUnDef } from '@/utils/is'
@@ -128,46 +95,13 @@
   const menuType = ref<number>(0)
   /** 当前选择的底部菜单下标 **/
   const selected = ref<number>(0)
-  /** 当前选择的公众号appid **/
   const wechatMpAppId = ref<string>('')
-  /** 可选择的公众号列表 **/
-  const accountDatas = ref<Account[]>()
+  const wechatMpAppName = ref<string>('')
+
   /** 底部菜单列表 **/
   const weChatMpMenus = ref<WeChatMpMenu[]>([])
   /** 当前选中的底部菜单 **/
   const weChatMpMenu = ref<WeChatMpMenu>()
-  /** 公众号下拉选择框加载 **/
-  const loading = ref(false)
-  /** 被选中的公众号7天用户数据 **/
-  const wechatSummary = ref<WeChatSummary>({
-    name: i18n.global.t('WeChatMenu.selectEmpty'),
-    appId: '',
-    newUser: 0,
-    cancelUser: 0,
-    totalUser: 0
-  })
-  /**
-   * 展示当前选中公众号7天用户数据
-   */
-  watch(
-    () => unref(wechatMpAppId),
-    async () => {
-      if (unref(wechatMpAppId) !== '') {
-        wechatSummary.value = await getUserSummary(unref(wechatMpAppId))
-        const res = await getReleaseMpMenu(unref(wechatMpAppId))
-        if (!isNullOrUnDef(res)) {
-          weChatMpMenus.value = JSON.parse(res).buttons
-        }
-        if (weChatMpMenu.value === undefined && weChatMpMenus.value.length > 0) {
-          weChatMpMenu.value = weChatMpMenus.value[0]
-        }
-      }
-    },
-    {
-      deep: true,
-      immediate: true
-    }
-  )
 
   /**
    * 被选中的底部菜单边框
@@ -180,20 +114,18 @@
     return ''
   }
 
-  /**
-   * 加载下拉选择框
-   * @param name
-   */
-  const onload = async (name?: string) => {
-    loading.value = true
-    accountDatas.value = await accountList(name)
-    if (accountDatas.value != undefined && accountDatas.value.length > 0) {
-      wechatMpAppId.value = accountDatas.value[0].appId
-    }
-    loading.value = false
+  const getMenus = (wechatSummary: WeChatSummary) => {
+    wechatMpAppId.value = wechatSummary.appId
+    wechatMpAppName.value = wechatSummary.name
+    getReleaseMpMenu(wechatMpAppId.value).then((res) => {
+      if (!isNullOrUnDef(res)) {
+        weChatMpMenus.value = JSON.parse(res).buttons
+      }
+      if (weChatMpMenu.value === undefined && weChatMpMenus.value.length > 0) {
+        weChatMpMenu.value = weChatMpMenus.value[0]
+      }
+    })
   }
-
-  onload()
 
   const editMenu = (index: number, subIndex?: number) => {
     menuType.value = 0
