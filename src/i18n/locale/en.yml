@@ -133,6 +133,7 @@ menu:
   WechatOperating: 'Wechat Operat'
   WechatMenus: 'Wechat Menus'
   WechatAccount: 'Wechat Account'
+  MaterialManagement: 'Material'
 placeholder:
   deptName: 'Please enter the dept name'
   wechatMpName: 'Please enter the wechat mp name'
@@ -231,3 +232,8 @@ WeChatMenu:
       appid: 'Please enter miniprogram appid'
       pagepath: 'Please enter miniprogram pagepath '
       url: 'Please enter url'
+
+wechatMaterial:
+  image: 'image'
+  video: 'video'
+  voice: 'voice'

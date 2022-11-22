@@ -13,3 +13,11 @@ export interface BaseEntity {
   updateTime?: string
   isDel?: number
 }
+
+interface UploadFileParams {
+  file: File | Blob
+  filename?: string
+  data?: Recordable
+  params?: Recordable
+  [key: string]: any
+}

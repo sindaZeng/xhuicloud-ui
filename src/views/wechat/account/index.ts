@@ -45,7 +45,19 @@ export const tableColumn: TableColumn[] = [
     valueFormat: (row: Menu) => {
       return options.find((x) => x.label === row.type)?.value
     },
-    operationForm: {}
+    operationForm: {
+      component: 'RadioButtonGroup',
+      componentProps: {
+        options: options
+      },
+      rules: [
+        {
+          required: true,
+          message: '请选择类型',
+          trigger: 'blur'
+        }
+      ]
+    }
   },
   {
     label: 'auth-token',

@@ -54,7 +54,12 @@
               <el-button :icon="Search" type="success" @click="openToken(row.data.appId)">查看Token</el-button>
             </el-col>
             <el-col :span="4">
-              <el-button :icon="More" type="primary" @click="genQrCode(row.data.appId)">场景二维码</el-button>
+              <el-button @click="genQrCode(row.data.appId)">
+                <template #icon>
+                  <xh-svg icon="QrCode"></xh-svg>
+                </template>
+                场景二维码
+              </el-button>
             </el-col>
             <el-col :span="4">
               <el-button :icon="Refresh" type="warning" @click="toClearQuota(row.data.appId)"> 接口次数清空 </el-button>
@@ -100,7 +105,7 @@
   import { ref, computed } from 'vue'
   import { checkPermission } from '@/utils'
   import { tableColumn } from '.'
-  import { Refresh, More, Search } from '@element-plus/icons-vue'
+  import { Refresh, Search } from '@element-plus/icons-vue'
   import { isEmpty, isNullOrUnDef } from '@/utils/is'
 
   const permission = computed(() => {
@@ -127,7 +132,9 @@
    * @param formModel 重置appSecret 防止全是***
    */
   const openBefore = (formModel: Account) => {
-    formModel.appSecret = ''
+    if (formModel && formModel.appSecret) {
+      formModel.appSecret = ''
+    }
   }
 
   /**
@@ -161,9 +168,10 @@
   }
 
   const openToken = (appid: string) => {
+    const autosize = { minRows: 2, maxRows: 4 }
     accessToken(appid).then((response) => {
       ElMessageBox.alert(
-        () => <el-input v-model={response} autosize="{ minRows: 2, maxRows: 4 }" type="textarea" disabled />,
+        () => <el-input v-model={response} autosize={autosize} type="textarea" disabled />,
         'Access_token',
         {
           dangerouslyUseHTMLString: true

@@ -135,6 +135,7 @@ menu:
   WechatOperating: '微信运营'
   WechatMenus: '底部菜单'
   WechatAccount: '账户管理'
+  MaterialManagement: '素材管理'
 placeholder:
   deptName: '请输入部门名称'
   wechatMpName: '请输入微信公众号名称'
@@ -227,10 +228,14 @@ WeChatMenu:
     alert1: '订阅者点击该子菜单会跳到以下小程序'
     alert2: '旧版微信客户端无法支持小程序，用户点击菜单时将会打开备用网页。'
     alert3: '前提条件:需要和公众号进行关联才可以把小程序绑定带微信菜单上'
-
     pagepath: '页面路径'
     url: '备用网页'
     placeholder:
       appid: '请输入小程序appid'
       pagepath: '请输入小程序页面路径'
       url: '请输入备用网页'
+
+wechatMaterial:
+  image: '图片'
+  video: '视频'
+  voice: '语音'
