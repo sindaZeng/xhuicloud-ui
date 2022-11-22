@@ -41,6 +41,8 @@ export interface PermissionsBtn {
   delBtn?: boolean
   importBtn?: boolean
   exportBtn?: boolean
+  refreshBtn?: boolean
+  viewBtn?: boolean
   [key: string]: any
 }
 
@@ -54,6 +56,10 @@ export const tableProps = {
   enableOperations: {
     type: Boolean as PropType<boolean>,
     default: false
+  },
+  cardStyle: {
+    type: Boolean as PropType<boolean>,
+    default: true
   },
   /** 行操作栏宽度 **/
   operationWidth: {

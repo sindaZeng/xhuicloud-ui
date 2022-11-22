@@ -9,7 +9,7 @@
     @toDelRow="toDelRow"
     @toSaveRow="toSaveRow"
   >
-    <!-- 行操作插槽 注:必须Operation结尾 -->
+    <!-- 行操作插槽 注:必须tableOperation -->
     <template #tableOperation="{ data }">
       <el-button v-if="checkPermission('sys_editor_route', false)" size="small" @click="setSysRouteConfData(data)">
         <el-icon class="el-icon--left"><Edit /></el-icon>

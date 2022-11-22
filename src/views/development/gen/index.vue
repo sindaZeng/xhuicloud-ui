@@ -11,7 +11,7 @@
     @toSaveRow="toSaveRow"
     @openBefore="openBefore"
   >
-    <!-- 行操作插槽 注:必须Operation结尾 -->
+    <!-- 行操作插槽 注:必须tableOperation -->
     <template #tableOperation="{ data }">
       <el-button size="small" @click="toDsTest(data)">
         <el-icon class="el-icon--left"><xh-svg icon="connect" /></el-icon>

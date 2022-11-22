@@ -48,7 +48,15 @@ export const tableColumn: TableColumn[] = [
   {
     label: '国际化',
     prop: 'internationalization',
-    operationForm: {}
+    operationForm: {
+      rules: [
+        {
+          required: true,
+          message: '国际化不能为空',
+          trigger: 'blur'
+        }
+      ]
+    }
   },
   {
     label: '类型',

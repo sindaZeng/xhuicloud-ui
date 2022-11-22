@@ -34,7 +34,7 @@
     @toSaveRow="toSaveRow"
     @toUpdateRow="toUpdateRow"
   >
-    <!-- 行操作插槽 注:必须Operation结尾 -->
+    <!-- 行操作插槽 注:必须tableOperation -->
     <template #tableOperation="{ data }">
       <el-button size="small" @click="handlePermission(data)">
         <el-icon class="el-icon--left"><xh-svg icon="permission"></xh-svg></el-icon>权限

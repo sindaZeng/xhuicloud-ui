@@ -24,7 +24,7 @@
 
 <template>
   <div class="card-container">
-    <el-card v-if="theme.getCardStyles" :body-style="bodyStyle" :shadow="shadow">
+    <el-card v-if="theme.getCardStyles && cardStyle" :body-style="bodyStyle" :shadow="shadow">
       <template v-if="$slots.header" #header>
         <slot name="header" />
       </template>
@@ -44,6 +44,11 @@
     bodyStyle: {
       type: Object,
       default: null,
+      required: false
+    },
+    cardStyle: {
+      type: Boolean,
+      default: true,
       required: false
     },
     shadow: {

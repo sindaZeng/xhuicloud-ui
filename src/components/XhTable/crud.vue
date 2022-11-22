@@ -1,13 +1,17 @@
 <template>
   <div class="table">
-    <xh-card v-if="getProps.enableSearch.show">
+    <xh-card v-if="getProps.enableSearch.show" :card-style="cardStyle">
       <div class="table-search">
         <xh-form v-bind="getTableSearchForm" v-model:model="model" @search="onload"></xh-form>
       </div>
     </xh-card>
-    <xh-card>
+    <xh-card :card-style="cardStyle">
       <div class="table-head">
-        <crud-head-operation />
+        <crud-head-operation>
+          <template v-for="name in getHeadOperationSlotKeys" #[name]="data">
+            <slot :name="name" v-bind="data || {}"></slot>
+          </template>
+        </crud-head-operation>
       </div>
       <div class="table-main">
         <el-table
@@ -102,7 +106,14 @@
 
   const tableForm = useTableForm(state, slots)
 
-  const { getTableSearchForm, model, getFormSlotKeys, getFormItemSlotKeys, getRowOperationSlotKeys } = tableForm
+  const {
+    getTableSearchForm,
+    model,
+    getFormSlotKeys,
+    getFormItemSlotKeys,
+    getRowOperationSlotKeys,
+    getHeadOperationSlotKeys
+  } = tableForm
 
   const { tableData, paginationRef, getProps, enablePagination } = state
 

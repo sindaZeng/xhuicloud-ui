@@ -67,7 +67,20 @@ export const useTableForm = (state: TableState, slots: Slots) => {
    */
   const getRowOperationSlotKeys: ComputedRef<string[]> = computed(() => {
     const keys = Object.keys(slots)
-    const slotKeys = keys.map((item) => (item.endsWith('Operation') ? item : null)).filter((item) => !!item) as string[]
+    const slotKeys = keys
+      .map((item) => (item.endsWith('tableOperation') ? item : null))
+      .filter((item) => !!item) as string[]
+    return slotKeys
+  })
+
+  /**
+   * 获取头部操作插槽
+   */
+  const getHeadOperationSlotKeys: ComputedRef<string[]> = computed(() => {
+    const keys = Object.keys(slots)
+    const slotKeys = keys
+      .map((item) => (item.endsWith('headOperation') ? item : null))
+      .filter((item) => !!item) as string[]
     return slotKeys
   })
 
@@ -142,6 +155,7 @@ export const useTableForm = (state: TableState, slots: Slots) => {
     getFormSlotKeys,
     getFormItemSlotKeys,
     getRowOperationSlotKeys,
+    getHeadOperationSlotKeys,
     getTableSearchForm,
     getTableOperationForm
   }

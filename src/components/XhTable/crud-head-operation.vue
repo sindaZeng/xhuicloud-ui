@@ -13,7 +13,13 @@
   <el-button v-if="permission.importBtn" type="primary" size="small" :icon="Upload"
     >{{ $t(`button.upload`) }}
   </el-button>
+
+  <template v-for="item in Object.keys($slots)" :key="item">
+    <slot :name="item"></slot>
+  </template>
+
   <el-button
+    v-if="permission.refreshBtn !== false"
     :icon="Refresh"
     style="float: right; margin-left: 12px"
     size="default"
@@ -21,6 +27,7 @@
     @click="tableContext.onload"
   ></el-button>
   <el-button
+    v-if="permission.viewBtn !== false"
     :icon="View"
     style="float: right"
     size="default"
