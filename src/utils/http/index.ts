@@ -68,8 +68,7 @@ const handler: XhAxiosHandler = {
       return Promise.reject(error)
     } else if (status === 401) {
       const { user } = useStore()
-      user.$reset()
-      window.location.reload()
+      user.reset()
     } else {
       ElMessage.error(data.msg || '服务器可能开小差啦~稍后再试试')
     }

@@ -126,6 +126,10 @@ const useUserStore = defineStore('user', {
       await logout()
       await storageLocal.clear()
       await this.$reset()
+    },
+    async reset() {
+      await storageLocal.clear()
+      await this.$reset()
     }
   }
 })
