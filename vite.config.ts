@@ -7,6 +7,15 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import vueI18n from '@intlify/vite-plugin-vue-i18n'
 import path, { resolve } from 'path'
+import pkg from './package.json'
+import dayjs from 'dayjs'
+
+const { dependencies, devDependencies, name, version } = pkg
+
+const APP_INFO = {
+  pkg: { dependencies, devDependencies, name, version },
+  buildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -24,6 +33,9 @@ export default defineConfig({
         additionalData: '@use "./src/styles/variables.scss" as *;'
       }
     }
+  },
+  define: {
+    APP_INFO: JSON.stringify(APP_INFO)
   },
   plugins: [
     vue(),

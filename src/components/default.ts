@@ -14,6 +14,7 @@ import { XhSettingSelect } from './XhSettingSelect'
 import { XhSvg } from './XhSvg'
 import { XhTagView } from './XhTagView'
 import { XhThemeSelect } from './XhThemeSelect'
+import { XhEditor } from './XhEditor'
 
 export default [
   XhBreadcrumb,
@@ -29,5 +30,6 @@ export default [
   XhSettingSelect,
   XhSvg,
   XhTagView,
-  XhThemeSelect
+  XhThemeSelect,
+  XhEditor
 ] as Plugin[]
