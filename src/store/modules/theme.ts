@@ -46,7 +46,7 @@ const useThemeStore = defineStore('theme', {
       return this.cardStyle || storageLocal.getItem<boolean>(theme.cardStyle)
     },
     getThemeColor(): string {
-      return this.themeColor || storageLocal.getItem<string>(theme.themeKey)
+      return storageLocal.getItem<string>(theme.themeKey) || this.themeColor
     }
   },
   actions: {

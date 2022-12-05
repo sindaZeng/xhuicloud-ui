@@ -23,15 +23,18 @@
   -->
 
 <template>
-  <div v-if="externalIcon" :style="externalIconStyle" :class="['svg-icon', 'svg-external-icon', className]"></div>
-  <svg v-else :class="['svg-icon', className]" aria-hidden="true">
-    <use :xlink:href="innerIcon" />
-  </svg>
+  <div class="currentThemeColor">
+    <div v-if="externalIcon" :style="externalIconStyle" :class="['svg-icon', 'svg-external-icon', className]"></div>
+    <svg v-else :class="['svg-icon', className]" aria-hidden="true">
+      <use :xlink:href="innerIcon" />
+    </svg>
+  </div>
 </template>
 
 <script lang="ts" setup>
   import { defineProps, computed } from 'vue'
   import { isExternal } from '@/utils/is'
+  import useStore from '@/store'
 
   const props = defineProps({
     // icon图标
@@ -51,7 +54,19 @@
     height: {
       type: String,
       default: '1em'
+    },
+    fill: {
+      type: String,
+      default: ''
     }
+  })
+
+  const { theme } = useStore()
+  const currentfill = computed(() => {
+    if (props.fill !== '') {
+      return props.fill
+    }
+    return theme.getThemeColor
   })
 
   const externalIcon = computed(() => isExternal(props.icon))
@@ -70,7 +85,11 @@
   const innerIcon = computed(() => `#icon-${props.icon}`)
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .currentThemeColor {
+    display: inline-block;
+    color: v-bind(currentfill);
+  }
   .svg-icon {
     width: v-bind(width);
     height: v-bind(height);

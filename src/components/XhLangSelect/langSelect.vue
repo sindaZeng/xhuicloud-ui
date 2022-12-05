@@ -26,7 +26,7 @@
   <el-dropdown class="international" trigger="click" @command="handleSetLang">
     <div>
       <el-tooltip :content="$t(`msg.international`)" :effect="effect">
-        <xh-svg icon="language"></xh-svg>
+        <xh-svg icon="language" fill="white"></xh-svg>
       </el-tooltip>
     </div>
     <template #dropdown>

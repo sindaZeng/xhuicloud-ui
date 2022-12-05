@@ -30,6 +30,20 @@ body {
   height: 100%;
 }
 
+.tox-tinymce-aux {
+  z-index: 9999 !important;
+}
+
+.wxw-img {
+  vertical-align: bottom;
+}
+
+img {
+  *zoom: 1;
+  max-width: 100%;
+  *max-width: 96%;
+  height: auto !important;
+}
 *,
 *:before,
 *:after {
@@ -64,4 +78,22 @@ div:focus {
     clear: both;
     height: 0;
   }
+}
+
+::selection {
+  background: #d3d3d3;
+
+  color: #555;
+}
+
+::-moz-selection {
+  background: #d3d3d3;
+
+  color: #555;
+}
+
+::-webkit-selection {
+  background: #d3d3d3;
+
+  color: #555;
 }

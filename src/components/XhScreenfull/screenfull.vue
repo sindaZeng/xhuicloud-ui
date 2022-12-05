@@ -24,7 +24,7 @@
 
 <template>
   <div class="" @click="onToggle">
-    <xh-svg :icon="isScreenfull ? `screenfull-exit` : `screenfull`"></xh-svg>
+    <xh-svg :icon="isScreenfull ? `screenfull-exit` : `screenfull`" fill="white"></xh-svg>
   </div>
 </template>
 
