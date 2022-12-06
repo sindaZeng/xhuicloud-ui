@@ -106,7 +106,7 @@
     // tp_i18n: true,
     skin_url: '/tinymce/skins/ui/oxide', //皮肤：浅色
     // skin_url: '/tinymce/skins/ui/oxide-dark', //皮肤：暗色
-    content_css: '/tinymce/skins/content/default/content.css ',
+    content_css: '/tinymce/skins/content/default/content.min.css ',
     plugins: props.plugins, //插件配置
     // toolbar: props.toolbar, //工具栏配置，设为false则隐藏
     toolbar_mode: 'sliding',
