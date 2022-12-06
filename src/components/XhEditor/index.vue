@@ -63,7 +63,7 @@
       default: false
     },
     imagesUpload: {
-      type: Function as PropType<(blobInfo: any) => string>,
+      type: Function as PropType<(blobInfo: any) => string | Promise<string>>,
       default: (blobInfo: any) => 'data:image/jpeg;base64,' + blobInfo.base64()
     },
     plugins: {
