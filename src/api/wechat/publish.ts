@@ -21,21 +21,32 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-import type { SetupContext, EmitsOptions } from 'vue'
 
-declare global {
-  const APP_INFO: {
-    pkg: {
-      name: string
-      version: string
-      dependencies: Recordable<string>
-      devDependencies: Recordable<string>
+import { HttpClient } from '@/utils/http'
+import { Page } from '../base'
+
+export function publishPage(appId: string, params: any) {
+  return HttpClient.get<Page<any>>({
+    url: `/wechat/publish/${appId}/page`,
+    params
+  })
+}
+
+export function publish(appId: string, mediaId: string) {
+  return HttpClient.post<boolean>({
+    url: `/wechat/publish/${appId}`,
+    params: { mediaId }
+  })
+}
+export function editDraft(appId: string, data: WxMpUpdateDraft) {
+  return HttpClient.put<boolean>(
+    {
+      url: `/wechat/publish/${appId}`,
+      data
+    },
+    {
+      titleMsg: '操作成功',
+      successMsg: '修改成功,即将刷新'
     }
-    buildTime: string
-  }
-  declare type Recordable<T = any> = Record<string, T>
-
-  declare type Data = Record<string, unknown>
-
-  declare type EmitFn<E = EmitsOptions> = SetupContext<E>['emit']
+  )
 }

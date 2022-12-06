@@ -51,7 +51,7 @@ const handler: XhAxiosHandler = {
     if (status === 200 && code === 0) {
       return data
     } else {
-      return Promise.reject(new Error(msg || 'Error'))
+      ElMessage.error(msg || '服务器可能开小差啦~稍后再试试')
     }
   },
   requestResultHook: (res: AxiosResponse<API.Response>) => {

@@ -33,6 +33,23 @@ export function materialPage(appId: string, params: any) {
   })
 }
 
+export function newsPage(appId: string, params: any) {
+  return HttpClient.get<Page<Material>>({
+    url: `/wechat/material/${appId}/page/news`,
+    params
+  })
+}
+
+export function uploadImageMaterialFile(appId: string, uploadFileParams: UploadFileParams) {
+  return HttpClient.uploadFile<Material>(
+    {
+      url: `/wechat/material/${appId}`,
+      params: uploadFileParams.params
+    },
+    uploadFileParams
+  )
+}
+
 export function uploadVideoMaterialFile(appId: string, uploadFileParams: UploadFileParams) {
   return HttpClient.uploadFile<boolean>(
     {

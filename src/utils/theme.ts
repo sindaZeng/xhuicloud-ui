@@ -64,14 +64,14 @@ const elementPlusColor = {
  * @param color
  * @returns {{color}}
  */
-export const getColor = color => {
+export const getColor = (color: string) => {
   if (!color) return
   const colors = {
     primary: color
   }
-  Object.keys(formula).forEach(key => {
-    const val = formula[key].replace(/primary/g, color)
-    colors[key] = '#' + rgbHex(colorConvert.convert(val))
+  Object.keys(formula).forEach((key) => {
+    const val = formula[key as keyof typeof formula].replace(/primary/g, color)
+    colors[key as keyof typeof colors] = '#' + rgbHex(colorConvert.convert(val))
   })
   return colors
 }
@@ -80,9 +80,9 @@ export const getColor = color => {
  * 标记需要替换的样式
  * @param data
  */
-const markStyle = data => {
-  Object.keys(elementPlusColor).forEach(key => {
-    const val = elementPlusColor[key]
+const markStyle = (data: any) => {
+  Object.keys(elementPlusColor).forEach((key) => {
+    const val = elementPlusColor[key as keyof typeof elementPlusColor]
     data = data.replace(new RegExp(key, 'ig'), val)
   })
   return data
@@ -102,7 +102,7 @@ const getDefaultStyle = async () => {
  * 动态保存样式
  * @param newStyle
  */
-export const saveStyle = newStyle => {
+export const saveStyle = (newStyle: any) => {
   const style = document.createElement('style')
   style.innerText = newStyle
   document.head.appendChild(style)
@@ -112,7 +112,7 @@ export const saveStyle = newStyle => {
  * 动态保存link
  * @param url
  */
-export const saveLink = url => {
+export const saveLink = (url: any) => {
   const link = document.createElement('link')
   link.type = 'text/css'
   link.rel = 'stylesheet'
@@ -121,11 +121,13 @@ export const saveLink = url => {
   head.appendChild(link)
 }
 
-export const getStyle = async themeColor => {
+export const getStyle = async (themeColor: string) => {
   const colors = getColor(themeColor)
-  let cssText = await getDefaultStyle()
-  Object.keys(colors).forEach(key => {
-    cssText = cssText.replace(new RegExp('(:|\\s+)' + key, 'g'), '$1' + colors[key])
-  })
-  return cssText
+  if (colors) {
+    let cssText = await getDefaultStyle()
+    Object.keys(colors!).forEach((key) => {
+      cssText = cssText.replace(new RegExp('(:|\\s+)' + key, 'g'), '$1' + colors[key as keyof typeof colors])
+    })
+    return cssText
+  }
 }

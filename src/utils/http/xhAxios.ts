@@ -79,7 +79,7 @@ export class XhAxios {
     if (!handler) {
       return
     }
-    const { requestInterceptors, requestCatchHook, responseCatchHook } = handler
+    const { requestInterceptors, requestCatchHook, responseInterceptors, responseCatchHook } = handler
 
     const axiosCanceler = new AxiosCanceler()
 
@@ -97,19 +97,10 @@ export class XhAxios {
 
     this.axiosInstance.interceptors.response.use((response: AxiosResponse<any>) => {
       response && axiosCanceler.removePending(response.config)
-      /**
-       * 返回原载荷
-       */
-      if (!Reflect.has(response.data, 'code')) {
-        return response.data
+      if (responseInterceptors && isFunction(responseInterceptors)) {
+        response = responseInterceptors(response)
       }
-      const status = Number(response.status)
-      const { code, data, msg } = response.data
-      if (status === 200 && code === 0) {
-        return data
-      } else {
-        throw new Error(msg)
-      }
+      return response
     }, responseCatchHook)
   }
 
@@ -240,7 +231,7 @@ export class XhAxios {
     })
   }
 
-  uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFileParams) {
+  uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFileParams): Promise<T> {
     const formData = new window.FormData()
     const customFilename = params.name || 'file'
 
@@ -263,8 +254,7 @@ export class XhAxios {
         formData.append(key, params.data![key])
       })
     }
-
-    return this.axiosInstance.request<T>({
+    return this.request({
       ...config,
       method: 'POST',
       data: formData,

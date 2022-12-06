@@ -1,7 +1,7 @@
 <template>
   <div class="global-bat-tips">
     <div class="global_info">
-      <label class="check-label">
+      <label v-if="multiSelect" class="check-label">
         <input v-model="all" type="checkbox" class="checkbox" @click="selectAll" />
         <span class="checkbox_content" @click="selectAll">全选</span>
       </label>
@@ -50,7 +50,7 @@
           type="checkbox"
           :checked="mediaIds.indexOf(material.mediaId) >= 0"
           :value="material.mediaId"
-          @click="selectMeterial(material.mediaId)"
+          @click="selectMeterial(material)"
         />
       </label>
     </li>
@@ -68,12 +68,15 @@
 
   const props = defineProps({
     data: { type: Array as PropType<Material[]>, default: () => [] },
-    appid: { type: String as PropType<string>, default: () => '' }
+    appid: { type: String as PropType<string>, default: () => '' },
+    mediaId: { type: String as PropType<string>, default: () => '' }, // 媒体id
+    mediaUrl: { type: String as PropType<string>, default: () => '' }, // 图片地址
+    multiSelect: { type: Boolean as PropType<boolean>, default: () => true } // 是否可以多选
   })
   const mediaIds = ref<string[]>([])
   const { headers, beforeUpload } = useUploadFiles({ fileType: ['bmp', 'png', 'jpeg', 'jpg', 'gif'] })
   const action = computed(() => import.meta.env.VITE_BASE_API + `/wechat/material/${props.appid}`)
-  const emit = defineEmits(['onload', 'update:mediaIds', 'toDeleteMaterial', 'toDeleteCheckMaterial'])
+  const emit = defineEmits(['onload', 'update:mediaId', 'update:mediaUrl', 'toDeleteMaterial', 'toDeleteCheckMaterial'])
   const all = ref(false)
 
   watch(
@@ -112,13 +115,20 @@
 
   /**
    * 单个选中事件
-   * @param mediaId
+   * @param material
    */
-  const selectMeterial = (mediaId: string) => {
-    if (mediaIds.value.indexOf(mediaId) >= 0) {
-      mediaIds.value = mediaIds.value.filter((item) => item != mediaId)
+  const selectMeterial = (material: Material) => {
+    if (!props.multiSelect) {
+      mediaIds.value = []
+      emit('update:mediaId', material.mediaId)
+      emit('update:mediaUrl', material.url)
+      mediaIds.value.push(material.mediaId)
+      return
+    }
+    if (mediaIds.value.indexOf(material.mediaId) >= 0) {
+      mediaIds.value = mediaIds.value.filter((item) => item != material.mediaId)
     } else {
-      mediaIds.value.push(mediaId)
+      mediaIds.value.push(material.mediaId)
     }
   }
 

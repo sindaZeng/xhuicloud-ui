@@ -22,38 +22,21 @@
  * @Email:  xhuicloud@163.com
  */
 
-export const parseTime = (row, column) => {
-  let time = row[column.property]
-  const format = '{y}-{m}-{d} {h}:{i}:{s}'
-  let date
-  if (time === null) {
-    return null
-  }
-  if (typeof time === 'object') {
-    date = time
-  } else {
-    if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
-      time = parseInt(time)
-    }
-    if (typeof time === 'number' && time.toString().length === 10) {
-      time = time * 1000
-    }
-    date = new Date(time)
-  }
-  const formatObj = {
-    y: date.getFullYear(),
-    m: date.getMonth() + 1,
-    d: date.getDate(),
-    h: date.getHours(),
-    i: date.getMinutes(),
-    s: date.getSeconds(),
-    a: date.getDay()
-  }
-  return format.replace(/{([ymdhisa])+}/g, (result, key) => {
-    const value = formatObj[key]
-    if (key === 'a') {
-      return ['日', '一', '二', '三', '四', '五', '六'][value]
-    }
-    return value.toString().padStart(2, '0')
-  })
+import dayjs from 'dayjs'
+
+const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
+const DATE_FORMAT = 'YYYY-MM-DD'
+
+export function formatToDateTime(date: dayjs.Dayjs | undefined = undefined, format = DATE_TIME_FORMAT): string {
+  return dayjs(date).format(format)
 }
+
+export function formatDateTime(date: number, format = DATE_TIME_FORMAT): string {
+  return dayjs.unix(date).format(format)
+}
+
+export function formatToDate(date: dayjs.Dayjs | undefined = undefined, format = DATE_FORMAT): string {
+  return dayjs(date).format(format)
+}
+
+export const dateUtil = dayjs

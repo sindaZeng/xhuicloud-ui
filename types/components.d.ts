@@ -25,6 +25,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     XhBreadcrumb: typeof import('@/components/component')['XhBreadcrumb']
     XhCard: typeof import('@/components/component')['XhCard']
+    XhEditor: typeof import('@/components/component')['XhEditor']
     XhCharts: typeof import('@/components/component')['XhCharts']
     XhDraggable: typeof import('@/components/component')['XhDraggable']
     XhForm: typeof import('@/components/component')['XhForm']

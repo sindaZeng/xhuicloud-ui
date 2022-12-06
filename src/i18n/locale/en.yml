@@ -134,6 +134,7 @@ menu:
   WechatMenus: 'Wechat Menus'
   WechatAccount: 'Wechat Account'
   MaterialManagement: 'Material'
+  Drafts: 'Drafts'
 placeholder:
   deptName: 'Please enter the dept name'
   wechatMpName: 'Please enter the wechat mp name'

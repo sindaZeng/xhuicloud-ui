@@ -48,7 +48,10 @@ const setting = {
   tagViewKey: 'tagViewKey',
   aesIv: 'xhuicloud0000000',
   // 开启登录验证码
-  captchaEnable: true
+  captchaEnable: true,
+  gitUiUrl: 'https://github.com/sindaZeng/xhuicloud-ui',
+  gitServerUrl: 'https://github.com/sindaZeng/XHuiCloud',
+  github: 'https://github.com/sindaZeng'
 }
 
 export default setting
