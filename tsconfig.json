@@ -34,7 +34,8 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "types",
+    "types/*.ts",
+    "types/*.d.ts",
     "vite.config.ts",
     "node_modules/element-plus/global.d.ts"
   ],
