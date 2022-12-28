@@ -27,3 +27,9 @@ interface WxMpUpdateDraft {
   index?: number // 要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义），第一篇为0
   articles: NewsItem
 }
+
+interface EditorProps {
+  appid: string
+  formData?: NewsItem
+  contextMediaId: string
+}

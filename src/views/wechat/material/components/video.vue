@@ -90,7 +90,6 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-  import { PermissionsBtn } from '@/components/XhTable/crud'
   import { Upload, Eleme } from '@element-plus/icons-vue'
   import { downloadVideo, uploadVideoMaterialFile } from '@/api/wechat/material'
   import { checkPermission } from '@/utils'

@@ -4,7 +4,7 @@
     <el-icon v-else :size="35">
       <Plus />
     </el-icon>
-    <el-dialog v-model="dialogVisible" style="margin-top: 2px" title="图标选择" width="80%" :append-to-body="true">
+    <el-dialog v-model="dialogVisible" class="topDialog" title="图标选择" width="80%" :append-to-body="true">
       <xh-icon-view v-model:loading="loading" :custom-labs="customLabs" @selectIcon="selectIcon">
         <template #icon-item-0>
           <div

@@ -24,9 +24,8 @@
 
 import { HttpClient } from '@/utils/http'
 import { Page } from '../base'
-
 export function publishPage(appId: string, params: any) {
-  return HttpClient.get<Page<any>>({
+  return HttpClient.get<Page<Publish>>({
     url: `/wechat/publish/${appId}/page`,
     params
   })

@@ -77,7 +77,7 @@
       theme.setCardStyle(val)
     }
   })
-  const themeColor = ref(theme.getThemeColor)
+  const themeColor = ref(theme.themeColor)
 
   const emits = defineEmits(['update:settingsVisible'])
 

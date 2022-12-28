@@ -35,17 +35,6 @@ export interface TableColumn {
   [key: string]: any
 }
 
-export interface PermissionsBtn {
-  addBtn?: boolean
-  editBtn?: boolean
-  delBtn?: boolean
-  importBtn?: boolean
-  exportBtn?: boolean
-  refreshBtn?: boolean
-  viewBtn?: boolean
-  [key: string]: any
-}
-
 export const tableProps = {
   /** 开启搜索栏 **/
   enableSearch: {

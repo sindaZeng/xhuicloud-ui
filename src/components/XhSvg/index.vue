@@ -23,7 +23,7 @@
   -->
 
 <template>
-  <div class="currentThemeColor">
+  <div class="currentThemeColor" :style="{ color }">
     <div v-if="externalIcon" :style="externalIconStyle" :class="['svg-icon', 'svg-external-icon', className]"></div>
     <svg v-else :class="['svg-icon', className]" aria-hidden="true">
       <use :xlink:href="innerIcon" />
@@ -60,13 +60,13 @@
       default: ''
     }
   })
-
   const { theme } = useStore()
-  const currentfill = computed(() => {
+
+  const color = computed(() => {
     if (props.fill !== '') {
       return props.fill
     }
-    return theme.getThemeColor
+    return theme.themeColor
   })
 
   const externalIcon = computed(() => isExternal(props.icon))
@@ -88,7 +88,6 @@
 <style lang="scss" scoped>
   .currentThemeColor {
     display: inline-block;
-    color: v-bind(currentfill);
   }
   .svg-icon {
     width: v-bind(width);

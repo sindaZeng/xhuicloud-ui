@@ -33,7 +33,7 @@ const useThemeStore = defineStore('theme', {
     sidebarLogo: true,
     cardStyle: true,
     variables: scssExportToJson(styles),
-    themeColor: theme.themeColor
+    themeColor: storageLocal.getItem<string>(theme.themeKey) || theme.themeColor
   }),
   getters: {
     getThemeCss(): any {
@@ -44,9 +44,6 @@ const useThemeStore = defineStore('theme', {
     },
     getCardStyles(): boolean {
       return this.cardStyle || storageLocal.getItem<boolean>(theme.cardStyle)
-    },
-    getThemeColor(): string {
-      return storageLocal.getItem<string>(theme.themeKey) || this.themeColor
     }
   },
   actions: {

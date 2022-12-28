@@ -38,4 +38,15 @@ declare global {
   declare type Data = Record<string, unknown>
 
   declare type EmitFn<E = EmitsOptions> = SetupContext<E>['emit']
+
+  interface PermissionsBtn {
+    addBtn?: boolean
+    editBtn?: boolean
+    delBtn?: boolean
+    importBtn?: boolean
+    exportBtn?: boolean
+    refreshBtn?: boolean
+    viewBtn?: boolean
+    [key: string]: any
+  }
 }

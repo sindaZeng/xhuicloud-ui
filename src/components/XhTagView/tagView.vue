@@ -72,8 +72,8 @@
   import { TabsPaneContext } from 'element-plus'
   import { ArrowDown } from '@element-plus/icons-vue'
   import MenuItem from '@/components/XhSidebar/MenuItem.vue'
-  import useStore from '../../store'
   import { isNullOrUnDef } from '@/utils/is'
+  import useStore from '@/store'
 
   const { app } = useStore()
 
@@ -195,6 +195,17 @@
   function isActive(path: string): boolean {
     return path === route.path
   }
+
+  const { theme } = useStore()
+
+  const color = computed(() => {
+    return theme.themeColor
+  })
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .tag-view-container .tags-box .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
+    color: v-bind(color);
+    border-bottom: 3px solid v-bind(color);
+  }
+</style>

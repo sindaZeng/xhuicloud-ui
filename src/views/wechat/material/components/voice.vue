@@ -43,7 +43,6 @@
   </Crud>
 </template>
 <script lang="ts" setup>
-  import { PermissionsBtn } from '@/components/XhTable/crud'
   import { Upload } from '@element-plus/icons-vue'
   import { download } from '@/api/wechat/material'
   import { checkPermission } from '@/utils'

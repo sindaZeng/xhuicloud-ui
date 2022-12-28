@@ -24,7 +24,7 @@
 
 .tag-view-container {
   background: #fff;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .05);
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   width: 100%;
   position: relative;
@@ -46,7 +46,7 @@
     }
 
     .el-tabs--card > .el-tabs__header .el-tabs__item:first-child {
-      border-left-width: 2px
+      border-left-width: 2px;
     }
 
     .el-tabs--card > .el-tabs__header .el-tabs__item {
@@ -55,11 +55,6 @@
       font-size: 13px;
       font-weight: normal;
       color: #ccc;
-
-      &.is-active {
-        color: #409EFF;
-        border-bottom: 3px solid #409EFF;
-      }
 
       span {
         padding-left: 3px;
@@ -85,7 +80,6 @@
       font-size: 32px;
     }
   }
-
 }
 
 .contextmenu {
@@ -99,7 +93,7 @@
   font-size: 12px;
   font-weight: 400;
   color: #333;
-  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
 
   li {
     margin: 0;
