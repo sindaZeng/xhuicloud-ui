@@ -145,7 +145,11 @@
     elementpath: false, //元素路径是否显示
 
     content_style: 'img {max-width:100%;}', //直接自定义可编辑区域的css样式
-
+    setup: function (editor: any) {
+      editor.on('Change', function () {
+        tinymce.activeEditor.save()
+      })
+    },
     // 此处为图片上传处理函数，这个默认用了base64的图片形式上传图片，
     images_upload_handler: async (blobInfo: any, success: any) => {
       const image = await props.imagesUpload(blobInfo)

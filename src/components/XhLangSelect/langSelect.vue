@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-  import i18n from '@/i18n'
+  import { global } from '@/i18n'
   import useStore from '@/store'
   import { computed, defineProps } from 'vue'
   import { ElMessage } from 'element-plus'
@@ -59,9 +59,9 @@
   const lang = computed(() => app.getLang)
 
   function handleSetLang(lang: string) {
-    i18n.global.locale.value = lang
+    global.locale.value = lang
     app.setLang(lang)
-    ElMessage.success(i18n.global.t('msg.langSuccess'))
+    ElMessage.success(global.t('msg.langSuccess'))
   }
 </script>
 

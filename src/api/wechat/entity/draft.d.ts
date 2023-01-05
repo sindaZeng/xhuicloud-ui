@@ -30,6 +30,7 @@ interface WxMpUpdateDraft {
 
 interface EditorProps {
   appid: string
+  index?: number
   formData?: NewsItem
   contextMediaId: string
 }

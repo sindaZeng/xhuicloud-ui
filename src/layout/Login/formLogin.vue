@@ -50,13 +50,6 @@
             </span>
           </el-icon>
         </template>
-        <!-- <template #suffix>
-          <el-icon class="el-input__icon">
-            <span class="show-pwd" @click="onchangePasswordType()">
-              <xh-svg :icon="passwordType === 'password' ? 'eye' : 'eye-open'" />
-            </span>
-          </el-icon>
-        </template> -->
       </el-input>
     </el-form-item>
     <el-form-item prop="code">
@@ -71,6 +64,7 @@
     <el-button
       type="primary"
       style="width: 100%; margin-bottom: 30px"
+      :loading-icon="Eleme"
       :loading="loading"
       @click="handleLogin(loginFormRef)"
       >{{ $t('msg.login') }}
@@ -85,8 +79,9 @@
   import { validatePassword } from '@/utils/rules'
   import { isNullOrUnDef } from '@/utils/is'
   import type { FormInstance } from 'element-plus'
-  import i18n from '@/i18n'
+  import { global } from '@/i18n'
   import useStore from '@/store'
+  import { Eleme } from '@element-plus/icons-vue'
 
   const emit = defineEmits(['tenantWarn'])
 
@@ -106,7 +101,7 @@
       {
         required: true,
         trigger: 'blur',
-        message: i18n.global.t('msg.usernameNotNull')
+        message: global.t('msg.usernameNotNull')
       }
     ],
     password: [
@@ -127,22 +122,24 @@
 
   const verifySuccess = (params: any) => {
     loginInfo.value.code = params.captchaVerification
-    loginByUsername()
+    loginByUsername().finally(() => (loading.value = false))
   }
 
   const loginByUsername = () => {
-    user.login(loginInfo.value).then(() => {
+    return user.login(loginInfo.value).then((res) => {
       router.push('/')
+      return res
     })
   }
 
   const handleLogin = (form: FormInstance | undefined) => {
-    if (!form) return
     loading.value = true
+    if (!form) return
     form.validate((valid) => {
       if (isNullOrUnDef(user.getTenantId)) {
         emit('tenantWarn', true)
         valid = false
+        loading.value = false
       }
       if (valid) {
         if (setting.captchaEnable) {
@@ -153,7 +150,6 @@
         }
       }
     })
-    loading.value = false
   }
 </script>
 

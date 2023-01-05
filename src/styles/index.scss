@@ -38,6 +38,14 @@ body {
   vertical-align: bottom;
 }
 
+.select {
+  &:hover,
+  &:focus,
+  &:active {
+    border: 1px solid #07c160;
+  }
+}
+
 img {
   *zoom: 1;
   max-width: 100%;

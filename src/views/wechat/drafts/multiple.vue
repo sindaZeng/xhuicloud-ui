@@ -11,18 +11,15 @@
         </span>
       </div>
     </div>
+    <slot></slot>
   </div>
-  <div class="sub-card-container">
+  <div v-for="(item, index) in draft.content.newsItem.slice(1)" :key="index" class="sub-card-container select">
     <div class="sub-image-container">
-      <img
-        v-if="props.draft.content.newsItem[0].thumbUrl"
-        class="first-image"
-        :src="draft.content.newsItem[0].thumbUrl"
-      />
+      <img v-if="item.thumbUrl" class="first-image" :src="item.thumbUrl" />
     </div>
     <div class="title-container">
       <a href="javascript:void(0);" class="sub-title">
-        <span>图文</span>
+        <span>{{ item.title }}</span>
       </a>
     </div>
   </div>
@@ -32,13 +29,13 @@
   import { PropType } from 'vue'
   import { formatDateTime } from '@/utils/date'
 
-  const props = defineProps({
+  defineProps({
     draft: { type: Object as PropType<Draft>, default: () => ({}) }
   })
 </script>
 <style lang="scss" scoped>
   .mult {
-    height: 100px;
+    height: 131px;
   }
   .img-notice {
     position: absolute;
@@ -53,16 +50,20 @@
   .white {
     color: #fff;
   }
-  .select {
-    &:hover,
-    &:focus,
-    &:active {
-      border: 1px solid #07c160;
-    }
-  }
+
   .sub-card-container {
-    padding: 16px;
+    padding: 10px;
     position: relative;
+
+    ::before {
+      content: ' ';
+      position: absolute;
+      left: 8px;
+      right: 78px;
+      top: 0;
+      height: 1px;
+      background-color: #e4e8eb;
+    }
   }
   .sub-image-container {
     float: right;
@@ -79,7 +80,7 @@
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    height: 54px;
+    height: 47px;
     -webkit-box-align: center;
     -webkit-align-items: center;
     -ms-flex-align: center;

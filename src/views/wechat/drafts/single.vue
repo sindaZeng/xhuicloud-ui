@@ -17,39 +17,14 @@
       <p title="正文" class="desc">{{ draft.content.newsItem[0].digest }}</p>
       <p title="更新时间" class="desc updateTime">更新于 {{ formatDateTime(draft.updateTime) }}</p>
     </div>
-    <div v-if="permission.delBtn" class="common-item delete">
-      <el-tooltip content="删除" placement="top">
-        <el-button :icon="Delete" size="default" circle @click="$emit('toDeleteDraft', draft.mediaId)"></el-button>
-      </el-tooltip>
-    </div>
-    <div v-if="permission.editBtn" class="common-item edit">
-      <el-tooltip content="编辑" placement="top">
-        <el-button
-          :icon="Edit"
-          size="default"
-          circle
-          @click="$emit('toEditDraft', draft.content.newsItem[0], draft.mediaId)"
-        ></el-button>
-      </el-tooltip>
-    </div>
-    <div v-if="permission.publishBtn" class="common-item publish">
-      <el-tooltip content="发布" placement="top">
-        <el-button :icon="Promotion" size="default" circle @click="$emit('toPublishDraft', draft.mediaId)"> </el-button>
-      </el-tooltip>
-    </div>
+    <slot></slot>
   </div>
 </template>
 <script lang="ts" setup>
   import { formatDateTime } from '@/utils/date'
-  import { inject, PropType } from 'vue'
-  import { Delete, Edit, Promotion } from '@element-plus/icons-vue'
-
+  import { PropType } from 'vue'
   const props = defineProps({
     draft: { type: Object as PropType<Draft>, default: () => ({}) }
   })
-
-  defineEmits(['toDeleteDraft', 'toEditDraft', 'toPublishDraft'])
-
-  const permission = inject('permission') as PermissionsBtn
 </script>
 <style lang="scss" scoped></style>

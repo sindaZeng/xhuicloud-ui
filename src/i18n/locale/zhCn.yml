@@ -137,6 +137,7 @@ menu:
   WechatAccount: '账户管理'
   MaterialManagement: '素材管理'
   Drafts: '草稿箱'
+  wechatEditor: '文章编辑'
 placeholder:
   deptName: '请输入部门名称'
   wechatMpName: '请输入微信公众号名称'

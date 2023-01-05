@@ -100,7 +100,7 @@
   import { useVModel } from '@vueuse/core'
   import { FormRules } from 'element-plus'
   import { PropType, ref, reactive } from 'vue'
-  import i18n from '@/i18n'
+  import { global } from '@/i18n'
   import { checkStringLengthOf8 } from '@/utils/rules'
 
   const msgType = ref<string[]>(['text', 'image', 'voice', 'video', 'news'])
@@ -111,7 +111,7 @@
     name: [
       {
         required: true,
-        message: i18n.global.t('placeholder.enter') + i18n.global.t('WeChatMenu.menuName'),
+        message: global.t('placeholder.enter') + global.t('WeChatMenu.menuName'),
         trigger: 'blur'
       },
       {

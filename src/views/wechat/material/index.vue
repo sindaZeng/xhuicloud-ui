@@ -90,8 +90,9 @@
   const toDeleteMaterial = (media: Material) => {
     ElMessageBox.confirm('确认删除 ' + media.name + ' ?').then(() => {
       return deleteMaterial(wechatMpAppId.value, [media.mediaId]).then(() => {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           onload()
+          clearTimeout(timer)
         }, 1000)
       })
     })
@@ -104,8 +105,9 @@
   const toDeleteCheckMaterial = (mediaIds: string[]) => {
     ElMessageBox.confirm('确认删除选中的素材?').then(() => {
       return deleteMaterial(wechatMpAppId.value, mediaIds).then(() => {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           onload()
+          clearTimeout(timer)
         }, 1000)
       })
     })

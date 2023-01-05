@@ -22,7 +22,7 @@
  * @Email:  xhuicloud@163.com
  */
 
-import { createI18n } from 'vue-i18n'
+import { Composer, createI18n } from 'vue-i18n'
 import { storageLocal } from '@/utils/storage'
 import messages from '@intlify/vite-plugin-vue-i18n/messages'
 import setting from '@/config/setting.config'
@@ -38,5 +38,6 @@ const i18n = createI18n({
   globalInjection: true,
   messages
 })
-
+const global = i18n.global as Composer
 export default i18n
+export { global }

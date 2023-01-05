@@ -158,7 +158,7 @@
           checkPosArr.length = 0
           checkPosArr.push(...arr)
           //等创建坐标执行完
-          setTimeout(() => {
+          const timer = setTimeout(() => {
             // var flag = this.comparePos(this.fontPos, this.checkPosArr);
             //发送后端请求
             var captchaVerification = secretKey.value
@@ -179,9 +179,10 @@
                 text.value = '验证成功'
                 bindingClick.value = false
                 if (mode.value == 'pop') {
-                  setTimeout(() => {
+                  const timer1 = setTimeout(() => {
                     proxy.$parent.clickShow = false
                     refresh()
+                    clearTimeout(timer1)
                   }, 1500)
                 }
                 proxy.$parent.$emit('success', { captchaVerification })
@@ -190,11 +191,13 @@
                 barAreaColor.value = '#d9534f'
                 barAreaBorderColor.value = '#d9534f'
                 text.value = '验证失败'
-                setTimeout(() => {
+                const timer2 = setTimeout(() => {
                   refresh()
+                  clearTimeout(timer2)
                 }, 700)
               }
             })
+            clearTimeout(timer)
           }, 400)
         }
         if (num.value < checkNum.value) {

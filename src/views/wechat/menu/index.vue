@@ -87,7 +87,7 @@
   import editForm from './editForm.vue'
   import { createAndReleaseMpMenu, getReleaseMpMenu } from '@/api/wechat/menu'
   import { isNullOrUnDef } from '@/utils/is'
-  import i18n from '@/i18n'
+  import { global } from '@/i18n'
 
   const bodyStyle = { height: '85vh' }
 
@@ -144,7 +144,7 @@
       return
     }
     const menu: WeChatMpMenu = {
-      name: i18n.global.t('WeChatMenu.menuName'),
+      name: global.t('WeChatMenu.menuName'),
       type: 'click',
       key: new Date().getTime() + '',
       subButtonList: []
@@ -161,12 +161,12 @@
    */
   const addsubButtonList = (item: WeChatMpMenu) => {
     if (item.subButtonList.length >= 5) {
-      ElMessage.error(i18n.global.t('WeChatMenu.submenuMoreThan5'))
+      ElMessage.error(global.t('WeChatMenu.submenuMoreThan5'))
       return
     }
     item.type = undefined
     item.subButtonList.push({
-      name: i18n.global.t('WeChatMenu.submenuName'),
+      name: global.t('WeChatMenu.submenuName'),
       key: new Date().getTime() + '',
       type: 'click',
       subButtonList: []

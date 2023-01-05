@@ -24,7 +24,7 @@
 
 import router from '@/router'
 import setting from '@/config/setting.config'
-import i18n from '@/i18n'
+import { global } from '@/i18n'
 import { isNullAndUnDef } from '@/utils/is'
 import useStore from '@/store'
 import { toRouteType } from '@/router/types'
@@ -38,7 +38,7 @@ const whiteList = ['/login', '/auth-redirect']
  */
 router.beforeEach(async (to: toRouteType, _from, next) => {
   const meta = to.meta || {}
-  document.title = meta.title ? i18n.global.t('menu.' + meta.title) : setting.title
+  document.title = meta.title ? global.t('menu.' + meta.title) : setting.title
   const { user, permission } = useStore()
   if (user.getToken) {
     if (to.path === '/login') {

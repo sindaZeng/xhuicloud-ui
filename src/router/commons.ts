@@ -51,6 +51,15 @@ const commonsRoutes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/drafts/message',
+    name: 'edit',
+    component: () => import('@/views/wechat/drafts/message.vue'),
+    meta: {
+      title: 'wechatEditor',
+      hidden: true
+    }
+  },
+  {
     path: '/',
     redirect: '/home',
     component: layout,

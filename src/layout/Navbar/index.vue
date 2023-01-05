@@ -52,11 +52,18 @@
 
 <script lang="ts" setup>
   import useStore from '@/store'
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
 
   const { user, theme } = useStore()
 
   function logout() {
-    user.logout()
+    user.logout().then(() => {
+      const timer = setTimeout(() => {
+        router.push('/login')
+        clearTimeout(timer)
+      }, 10)
+    })
   }
 </script>
 

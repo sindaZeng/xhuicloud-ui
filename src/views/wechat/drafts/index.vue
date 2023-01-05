@@ -6,22 +6,45 @@
     <el-col :xs="24" :sm="24" :md="19">
       <xh-card>
         <template v-if="permission.addBtn" #header>
-          <el-button type="success" @click="toCreateDraft(eidtorRef)">新的创作</el-button>
+          <el-button type="success" @click="toCreateOrEditDraft">新的创作</el-button>
         </template>
         <el-empty v-if="data.length === 0" :image-size="200" />
         <el-row v-else :gutter="10">
-          <el-col v-for="draft in data" :key="draft.mediaId" :xs="8" :sm="6" :md="6" :lg="8" :xl="6">
+          <el-col
+            v-for="draft in data"
+            :key="draft.mediaId"
+            style="padding-top: 20px"
+            :xs="8"
+            :sm="6"
+            :md="6"
+            :lg="8"
+            :xl="6"
+          >
             <el-card :body-style="{ padding: 0 }" shadow="hover">
               <!-- 单个图文消息 -->
-              <Single
-                v-if="draft.content.newsItem.length === 1"
-                :draft="draft"
-                @to-delete-draft="toDeleteDraft"
-                @to-publish-draft="toPublishDraft"
-                @to-edit-draft="toEditDraft"
-              ></Single>
-              <Multiple v-else :draft="draft"></Multiple>
+              <Single v-if="draft.content.newsItem.length === 1" :draft="draft">
+                <template #default>
+                  <Operation
+                    :draft="draft"
+                    :app-id="wechatMpAppId"
+                    @to-delete-draft="toDeleteDraft"
+                    @to-publish-draft="toPublishDraft"
+                    @to-create-or-edit-draft="toCreateOrEditDraft"
+                  ></Operation>
+                </template>
+              </Single>
               <!-- 多个图文消息 -->
+              <Multiple v-else :draft="draft">
+                <template #default>
+                  <Operation
+                    :draft="draft"
+                    :app-id="wechatMpAppId"
+                    @to-delete-draft="toDeleteDraft"
+                    @to-publish-draft="toPublishDraft"
+                    @to-create-or-edit-draft="toCreateOrEditDraft"
+                  ></Operation>
+                </template>
+              </Multiple>
             </el-card>
           </el-col>
         </el-row>
@@ -32,8 +55,6 @@
           @size-change="onload"
           @current-change="onload"
         />
-        <!-- 编辑 -->
-        <Eidtor ref="eidtorRef"></Eidtor>
       </xh-card>
     </el-col>
   </el-row>
@@ -43,16 +64,16 @@
   import { Pagination } from '@/components/XhTable/pagination'
   import { isEmpty, isNullOrUnDef } from '@/utils/is'
   import { computed, provide, reactive, ref, unref } from 'vue'
-  import selectWechatVue from '../components/selectWechat.vue'
   import { ElMessageBox } from 'element-plus'
   import { checkPermission } from '@/utils'
   import { publish } from '@/api/wechat/publish'
-  import Eidtor from './editor.vue'
+  import selectWechatVue from '../components/selectWechat.vue'
   import Single from './single.vue'
   import Multiple from './multiple.vue'
+  import Operation from './operation.vue'
+  import { useRouter } from 'vue-router'
 
-  type EidtorInstance = InstanceType<typeof Eidtor>
-  const eidtorRef = ref<EidtorInstance>()
+  const router = useRouter()
 
   const permission = computed(() => {
     return {
@@ -69,22 +90,6 @@
   const page = reactive<Pagination>({ current: 1, size: 10, total: 0 })
 
   const data = ref<Draft[]>([])
-
-  const defaultFormData: NewsItem = {
-    title: '',
-    author: '',
-    digest: '',
-    content: '',
-    contentSourceUrl: '',
-    thumbMediaId: '',
-    showCoverPic: 0,
-    needOpenComment: 0,
-    onlyFansCanComment: 0,
-    url: '',
-    thumbUrl: ''
-  }
-
-  const formData = ref<NewsItem>(defaultFormData)
 
   /**
    * 获取列表
@@ -110,40 +115,29 @@
   const toDeleteDraft = (mediaId: string) => {
     ElMessageBox.confirm('确认删除?').then(() => {
       return deleteDraft(wechatMpAppId.value, mediaId).then(() => {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           onload()
+          clearTimeout(timer)
         }, 1000)
       })
     })
   }
-  /**
-   * 去编辑草稿
-   * @param news 编辑的草稿
-   * @param mediaId
-   */
-  const toEditDraft = (news: NewsItem, mediaId: string) => {
-    if (!eidtorRef.value) return
-    news.content = news.content.replaceAll('data-src', 'src')
-    formData.value = news
-    eidtorRef.value.init({
-      appid: wechatMpAppId.value,
-      contextMediaId: mediaId,
-      formData: formData.value
-    } as EditorProps)
-  }
 
-  const toCreateDraft = (eidtorEl: EidtorInstance | undefined) => {
-    if (!eidtorEl) return
-    eidtorEl.init({
-      appid: wechatMpAppId.value
-    } as EditorProps)
+  const toCreateOrEditDraft = (draft: Draft | undefined) => {
+    const routeUrl = router.resolve({
+      path: '/drafts/message',
+      query: { mediaId: draft?.mediaId, appId: wechatMpAppId.value }
+    })
+
+    window.open(routeUrl.href, '_blank')
   }
 
   const toPublishDraft = (mediaId: string) => {
     ElMessageBox.confirm('确认发布吗?').then(() => {
       return publish(unref(wechatMpAppId), mediaId).then(() => {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           onload()
+          clearTimeout(timer)
         }, 1000)
       })
     })
@@ -183,10 +177,10 @@
       }
 
       .edit {
-        right: 50px;
+        right: 90px;
       }
       .publish {
-        right: 90px;
+        right: 50px;
       }
     }
   }

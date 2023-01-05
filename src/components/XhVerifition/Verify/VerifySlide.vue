@@ -282,9 +282,10 @@
               showRefresh.value = false
               isEnd.value = true
               if (mode.value == 'pop') {
-                setTimeout(() => {
+                const timer1 = setTimeout(() => {
                   proxy.$parent.clickShow = false
                   refresh()
+                  clearTimeout(timer1)
                 }, 1500)
               }
               passFlag.value = true
@@ -292,10 +293,11 @@
               var captchaVerification = secretKey.value
                 ? aesEncrypt(backToken.value + '---' + JSON.stringify({ x: moveLeftDistance, y: 5.0 }), secretKey.value)
                 : backToken.value + '---' + JSON.stringify({ x: moveLeftDistance, y: 5.0 })
-              setTimeout(() => {
+              const timer2 = setTimeout(() => {
                 tipWords.value = ''
                 proxy.$parent.closeBox()
                 proxy.$parent.$emit('success', { captchaVerification })
+                clearTimeout(timer2)
               }, 1000)
             } else {
               moveBlockBackgroundColor.value = '#d9534f'
@@ -303,13 +305,15 @@
               iconColor.value = '#fff'
               iconClass.value = 'icon-close'
               passFlag.value = false
-              setTimeout(function () {
+              const timer3 = setTimeout(function () {
                 refresh()
+                clearTimeout(timer3)
               }, 1000)
               proxy.$parent.$emit('error', proxy)
               tipWords.value = '验证失败'
-              setTimeout(() => {
+              const timer4 = setTimeout(() => {
                 tipWords.value = ''
+                clearTimeout(timer4)
               }, 1000)
             }
           })
@@ -334,10 +338,11 @@
         isEnd.value = false
 
         getPictrue()
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           transitionWidth.value = ''
           transitionLeft.value = ''
           text.value = explain.value
+          clearTimeout(timer)
         }, 300)
       }
 

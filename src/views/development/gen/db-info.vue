@@ -94,7 +94,7 @@
   import { FormInstance } from 'element-plus'
   import { ref } from 'vue'
   import { checkPermission } from '@/utils'
-  import i18n from '@/i18n'
+  import { global } from '@/i18n'
   interface Option {
     key: string
     label: string
@@ -104,28 +104,28 @@
       {
         required: true,
         trigger: 'blur',
-        message: i18n.global.t('msg.moduleNameNotNull')
+        message: global.t('msg.moduleNameNotNull')
       }
     ],
     contextPath: [
       {
         required: true,
         trigger: 'blur',
-        message: i18n.global.t('msg.contextPathNotNull')
+        message: global.t('msg.contextPathNotNull')
       }
     ],
     author: [
       {
         required: true,
         trigger: 'blur',
-        message: i18n.global.t('msg.authorNotNull')
+        message: global.t('msg.authorNotNull')
       }
     ],
     packagePath: [
       {
         required: true,
         trigger: 'blur',
-        message: i18n.global.t('msg.packagePath')
+        message: global.t('msg.packagePath')
       }
     ]
   })

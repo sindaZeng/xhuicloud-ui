@@ -35,7 +35,7 @@
   import { accountList } from '@/api/wechat/account'
   import { getUserSummary } from '@/api/wechat/user'
   import { ref, watch, unref } from 'vue'
-  import i18n from '@/i18n'
+  import { global } from '@/i18n'
   import { isEmpty } from '@/utils/is'
 
   const bodyStyle = { height: '85vh' }
@@ -48,7 +48,7 @@
   const wechatMpAppId = ref<string>('')
   /** 被选中的公众号7天用户数据 **/
   const wechatSummary = ref<WeChatSummary>({
-    name: i18n.global.t('WeChatMenu.selectEmpty'),
+    name: global.t('WeChatMenu.selectEmpty'),
     appId: '',
     newUser: 0,
     cancelUser: 0,

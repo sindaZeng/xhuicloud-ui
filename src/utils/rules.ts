@@ -21,12 +21,12 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-import i18n from '@/i18n'
+import { global } from '@/i18n'
 
 export const validatePassword = () => {
   return (rule: any, value: any, callback: any) => {
     if (value.length === '' || value.length == null || value.length === undefined || value.length < 6) {
-      callback(new Error(i18n.global.t('msg.passwordNotNull')))
+      callback(new Error(global.t('msg.passwordNotNull')))
     } else {
       callback()
     }
@@ -45,7 +45,7 @@ export const checkStringLengthOf8 = () => {
       }
     }
     if (len > 8) {
-      callback(new Error(i18n.global.t('WeChatMenu.nameLength.alert1')))
+      callback(new Error(global.t('WeChatMenu.nameLength.alert1')))
     } else {
       callback()
     }
