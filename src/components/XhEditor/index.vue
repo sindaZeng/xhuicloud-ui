@@ -22,12 +22,9 @@
   import 'tinymce/plugins/codesample' //代码示例
   import 'tinymce/plugins/directionality' //文字方向
   import 'tinymce/plugins/emoticons' //表情
-  import 'tinymce/plugins/fullpage' //文档属性
   import 'tinymce/plugins/fullscreen' //全屏
-  import 'tinymce/plugins/help' //帮助
   import 'tinymce/plugins/hr' //水平分割线
   import 'tinymce/plugins/image' //插入编辑图片
-  import 'tinymce/plugins/importcss' //引入css
   import 'tinymce/plugins/insertdatetime' //插入日期时间
   import 'tinymce/plugins/link' //超链接
   import 'tinymce/plugins/lists' //列表插件
@@ -37,15 +34,11 @@
   import 'tinymce/plugins/paste' //粘贴插件
   import 'tinymce/plugins/preview' //预览
   import 'tinymce/plugins/print' //打印
-  import 'tinymce/plugins/quickbars' //快速工具栏
   import 'tinymce/plugins/save' //保存
   import 'tinymce/plugins/searchreplace' //查找替换
-  import 'tinymce/plugins/tabfocus' //切入切出，按tab键切出编辑器，切入页面其他输入框中
   import 'tinymce/plugins/table' //表格
   import 'tinymce/plugins/template' //内容模板
-  import 'tinymce/plugins/textcolor' //文字颜色
   import 'tinymce/plugins/textpattern' //快速排版
-  import 'tinymce/plugins/toc' //目录生成器
   import 'tinymce/plugins/visualblocks' //显示元素范围
   import 'tinymce/plugins/visualchars' //显示不可见字符
   import 'tinymce/plugins/wordcount' //字数统计

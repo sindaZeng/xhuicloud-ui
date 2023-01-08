@@ -25,10 +25,10 @@
 <template>
   <div class="app-main">
     <router-view v-slot="{ Component, route }">
-      <keep-alive v-if="!route.keepAlive">
+      <keep-alive>
         <component :is="Component" :key="route.path" />
       </keep-alive>
-      <component :is="Component" v-else :key="route.path" />
+      <!-- <component :is="Component" v-else :key="route.path" /> -->
     </router-view>
     <el-backtop :right="50" :bottom="50" target=".app-main" />
   </div>

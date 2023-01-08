@@ -21,14 +21,13 @@
  * @Author: Sinda
  * @Email:  xhuicloud@163.com
  */
-import layout from '@/layout/index.vue'
 import { RouteRecordRaw } from 'vue-router'
 
 // 404 on a page
 export const page404: RouteRecordRaw = {
   path: '/:path(.*)*',
   name: '404',
-  component: layout,
+  component: () => import('@/layout/index.vue'),
   meta: {
     hidden: true
   },
@@ -62,7 +61,7 @@ const commonsRoutes: Array<RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/home',
-    component: layout,
+    component: () => import('@/layout/index.vue'),
     children: [
       {
         path: '/home',
@@ -78,7 +77,7 @@ const commonsRoutes: Array<RouteRecordRaw> = [
   {
     path: '/user',
     name: '用户',
-    component: layout,
+    component: () => import('@/layout/index.vue'),
     children: [
       {
         path: '/user/info',
@@ -94,7 +93,7 @@ const commonsRoutes: Array<RouteRecordRaw> = [
   {
     path: '/component',
     name: '公共组件',
-    component: layout,
+    component: () => import('@/layout/index.vue'),
     meta: {
       internationalization: 'menu.CommonComponent',
       icon: 'Component'

@@ -24,7 +24,6 @@
 
 import { defineStore } from 'pinia'
 import { RouteRecordRaw } from 'vue-router'
-import layout from '@/layout/index.vue'
 import { isNull } from '@/utils/is'
 import { menu } from '@/api/upms/menu'
 import commonsRoutes from '@/router/commons'
@@ -42,7 +41,7 @@ const generator = (routes: Menu[]) => {
   routes.forEach((route) => {
     const tmp = { ...route } as any
     if (!isNull(tmp.children)) {
-      tmp.component = layout
+      tmp.component = () => import('@/layout/index.vue')
     } else {
       const component = modules[`../../views${tmp.path}.vue`] as any
       if (component) {

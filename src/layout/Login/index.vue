@@ -64,6 +64,7 @@
   import useStore from '@/store'
   import { tenantList } from '@/api/upms/tenant'
   import { Tenant } from '@/api/upms/entity/tenant'
+  import { isNullOrUnDef } from '@/utils/is'
 
   const { user } = useStore()
 
@@ -103,7 +104,7 @@
   })
 
   function tenantWarn(val: boolean) {
-    if (val) {
+    if (val && isNullOrUnDef(active.value)) {
       ElNotification({
         title: 'Warning',
         message: '请选择一个租户!',

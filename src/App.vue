@@ -5,7 +5,7 @@
 </template>
 <script setup lang="ts">
   import { computed } from 'vue'
-  import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+  import zhCn from 'element-plus/es/locale/lang/zh-cn'
   import en from 'element-plus/es/locale/lang/en'
   import useStore from '@/store'
 
