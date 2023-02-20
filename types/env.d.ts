@@ -7,6 +7,8 @@ interface ImportMetaEnv {
   readonly VITE_ROUTER_HISTORY: string
   /** 接口地址 */
   readonly VITE_BASE_API: string
+  /** Websocket地址 */
+  readonly VITE_WS_API: string
   /** 图片oss地址 当没有domain时自动拼接 */
   readonly VITE_OSS_DOMAIN: string
 }
