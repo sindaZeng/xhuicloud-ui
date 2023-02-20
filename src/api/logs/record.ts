@@ -25,13 +25,13 @@
 import { HttpClient } from '@/utils/http'
 import { Page } from '../base'
 
-enum LogApi {
-  LogPage = '/logs/log/page'
+enum AuditRecordApi {
+  AuditRecordPage = '/logs/auditRecord/page'
 }
 
-export function logPage(params: any) {
-  return HttpClient.get<Page<SysLog>>({
-    url: LogApi.LogPage,
+export function recordPage(params: any) {
+  return HttpClient.get<Page<AuditRecord>>({
+    url: AuditRecordApi.AuditRecordPage,
     params
   })
 }

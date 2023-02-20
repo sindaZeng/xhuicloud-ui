@@ -1,9 +1,14 @@
 import { TableColumn } from '@/components/XhTable/crud'
 
-export const logTableColumn: TableColumn[] = [
+export const tableColumn: TableColumn[] = [
   {
     label: '编号',
     prop: 'id'
+  },
+  {
+    label: '请求id',
+    prop: 'reqId',
+    searchForm: {}
   },
   {
     label: '操作IP',
@@ -11,12 +16,18 @@ export const logTableColumn: TableColumn[] = [
     searchForm: {}
   },
   {
-    label: '操作人',
-    prop: 'userName'
+    label: '业务系统',
+    prop: 'serviceSystem',
+    searchForm: {}
+  },
+  {
+    label: '操作人(id)',
+    prop: 'operator',
+    searchForm: {}
   },
   {
     label: '操作描述',
-    prop: 'description'
+    prop: 'detail'
   },
   {
     label: '类路径',
@@ -28,11 +39,13 @@ export const logTableColumn: TableColumn[] = [
   },
   {
     label: '请求地址',
-    prop: 'requestUri'
+    prop: 'requestUri',
+    searchForm: {}
   },
   {
     label: '请求类型',
-    prop: 'httpMethod'
+    prop: 'httpMethod',
+    searchForm: {}
   },
   {
     label: '请求参数',
@@ -43,28 +56,24 @@ export const logTableColumn: TableColumn[] = [
     prop: 'result'
   },
   {
-    label: '异常详情信息',
-    prop: 'exDesc'
+    label: '请求状态',
+    prop: 'status',
+    // 回调返回 tag属性
+    tag: (row: AuditRecord) => {
+      return { type: row.status == 0 ? 'danger' : 'success' }
+    },
+    // 0: 失败 1: 成功
+    valueFormat: (row: AuditRecord) => {
+      return row.status == 0 ? '失败' : '成功'
+    }
   },
   {
-    label: '异常描述',
-    prop: 'exDetail'
+    label: '异常详情信息',
+    prop: 'errorMsg'
   },
   {
     label: '创建时间',
     prop: 'createTime'
-  },
-  {
-    label: '结束时间',
-    prop: 'finishTime'
-  },
-  {
-    label: '执行时间',
-    prop: 'time'
-  },
-  {
-    label: '浏览器',
-    prop: 'userAgent'
   }
 ]
 

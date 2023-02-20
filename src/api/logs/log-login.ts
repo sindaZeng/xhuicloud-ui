@@ -26,11 +26,11 @@ import { HttpClient } from '@/utils/http'
 import { Page } from '../base'
 
 enum LogLoginApi {
-  LogPage = '/logs/sysLogLogin/page'
+  LogPage = '/logs/auditLogin/page'
 }
 
 export function logLoginPage(params: any) {
-  return HttpClient.get<Page<SysLogLogin>>({
+  return HttpClient.get<Page<AuditLogin>>({
     url: LogLoginApi.LogPage,
     params
   })
