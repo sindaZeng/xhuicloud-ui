@@ -22,37 +22,22 @@
  * @Email:  xhuicloud@163.com
  */
 
-const setting = {
-  title: '星辉云',
-  // 端口号
-  devPort: '80',
-  // 商户字段
-  tenant: 'tenant',
-  // 存储的SysUser
-  user: 'user',
-  // 存储的AuthInfo
-  authInfo: 'authInfo',
-  // 存储的Permission
-  permission: 'permission',
-  // 单位/毫秒  监听token过期刷新
-  expiredPeriod: 6000000,
-  // 当有值时候会在登录页展示版权信息
-  copyright:
-    process.env.NODE_ENV === 'production'
-      ? '<a href=\'http://beian.miit.gov.cn\' target="view_window">粤ICP备2022008047号-1</a>'
-      : '版权信息',
-  ossPath: 'http://127.0.0.1:9000',
-  language: 'zhCn',
-  languageKey: 'languageKey',
-  tagViewsKey: 'tagViewsKey',
-  tagViewKey: 'tagViewKey',
-  aesIv: 'xhuicloud0000000',
-  mqttKey: 'mqttOptions',
-  // 开启登录验证码
-  captchaEnable: true,
-  gitUiUrl: 'https://github.com/sindaZeng/xhuicloud-ui',
-  gitServerUrl: 'https://github.com/sindaZeng/XHuiCloud',
-  github: 'https://github.com/sindaZeng'
-}
+import { HttpClient } from '@/utils/http'
+import { RequestOptions } from '@/utils/http/xhAxiosHandler'
 
-export default setting
+const API_KEY = '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'
+const ENDPOINT = 'https://api.openai.com/v1/engines/davinci/jobs'
+const options: RequestOptions = { withToken: false }
+
+export function generateText(prompt: string) {
+  return HttpClient.post<any>(
+    {
+      url: `${ENDPOINT}?prompt=${encodeURIComponent(prompt)}&max_tokens=1024`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${API_KEY}`
+      }
+    },
+    options
+  )
+}

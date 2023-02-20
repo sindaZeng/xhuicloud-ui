@@ -109,6 +109,15 @@ const commonsRoutes: Array<RouteRecordRaw> = [
         component: () => import('@/views/component/table/index.vue')
       },
       {
+        path: '/component/chat-room',
+        name: `聊天室`,
+        meta: {
+          internationalization: 'menu.chatroom',
+          icon: 'table'
+        },
+        component: () => import('@/views/component/chat-room/index.vue')
+      },
+      {
         path: '/component/form',
         name: `表单演示`,
         meta: {
