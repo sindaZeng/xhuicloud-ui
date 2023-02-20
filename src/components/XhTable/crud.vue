@@ -50,7 +50,7 @@
                     </div>
                   </template>
                 </el-image>
-                <el-tag v-if="item.tag" v-bind="item.tag">
+                <el-tag v-if="item.tag" v-bind="typeof item.tag === 'function' ? item.tag(scope.row) : item.tag">
                   {{ typeof item.valueFormat === 'function' ? item.valueFormat(scope.row) : scope.row[item.prop] }}
                 </el-tag>
                 <xh-svg v-if="item.icon" :icon="scope.row[item.prop]" v-bind="item.icon" />

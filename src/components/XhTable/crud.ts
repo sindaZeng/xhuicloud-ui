@@ -1,4 +1,5 @@
 import { isNullOrUnDef, isObject } from '@/utils/is'
+import { TagProps } from 'element-plus'
 import { ExtractPropTypes, PropType } from 'vue'
 import { FormActionButtonGroupProps } from '../XhForm/form-action'
 import type { FormItem } from '../XhForm/form-item'
@@ -25,7 +26,7 @@ export interface TableColumn {
   // 图像
   image?: Recordable | boolean
   // tag
-  tag?: Recordable | boolean
+  tag?: Recordable | boolean | ((formModel: Recordable<any>) => TagProps)
   // icon 使用的是xhuicloud-ui icon 组件
   icon?: Recordable | boolean
   // 搜索表单
