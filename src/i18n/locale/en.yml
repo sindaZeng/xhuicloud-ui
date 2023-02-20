@@ -136,6 +136,8 @@ menu:
   MaterialManagement: 'Material'
   Drafts: 'Drafts'
   wechatEditor: 'Editor'
+  Audit: 'Audit'
+  chatroom: 'chat room'
 placeholder:
   deptName: 'Please enter the dept name'
   wechatMpName: 'Please enter the wechat mp name'

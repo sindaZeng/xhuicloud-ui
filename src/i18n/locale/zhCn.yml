@@ -138,6 +138,8 @@ menu:
   MaterialManagement: '素材管理'
   Drafts: '草稿箱'
   wechatEditor: '文章编辑'
+  Audit: '审计查看'
+  chatroom: '聊天室'
 placeholder:
   deptName: '请输入部门名称'
   wechatMpName: '请输入微信公众号名称'
