@@ -34,6 +34,7 @@ interface LoginForm {
 interface AuthInfo {
   access_token: string
   token_type: string
+  session_id: string
   refresh_token: string
   expires_in: number
   scope: string
@@ -44,7 +45,7 @@ interface AuthInfo {
 }
 
 interface SysUser {
-  userId?: number
+  userId: number
   username?: string
   avatar?: string
   phone?: string
@@ -103,6 +104,6 @@ interface SysUser {
   sex?: number
   tenantId?: number
   updateTime?: string
-  userId?: number
+  userId: number
   username?: string
 }

@@ -30,6 +30,7 @@ import { Tenant } from '@/api/upms/entity/tenant'
 import { loginApi, logout, refreshToken } from '@/api/upms/auth'
 import { userInfo } from '@/api/upms/user'
 import { cloneDeep } from 'lodash-es'
+import useMqtt from '@/hooks/useMqtt'
 
 export interface UserState {
   authInfo: AuthInfo | null
@@ -53,6 +54,9 @@ const useUserStore = defineStore('user', {
     },
     getToken(): string | undefined {
       return this.authInfo?.access_token || storageLocal.getItem<AuthInfo>(setting.authInfo)?.access_token
+    },
+    getSessionId(): string | undefined {
+      return this.authInfo?.session_id || storageLocal.getItem<AuthInfo>(setting.authInfo)?.session_id
     },
     getRefreshToken(): string {
       return this.authInfo?.refresh_token || storageLocal.getItem<AuthInfo>(setting.authInfo)?.refresh_token
@@ -97,10 +101,17 @@ const useUserStore = defineStore('user', {
       }
       storageLocal.setItem(setting.tenant, this.tenant)
     },
+    /**
+     * 统一登录入口
+     * @param loginInfo
+     * @returns
+     */
     async login(loginInfo: LoginForm): Promise<UserInfo | null> {
       try {
-        const data = await loginApi(encryption(loginInfo, setting.aesIv, ['password']))
+        const loginInfoEncry = encryption<LoginForm>(loginInfo, setting.aesIv, ['password'])
+        const data = await loginApi(loginInfoEncry)
         this.setAuthInfo(data)
+        // this.connectMqtt(loginInfoEncry.username, loginInfoEncry.password)
         return this.getUserInfo()
       } catch (error) {
         return Promise.reject(error)
@@ -113,6 +124,16 @@ const useUserStore = defineStore('user', {
       this.setRoles(res.roles)
       return res
     },
+    // async connectMqtt(sessionOnline: string) {
+    //   useMqtt({
+    //     host: `${import.meta.env.VITE_WS_API}`,
+    //     port: 15000,
+    //     path: `/mqtt?session_online=${sessionOnline}`,
+    //     username: username,
+    //     password: password,
+    //     clientId: this.sysUser?.userId + '@' + this.tenantId
+    //   })
+    // },
     async refreshToken() {
       return (
         this.authInfo &&
@@ -126,6 +147,8 @@ const useUserStore = defineStore('user', {
       await logout()
       await storageLocal.clear()
       await this.$reset()
+      const { disconnect } = useMqtt()
+      disconnect()
     },
     async reset() {
       await storageLocal.clear()

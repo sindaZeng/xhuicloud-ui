@@ -122,7 +122,7 @@
 
   const verifySuccess = (params: any) => {
     loginInfo.value.code = params.captchaVerification
-    loginByUsername().finally(() => (loading.value = false))
+    loginByUsername().catch(() => (loading.value = false))
   }
 
   const loginByUsername = () => {
