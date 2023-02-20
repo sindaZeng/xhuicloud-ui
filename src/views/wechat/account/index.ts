@@ -1,6 +1,9 @@
 import { OptionsItem } from '@/components/XhForm/src/checkBoxGroup'
 import { TableColumn } from '@/components/XhTable/crud'
+import { useUploadFiles } from '@/hooks/useUploadFiles'
+import { UploadRawFile } from 'element-plus'
 
+const { headers, action, beforeUpload } = useUploadFiles({})
 const options = [
   {
     value: '订阅号',
@@ -27,6 +30,21 @@ export const tableColumn: TableColumn[] = [
     searchForm: {}
   },
   {
+    label: '公众号头像',
+    prop: 'url',
+    hidden: true,
+    operationForm: {
+      // 上传组件
+      component: 'ImgUpload',
+      componentProps: {
+        headers: headers,
+        action: action,
+        showFileList: false,
+        beforeUpload: (rawFile: UploadRawFile) => beforeUpload(rawFile)
+      }
+    }
+  },
+  {
     label: 'appid',
     prop: 'appId',
     hidden: true,
@@ -38,6 +56,7 @@ export const tableColumn: TableColumn[] = [
     hidden: true,
     operationForm: {}
   },
+
   {
     label: '类型',
     prop: 'type',

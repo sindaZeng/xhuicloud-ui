@@ -40,9 +40,9 @@
     <template #expand="row">
       <el-row>
         <el-col :span="6">
-          <div class="image__error">
+          <div class="image">
             <div class="block">
-              <el-image />
+              <el-image :src="row.data.url" />
             </div>
           </div>
         </el-col>
@@ -79,7 +79,11 @@
           </el-row>
           <el-row class="expandRow">
             <el-col :span="4">RedirectUrl:</el-col>
-            <el-col :span="20">{{ row.data.redirectUrl }}</el-col>
+            <el-col :span="20">
+              <span>
+                {{ row.data.redirectUrl }}
+              </span>
+            </el-col>
           </el-row>
         </el-col>
       </el-row>
@@ -174,9 +178,12 @@
         () => <el-input v-model={response} autosize={autosize} type="textarea" disabled />,
         'Access_token',
         {
+          confirmButtonText: '复制',
           dangerouslyUseHTMLString: true
         }
-      )
+      ).then(() => {
+        console.log(111)
+      })
     })
   }
 
@@ -217,20 +224,19 @@
   .first {
     margin-top: 30px;
   }
-  .image__error .block {
-    padding: 30px 0;
+  .image {
     text-align: center;
+  }
+  .block {
+    padding: 30px 0;
     display: inline-block;
-    width: 49%;
-    box-sizing: border-box;
-    vertical-align: top;
+    width: 50%;
   }
 
-  .image__error .el-image {
-    padding: 0 5px;
-    max-width: 300px;
-    max-height: 200px;
-    width: 100%;
-    height: 200px;
+  span {
+    display: inline-block;
+    width: 400px;
+    word-break: break-all;
+    white-space: normal;
   }
 </style>

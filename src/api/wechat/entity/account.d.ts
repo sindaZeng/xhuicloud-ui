@@ -25,6 +25,7 @@
 interface Account {
   id: number
   name: string
+  url: string
   appId: string
   appSecret: string
   type: number
@@ -37,4 +38,9 @@ interface Account {
   updateId: number
   tenantId: number
   isDel: number
+}
+
+interface AccountVo {
+  name: string
+  url: string
 }

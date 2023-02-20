@@ -72,6 +72,12 @@ export function accountList(name?: string) {
   })
 }
 
+export function getByAppId(appId: string) {
+  return HttpClient.get<AccountVo>({
+    url: `/wechat/account/${appId}`
+  })
+}
+
 export function createAccount(data: Account) {
   return HttpClient.post<number>(
     {

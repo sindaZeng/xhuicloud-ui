@@ -4,12 +4,8 @@
     <el-aside class="aside">
       <div class="aside-body">
         <div class="aside-title">
-          <span
-            ><img
-              src="http://wx.qlogo.cn/mmopen/eMQnnqZG7PCjdGyFjOEqVXHGUKJItps9Kk2D4Y37Zs8nFOQaAEPPrgVa2dNV28NYGqGj3pWhNZy80Zf8P8x8icdCz80B127Ad/64"
-              alt=""
-          /></span>
-          星辉云
+          <span><img :src="account?.url" alt="" /></span>
+          {{ account?.name }}
         </div>
         <div class="center-img" :style="selectedStyle(0)" @click="chooseItem(newsItems?.[0], 0)">
           <div class="thumbUrl_bd">
@@ -74,6 +70,7 @@
   import Eidtor from './editor.vue'
   import { useRouter } from 'vue-router'
   import { publish } from '@/api/wechat/publish'
+  import { getByAppId } from '@/api/wechat/account'
 
   const router = useRouter()
 
@@ -82,6 +79,7 @@
 
   const route = useRoute()
   const newsItems = ref<NewsItem[]>()
+  const account = ref<AccountVo>()
   const selected = ref<number>()
   const appId = ref<string>()
   const mediaId = ref<string>()
@@ -151,6 +149,9 @@
     mediaId.value = route.query.mediaId as string
     appId.value = route.query.appId as string
     if (!isNullOrUnDef(mediaId.value) && !isNullOrUnDef(appId.value)) {
+      const accountVo = await getByAppId(appId.value)
+      account.value = accountVo
+
       const content = await getContent(appId.value, mediaId.value)
       newsItems.value = content.newsItem
       // 默认选中第一个

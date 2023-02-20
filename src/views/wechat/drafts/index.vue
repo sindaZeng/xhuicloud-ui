@@ -9,7 +9,7 @@
           <el-button type="success" @click="toCreateOrEditDraft">新的创作</el-button>
         </template>
         <el-empty v-if="data.length === 0" :image-size="200" />
-        <el-row v-else :gutter="10">
+        <!-- <el-row v-else :gutter="10">
           <el-col
             v-for="draft in data"
             :key="draft.mediaId"
@@ -19,35 +19,37 @@
             :md="6"
             :lg="8"
             :xl="6"
-          >
-            <el-card :body-style="{ padding: 0 }" shadow="hover">
-              <!-- 单个图文消息 -->
-              <Single v-if="draft.content.newsItem.length === 1" :draft="draft">
-                <template #default>
-                  <Operation
-                    :draft="draft"
-                    :app-id="wechatMpAppId"
-                    @to-delete-draft="toDeleteDraft"
-                    @to-publish-draft="toPublishDraft"
-                    @to-create-or-edit-draft="toCreateOrEditDraft"
-                  ></Operation>
-                </template>
-              </Single>
-              <!-- 多个图文消息 -->
-              <Multiple v-else :draft="draft">
-                <template #default>
-                  <Operation
-                    :draft="draft"
-                    :app-id="wechatMpAppId"
-                    @to-delete-draft="toDeleteDraft"
-                    @to-publish-draft="toPublishDraft"
-                    @to-create-or-edit-draft="toCreateOrEditDraft"
-                  ></Operation>
-                </template>
-              </Multiple>
-            </el-card>
-          </el-col>
-        </el-row>
+          > -->
+        <div class="pubu_container">
+          <el-card v-for="draft in data" :key="draft.mediaId" :body-style="{ padding: 0 }" shadow="hover">
+            <!-- 单个图文消息 -->
+            <Single v-if="draft.content.newsItem.length === 1" :draft="draft">
+              <template #default>
+                <Operation
+                  :draft="draft"
+                  :app-id="wechatMpAppId"
+                  @to-delete-draft="toDeleteDraft"
+                  @to-publish-draft="toPublishDraft"
+                  @to-create-or-edit-draft="toCreateOrEditDraft"
+                ></Operation>
+              </template>
+            </Single>
+            <!-- 多个图文消息 -->
+            <Multiple v-else :draft="draft">
+              <template #default>
+                <Operation
+                  :draft="draft"
+                  :app-id="wechatMpAppId"
+                  @to-delete-draft="toDeleteDraft"
+                  @to-publish-draft="toPublishDraft"
+                  @to-create-or-edit-draft="toCreateOrEditDraft"
+                ></Operation>
+              </template>
+            </Multiple>
+          </el-card>
+        </div>
+        <!-- </el-col>
+        </el-row>1 -->
         <el-pagination
           v-model:current-page="page.current"
           v-model:page-size="page.size"
@@ -152,6 +154,14 @@
   .first-image {
     width: 100%;
     height: 100% !important;
+  }
+
+  .pubu_container {
+    column-count: 4;
+    column-gap: 20px;
+  }
+  .el-card {
+    margin-bottom: 1rem;
   }
 
   .margin {
