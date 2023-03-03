@@ -44,7 +44,7 @@ interface AuthInfo {
   phone: string
 }
 
-interface SysUser {
+interface SysUserInfo {
   userId: number
   username?: string
   avatar?: string
@@ -56,7 +56,7 @@ interface SysUser {
 }
 
 interface UserInfo {
-  sysUser: SysUser
+  sysUser: SysUserInfo
   permissions: string[]
   roles?: []
   tenantName?: string

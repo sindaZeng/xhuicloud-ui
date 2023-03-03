@@ -14,7 +14,7 @@
   import { ref } from 'vue'
   import { logLoginTableColumn } from '.'
 
-  const logLoginData = ref<SysLogLogin[]>()
+  const logLoginData = ref<AuditLogin[]>()
   const page = ref<Pagination>({ current: 1, size: 10 })
   const search: FormActionButtonGroupProps = {
     show: true,

@@ -122,7 +122,7 @@
   import { userSex } from '.'
   import { UserBindProps } from '@/views/security/userBind'
   const { user } = useStore()
-  const userInfo = ref<SysUser>({})
+  const userInfo = ref<SysUserInfo>({} as SysUserInfo)
 
   const dialogVisible = ref<boolean>(false)
   const dialogTitle = ref<string>('')

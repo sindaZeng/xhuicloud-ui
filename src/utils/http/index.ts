@@ -67,8 +67,11 @@ const handler: XhAxiosHandler = {
       ElMessage.error('网络开小差啦~')
       return Promise.reject(error)
     } else if (status === 401) {
-      const { user } = useStore()
-      user.reset()
+      const timer = setTimeout(() => {
+        const { user } = useStore()
+        user.reset()
+        clearTimeout(timer)
+      }, 1000)
       ElMessage.error(data.msg || '服务器可能开小差啦~稍后再试试')
     } else {
       ElMessage.error(data.msg || '服务器可能开小差啦~稍后再试试')

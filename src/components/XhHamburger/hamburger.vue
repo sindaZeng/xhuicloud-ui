@@ -50,8 +50,10 @@
     .hamburger {
       display: inline-block;
       vertical-align: middle;
-      width: 20px;
-      height: 20px;
+      .svg-icon {
+        width: 20px !important;
+        height: 20px !important;
+      }
     }
   }
 </style>

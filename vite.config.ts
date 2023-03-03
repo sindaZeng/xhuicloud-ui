@@ -47,7 +47,7 @@ export default defineConfig({
     }
   },
   define: {
-    global: {},
+    // global: {},
     APP_INFO: JSON.stringify(APP_INFO)
   },
   plugins: [
